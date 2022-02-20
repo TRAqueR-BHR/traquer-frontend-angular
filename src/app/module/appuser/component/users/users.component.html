@@ -1,0 +1,80 @@
+<p-toast [hideTransitionOptions]="'5000ms'"></p-toast>
+
+<!-- <p-panel i18n-header="@@create_user" header="Create new user" [toggleable]="true">        
+    <div class="text-center" >
+        <p-button styleClass="big-button" i18n-label="@@create_user" label="Create new user" 
+        [routerLink]="['/user', 'new']" ></p-button>          
+    </div>  
+</p-panel> -->
+
+<p-panel i18n-header="@@existing_users" header="Existing users" [toggleable]="true" [showHeader]="false">    
+
+    <div class="p-grid">
+
+            <div class="p-col-12">
+                <div class="p-d-flex p-jc-center">
+                    <p-button i18n-label="@@create_user" label="Ajouter un utilisateur" 
+                        icon="fas fa-plus" [routerLink]="['/user', 'new']" ></p-button>
+                </div>
+                
+            </div>
+  
+            <div class="p-col-12">
+
+
+                <p-table #dt [columns]="cols" [value]="data" [paginator]="true" [rows]="pageSize" 
+                sortMode="multiple" styleClass="table_with_centered_content">
+                    
+                    <!-- Columns sizes -->
+                    <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                        <ng-container *ngFor="let col of columns" [ngSwitch]="col.field">
+                            <col *ngSwitchDefault [ngStyle]="{'width': col.width}"/>
+                            <col *ngSwitchCase="'appuser_avatar_id'" class="thumbnail-column"/>
+                            <col *ngSwitchCase="'action'" class="action-column"/>
+                        </ng-container>                            
+                        </colgroup>
+                    </ng-template>
+
+                    <ng-template pTemplate="header" let-columns>
+                        <!--Names and sorting -->
+                        <tr>
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                {{col.header}}
+                                <p-sortIcon *ngIf="col.field != 'appuser_avatar_id' && col.field != 'action'" [field]="col.field"></p-sortIcon>
+                            </th>
+                        </tr>
+                        <!-- Filters -->
+                        <tr>
+                            <th *ngFor="let col of columns" [ngSwitch]="col.field"> 
+                                <span *ngSwitchCase="'appuser_avatar_id'"></span>
+                                <span *ngSwitchCase="'action'"></span>                                
+                                <input *ngSwitchDefault pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                                <p-dropdown *ngSwitchCase="'appuser_type'" appendTo="body" [options]="appuserTypesSelectItems" 
+                                    i18n-placeholder="@@choose" placeholder="Choose" [showClear]="true"
+                                    [style]="{'width':'100%'}" defaultLabel="All" (onChange)="dt.filter($event.value, col.field, 'equals')" ></p-dropdown>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <!-- Values -->
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                        <td *ngFor="let col of columns" [ngSwitch]="col.field" >              
+                            <p-button type="button" *ngSwitchCase="'action'"  
+                                icon="fas fa-edit" 
+                                (onClick)="handleClickOnUser($event,rowData)"></p-button>
+                            <!-- <a *ngSwitchCase="'action'" [routerLink]="['/user', rowData['appuser_id']]" 
+                                routerLinkActive="active" i18n="@@show">Voir</a> -->
+                            <span *ngSwitchCase="'appuser_type'">{{rowData[col.field] | enumCode2EnumName: 'APPUSER_TYPE' | getTranslation}}</span> 
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>              
+                        </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+            </div> <!--  ENDOF div p-col-12 for table -->
+    </div> <!-- ENDOF div p-grid -->
+
+</p-panel>
+
+

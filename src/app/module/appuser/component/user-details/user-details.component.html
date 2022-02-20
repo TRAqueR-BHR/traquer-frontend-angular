@@ -1,0 +1,12 @@
+<p-toast [hideTransitionOptions]="'5000ms'"></p-toast>
+
+<p-panel i18n-header="@@edit_user_invite" header="Édition compte utilisateur" [toggleable]="false">
+        <app-user-edit *ngIf="appuser != null" [appuser]="appuser"></app-user-edit>
+</p-panel>
+
+<p-panel i18n-header="@@edit_crypt_pwd" header="Édition du mot de passe de chiffrage de la base de données" [toggleable]="false"
+        *ngIf="canDisplayCryptPwdWidget">
+        
+        <app-dataset-password></app-dataset-password>
+        
+</p-panel>

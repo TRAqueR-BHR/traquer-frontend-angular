@@ -1,0 +1,6 @@
+<button type="button" pButton icon="pi pi-bars" i18n-label="@@menu" label="Menu" (click)="menu.toggle($event)"
+class="fixed"
+style="right: .5em;
+      top: .5em;
+      z-index: 100000;"></button>
+<p-menu #menu [popup]="true" [model]="items"></p-menu>
