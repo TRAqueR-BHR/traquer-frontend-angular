@@ -1,5 +1,5 @@
 import { Role } from "./Role";
-import { EntityBase } from 'src/app/model/EntityBase';
+import { EntityBase } from 'src/app/model-protected/EntityBase';
 import { AppuserRoleAsso } from './AppuserRoleAsso';
 import { APPUSER_TYPE } from '../enum/APPUSER_TYPE';
 

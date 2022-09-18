@@ -21,7 +21,7 @@ export class AuthenticationService {
 
   currentUser:Appuser;
   currentUserRoles:string[] = [];
-  private apiURL = environment.apiURL + 'authenticate';  // URL to web api
+  private apiURL = environment.apiURL + '/authenticate';  // URL to web api
 
   constructor(private http: HttpClient,
               // private router: Router,
@@ -37,7 +37,7 @@ export class AuthenticationService {
 
   }
   
-  parseJwt (token):Object {
+  parseJwt(token):Object {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace('-', '+').replace('_', '/');
     var res:Object = JSON.parse(window.atob(base64));

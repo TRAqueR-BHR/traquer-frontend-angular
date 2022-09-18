@@ -14,7 +14,7 @@ import { Utils } from 'src/app/util/utils';
 })
 export class RoleService {
 
-  private apiURL = environment.apiURL + 'role';  // URL to web api
+  private apiURL = environment.apiURL + '/role';  // URL to web api
 
   constructor(private http: HttpClient,
               private errorHandlerService: ErrorHandlerService) { }

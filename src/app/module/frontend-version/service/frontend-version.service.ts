@@ -14,7 +14,7 @@ import { FrontendVersion } from '../model/FrontendVersion';
 })
 export class FrontendVersionService {
 
-  public apiURL = environment.apiURL + 'misc';  // URL to web api
+  public apiURL = environment.apiURL + '/misc';  // URL to web api
 
   private thumbnailCache = {};
 

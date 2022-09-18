@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
     if (environment.prefillLoginForm) {
       this.model = {username: "psaliou", password: "test5678"}
     }
+    this.authenticationService.logout();
   }
   
   login(evt) {

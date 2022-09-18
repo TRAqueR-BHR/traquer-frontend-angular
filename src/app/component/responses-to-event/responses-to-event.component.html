@@ -1,0 +1,48 @@
+<ng-container *ngIf="eventRequiringAttention != null">
+    
+
+<div class="grid">
+    
+    <div class="col-12"> <!-- BEGIN EventRequiringAttention edition -->
+
+        <div class="custom-form-grid p-fluid">
+            <div class="custom-form-field col-12 md:col-6">
+                <label for="responsesTypes" 
+                    class="custom-label" 
+                    i18n="@@select_the_responses_to_the_event">Choisir les réponses à l'événement</label>
+                <p-listbox [options]="optionsUSER_RESPONSE_TYPE"
+                    id="responsesTypes"
+                    name="responsesTypes"
+                    [(ngModel)]="eventRequiringAttention.responsesTypes"
+                    #responsesTypesCheck="ngModel"
+                    [filter]="false" 
+                    [multiple]="true" 
+                    [checkbox]="true"
+                    [required]="true"
+                >
+                </p-listbox>
+            </div>
+            <div class="custom-form-field col-12 md:col-6">
+                <label for="responseComment" 
+                    class="custom-label" 
+                    i18n="@@user_comment">Commentaire de l'utilisateur</label>
+                <textarea pInputTextarea 
+                    [disabled]="isLocked"  
+                    [(ngModel)]="eventRequiringAttention.responseComment" 
+                    autoResize="autoResize"></textarea>            
+            </div>
+        </div>    
+
+    </div> <!-- ENDOF EventRequiringAttention edition -->
+
+    <div class="col-12"> <!-- BEGIN Outbreak edition -->
+
+        <app-outbreak-edit></app-outbreak-edit>
+
+    </div> <!-- ENDOF Outbreak edition -->
+
+</div>
+    
+    
+   
+</ng-container>

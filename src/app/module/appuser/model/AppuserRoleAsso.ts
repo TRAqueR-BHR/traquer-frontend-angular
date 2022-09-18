@@ -1,5 +1,5 @@
 import { Role } from "./Role";
-import { EntityBase } from 'src/app/model/EntityBase';
+import { EntityBase } from 'src/app/model-protected/EntityBase';
 import { getLocaleFirstDayOfWeek } from '@angular/common';
 import { Appuser } from './Appuser';
 

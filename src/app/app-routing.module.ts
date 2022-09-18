@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AuthGuardService} from 'src/app/service/auth-guard-service.service';
+import { ResponsesToEventComponent } from './component/responses-to-event/responses-to-event.component';
 import { UserDetailsComponent } from './module/appuser/component/user-details/user-details.component';
+import { CalendarPageComponent } from './page/calendar-page/calendar-page.component';
 import { HomePageComponent } from './page/home-page/home-page.component';
 import { LoginComponent } from './page/login/login.component';
 import { PatientPageComponent } from './page/patient-page/patient-page.component';
@@ -12,6 +14,11 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'user/:id', component: UserDetailsPageComponent, canActivate: [AuthGuardService] },
   { path: 'patient/:id', component: PatientPageComponent, canActivate: [AuthGuardService] },
+  { path: 'calendar', component: CalendarPageComponent, canActivate: [AuthGuardService] },
+
+  // Debugging components
+  { path: 'debug/responses-to-event/:id', component: ResponsesToEventComponent, canActivate: [AuthGuardService] },
+
   { path: '', component: HomePageComponent, canActivate: [AuthGuardService] },
   // otherwise redirect to home
   { path: '**', redirectTo: '' }

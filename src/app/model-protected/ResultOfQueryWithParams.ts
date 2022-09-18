@@ -7,8 +7,13 @@ export class ResultOfQueryWithParams {
     
     constructor(_json:Object) {
         // console.log(_json);
-        this.rows = Utils.convertPlainDataframe(_json['rows']);
+        if (_json == null) {
+            return null;
+        }
         this.totalRecords = _json['totalRecords'];        
+        if (this.totalRecords > 0) {
+            this.rows = Utils.convertPlainDataframe(_json['rows']);
+        }
     }
     
 }

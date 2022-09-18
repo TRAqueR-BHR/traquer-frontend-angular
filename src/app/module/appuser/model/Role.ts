@@ -1,4 +1,4 @@
-import {EntityBase} from "src/app/model/EntityBase";
+import {EntityBase} from "src/app/model-protected/EntityBase";
 import { APPUSER_TYPE } from '../enum/APPUSER_TYPE';
 import { ROLE_CODE_NAME } from '../enum/ROLE_CODE_NAME';
 import { Appuser } from './Appuser';

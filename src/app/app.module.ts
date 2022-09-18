@@ -7,6 +7,13 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { HttpClientModule, HTTP_INTERCEPTORS }    from '@angular/common/http';
 
+import {FullCalendarModule} from '@fullcalendar/angular'; // must go before plugins
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin!
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin!
+import listPlugin from '@fullcalendar/list'; // a plugin!
+import frLocale from '@fullcalendar/core/locales/fr';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {CheckboxModule } from 'primeng/checkbox';
@@ -23,10 +30,8 @@ import {MenubarModule} from 'primeng/menubar';
 import { TableModule } from "primeng/table";
 import {MultiSelectModule} from 'primeng/multiselect';
 import {DropdownModule} from 'primeng/dropdown';
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { faFilePdf,far } from '@fortawesome/free-regular-svg-icons';
+import {SplitButtonModule} from 'primeng/splitbutton';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 import { TranslationModule } from './module/translation/translation.module';
 import { TranslationService } from './module/translation/service/translation.service';
@@ -52,7 +57,10 @@ import { InfectiousStatusHistoryComponent } from './component/infectious-status-
 import { PatientPageComponent } from './page/patient-page/patient-page.component';
 import { CalendarPageComponent } from './page/calendar-page/calendar-page.component';
 import { CalendarComponent } from './calendar/calendar.component';
-
+import { InfectiousStatusExplanationComponent } from './component/infectious-status-explanation/infectious-status-explanation.component';
+import { ResponsesToEventComponent } from './component/responses-to-event/responses-to-event.component';
+import { ListboxModule } from 'primeng/listbox';
+import { OutbreakEditComponent } from './component/outbreak/outbreak-edit/outbreak-edit.component';
 
 // References: - https://devblog.dymel.pl/2017/10/17/angular-preload/
 //             - https://www.tektutorialshub.com/angular/angular-how-to-use-app-initializer/
@@ -66,6 +74,13 @@ export function initializeRolesFactory(authenticationService: AuthenticationServ
   return () => authenticationService.initializeRoles();
 }
 
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  timeGridPlugin,
+  interactionPlugin,
+  listPlugin
+]);
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,7 +93,10 @@ export function initializeRolesFactory(authenticationService: AuthenticationServ
     InfectiousStatusHistoryComponent,
     PatientPageComponent,
     CalendarPageComponent,
-    CalendarComponent
+    CalendarComponent,
+    InfectiousStatusExplanationComponent,
+    ResponsesToEventComponent,
+    OutbreakEditComponent
   ],
   imports: [
     BrowserModule,
@@ -103,13 +121,19 @@ export function initializeRolesFactory(authenticationService: AuthenticationServ
     TableModule,
     MultiSelectModule,
     DropdownModule,
+    SplitButtonModule,
+    ListboxModule,
+    InputTextareaModule,
 
-
-    // Spe3dlab modules (NEEDED?)
+    // Spe3dlab modules (needed for pipes)
     Spe3dlabUtilsModule,
     TranslationModule,
     FrontendVersionModule,
     AppuserModule,
+
+    // FullCalendar
+    FullCalendarModule,
+
     
   ],
   providers: [ErrorHandlerService,
@@ -127,9 +151,4 @@ export function initializeRolesFactory(authenticationService: AuthenticationServ
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
-  constructor() {
-    library.add(faFilePdf,fas, far);
-  }
-
-}
+export class AppModule { }

@@ -1,4 +1,4 @@
-import {EntityBase} from "src/app/model/EntityBase";
+import {EntityBase} from "src/app/model-protected/EntityBase";
 import { Appuser } from 'src/app/module/appuser/model/Appuser';
 
 export class FrontendVersion  extends EntityBase {
@@ -17,15 +17,7 @@ export class FrontendVersion  extends EntityBase {
     constructor(_json:Object) {
         super(_json);
         this.name = _json['name'];
-        this.forceReloadIfDifferentVersion = _json['forceReloadIfDifferentVersion'];
-
-        // This is here and not in the EntityBase to avoid circular dependencies
-        if (_json['creator'] != null) {                
-            this.creator = new Appuser(_json['creator']);                    
-        }
-        if (_json['lastEditor'] != null) {                
-            this.lastEditor = new Appuser(_json['lastEditor']);                    
-        }
+        this.forceReloadIfDifferentVersion = _json['forceReloadIfDifferentVersion'];     
     }
     
 }

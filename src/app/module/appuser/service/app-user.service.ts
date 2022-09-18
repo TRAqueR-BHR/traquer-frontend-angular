@@ -13,7 +13,7 @@ import { Utils } from 'src/app/util/utils';
 })
 export class AppuserService {
 
-  private apiURL = environment.apiURL + 'appuser';  // URL to web api
+  private apiURL = environment.apiURL + '/appuser';  // URL to web api
 
   constructor(private http: HttpClient,
               private errorHandlerService: ErrorHandlerService) { }

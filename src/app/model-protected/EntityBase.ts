@@ -1,5 +1,5 @@
 import * as Moment from 'moment-timezone';
-import { Appuser } from 'src/app/module/appuser/model/Appuser';
+import { Appuser } from '../module/appuser/model/Appuser';
 
 export class EntityBase {
     
@@ -8,10 +8,11 @@ export class EntityBase {
     id: string;    
     creationTime: Date;
     updateTime: Date;
-    creator:Appuser;
-    lastEditor:Appuser;
     
     ref:string;
+
+    creator:Appuser;
+    lastEditor:Appuser;
         
     constructor(_json:Object) {
         if (_json != null) {
@@ -29,17 +30,7 @@ export class EntityBase {
         }
     }
     
-//    constructor(_id: number,
-//                _creationTime: Date,
-//                _updateTime: Date,
-//                _cancellationTime: Date) {
-//                    
-//                this.id = _id;    
-//                this.creationTime = _creationTime;
-//                this.updateTime = _updateTime;
-//                this.cancellationTime = _cancellationTime;
-//                
-//                }
+
     
 }
 

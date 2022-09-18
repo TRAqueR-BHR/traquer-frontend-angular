@@ -99,7 +99,7 @@ export class UserEditComponent implements OnInit {
   }
 
   getAllUserTypes() {
-    this.enumService.getAppuserTypes().subscribe(res => {
+    this.enumService.listAllPossibleValues(APPUSER_TYPE).subscribe(res => {
 
       this.appuserTypesSelectItems = [];
 

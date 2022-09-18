@@ -85,7 +85,7 @@ export class TranslationService {
 
     // Convert camel case (eg. creationTime -> creation_time)
     //  by convention we expect only underscore case
-    translationId = Utils.camelCaseToUnderscore(translationId);
+    // translationId = Utils.camelCaseToUnderscore(translationId);
 
     // If there is a translation we use it
     if (Object.keys(this.translations).length > 0 && 

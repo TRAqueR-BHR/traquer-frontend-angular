@@ -1,6 +1,18 @@
 import * as Moment from 'moment-timezone';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { APPUSER_TYPE } from '../enum/APPUSER_TYPE';
+import { GENDER } from '../enum/GENDER';
+import { HOSPITALIZATION_STATUS_TYPE } from '../enum/HOSPITALIZATION_STATUS_TYPE';
+import { INFECTIOUS_STATUS_TYPE } from '../enum/INFECTIOUS_STATUS_TYPE';
+import { INFECTIOUS_AGENT_CATEGORY } from '../enum/INFECTIOUS_AGENT_CATEGORY';
+import { ROLE_CODE_NAME } from '../enum/ROLE_CODE_NAME';
+import { ANALYSIS_REQUEST_STATUS_TYPE } from '../enum/ANALYSIS_REQUEST_STATUS_TYPE';
+import { ANALYSIS_REQUEST_TYPE } from '../enum/ANALYSIS_REQUEST_TYPE';
+import { ANALYSIS_RESULT_VALUE_TYPE } from '../enum/ANALYSIS_RESULT_VALUE_TYPE';
+import { EVENT_REQUIRING_ATTENTION_TYPE } from '../enum/EVENT_REQUIRING_ATTENTION_TYPE';
+import { SAMPLE_MATERIAL_TYPE } from '../enum/SAMPLE_MATERIAL_TYPE';
+import { USER_RESPONSE_TYPE } from '../enum/USER_RESPONSE_TYPE';
 
 export class Utils {
 
@@ -54,6 +66,20 @@ export class Utils {
 
     static camelCaseToUnderscore(str:string):string {
       return(str.replace(/\.?([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/, ""));
+    }
+
+    static removeDoubleSlashesInURL(url:string):string {
+      var set = url.match(/([^:]\/{2,3})/g); // Match (NOT ":") followed by (2 OR 3 "/")
+
+      for (var str in set) {
+          // Modify the data you have
+          var replace_with = set[str].substr(0, 1) + '/';
+
+          // Replace the match
+          url = url.replace(set[str], replace_with);
+      }
+
+      return url;
     }
   
     static getDefaultPictureURL():string {
@@ -121,7 +147,7 @@ export class Utils {
     static getEnumInts(enumType):number[] {
       var result:number[] = [];
       for (let item in enumType) {
-        if (typeof item === 'number') {
+        if (!isNaN(Number(item))) {
             result.push(Number(item));
         }
       }
@@ -148,8 +174,104 @@ export class Utils {
       return result;
    }
 
+   static getEnumName(enumType) {
+    
+    switch (enumType) {
 
+      case ANALYSIS_REQUEST_STATUS_TYPE:
+        return "ANALYSIS_REQUEST_STATUS_TYPE";
+        break;
+      case ANALYSIS_REQUEST_TYPE:
+        return "ANALYSIS_REQUEST_TYPE";
+        break;
+      case ANALYSIS_RESULT_VALUE_TYPE:
+        return "ANALYSIS_RESULT_VALUE_TYPE";
+        break;
+      case APPUSER_TYPE:
+        return "APPUSER_TYPE";
+        break;
+      case EVENT_REQUIRING_ATTENTION_TYPE:
+        return "EVENT_REQUIRING_ATTENTION_TYPE";
+        break;
+      case GENDER:
+        return "GENDER";
+        break;
+      case HOSPITALIZATION_STATUS_TYPE:
+        return "HOSPITALIZATION_STATUS_TYPE";
+        break;
+      case INFECTIOUS_AGENT_CATEGORY:
+        return "INFECTIOUS_AGENT_CATEGORY";
+        break;
+      case INFECTIOUS_STATUS_TYPE:
+        return "INFECTIOUS_STATUS_TYPE";
+        break;
+      case ROLE_CODE_NAME:
+        return "ROLE_CODE_NAME";
+        break;
+      case SAMPLE_MATERIAL_TYPE:
+        return "SAMPLE_MATERIAL_TYPE";
+        break;
+      case USER_RESPONSE_TYPE:
+        return "USER_RESPONSE_TYPE";
+        break;
+      default:
+        throw new Error(`Unknown type[${enumType}]`);          
+    }
   }
+
+  static getEnumType(typeName:string) {
+
+    // It is possible that the type name is a julia type with the modules, in the 
+    //   typescript world these modules do not exist
+    let _elts = typeName.split('.');
+    typeName = _elts[_elts.length - 1];
+    
+    switch (typeName) {
+
+      case "ANALYSIS_REQUEST_STATUS_TYPE":
+        return ANALYSIS_REQUEST_STATUS_TYPE;
+        break;
+      case "ANALYSIS_REQUEST_TYPE":
+        return ANALYSIS_REQUEST_TYPE;
+        break;
+      case "ANALYSIS_RESULT_VALUE_TYPE":
+        return ANALYSIS_RESULT_VALUE_TYPE;
+        break;
+      case "APPUSER_TYPE":
+        return APPUSER_TYPE;
+        break;
+      case "EVENT_REQUIRING_ATTENTION_TYPE":
+        return EVENT_REQUIRING_ATTENTION_TYPE;
+        break;
+      case "GENDER":
+        return GENDER;
+        break;
+      case "HOSPITALIZATION_STATUS_TYPE":
+        return HOSPITALIZATION_STATUS_TYPE;
+        break;
+      case "INFECTIOUS_AGENT_CATEGORY":
+        return INFECTIOUS_AGENT_CATEGORY;
+        break;
+      case "INFECTIOUS_STATUS_TYPE":
+        return INFECTIOUS_STATUS_TYPE;
+        break;
+      case "ROLE_CODE_NAME":
+        return ROLE_CODE_NAME;
+        break;
+      case "SAMPLE_MATERIAL_TYPE":
+        return SAMPLE_MATERIAL_TYPE;
+        break;
+      case "USER_RESPONSE_TYPE":
+        return USER_RESPONSE_TYPE;
+        break;
+
+      default:
+        throw new Error(`Unknown type[${typeName}]`);          
+    }
+  }
+
+
+}
   
 
 /**

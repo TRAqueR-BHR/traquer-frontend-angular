@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ErrorHandlerService } from './error-handler.service';
 import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ResultOfQueryWithParams } from 'src/app/model/ResultOfQueryWithParams';
+import { ResultOfQueryWithParams } from 'src/app/model-protected/ResultOfQueryWithParams';
 import { Utils, deepCopy } from '../util/utils';
 
 @Injectable({
@@ -13,7 +13,7 @@ import { Utils, deepCopy } from '../util/utils';
 })
 export class InfectiousStatusService {
 
-  private apiURL = environment.apiURL + 'infectious-status';  // URL to web api
+  private apiURL = environment.apiURL + '/infectious-status';  // URL to web api
 
   constructor(private http: HttpClient,
     private errorHandlerService: ErrorHandlerService) { }

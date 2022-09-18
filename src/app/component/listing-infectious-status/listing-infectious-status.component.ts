@@ -1,15 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { LazyLoadEvent, SelectItem } from 'primeng/api';
+import { LazyLoadEvent, MenuItem, SelectItem } from 'primeng/api';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { InfectiousStatusService } from 'src/app/service/infectious-status.service';
 import { environment } from 'src/environments/environment';
-import { CARRIER_CONTACT } from 'src/app/enum/CARRIER_CONTACT';
 import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
+import { INFECTIOUS_STATUS_TYPE } from 'src/app/enum/INFECTIOUS_STATUS_TYPE';
+import { isConstructorDeclaration } from 'typescript';
+import { EnumService } from 'src/app/service/enum.service';
+import { SelectItemService } from 'src/app/service/select-item.service';
+import { INFECTIOUS_AGENT_CATEGORY } from 'src/app/enum/INFECTIOUS_AGENT_CATEGORY';
+import { Utils } from 'src/app/util/utils';
+import { EVENT_REQUIRING_ATTENTION_TYPE } from 'src/app/enum/EVENT_REQUIRING_ATTENTION_TYPE';
+import { USER_RESPONSE_TYPE } from 'src/app/enum/USER_RESPONSE_TYPE';
+import { DialogService } from 'primeng/dynamicdialog';
+import { InfectiousStatusExplanationComponent } from '../infectious-status-explanation/infectious-status-explanation.component';
+import { EventRequiringAttention } from 'src/app/model/EventRequiringAttention';
+import { ResponsesToEventComponent } from '../responses-to-event/responses-to-event.component';
 
 @Component({
   selector: 'app-listing-infectious-status',
   templateUrl: './listing-infectious-status.component.html',
-  styleUrls: ['./listing-infectious-status.component.scss']
+  styleUrls: ['./listing-infectious-status.component.scss'],
+  providers: [DialogService]
 })
 export class ListingInfectiousStatusComponent implements OnInit {
 
@@ -29,35 +41,309 @@ export class ListingInfectiousStatusComponent implements OnInit {
   selectableColumns: SelectItem[] = [];
 
   trueFalseSelectItems:SelectItem[] = [];
-  carrierContactSelectItems:SelectItem[] = [];
+  optionsINFECTIOUS_STATUS_TYPE:SelectItem[] = [];
+  optionsINFECTIOUS_AGENT_CATEGORY:SelectItem[] = [];
+  optionsEVENT_REQUIRING_ATTENTION_TYPE:SelectItem[] = [];
 
   timerOnRefreshDataAfterChangesOnFilter:any;
 
+  splitButtonDefPerEventType:any = {};
+  
+  actionMenuItemsFor:any = {}; // a Map of (EVENT_REQUIRING_ATTENTION_TYPE => MenuItem[])  
+
   constructor(private infectiousStatusService:InfectiousStatusService,
               private translationService:TranslationService,
-              private authenticationService:AuthenticationService) { }
+              private enumService:EnumService,
+              private selectItemService:SelectItemService,
+              private authenticationService:AuthenticationService,
+              public dialogService: DialogService) { }
 
   ngOnInit(): void {
     
-    this.prepareTrueFalseSelectItems();
-    this.prepareCarrierContactSelectItems();
-    
+    this.prepareOptionsTrueFalse();
+    this.prepareOptionsINFECTIOUS_STATUS_TYPE();
+    this.prepareOptionsINFECTIOUS_AGENT_CATEGORY();
+    this.prepareOptionsEVENT_REQUIRING_ATTENTION_TYPE();
+    this.prepareSecondaryActionsMenuItems();
+    this.prepareSplitButtonDef();
     this.intializeTablesPreferences();
 
   }
 
-  prepareCarrierContactSelectItems(){
-     this.carrierContactSelectItems = this.translationService.createSelectItemsFromEnum(CARRIER_CONTACT);
-     console.log(this.carrierContactSelectItems);
+  acknowledgeEvent(rowData:any) {
+    console.log(rowData);
   }
 
-  prepareTrueFalseSelectItems(){
-    this.trueFalseSelectItems.push({label: this.translationService.getTranslation("yes_no"), 
-                                value: null});
-    this.trueFalseSelectItems.push({label: "OUI", 
-                              value: true});     
-    this.trueFalseSelectItems.push({label: "NON", 
-                              value: false}); 
+  getDefaultAndSecondaryaPossibleResponses(
+    eventType:EVENT_REQUIRING_ATTENTION_TYPE,
+    statusType:INFECTIOUS_STATUS_TYPE
+  ){
+
+    console.log(eventType);
+    console.log(statusType);
+
+    let defaultResponseType:USER_RESPONSE_TYPE;
+    let secondaryResponseTypes:USER_RESPONSE_TYPE[] = [];
+
+    if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.analysis_done) {      
+      defaultResponseType = USER_RESPONSE_TYPE.acknowledge;
+      secondaryResponseTypes = [
+        USER_RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
+      ] 
+    } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.analysis_in_progress) {      
+      defaultResponseType = USER_RESPONSE_TYPE.acknowledge;    
+      secondaryResponseTypes = [
+        USER_RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
+      ] 
+    } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.analysis_late) {      
+      defaultResponseType = USER_RESPONSE_TYPE.send_a_reminder;    
+      secondaryResponseTypes = [
+        USER_RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
+      ] 
+    } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.hospitalization) {      
+
+      console.log("HERE");
+    
+      if (statusType == INFECTIOUS_STATUS_TYPE.carrier) {
+        defaultResponseType = USER_RESPONSE_TYPE.take_precautionary_measures;
+        secondaryResponseTypes = [
+          USER_RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
+        ] 
+      } else if (statusType == INFECTIOUS_STATUS_TYPE.contact) {
+        defaultResponseType = USER_RESPONSE_TYPE.request_analysis;
+        secondaryResponseTypes = [
+          USER_RESPONSE_TYPE.take_precautionary_measures,
+          USER_RESPONSE_TYPE.acknowledge,
+        ] 
+      } else if (statusType == INFECTIOUS_STATUS_TYPE.not_at_risk) {
+        defaultResponseType = USER_RESPONSE_TYPE.acknowledge;
+        secondaryResponseTypes = [          
+          USER_RESPONSE_TYPE.request_analysis,
+        ] 
+      } 
+
+    } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.new_status) {
+      
+      if (statusType == INFECTIOUS_STATUS_TYPE.carrier) {
+        defaultResponseType = USER_RESPONSE_TYPE.confirm;
+        secondaryResponseTypes = [          
+          USER_RESPONSE_TYPE.declare_outbreak,
+          USER_RESPONSE_TYPE.request_analysis,
+          USER_RESPONSE_TYPE.take_precautionary_measures,
+        ] 
+      } else if (statusType == INFECTIOUS_STATUS_TYPE.contact) {
+        defaultResponseType = USER_RESPONSE_TYPE.confirm;
+        secondaryResponseTypes = [          
+          USER_RESPONSE_TYPE.request_analysis,
+          USER_RESPONSE_TYPE.take_precautionary_measures,
+        ] 
+      } else if (statusType == INFECTIOUS_STATUS_TYPE.not_at_risk) {
+        defaultResponseType = USER_RESPONSE_TYPE.confirm;
+        secondaryResponseTypes = [          
+          USER_RESPONSE_TYPE.request_analysis,
+        ] 
+      } 
+      
+    }
+
+    if (defaultResponseType == null) {
+      throw new Error(
+        `Unsupported INFECTIOUS_STATUS_TYPE[${INFECTIOUS_STATUS_TYPE[statusType]}] for 
+        EVENT_REQUIRING_ATTENTION_TYPE[${EVENT_REQUIRING_ATTENTION_TYPE[eventType]}]`
+      )
+    }
+
+    return {
+      defaultResponseType:defaultResponseType,
+      secondaryResponseTypes:secondaryResponseTypes
+    }
+
+  }
+
+  getDefaultActionIcon(
+    eventType:EVENT_REQUIRING_ATTENTION_TYPE,
+    statusType:INFECTIOUS_STATUS_TYPE
+  ) {
+
+    if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.new_status) {
+
+      // new_status + carrier => confirm
+      if (statusType == INFECTIOUS_STATUS_TYPE.carrier) {
+        'fas fa-stamp'
+      } 
+      // new_status + carrier => confirm_
+      else if (statusType == INFECTIOUS_STATUS_TYPE.contact) {
+        'fas fa-stamp'
+      } else if (statusType == INFECTIOUS_STATUS_TYPE.not_at_risk) {
+        'fas fa-stamp'
+      }
+    }
+    
+  }
+
+  prepareSplitButtonDef() {
+
+    console.log(Object.keys(EVENT_REQUIRING_ATTENTION_TYPE));
+
+    for (let eventTypeName of Object.keys(EVENT_REQUIRING_ATTENTION_TYPE).filter(x => isNaN(Number(x)))) {
+      
+      let eventType = EVENT_REQUIRING_ATTENTION_TYPE[eventTypeName];
+
+      console.log(`eventType[${eventType}] eventTypeName[${eventTypeName}]`)
+                
+      this.splitButtonDefPerEventType[eventTypeName] = {};
+
+      for (let infectiousStatusTypeName of Object.keys(INFECTIOUS_STATUS_TYPE).filter(x => isNaN(Number(x)))) {
+
+        
+        let infectiousStatus = INFECTIOUS_STATUS_TYPE[infectiousStatusTypeName];
+
+
+        console.log(`eventType[${eventType}], infectiousStatus[${infectiousStatus}]`)
+
+        this.getDefaultAndSecondaryaPossibleResponses(
+          eventType,
+          infectiousStatus
+        )
+
+        // console.log(item);
+        this.splitButtonDefPerEventType[eventTypeName][infectiousStatusTypeName] = {
+          defaultAction: {
+            icon:'fas fa-stamp',
+            command: (rowData) => {
+              this.displayDialogForUserResponse(USER_RESPONSE_TYPE.confirm)
+            },
+            toolTip: this.translationService.getTranslation('USER_RESPONSE_TYPE_confirm')
+          },
+          secondaryActionsItems:this.actionMenuItemsFor[
+            EVENT_REQUIRING_ATTENTION_TYPE[EVENT_REQUIRING_ATTENTION_TYPE.new_status]
+          ]
+        };
+    
+      }
+
+    }
+
+    // // Add the items to the map
+    // this.splitButtonDefPerEventType[
+    //   EVENT_REQUIRING_ATTENTION_TYPE[EVENT_REQUIRING_ATTENTION_TYPE.new_status]      
+    // ][
+    //   INFECTIOUS_STATUS_TYPE[INFECTIOUS_STATUS_TYPE.carrier]
+    // ] = new_status_def;
+
+    // this.splitButtonDefPerEventType[
+    //   EVENT_REQUIRING_ATTENTION_TYPE[EVENT_REQUIRING_ATTENTION_TYPE.new_status]      
+    // ][
+    //   INFECTIOUS_STATUS_TYPE[INFECTIOUS_STATUS_TYPE.not_at_risk]
+    // ] = new_status_def;
+
+    // console.log(this.splitButtonDefPerEventType);
+
+  }
+
+  prepareSecondaryActionsMenuItems() {
+
+    // Prepare the items
+    let confirmItem = {
+      label: this.translationService.getTranslation(
+        `USER_RESPONSE_TYPE_${USER_RESPONSE_TYPE[USER_RESPONSE_TYPE.confirm]}`
+      ),
+      icon: 'fas fa-stamp',
+      title: this.translationService.getTranslation(USER_RESPONSE_TYPE[USER_RESPONSE_TYPE.confirm]),
+      command: () => this.displayDialogForUserResponse(USER_RESPONSE_TYPE.confirm)
+    };
+
+    let request_analysisItem = {
+      label: this.translationService.getTranslation(
+        `USER_RESPONSE_TYPE_${USER_RESPONSE_TYPE[USER_RESPONSE_TYPE.request_analysis]}`
+      ),
+      icon: 'fas fa-flask',
+      title: this.translationService.getTranslation(
+        `USER_RESPONSE_TYPE_${USER_RESPONSE_TYPE[USER_RESPONSE_TYPE.request_analysis]}`
+      ),
+      command: () => this.displayDialogForUserResponse(USER_RESPONSE_TYPE.request_analysis)
+    };
+
+    let send_a_reminderItem = {
+      label: this.translationService.getTranslation(
+        `USER_RESPONSE_TYPE_${USER_RESPONSE_TYPE[USER_RESPONSE_TYPE.send_a_reminder]}`
+      ),
+      icon: 'fas fa-praying-hands',
+      title: this.translationService.getTranslation(
+        `USER_RESPONSE_TYPE_${USER_RESPONSE_TYPE[USER_RESPONSE_TYPE.send_a_reminder]}`
+      ),
+      command: () => this.displayDialogForUserResponse(USER_RESPONSE_TYPE.send_a_reminder)
+    };
+
+    // Add the items to the map
+    this.actionMenuItemsFor[EVENT_REQUIRING_ATTENTION_TYPE[EVENT_REQUIRING_ATTENTION_TYPE.new_status]] = [
+      confirmItem,
+      request_analysisItem,
+    ];
+
+  }
+
+  prepareOptionsTrueFalse(){
+    this.trueFalseSelectItems.push(
+      {
+        label: this.translationService.getTranslation("null_option_label"), 
+        value: null
+      }
+    );
+    this.trueFalseSelectItems.push(
+      {
+        label: this.translationService.getTranslation("true"), 
+        value: true
+      }
+    );     
+    this.trueFalseSelectItems.push(
+      {
+        label: this.translationService.getTranslation("false"), 
+        value: false
+      }
+    ); 
+  }
+
+  prepareOptionsINFECTIOUS_STATUS_TYPE() {
+    this.enumService.listAllPossibleValues(INFECTIOUS_STATUS_TYPE).subscribe(
+      res => {
+          this.optionsINFECTIOUS_STATUS_TYPE = 
+            this.selectItemService.createSelectItemsForEnums(
+              res,
+              INFECTIOUS_STATUS_TYPE,
+              true // null options
+              );         
+      }       
+    );      
+  }
+
+  prepareOptionsINFECTIOUS_AGENT_CATEGORY() {
+    this.enumService.listAllPossibleValues(INFECTIOUS_AGENT_CATEGORY).subscribe(
+      res => {
+          this.optionsINFECTIOUS_AGENT_CATEGORY = 
+            this.selectItemService.createSelectItemsForEnums(
+              res,
+              INFECTIOUS_AGENT_CATEGORY,
+              true, // null options
+              "",
+              "_shortname"
+              );         
+      }       
+    );      
+  }
+
+  prepareOptionsEVENT_REQUIRING_ATTENTION_TYPE() {
+    this.enumService.listAllPossibleValues(EVENT_REQUIRING_ATTENTION_TYPE).subscribe(
+      res => {
+          this.optionsEVENT_REQUIRING_ATTENTION_TYPE = 
+            this.selectItemService.createSelectItemsForEnums(
+              res,
+              EVENT_REQUIRING_ATTENTION_TYPE,
+              true, // null options
+              "EVENT_REQUIRING_ATTENTION_TYPE_"
+              );         
+      }       
+    );      
   }
 
   intializeTablesPreferences() {
@@ -66,118 +352,336 @@ export class ListingInfectiousStatusComponent implements OnInit {
     this.queryParams = {    
       pageSize:environment.numberOfResultsForDashboard,     
       pageNum:0, 
-      cols:[          
-        {
-          field:"ref_time",
-          nameInSelect:"ref_time",
-          nameInWhereClause:"_is.ref_time",
-          header: "Heure de référence du statut",
-          attributeType:"date",
-          sortable: true,
-          filterable: true,
-          columnIsDisplayed:true,
-          filterIsActive:false,
-          minimumCharactersNeeded:3,
-          filterValue:null,
-          sorting:null, // null, 1, -1
-          sortingRank:null,
-          width:"4em"
-        },
-        // {
-        //   field:"traquer_ref",
-        //   nameInSelect:"traquer_ref",
-        //   nameInWhereClause:"p.traquer_ref",
-        //   header: "Ref. Traquer",
-        //   attributeType:"number",
-        //   sortable: true,
-        //   filterable: true,
-        //   columnIsDisplayed:true,
-        //   filterIsActive:false,
-        //   minimumCharactersNeeded:3,
-        //   filterValue:null,
-        //   sorting:null, // null, 1, -1
-        //   sortingRank:null,
-        //   width:"2em"
-        // },              
-        {
-          field:"carrier_contact",
-          nameInSelect:"carrier_contact",
-          nameInWhereClause:"_is.carrier_contact",
-          header: "Porteur ou Contact",
-          attributeType:"enum",
-          attributeTest:"IN",
-          sortable: true,
-          filterable: true,
-          columnIsDisplayed:true,
-          filterIsActive:false,
-          minimumCharactersNeeded:3,
-          filterValue:null,
-          sorting:null, // null, 1, -1
-          sortingRank:null,
-          width:"2em"
-        },        
-        {
-          field:"infectious_status_type_code_name",
-          nameInSelect:"infectious_status_type_code_name",
-          nameInWhereClause:"ist.code_name",
-          header: "Code BHR",
-          attributeType:"string",
-          sortable: true,
-          filterable: true,
-          columnIsDisplayed:true,
-          filterIsActive:false,
-          minimumCharactersNeeded:3,
-          filterValue:null,
-          sorting:null, // null, 1, -1
-          sortingRank:null,
-          width:"2em"
-        },        
-        
+      cols:[     
         ]
     };
 
-    if (this.authenticationService.getCryptPwd() != null) {
-      this.queryParams.cols.push({
-        field:"birth_date",
-        nameInSelect:"birth_date",
-        nameInWhereClause:null,
-        header: "Date naissance",
-        attributeType:"string",
-        sortable: false,
-        filterable: false,
-        columnIsDisplayed:true,
-        filterIsActive:false,
-        minimumCharactersNeeded:3,
-        filterValue:null,
-        sorting:null, // null, 1, -1
-        sortingRank:null,
-        width:"4em"
-      },
-      {
-        field:"lastname",
-        nameInSelect:"lastname",
-        nameInWhereClause:"CUSTOM BECAUSE VALUE IS CRYPTED", // The where clause needs special treatment
-        header: "Nom",
-        attributeType:"string",
-        sortable: false,
-        filterable: true,
-        columnIsDisplayed:true,
-        filterIsActive:false,
-        minimumCharactersNeeded:3,
-        filterValue:null,
-        sorting:null, // null, 1, -1
-        sortingRank:null,
-        width:"4em"
-      }
-      );
-    }
+    // ######################## //
+    // Infectious status column //
+    // ######################## //
+    const refTimeColDef = {
+      field:"ref_time",
+      nameInSelect:"ref_time",
+      nameInWhereClause:"_is.ref_time",
+      header: this.translationService.getTranslation("reference_time"),
+      attributeType:"date",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+    // {
+    //   field:"traquer_ref",
+    //   nameInSelect:"traquer_ref",
+    //   nameInWhereClause:"p.traquer_ref",
+    //   header: "Ref. Traquer",
+    //   attributeType:"number",
+    //   sortable: true,
+    //   filterable: true,
+    //   columnIsDisplayed:true,
+    //   filterIsActive:false,
+    //   minimumCharactersNeeded:3,
+    //   filterValue:null,
+    //   sorting:null, // null, 1, -1
+    //   sortingRank:null,
+    //   width:"2em"
+    // },              
+    
+    const infectiousStatusColDef = {
+      field:"infectious_status",
+      nameInSelect:"infectious_status",
+      nameInWhereClause:"ist.infectious_status",
+      header: this.translationService.getTranslation("infectious_status"),
+      attributeType:"enum",
+      attributeTest:"IN",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"2em"
+    };
 
-    this.queryParams.cols.push( {
-      field: 'view_details',                      
-      header: "Voir le détail",      
-      columnIsDisplayed:true,  
-      width:"2em"          
-    });
+    const infectiousAgentColDef = {
+      field:"infectious_agent",
+      nameInSelect:"infectious_agent",
+      nameInWhereClause:"ist.infectious_agent",
+      header: this.translationService.getTranslation("infectious_agent"),
+      attributeType:"enum",
+      attributeTest:"IN",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"2em"
+    };
+
+    const isConfirmedColDef = {
+      field:"is_confirmed",
+      nameInSelect:"is_confirmed",
+      nameInWhereClause:"ist.is_confirmed",
+      header: this.translationService.getTranslation("confirmed?"),
+      attributeType:"boolean",
+      attributeTest:"EQUALS",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"2em"
+    };
+
+    const isCurrentColDef = {
+      field:"is_current",
+      nameInSelect:"is_current",
+      nameInWhereClause:"ist.is_current",
+      header: this.translationService.getTranslation("is_current_status?"),
+      attributeType:"boolean",
+      attributeTest:"EQUALS",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:true,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"2em"
+    };
+
+    // ################################# //
+    // Event requiring attention columns //
+    // ################################# //
+    const eventResponseTimeColDef = {
+      field:"event_response_time",
+      nameInSelect:"event_response_time",
+      nameInWhereClause:"era.response_time",
+      header: this.translationService.getTranslation("event_response_time"),
+      attributeType:"date",
+      attributeTest:"EQUALS",
+      sortable: true,
+      filterable: false,
+      columnIsDisplayed:false,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"2em"
+    };
+
+    const eventIsPendingColDef = {
+      field:"event_is_pending",
+      nameInSelect:"event_is_pending",
+      nameInWhereClause:"era.is_pending",
+      header: this.translationService.getTranslation("event_is_pending"),
+      attributeType:"boolean",
+      attributeTest:"EQUALS",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:true,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"2em"
+    };
+
+    const eventTypeColDef = {
+      field:"event_type",
+      nameInSelect:"event_type",
+      nameInWhereClause:"era.event_type",
+      header: this.translationService.getTranslation("event_type"),
+      attributeType:"enum",
+      enumType: Utils.getEnumName(EVENT_REQUIRING_ATTENTION_TYPE),
+      attributeTest:"IN",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"2em"
+    };
+
+
+    // ############### //
+    // Patient columns //
+    // ############### //
+    const patientIsHospitalizedColDef = {
+      field:"patient_is_hospitalized",
+      nameInSelect:"patient_is_hospitalized",
+      nameInWhereClause:"p.is_hospitalized",
+      header: this.translationService.getTranslation("hospitalized?"),
+      attributeType:"boolean",
+      attributeTest:"EQUALS",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"2em"
+    };
+    
+    const birthdateColDef = {
+      field:"birthdate",
+      nameInSelect:"birthdate",
+      nameInWhereClause:"CUSTOM BECAUSE VALUE IS CRYPTED", // The where clause needs special treatment
+      header: this.translationService.getTranslation("birthdate"),
+      attributeType:"string",
+      sortable: false,
+      filterable: false,
+      columnIsDisplayed:false,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    const lastnameColDef = {
+      field:"lastname",
+      nameInSelect:"lastname",
+      nameInWhereClause:"CUSTOM BECAUSE VALUE IS CRYPTED", // The where clause needs special treatment
+      header: this.translationService.getTranslation("lastname"),
+      attributeType:"string",
+      sortable: false,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    const firstnameColDef = {
+      field:"firstname",
+      nameInSelect:"firstname",
+      nameInWhereClause:"CUSTOM BECAUSE VALUE IS CRYPTED", // The where clause needs special treatment
+      header: this.translationService.getTranslation("firstname"),
+      attributeType:"string",
+      sortable: false,
+      filterable: true,
+      columnIsDisplayed:false,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    const patientCurrentUnitNameColDef = {
+      field:"current_unit_name",
+      nameInSelect:"current_unit_name",
+      nameInWhereClause:"patient_current_unit.name",
+      header: this.translationService.getTranslation("current_unit_name"),
+      attributeType:"string",
+      attributeTest:"like",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    // ################ //
+    // Outbreak columns //
+    // ################ //
+    const outbreakNameColDef = {
+      field:"outbreak_name",
+      nameInSelect:"outbreak_name",
+      nameInWhereClause:"o.name", 
+      header: this.translationService.getTranslation("outbreak"),
+      attributeType:"string",
+      sortable: false,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    // ############# //
+    // Action column //
+    // ############# //
+    const actionColDef = {
+      field:"action",
+      nameInSelect:null,
+      nameInWhereClause:null, 
+      header: this.translationService.getTranslation("action"),
+      attributeType:null,
+      sortable: false,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+
+    // ############### //
+    // Add the columns //
+    // ############### //
+    if (this.authenticationService.getCryptPwd() != null) {
+      this.queryParams.cols.push(firstnameColDef);
+      this.queryParams.cols.push(lastnameColDef);
+      this.queryParams.cols.push(birthdateColDef);
+    }
+    
+    this.queryParams.cols.push(outbreakNameColDef);
+    this.queryParams.cols.push(infectiousStatusColDef);
+    this.queryParams.cols.push(infectiousAgentColDef);
+    this.queryParams.cols.push(refTimeColDef);
+    this.queryParams.cols.push(isConfirmedColDef);
+    this.queryParams.cols.push(isCurrentColDef);
+    this.queryParams.cols.push(patientIsHospitalizedColDef);
+    this.queryParams.cols.push(patientCurrentUnitNameColDef);
+    this.queryParams.cols.push(eventResponseTimeColDef);
+    this.queryParams.cols.push(eventTypeColDef);
+    this.queryParams.cols.push(eventIsPendingColDef);
+    this.queryParams.cols.push(actionColDef);
+
+    // this.queryParams.cols.push( {
+    //   field: 'view_details',                      
+    //   header: "Voir le détail",      
+    //   columnIsDisplayed:true,  
+    //   width:"2em"          
+    // });
 
     // Initialize the filter proxy 'filterValues'
     for (let col of this.queryParams.cols) {
@@ -283,14 +787,10 @@ export class ListingInfectiousStatusComponent implements OnInit {
 
     this.loading = true;
     this.infectiousStatusService.getInfectiousStatusForListing(this.queryParams).subscribe(res => {
-      if (res!= null) {           
-        
-        console.log(res);
-
-        this.data = res.rows;
-        console.log(this.data);
+      if (res!= null) {
+        console.log(res.rows);                   
+        this.data = res.rows;        
         this.totalRecords = res.totalRecords;
-
       }
       this.loading = false;
     });      
@@ -333,6 +833,42 @@ export class ListingInfectiousStatusComponent implements OnInit {
     }
   }
 
+  updateColumnsSelection(event) {    
+    for (let attrName of this.selectableColumns.map(x => x.value)) {      
+
+      // Get the corresponding column in queryParams
+      var col = this.queryParams.cols.filter(x => x.field == attrName,
+                                        this.queryParams.cols)[0];
+      if (this.selectedColumns.indexOf(attrName) >= 0) {
+        col.columnIsDisplayed = true;
+      } else {
+        // Hide the column
+        col.columnIsDisplayed = false;
+      }                                             
+    }
+
+  }
+
+  showInfectiousStatusExplanation(event) {
+    const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
+        header: this.translationService.getTranslation("infectious_status_explanation"),
+        width: '70%'
+    });
+  }
+
+
+  displayDialogForUserResponse(eventId:string) {
+    
+    // console.log()
+    let eventRequiringAttention:EventRequiringAttention = null;
+    const ref = this.dialogService.open(ResponsesToEventComponent, {
+        data: {
+          "eventRequiringAttention": eventRequiringAttention
+        },
+        header: this.translationService.getTranslation("user_response_to_event"),
+        width: '70%'
+    });
+  }
 
 
 }

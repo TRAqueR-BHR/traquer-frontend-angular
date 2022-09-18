@@ -22,11 +22,16 @@ export class MainMenuComponent implements OnInit {
 
     this.items = [
       {
-        label: 'Home',
+        label: this.translationService.getTranslation('home_page'),
         items:[ {
-            label: 'Home',
+            label: this.translationService.getTranslation('home_page'),
             icon: 'pi pi-home',
             routerLink: ['/'],        
+          },
+          {
+            label: this.translationService.getTranslation('calendar'),
+            icon: 'far fa-calendar-alt',
+            routerLink: ['/calendar'],        
           }
         ]
       },
@@ -37,10 +42,15 @@ export class MainMenuComponent implements OnInit {
     //
     let settingsItems:any[] = [];
     settingsItems.push({
-        label: this.translationService.getTranslation('i18n@@my_account'),
+        label: this.translationService.getTranslation('my_account'),
         icon: 'far fa-address-card',
         routerLink: [this.linkToUserAccount],            
     });
+    settingsItems.push({
+      label: this.translationService.getTranslation('logout'),
+      icon: 'fas fa-sign-out-alt',
+      routerLink: ['/login'],            
+  });
 
     this.items.push({
       // label: this.translationService.getTranslation('i18n@@settings'),
