@@ -11,11 +11,12 @@ import { SelectItemService } from 'src/app/service/select-item.service';
 import { INFECTIOUS_AGENT_CATEGORY } from 'src/app/enum/INFECTIOUS_AGENT_CATEGORY';
 import { Utils } from 'src/app/util/utils';
 import { EVENT_REQUIRING_ATTENTION_TYPE } from 'src/app/enum/EVENT_REQUIRING_ATTENTION_TYPE';
-import { USER_RESPONSE_TYPE } from 'src/app/enum/USER_RESPONSE_TYPE';
+import { RESPONSE_TYPE } from 'src/app/enum/RESPONSE_TYPE';
 import { DialogService } from 'primeng/dynamicdialog';
 import { InfectiousStatusExplanationComponent } from '../infectious-status-explanation/infectious-status-explanation.component';
 import { EventRequiringAttention } from 'src/app/model/EventRequiringAttention';
 import { ResponsesToEventComponent } from '../responses-to-event/responses-to-event.component';
+import { EventRequiringAttentionService } from 'src/app/service/event-requiring-attention.service';
 
 @Component({
   selector: 'app-listing-infectious-status',
@@ -51,12 +52,15 @@ export class ListingInfectiousStatusComponent implements OnInit {
   
   actionMenuItemsFor:any = {}; // a Map of (EVENT_REQUIRING_ATTENTION_TYPE => MenuItem[])  
 
-  constructor(private infectiousStatusService:InfectiousStatusService,
-              private translationService:TranslationService,
-              private enumService:EnumService,
-              private selectItemService:SelectItemService,
-              private authenticationService:AuthenticationService,
-              public dialogService: DialogService) { }
+  constructor(
+    private infectiousStatusService:InfectiousStatusService,
+    private translationService:TranslationService,
+    private enumService:EnumService,
+    private selectItemService:SelectItemService,
+    private eventRequiringAttentionService:EventRequiringAttentionService,
+    private authenticationService:AuthenticationService,
+    public dialogService: DialogService
+  ) { }
 
   ngOnInit(): void {
     
@@ -64,8 +68,6 @@ export class ListingInfectiousStatusComponent implements OnInit {
     this.prepareOptionsINFECTIOUS_STATUS_TYPE();
     this.prepareOptionsINFECTIOUS_AGENT_CATEGORY();
     this.prepareOptionsEVENT_REQUIRING_ATTENTION_TYPE();
-    this.prepareSecondaryActionsMenuItems();
-    this.prepareSplitButtonDef();
     this.intializeTablesPreferences();
 
   }
@@ -82,65 +84,67 @@ export class ListingInfectiousStatusComponent implements OnInit {
     console.log(eventType);
     console.log(statusType);
 
-    let defaultResponseType:USER_RESPONSE_TYPE;
-    let secondaryResponseTypes:USER_RESPONSE_TYPE[] = [];
+    let defaultResponseType:RESPONSE_TYPE;
+    let secondaryResponseTypes:RESPONSE_TYPE[] = [];
 
     if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.analysis_done) {      
-      defaultResponseType = USER_RESPONSE_TYPE.acknowledge;
+      defaultResponseType = RESPONSE_TYPE.acknowledge;
       secondaryResponseTypes = [
-        USER_RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
+        RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
       ] 
     } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.analysis_in_progress) {      
-      defaultResponseType = USER_RESPONSE_TYPE.acknowledge;    
+      defaultResponseType = RESPONSE_TYPE.acknowledge;    
       secondaryResponseTypes = [
-        USER_RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
+        RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
       ] 
     } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.analysis_late) {      
-      defaultResponseType = USER_RESPONSE_TYPE.send_a_reminder;    
+      defaultResponseType = RESPONSE_TYPE.send_a_reminder;    
       secondaryResponseTypes = [
-        USER_RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
+        RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
       ] 
     } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.hospitalization) {      
-
-      console.log("HERE");
     
       if (statusType == INFECTIOUS_STATUS_TYPE.carrier) {
-        defaultResponseType = USER_RESPONSE_TYPE.take_precautionary_measures;
+        defaultResponseType = RESPONSE_TYPE.isolation_in_same_unit;
         secondaryResponseTypes = [
-          USER_RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
+          RESPONSE_TYPE.isolation_in_special_unit,
+          RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
         ] 
       } else if (statusType == INFECTIOUS_STATUS_TYPE.contact) {
-        defaultResponseType = USER_RESPONSE_TYPE.request_analysis;
+        defaultResponseType = RESPONSE_TYPE.request_analysis;
         secondaryResponseTypes = [
-          USER_RESPONSE_TYPE.take_precautionary_measures,
-          USER_RESPONSE_TYPE.acknowledge,
+          RESPONSE_TYPE.acknowledge,
+          RESPONSE_TYPE.isolation_in_same_unit,
+          RESPONSE_TYPE.isolation_in_special_unit,
         ] 
       } else if (statusType == INFECTIOUS_STATUS_TYPE.not_at_risk) {
-        defaultResponseType = USER_RESPONSE_TYPE.acknowledge;
+        defaultResponseType = RESPONSE_TYPE.acknowledge;
         secondaryResponseTypes = [          
-          USER_RESPONSE_TYPE.request_analysis,
+          RESPONSE_TYPE.request_analysis,
         ] 
       } 
 
     } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.new_status) {
       
       if (statusType == INFECTIOUS_STATUS_TYPE.carrier) {
-        defaultResponseType = USER_RESPONSE_TYPE.confirm;
+        defaultResponseType = RESPONSE_TYPE.confirm;
         secondaryResponseTypes = [          
-          USER_RESPONSE_TYPE.declare_outbreak,
-          USER_RESPONSE_TYPE.request_analysis,
-          USER_RESPONSE_TYPE.take_precautionary_measures,
+          RESPONSE_TYPE.declare_outbreak,
+          RESPONSE_TYPE.request_analysis,
+          RESPONSE_TYPE.isolation_in_same_unit,
+          RESPONSE_TYPE.isolation_in_special_unit,
         ] 
       } else if (statusType == INFECTIOUS_STATUS_TYPE.contact) {
-        defaultResponseType = USER_RESPONSE_TYPE.confirm;
+        defaultResponseType = RESPONSE_TYPE.confirm;
         secondaryResponseTypes = [          
-          USER_RESPONSE_TYPE.request_analysis,
-          USER_RESPONSE_TYPE.take_precautionary_measures,
+          RESPONSE_TYPE.request_analysis,
+          RESPONSE_TYPE.isolation_in_same_unit,
+          RESPONSE_TYPE.isolation_in_special_unit,
         ] 
       } else if (statusType == INFECTIOUS_STATUS_TYPE.not_at_risk) {
-        defaultResponseType = USER_RESPONSE_TYPE.confirm;
+        defaultResponseType = RESPONSE_TYPE.confirm;
         secondaryResponseTypes = [          
-          USER_RESPONSE_TYPE.request_analysis,
+          RESPONSE_TYPE.request_analysis,
         ] 
       } 
       
@@ -157,129 +161,6 @@ export class ListingInfectiousStatusComponent implements OnInit {
       defaultResponseType:defaultResponseType,
       secondaryResponseTypes:secondaryResponseTypes
     }
-
-  }
-
-  getDefaultActionIcon(
-    eventType:EVENT_REQUIRING_ATTENTION_TYPE,
-    statusType:INFECTIOUS_STATUS_TYPE
-  ) {
-
-    if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.new_status) {
-
-      // new_status + carrier => confirm
-      if (statusType == INFECTIOUS_STATUS_TYPE.carrier) {
-        'fas fa-stamp'
-      } 
-      // new_status + carrier => confirm_
-      else if (statusType == INFECTIOUS_STATUS_TYPE.contact) {
-        'fas fa-stamp'
-      } else if (statusType == INFECTIOUS_STATUS_TYPE.not_at_risk) {
-        'fas fa-stamp'
-      }
-    }
-    
-  }
-
-  prepareSplitButtonDef() {
-
-    console.log(Object.keys(EVENT_REQUIRING_ATTENTION_TYPE));
-
-    for (let eventTypeName of Object.keys(EVENT_REQUIRING_ATTENTION_TYPE).filter(x => isNaN(Number(x)))) {
-      
-      let eventType = EVENT_REQUIRING_ATTENTION_TYPE[eventTypeName];
-
-      console.log(`eventType[${eventType}] eventTypeName[${eventTypeName}]`)
-                
-      this.splitButtonDefPerEventType[eventTypeName] = {};
-
-      for (let infectiousStatusTypeName of Object.keys(INFECTIOUS_STATUS_TYPE).filter(x => isNaN(Number(x)))) {
-
-        
-        let infectiousStatus = INFECTIOUS_STATUS_TYPE[infectiousStatusTypeName];
-
-
-        console.log(`eventType[${eventType}], infectiousStatus[${infectiousStatus}]`)
-
-        this.getDefaultAndSecondaryaPossibleResponses(
-          eventType,
-          infectiousStatus
-        )
-
-        // console.log(item);
-        this.splitButtonDefPerEventType[eventTypeName][infectiousStatusTypeName] = {
-          defaultAction: {
-            icon:'fas fa-stamp',
-            command: (rowData) => {
-              this.displayDialogForUserResponse(USER_RESPONSE_TYPE.confirm)
-            },
-            toolTip: this.translationService.getTranslation('USER_RESPONSE_TYPE_confirm')
-          },
-          secondaryActionsItems:this.actionMenuItemsFor[
-            EVENT_REQUIRING_ATTENTION_TYPE[EVENT_REQUIRING_ATTENTION_TYPE.new_status]
-          ]
-        };
-    
-      }
-
-    }
-
-    // // Add the items to the map
-    // this.splitButtonDefPerEventType[
-    //   EVENT_REQUIRING_ATTENTION_TYPE[EVENT_REQUIRING_ATTENTION_TYPE.new_status]      
-    // ][
-    //   INFECTIOUS_STATUS_TYPE[INFECTIOUS_STATUS_TYPE.carrier]
-    // ] = new_status_def;
-
-    // this.splitButtonDefPerEventType[
-    //   EVENT_REQUIRING_ATTENTION_TYPE[EVENT_REQUIRING_ATTENTION_TYPE.new_status]      
-    // ][
-    //   INFECTIOUS_STATUS_TYPE[INFECTIOUS_STATUS_TYPE.not_at_risk]
-    // ] = new_status_def;
-
-    // console.log(this.splitButtonDefPerEventType);
-
-  }
-
-  prepareSecondaryActionsMenuItems() {
-
-    // Prepare the items
-    let confirmItem = {
-      label: this.translationService.getTranslation(
-        `USER_RESPONSE_TYPE_${USER_RESPONSE_TYPE[USER_RESPONSE_TYPE.confirm]}`
-      ),
-      icon: 'fas fa-stamp',
-      title: this.translationService.getTranslation(USER_RESPONSE_TYPE[USER_RESPONSE_TYPE.confirm]),
-      command: () => this.displayDialogForUserResponse(USER_RESPONSE_TYPE.confirm)
-    };
-
-    let request_analysisItem = {
-      label: this.translationService.getTranslation(
-        `USER_RESPONSE_TYPE_${USER_RESPONSE_TYPE[USER_RESPONSE_TYPE.request_analysis]}`
-      ),
-      icon: 'fas fa-flask',
-      title: this.translationService.getTranslation(
-        `USER_RESPONSE_TYPE_${USER_RESPONSE_TYPE[USER_RESPONSE_TYPE.request_analysis]}`
-      ),
-      command: () => this.displayDialogForUserResponse(USER_RESPONSE_TYPE.request_analysis)
-    };
-
-    let send_a_reminderItem = {
-      label: this.translationService.getTranslation(
-        `USER_RESPONSE_TYPE_${USER_RESPONSE_TYPE[USER_RESPONSE_TYPE.send_a_reminder]}`
-      ),
-      icon: 'fas fa-praying-hands',
-      title: this.translationService.getTranslation(
-        `USER_RESPONSE_TYPE_${USER_RESPONSE_TYPE[USER_RESPONSE_TYPE.send_a_reminder]}`
-      ),
-      command: () => this.displayDialogForUserResponse(USER_RESPONSE_TYPE.send_a_reminder)
-    };
-
-    // Add the items to the map
-    this.actionMenuItemsFor[EVENT_REQUIRING_ATTENTION_TYPE[EVENT_REQUIRING_ATTENTION_TYPE.new_status]] = [
-      confirmItem,
-      request_analysisItem,
-    ];
 
   }
 
@@ -852,22 +733,40 @@ export class ListingInfectiousStatusComponent implements OnInit {
   showInfectiousStatusExplanation(event) {
     const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
         header: this.translationService.getTranslation("infectious_status_explanation"),
-        width: '70%'
+        width: '85%'
     });
   }
 
 
   displayDialogForUserResponse(eventId:string) {
     
-    // console.log()
-    let eventRequiringAttention:EventRequiringAttention = null;
-    const ref = this.dialogService.open(ResponsesToEventComponent, {
-        data: {
-          "eventRequiringAttention": eventRequiringAttention
-        },
-        header: this.translationService.getTranslation("user_response_to_event"),
-        width: '70%'
-    });
+    this.eventRequiringAttentionService.getEventRequiringAttention(eventId).subscribe(
+      eventRequiringAttention => {
+        if (eventRequiringAttention != null) {
+
+          const ref = this.dialogService.open(ResponsesToEventComponent, {
+            data: {
+              "eventRequiringAttention": eventRequiringAttention
+            },
+            header: this.translationService.getTranslation("user_response_to_event"),
+            width: '85%'
+          });
+
+          ref.onClose.subscribe(res=> {
+            this.refreshData();
+          }) 
+        }
+      }
+    );
+
+    // let eventRequiringAttention:EventRequiringAttention = null;
+    // const ref = this.dialogService.open(ResponsesToEventComponent, {
+    //     data: {
+    //       "eventRequiringAttention": eventRequiringAttention
+    //     },
+    //     header: this.translationService.getTranslation("user_response_to_event"),
+    //     width: '70%'
+    // });
   }
 
 

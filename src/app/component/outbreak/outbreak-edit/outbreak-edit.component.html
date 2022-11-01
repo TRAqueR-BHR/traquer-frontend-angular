@@ -1,1 +1,40 @@
-<p>outbreak-edit works!</p>
+<ng-container *ngIf="outbreak != null">
+
+    <div class="custom-form-grid p-fluid">
+
+        <div class="custom-form-field col-12 md:col-6">
+            <label for="name" 
+                class="custom-label" 
+                i18n="@@outbreak_mnemo">
+                Mnemo de l'épisode</label>
+            <div class="p-inputgroup">                
+                <input type="text" pInputText 
+                    id="name"
+                    name="name"
+                    [(ngModel)]="outbreak.name"/>
+                <span class="p-inputgroup-addon">{{
+                    outbreak.infectiousAgent|
+                    enumCode2EnumName:"INFECTIOUS_AGENT_CATEGORY"|
+                    concat:"_shortname"|
+                    getTranslation}}</span>
+            </div>
+            <button pButton type="button" 
+                *ngIf="canDisplayInitializeOutbreakButton"
+                i18n-label="intialize_outbreak" 
+                label="Initialiser l'épisode" 
+                (click)="initializeOutbreak()"
+                class="mt-2 w-auto"
+                [disabled]="initializeOutbreakBtnIsDisabled"></button>
+        </div>
+
+    </div>
+    
+    <h2 class="ml-2">UFs de l'épisode</h2>
+    <div class="grid">
+        <ng-container *ngFor="let unitAsso of outbreakConfigUnitAssos">
+            <div app-outbreak-config-unit-asso 
+                class="col-12 md:col-6" [outbreakConfigUnitAsso]="unitAsso"></div>
+        </ng-container>
+    </div>
+
+</ng-container>

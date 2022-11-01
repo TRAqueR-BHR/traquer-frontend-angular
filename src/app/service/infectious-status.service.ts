@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ResultOfQueryWithParams } from 'src/app/model-protected/ResultOfQueryWithParams';
 import { Utils, deepCopy } from '../util/utils';
+import { InfectiousStatus } from '../model/InfectiousStatus';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,33 @@ export class InfectiousStatusService {
     .pipe(
     catchError(this.errorHandlerService.handleError(`getInfectiousStatusForListing()`, null))
     );
+  }
+
+  update(infectiousStatus:InfectiousStatus) {
+
+    const url = this.apiURL + "/update";
+    
+    // Force the dates without time to UTC
+    // var colJourneeExploitation = args.cols.filter(x => x.field == "journee_exploitation")[0] ;
+    // colJourneeExploitation.filterValue = Utils.forceDateToUTC(colJourneeExploitation.filterValue);
+    // args.dateDebut = Utils.forceDateToUTC(args.dateDebut);
+    // args.dateFin = Utils.forceDateToUTC(args.dateFin);
+
+    return this.http.post<any>(
+      url, 
+      infectiousStatus
+    )
+    .pipe(map(res => {      
+      if (res != null) {
+        return new InfectiousStatus(res);
+      } else {
+        return null;
+      }
+    })) 
+    .pipe(
+    catchError(this.errorHandlerService.handleError(`InfectiousStatusService.update()`, null))
+    );
+    
   }
 
 }

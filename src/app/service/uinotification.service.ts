@@ -11,12 +11,14 @@ export class UINotificationService {
               private translationService:TranslationService) { }
   
   public notifySuccess(detail:string, 
-                       summary = this.translationService.getTranslation("i18n@@success")){
+                       summary = this.translationService.getTranslation("i18n@@success"),
+                       hideAfter:number = 2000){
 
 
     this.messageService.add({severity:'success', 
                              summary: summary, 
-                             detail: detail});
+                             detail: detail,
+                             life:hideAfter});
   }
 
   public notifyInfo(detail:string, 

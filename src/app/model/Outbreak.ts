@@ -1,4 +1,5 @@
 import { OutbreakConfig } from "./OutbreakConfig";
+import { Appuser } from "src/app/module/appuser/model/Appuser";
 import { INFECTIOUS_AGENT_CATEGORY } from "../enum/INFECTIOUS_AGENT_CATEGORY";
 import { ContactExposure } from "./ContactExposure";
 import { OutbreakInfectiousStatusAsso } from "./OutbreakInfectiousStatusAsso";
@@ -6,6 +7,7 @@ import { OutbreakInfectiousStatusAsso } from "./OutbreakInfectiousStatusAsso";
 export class Outbreak {
 
     config:OutbreakConfig;
+    creator:Appuser;
     id:string;
     name:string;
     infectiousAgent:INFECTIOUS_AGENT_CATEGORY;
@@ -15,6 +17,9 @@ export class Outbreak {
     constructor(_json:Object) {
         if (_json['config'] != null) {
             this.config = new OutbreakConfig(_json['config']);
+        }
+        if (_json['creator'] != null) {
+            this.creator = new Appuser(_json['creator']);
         }
         this.id = _json['id'];
         this.name = _json['name'];

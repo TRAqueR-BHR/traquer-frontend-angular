@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AuthGuardService} from 'src/app/service/auth-guard-service.service';
+import { PatientAnalysesComponent } from './component/analysis/patient-analyses/patient-analyses.component';
+import { OutbreakEditComponent } from './component/outbreak/outbreak-edit/outbreak-edit.component';
 import { ResponsesToEventComponent } from './component/responses-to-event/responses-to-event.component';
 import { UserDetailsComponent } from './module/appuser/component/user-details/user-details.component';
 import { CalendarPageComponent } from './page/calendar-page/calendar-page.component';
@@ -17,7 +19,9 @@ const routes: Routes = [
   { path: 'calendar', component: CalendarPageComponent, canActivate: [AuthGuardService] },
 
   // Debugging components
-  { path: 'debug/responses-to-event/:id', component: ResponsesToEventComponent, canActivate: [AuthGuardService] },
+  { path: 'debug1/responses-to-event/:eventId', component: ResponsesToEventComponent, canActivate: [AuthGuardService] },
+  { path: 'debug2/outbreak-edit/:outbreakId', component: OutbreakEditComponent, canActivate: [AuthGuardService] },
+  { path: 'debug3/patient-analyses/:patientId', component: PatientAnalysesComponent, canActivate: [AuthGuardService] },
 
   { path: '', component: HomePageComponent, canActivate: [AuthGuardService] },
   // otherwise redirect to home

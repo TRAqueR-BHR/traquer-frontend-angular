@@ -7,38 +7,27 @@ import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ResultOfQueryWithParams } from 'src/app/model-protected/ResultOfQueryWithParams';
 import { Utils, deepCopy } from '../util/utils';
-import { EventRequiringAttention } from '../model/EventRequiringAttention';
+import { Outbreak } from '../model/Outbreak';
+import { InfectiousStatus } from '../model/InfectiousStatus';
+import { OutbreakConfig } from '../model/OutbreakConfig';
+import { OutbreakConfigUnitAsso } from '../model/OutbreakConfigUnitAsso';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class EventRequiringAttentionService {
-
-  private apiURL = environment.apiURL + '/event-requiring-attention';  // URL to web api
+export class OutbreakConfigService {
+  
+  private apiURL = environment.apiURL + '/outbreak-config';  // URL to web api
 
   constructor(private http: HttpClient,
     private errorHandlerService: ErrorHandlerService) { }
 
-  getEventRequiringAttention(eventId:string): Observable<EventRequiringAttention|null> {
-    const url = Utils.removeDoubleSlashesInURL(this.apiURL + "/get-event");
-    console.log(`url[${url}]`);
+  getOutbreakConfigUnitAssosFromOutbreakConfig(
+    outbreakConfig:OutbreakConfig
+  ): Observable<OutbreakConfigUnitAsso[]> {
     
-    return this.http.post<any>(
-      url,
-      {"eventId":eventId}
-    )    
-    .pipe(map(res => {        
-      return new EventRequiringAttention(res);
-    })) 
-    .pipe(
-    catchError(this.errorHandlerService.handleError(`getEventRequiringAttention()`, null))
-    );
-  }
-
-  update(eventRequiringAttention:EventRequiringAttention) {
-
-    const url = this.apiURL + "/update";
+    const url = this.apiURL + "/get-outbreak-config-unit-assos-from-outbreak-config";
     
     // Force the dates without time to UTC
     // var colJourneeExploitation = args.cols.filter(x => x.field == "journee_exploitation")[0] ;
@@ -48,18 +37,23 @@ export class EventRequiringAttentionService {
 
     return this.http.post<any>(
       url, 
-      eventRequiringAttention
-    )
-    .pipe(map(res => {      
-      if (res != null) {
-        return new EventRequiringAttention(res);
-      } else {
-        return null;
+      {
+        "outbreakConfig":outbreakConfig
       }
+    )
+    .pipe(map(res => { 
+      return this.fromJSONArrayToOutbreakConfigUnitAssoArray(res)
     })) 
     .pipe(
-    catchError(this.errorHandlerService.handleError(`EventRequiringAttentionService.update()`, null))
+      catchError(this.errorHandlerService.handleError(`getOutbreakConfigUnitAssosFromOutbreakConfig()`, null))
     );
-    
   }
+
+  fromJSONArrayToOutbreakConfigUnitAssoArray(array: Array<Object>): OutbreakConfigUnitAsso[] {
+    console.log(array);
+    let res = array.map(res => new OutbreakConfigUnitAsso(res));
+    console.log(res);
+    return res
+  } 
+
 }

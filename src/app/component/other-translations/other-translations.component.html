@@ -35,6 +35,8 @@
 <ng-container i18n="@@outbreak">Épisode</ng-container>
 <ng-container i18n="@@action">Action</ng-container>
 <ng-container i18n="@@user_response_to_event">Réponse à l'événement</ng-container>
+<ng-container i18n="@@contact_cases_generated">Cas contacts générés</ng-container>
+<ng-container i18n="@@infectious_status_updated">Statut infectieux mis à jour</ng-container>
 
 <ng-container i18n="@@null_option_label">&#8203;</ng-container>
 <ng-container i18n="@@null">&#8203;</ng-container>
@@ -46,11 +48,25 @@
 <ng-container i18n="@@EVENT_REQUIRING_ATTENTION_TYPE_analysis_done">Analyse faite</ng-container>
 <ng-container i18n="@@EVENT_REQUIRING_ATTENTION_TYPE_analysis_late">Analyse en retard</ng-container>
 
-<!-- Enum USER_RESPONSE_TYPE -->
-<ng-container i18n="@@USER_RESPONSE_TYPE_acknowledge">Vu (ne rien faire)</ng-container>
-<ng-container i18n="@@USER_RESPONSE_TYPE_confirm">Confirmer statut</ng-container>
-<ng-container i18n="@@USER_RESPONSE_TYPE_request_analysis">Demander une analyse</ng-container>
-<ng-container i18n="@@USER_RESPONSE_TYPE_confirm_and_request_analysis">Confirmer le statut et demander une analyse</ng-container>
-<ng-container i18n="@@USER_RESPONSE_TYPE_send_a_reminder">Envoyer une relance</ng-container>
-<ng-container i18n="@@USER_RESPONSE_TYPE_take_precautionary_measures">Prendre des mesures de précaution</ng-container>
-<ng-container i18n="@@USER_RESPONSE_TYPE_declare_outbreak">Déclarer un nouvel épisode</ng-container>
+<!-- Enum RESPONSE_TYPE -->
+<ng-container i18n="@@RESPONSE_TYPE_acknowledge">Vu (ne rien faire)</ng-container>
+<ng-container i18n="@@RESPONSE_TYPE_confirm">Confirmer statut</ng-container>
+<ng-container i18n="@@RESPONSE_TYPE_request_analysis">Demander une analyse</ng-container>
+<ng-container i18n="@@RESPONSE_TYPE_confirm_and_request_analysis">Confirmer le statut et demander une analyse</ng-container>
+<ng-container i18n="@@RESPONSE_TYPE_send_a_reminder">Envoyer une relance</ng-container>
+<ng-container i18n="@@RESPONSE_TYPE_isolation_in_same_unit">Isoler le patient au sein de l'UF</ng-container>
+<ng-container i18n="@@RESPONSE_TYPE_isolation_in_special_unit">Transférer le patient à l'UF d'isolement</ng-container>
+<ng-container i18n="@@RESPONSE_TYPE_declare_outbreak">Déclarer un nouvel épisode</ng-container>
+
+<!-- Enum ANALYSIS_REQUEST_TYPE -->
+<ng-container i18n="@@molecular_analysis_carbapenemase_producing_enterobacteriaceae">Analyse moléculaire EPC</ng-container>
+<ng-container i18n="@@bacterial_culture_carbapenemase_producing_enterobacteriaceae">Culture EPC</ng-container>
+<ng-container i18n="@@molecular_analysis_vancomycin_resistant_enterococcus">Analyse moléculaire ERV</ng-container>
+<ng-container i18n="@@bacterial_culture_vancomycin_resistant_enterococcus">Culture ERV</ng-container>
+
+<!-- Enum ANALYSIS_RESULT_VALUE_TYPE -->
+<ng-container i18n="@@ANALYSIS_RESULT_VALUE_TYPE_positive">Positif</ng-container>
+<ng-container i18n="@@ANALYSIS_RESULT_VALUE_TYPE_negative">Négatif</ng-container>
+
+<!-- Enum SAMPLE_MATERIAL_TYPE -->
+<ng-container i18n="@@SAMPLE_MATERIAL_TYPE_faeces">Selles</ng-container>

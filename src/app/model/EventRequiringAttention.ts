@@ -1,7 +1,7 @@
 import { Appuser } from "src/app/module/appuser/model/Appuser";
 import { InfectiousStatus } from "./InfectiousStatus";
 import { EVENT_REQUIRING_ATTENTION_TYPE } from "../enum/EVENT_REQUIRING_ATTENTION_TYPE";
-import { USER_RESPONSE_TYPE } from "../enum/USER_RESPONSE_TYPE";
+import { RESPONSE_TYPE } from "../enum/RESPONSE_TYPE";
 
 export class EventRequiringAttention {
 
@@ -13,7 +13,7 @@ export class EventRequiringAttention {
     isPending:boolean;
     eventType:EVENT_REQUIRING_ATTENTION_TYPE;
     refTime:Date;
-    responsesTypes:USER_RESPONSE_TYPE[];
+    responsesTypes:RESPONSE_TYPE[];
 
     constructor(_json:Object) {
         if (_json['responseUser'] != null) {
@@ -37,7 +37,7 @@ export class EventRequiringAttention {
         if (_json['responsesTypes'] != null) {
             this.responsesTypes = [];
             for (let e of _json['responsesTypes']) {
-                this.responsesTypes.push(Number(USER_RESPONSE_TYPE[e]));
+                this.responsesTypes.push(Number(RESPONSE_TYPE[e]));
             }
         }
     }

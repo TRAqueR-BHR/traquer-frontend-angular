@@ -2,6 +2,7 @@ import { OutbreakConfigUnitAsso } from "./OutbreakConfigUnitAsso";
 import { Stay } from "./Stay";
 import { ContactExposure } from "./ContactExposure";
 import { Patient } from "./Patient";
+import { AnalysisRequest } from "./AnalysisRequest";
 
 export class Unit {
 
@@ -12,6 +13,7 @@ export class Unit {
     staies:Stay[];
     contactExposures:ContactExposure[];
     patients:Patient[];
+    analysisRequests:AnalysisRequest[];
 
     constructor(_json:Object) {
         this.id = _json['id'];
@@ -39,6 +41,12 @@ export class Unit {
             this.patients = [];
             for (let e of _json['patients']) {
                 this.patients.push(new Patient(e));
+            }
+        }
+        if (_json['analysisRequests'] != null) {
+            this.analysisRequests = [];
+            for (let e of _json['analysisRequests']) {
+                this.analysisRequests.push(new AnalysisRequest(e));
             }
         }
     }

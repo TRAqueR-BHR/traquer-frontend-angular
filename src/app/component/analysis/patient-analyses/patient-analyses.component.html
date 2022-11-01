@@ -1,0 +1,47 @@
+<p-table class="col-12" [value]="analyses" responsiveLayout="scroll">
+
+    <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+            <button pButton type="button" 
+                (click)="addAnalysis()" 
+                [disabled]="isLocked"
+                icon="fa fa-plus" 
+                i18n-label="@@add_analysis" 
+                label="Ajouter une analyse"></button>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th i18n="@@request_type">Type d'analyse</th>
+            <th i18n="@@request_time">Date dde</th>
+            <th i18n="@@result_time">Date résultat</th>
+            <th i18n="@@unit">UF</th>            
+            <th i18n="@@sample_material_type">Échantillon</th>
+            <th i18n="@@result">Résultat</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-a>
+        <tr>
+            <td>{{a.requestType | enumCode2EnumName:'ANALYSIS_REQUEST_TYPE' | getTranslation}}</td>            
+            <td>{{a.requestTime | date:"dd/MM/yyyy H:mm"}}</td>
+            <td>{{a.resultTime | date:"dd/MM/yyyy H:mm"}}</td>
+            <td>{{a.stay.unit.name}}</td>
+            <td>{{
+                    a.sampleMaterialType | 
+                    enumCode2EnumName:'SAMPLE_MATERIAL_TYPE' | 
+                    concatBefore:'SAMPLE_MATERIAL_TYPE_' | 
+                    getTranslation
+                }}
+            </td>            
+            <td>{{
+                    a.result | 
+                    enumCode2EnumName:'ANALYSIS_RESULT_VALUE_TYPE' | 
+                    concatBefore:'ANALYSIS_RESULT_VALUE_TYPE_' | 
+                    getTranslation
+                }}
+            </td>           
+                    
+        </tr>
+    </ng-template>
+</p-table>

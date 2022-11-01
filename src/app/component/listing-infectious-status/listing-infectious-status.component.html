@@ -137,10 +137,16 @@
                             (onChange)="toggleCourseVerifiee($event,rowData)" 
                             [(ngModel)]="rowData[col.nameInSelect]"
                             [binary]="true"></p-checkbox> 
+
+                        <button  *ngSwitchCase="'action'"
+                            pButton pRipple type="button" 
+                            (click)="displayDialogForUserResponse(rowData.event_id)"
+                            icon="fas fa-hand-rock" 
+                            class="p-button-rounded p-button-text"></button>
                         
                         <!-- <p-splitButton 
                             *ngSwitchCase="'action'"
-                            pTooltip="{{'USER_RESPONSE_TYPE_acknowledge' | getTranslation}}"
+                            pTooltip="{{'RESPONSE_TYPE_acknowledge' | getTranslation}}"
                             icon="fas fa-check"                                 
                             [model]="actionMenuItemsFor[rowData['event_type']]" 
                             styleClass="p-button-rounded p-button-sm"

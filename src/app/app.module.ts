@@ -61,6 +61,10 @@ import { InfectiousStatusExplanationComponent } from './component/infectious-sta
 import { ResponsesToEventComponent } from './component/responses-to-event/responses-to-event.component';
 import { ListboxModule } from 'primeng/listbox';
 import { OutbreakEditComponent } from './component/outbreak/outbreak-edit/outbreak-edit.component';
+import { OutbreakConfigUnitAssoComponent } from './component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { CalendarModule } from 'primeng/calendar';
+import { PatientAnalysesComponent } from './component/analysis/patient-analyses/patient-analyses.component';
 
 // References: - https://devblog.dymel.pl/2017/10/17/angular-preload/
 //             - https://www.tektutorialshub.com/angular/angular-how-to-use-app-initializer/
@@ -96,7 +100,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     CalendarComponent,
     InfectiousStatusExplanationComponent,
     ResponsesToEventComponent,
-    OutbreakEditComponent
+    OutbreakEditComponent,
+    OutbreakConfigUnitAssoComponent,
+    PatientAnalysesComponent
   ],
   imports: [
     BrowserModule,
@@ -124,6 +130,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     SplitButtonModule,
     ListboxModule,
     InputTextareaModule,
+    SelectButtonModule,
+    CalendarModule,
 
     // Spe3dlab modules (needed for pipes)
     Spe3dlabUtilsModule,

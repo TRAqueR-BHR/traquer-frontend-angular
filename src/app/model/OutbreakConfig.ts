@@ -4,13 +4,13 @@ import { Outbreak } from "./Outbreak";
 export class OutbreakConfig {
 
     id:string;
-    sameRoomOnly:boolean;
+    isEpidemic:boolean;
     outbreakConfigUnitAssoes:OutbreakConfigUnitAsso[];
     outbreaks:Outbreak[];
 
     constructor(_json:Object) {
         this.id = _json['id'];
-        this.sameRoomOnly = _json['sameRoomOnly'];
+        this.isEpidemic = _json['isEpidemic'];
         if (_json['outbreakConfigUnitAssoes'] != null) {
             this.outbreakConfigUnitAssoes = [];
             for (let e of _json['outbreakConfigUnitAssoes']) {

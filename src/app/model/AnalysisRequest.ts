@@ -1,4 +1,5 @@
 import { Appuser } from "src/app/module/appuser/model/Appuser";
+import { Unit } from "./Unit";
 import { ANALYSIS_REQUEST_TYPE } from "../enum/ANALYSIS_REQUEST_TYPE";
 import { ANALYSIS_REQUEST_STATUS_TYPE } from "../enum/ANALYSIS_REQUEST_STATUS_TYPE";
 
@@ -6,6 +7,7 @@ export class AnalysisRequest {
 
     creator:Appuser;
     lastEditor:Appuser;
+    unit:Unit;
     id:string;
     requestType:ANALYSIS_REQUEST_TYPE;
     creationTime:Date;
@@ -18,6 +20,9 @@ export class AnalysisRequest {
         }
         if (_json['lastEditor'] != null) {
             this.lastEditor = new Appuser(_json['lastEditor']);
+        }
+        if (_json['unit'] != null) {
+            this.unit = new Unit(_json['unit']);
         }
         this.id = _json['id'];
         if (_json['requestType'] != null) {

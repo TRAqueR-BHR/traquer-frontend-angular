@@ -12,7 +12,7 @@ import { ANALYSIS_REQUEST_TYPE } from '../enum/ANALYSIS_REQUEST_TYPE';
 import { ANALYSIS_RESULT_VALUE_TYPE } from '../enum/ANALYSIS_RESULT_VALUE_TYPE';
 import { EVENT_REQUIRING_ATTENTION_TYPE } from '../enum/EVENT_REQUIRING_ATTENTION_TYPE';
 import { SAMPLE_MATERIAL_TYPE } from '../enum/SAMPLE_MATERIAL_TYPE';
-import { USER_RESPONSE_TYPE } from '../enum/USER_RESPONSE_TYPE';
+import { RESPONSE_TYPE } from '../enum/RESPONSE_TYPE';
 
 export class Utils {
 
@@ -172,11 +172,35 @@ export class Utils {
          result += characters.charAt(Math.floor(Math.random() * charactersLength));
       }
       return result;
-   }
+    }
 
-   static getEnumName(enumType) {
+    static getArrayDiff(oldArr:null|any[],newArr:null|any[]):{
+      elementsAdded: any[];
+      elementsRemoved: any[];
+    } {
+
+      if (oldArr == null) {
+        oldArr = []
+      }
+      if (newArr == null) {
+        newArr = []
+      }
+
+      // Get the items removed
+      let elementsRemoved = oldArr.filter(x => !newArr.includes(x));
+      
+      // Get the items added
+      let elementsAdded = newArr.filter(x => !oldArr.includes(x));
+      
+      return {
+        "elementsAdded": elementsAdded,
+        "elementsRemoved": elementsRemoved,
+      };
+    }
+
+    static getEnumName(enumType) {
     
-    switch (enumType) {
+     switch (enumType) {
 
       case ANALYSIS_REQUEST_STATUS_TYPE:
         return "ANALYSIS_REQUEST_STATUS_TYPE";
@@ -211,8 +235,8 @@ export class Utils {
       case SAMPLE_MATERIAL_TYPE:
         return "SAMPLE_MATERIAL_TYPE";
         break;
-      case USER_RESPONSE_TYPE:
-        return "USER_RESPONSE_TYPE";
+      case RESPONSE_TYPE:
+        return "RESPONSE_TYPE";
         break;
       default:
         throw new Error(`Unknown type[${enumType}]`);          
@@ -261,8 +285,8 @@ export class Utils {
       case "SAMPLE_MATERIAL_TYPE":
         return SAMPLE_MATERIAL_TYPE;
         break;
-      case "USER_RESPONSE_TYPE":
-        return USER_RESPONSE_TYPE;
+      case "RESPONSE_TYPE":
+        return RESPONSE_TYPE;
         break;
 
       default:
