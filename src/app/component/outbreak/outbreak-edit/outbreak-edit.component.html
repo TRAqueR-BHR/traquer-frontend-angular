@@ -18,22 +18,58 @@
                     concat:"_shortname"|
                     getTranslation}}</span>
             </div>
+        </div>
+
+        <div class="custom-form-field col-12 md:col-6">
+            <label for="criticity" 
+                class="custom-label" 
+                i18n="@@episode_criticity">
+                Criticité de l'épisode</label>
+            
+            <p-dropdown [options]="optionsOUTBREAK_CRITICITY" 
+                id="criticity"
+                name="criticity"
+                appendTo="body"
+                [(ngModel)]="outbreak.criticity"></p-dropdown>    
+        </div>
+
+        <div class="custom-form-field col-12 md:col-6">
+            <label for="refTime" 
+                class="custom-label" 
+                i18n="@@outbreak_ref_time">Heure de référence de l'épisode</label>
+            <p-calendar id="refTime" 
+                name="refTime"
+                [showTime]="true" 
+                [showIcon]="true" 
+                dateFormat="dd/mm/yy" 
+                [(ngModel)]="outbreak.refTime"
+            ></p-calendar>
+        </div>
+                
+        <div class="custom-form-field col-12">
             <button pButton type="button" 
                 *ngIf="canDisplayInitializeOutbreakButton"
                 i18n-label="intialize_outbreak" 
                 label="Initialiser l'épisode" 
                 (click)="initializeOutbreak()"
-                class="mt-2 w-auto"
+                class="w-auto"
                 [disabled]="initializeOutbreakBtnIsDisabled"></button>
+    
+            <button pButton type="button" 
+                *ngIf="canDisplaySaveButton"
+                i18n-label="save" 
+                label="Enregistrer" 
+                (click)="save()"
+                class="w-auto"></button>
         </div>
 
     </div>
     
     <h2 class="ml-2">UFs de l'épisode</h2>
     <div class="grid">
-        <ng-container *ngFor="let unitAsso of outbreakConfigUnitAssos">
-            <div app-outbreak-config-unit-asso 
-                class="col-12 md:col-6" [outbreakConfigUnitAsso]="unitAsso"></div>
+        <ng-container *ngFor="let unitAsso of outbreakUnitAssos">
+            <div app-outbreak-unit-asso 
+                class="col-12 md:col-6" [outbreakUnitAsso]="unitAsso"></div>
         </ng-container>
     </div>
 

@@ -4,9 +4,9 @@ import { PatientRefCrypt } from "./PatientRefCrypt";
 import { PatientBirthdateCrypt } from "./PatientBirthdateCrypt";
 import { GENDER } from "../enum/GENDER";
 import { AnalysisResult } from "./AnalysisResult";
+import { ContactExposure } from "./ContactExposure";
 import { InfectiousStatus } from "./InfectiousStatus";
 import { Stay } from "./Stay";
-import { ContactExposure } from "./ContactExposure";
 
 export class Patient {
 
@@ -19,10 +19,10 @@ export class Patient {
     traquerRef:number;
     gender:GENDER;
     analysisResults:AnalysisResult[];
-    infectiousStatuses:InfectiousStatus[];
-    staies:Stay[];
     contactContactExposures:ContactExposure[];
     carrierContactExposures:ContactExposure[];
+    infectiousStatuses:InfectiousStatus[];
+    staies:Stay[];
 
     constructor(_json:Object) {
         if (_json['currentUnit'] != null) {
@@ -41,24 +41,16 @@ export class Patient {
         this.isHospitalized = _json['isHospitalized'];
         this.traquerRef = _json['traquerRef'];
         if (_json['gender'] != null) {
-            this.gender = Number(GENDER[_json['gender']]);
+            if (isNaN(Number(_json['gender']))) {
+                this.gender = Number(GENDER[_json['gender']]);
+            } else {
+                this.gender = Number(_json['gender']);
+            }
         }
         if (_json['analysisResults'] != null) {
             this.analysisResults = [];
             for (let e of _json['analysisResults']) {
                 this.analysisResults.push(new AnalysisResult(e));
-            }
-        }
-        if (_json['infectiousStatuses'] != null) {
-            this.infectiousStatuses = [];
-            for (let e of _json['infectiousStatuses']) {
-                this.infectiousStatuses.push(new InfectiousStatus(e));
-            }
-        }
-        if (_json['staies'] != null) {
-            this.staies = [];
-            for (let e of _json['staies']) {
-                this.staies.push(new Stay(e));
             }
         }
         if (_json['contactContactExposures'] != null) {
@@ -71,6 +63,18 @@ export class Patient {
             this.carrierContactExposures = [];
             for (let e of _json['carrierContactExposures']) {
                 this.carrierContactExposures.push(new ContactExposure(e));
+            }
+        }
+        if (_json['infectiousStatuses'] != null) {
+            this.infectiousStatuses = [];
+            for (let e of _json['infectiousStatuses']) {
+                this.infectiousStatuses.push(new InfectiousStatus(e));
+            }
+        }
+        if (_json['staies'] != null) {
+            this.staies = [];
+            for (let e of _json['staies']) {
+                this.staies.push(new Stay(e));
             }
         }
     }

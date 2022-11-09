@@ -26,16 +26,32 @@ export class AnalysisRequest {
         }
         this.id = _json['id'];
         if (_json['requestType'] != null) {
-            this.requestType = Number(ANALYSIS_REQUEST_TYPE[_json['requestType']]);
+            if (isNaN(Number(_json['requestType']))) {
+                this.requestType = Number(ANALYSIS_REQUEST_TYPE[_json['requestType']]);
+            } else {
+                this.requestType = Number(_json['requestType']);
+            }
         }
         if (_json['creationTime'] != null) {
-            this.creationTime = new Date(_json['creationTime']);
+            if (_json['refTime'] instanceof Date) {
+                this.creationTime = _json['creationTime'];
+            } else {
+                this.creationTime = new Date(_json['creationTime']);
+            }
         }
         if (_json['lastUpdateTime'] != null) {
-            this.lastUpdateTime = new Date(_json['lastUpdateTime']);
+            if (_json['refTime'] instanceof Date) {
+                this.lastUpdateTime = _json['lastUpdateTime'];
+            } else {
+                this.lastUpdateTime = new Date(_json['lastUpdateTime']);
+            }
         }
         if (_json['statusType'] != null) {
-            this.statusType = Number(ANALYSIS_REQUEST_STATUS_TYPE[_json['statusType']]);
+            if (isNaN(Number(_json['statusType']))) {
+                this.statusType = Number(ANALYSIS_REQUEST_STATUS_TYPE[_json['statusType']]);
+            } else {
+                this.statusType = Number(_json['statusType']);
+            }
         }
     }
 

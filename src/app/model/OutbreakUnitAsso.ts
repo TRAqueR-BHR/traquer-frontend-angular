@@ -1,29 +1,28 @@
 import { Unit } from "./Unit";
-import { Patient } from "./Patient";
 import { Outbreak } from "./Outbreak";
+import { Appuser } from "src/app/module/appuser/model/Appuser";
 
-export class ContactExposure {
+export class OutbreakUnitAsso {
 
     unit:Unit;
-    contact:Patient;
-    carrier:Patient;
     outbreak:Outbreak;
+    creator:Appuser;
     id:string;
     startTime:Date;
     endTime:Date;
+    sameRoomOnly:boolean;
+    isDefault:boolean;
+    comment:string;
 
     constructor(_json:Object) {
         if (_json['unit'] != null) {
             this.unit = new Unit(_json['unit']);
         }
-        if (_json['contact'] != null) {
-            this.contact = new Patient(_json['contact']);
-        }
-        if (_json['carrier'] != null) {
-            this.carrier = new Patient(_json['carrier']);
-        }
         if (_json['outbreak'] != null) {
             this.outbreak = new Outbreak(_json['outbreak']);
+        }
+        if (_json['creator'] != null) {
+            this.creator = new Appuser(_json['creator']);
         }
         this.id = _json['id'];
         if (_json['startTime'] != null) {
@@ -40,6 +39,9 @@ export class ContactExposure {
                 this.endTime = new Date(_json['endTime']);
             }
         }
+        this.sameRoomOnly = _json['sameRoomOnly'];
+        this.isDefault = _json['isDefault'];
+        this.comment = _json['comment'];
     }
 
 } 

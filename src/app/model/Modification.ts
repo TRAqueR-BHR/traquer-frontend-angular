@@ -17,7 +17,11 @@ export class Modification {
         this.oldvalue = _json['oldvalue'];
         this.actionId = _json['actionId'];
         if (_json['creationTime'] != null) {
-            this.creationTime = new Date(_json['creationTime']);
+            if (_json['refTime'] instanceof Date) {
+                this.creationTime = _json['creationTime'];
+            } else {
+                this.creationTime = new Date(_json['creationTime']);
+            }
         }
         this.actionType = _json['actionType'];
         this.attrname = _json['attrname'];

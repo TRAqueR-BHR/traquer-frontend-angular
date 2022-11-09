@@ -10,7 +10,7 @@ import { Utils, deepCopy } from '../util/utils';
 import { AnalysisResult } from '../model/AnalysisResult';
 import { InfectiousStatus } from '../model/InfectiousStatus';
 import { Patient } from '../model/Patient';
-import { OutbreakConfigUnitAsso } from '../model/OutbreakConfigUnitAsso';
+import { OutbreakUnitAsso } from '../model/OutbreakUnitAsso';
 import { ContactExposure } from '../model/ContactExposure';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class ContactExposureService {
     private errorHandlerService: ErrorHandlerService) { }
 
   simulateContactExposures(
-    asso:OutbreakConfigUnitAsso
+    asso:OutbreakUnitAsso
   ): Observable<ContactExposure[]> {
     
     const url = this.apiURL + "/simulate-contact-exposures";
@@ -32,7 +32,7 @@ export class ContactExposureService {
     return this.http.post<any[]>(
       url, 
       {
-        "outbreakConfigUnitAsso":asso
+        "outbreakUnitAsso":asso
       }
     )
     .pipe(map(res => { 
@@ -44,7 +44,7 @@ export class ContactExposureService {
   }
 
   generateContactExposuresAndInfectiousStatuses(
-    asso:OutbreakConfigUnitAsso
+    asso:OutbreakUnitAsso
   ): Observable<boolean> {
     
     const url = this.apiURL + "/generate-contact-exposures-and-infectious-statuses";
@@ -52,7 +52,7 @@ export class ContactExposureService {
     return this.http.post<any[]>(
       url, 
       {
-        "outbreakConfigUnitAsso":asso
+        "outbreakUnitAsso":asso
       }
     )
     .pipe(

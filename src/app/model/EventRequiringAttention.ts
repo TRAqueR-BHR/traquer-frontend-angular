@@ -24,20 +24,36 @@ export class EventRequiringAttention {
         }
         this.id = _json['id'];
         if (_json['responseTime'] != null) {
-            this.responseTime = new Date(_json['responseTime']);
+            if (_json['refTime'] instanceof Date) {
+                this.responseTime = _json['responseTime'];
+            } else {
+                this.responseTime = new Date(_json['responseTime']);
+            }
         }
         this.responseComment = _json['responseComment'];
         this.isPending = _json['isPending'];
         if (_json['eventType'] != null) {
-            this.eventType = Number(EVENT_REQUIRING_ATTENTION_TYPE[_json['eventType']]);
+            if (isNaN(Number(_json['eventType']))) {
+                this.eventType = Number(EVENT_REQUIRING_ATTENTION_TYPE[_json['eventType']]);
+            } else {
+                this.eventType = Number(_json['eventType']);
+            }
         }
         if (_json['refTime'] != null) {
-            this.refTime = new Date(_json['refTime']);
+            if (_json['refTime'] instanceof Date) {
+                this.refTime = _json['refTime'];
+            } else {
+                this.refTime = new Date(_json['refTime']);
+            }
         }
         if (_json['responsesTypes'] != null) {
             this.responsesTypes = [];
             for (let e of _json['responsesTypes']) {
-                this.responsesTypes.push(Number(RESPONSE_TYPE[e]));
+                if (isNaN(Number(e))) {
+                    this.responsesTypes.push(Number(RESPONSE_TYPE[e]));
+                } else {
+                    this.responsesTypes.push(Number(e));
+                }
             }
         }
     }

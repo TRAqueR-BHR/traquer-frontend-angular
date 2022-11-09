@@ -6,7 +6,7 @@ import { ErrorHandlerService } from './error-handler.service';
 import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Utils, deepCopy } from '../util/utils';
-import { OutbreakConfigUnitAsso } from '../model/OutbreakConfigUnitAsso';
+import { OutbreakUnitAsso } from '../model/OutbreakUnitAsso';
 import { Stay } from '../model/Stay';
 
 @Injectable({
@@ -19,23 +19,23 @@ export class StayService {
   constructor(private http: HttpClient,
     private errorHandlerService: ErrorHandlerService) { }
 
-  getCarriersStaysForListingFromOutbreakConfigUnitAsso(
-    outbreakConfigUnitAsso:OutbreakConfigUnitAsso
+  getCarriersStaysForListingFromOutbreakUnitAsso(
+    outbreakUnitAsso:OutbreakUnitAsso
   ): Observable<any[]> {
     
-    const url = this.apiURL + "/get-carriers-stays-from-outbreak-config-unit-asso";
+    const url = this.apiURL + "/get-carriers-stays-from-outbreak-unit-asso";
     
     return this.http.post<any>(
       url, 
       {
-        "outbreakConfigUnitAsso":outbreakConfigUnitAsso
+        "outbreakUnitAsso":outbreakUnitAsso
       }
     )
     .pipe(map(res => { 
       return Utils.convertPlainDataframe(res);
     })) 
     .pipe(
-      catchError(this.errorHandlerService.handleError(`getCarriersStaysFromOutbreakConfigUnitAsso()`, null))
+      catchError(this.errorHandlerService.handleError(`getCarriersStaysFromOutbreakUnitAsso()`, null))
     );
   }
 

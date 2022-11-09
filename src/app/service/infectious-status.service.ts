@@ -40,6 +40,38 @@ export class InfectiousStatusService {
     );
   }
 
+  geInfectiousStatusFromInfectiousStatusFilter(
+    infectiousStatus:InfectiousStatus,
+    includeComplexProperties:boolean
+  ): Observable<InfectiousStatus|null> {
+    
+    const url = this.apiURL + "/get-infectious-status-from-infectious-status-filter";
+    
+    // Force the dates without time to UTC
+    // var colJourneeExploitation = args.cols.filter(x => x.field == "journee_exploitation")[0] ;
+    // colJourneeExploitation.filterValue = Utils.forceDateToUTC(colJourneeExploitation.filterValue);
+    // args.dateDebut = Utils.forceDateToUTC(args.dateDebut);
+    // args.dateFin = Utils.forceDateToUTC(args.dateFin);
+
+    return this.http.post<any>(
+      url, 
+      {
+        "infectiousStatus":infectiousStatus,
+        "includeComplexProperties":includeComplexProperties
+      }
+    )
+    .pipe(map(res => {      
+      if (res != null) {
+        return new InfectiousStatus(res);
+      } else {
+        return null;
+      }
+    })) 
+    .pipe(
+    catchError(this.errorHandlerService.handleError(`geInfectiousStatusFromInfectiousStatusFilter()`, null))
+    );
+  }
+
   update(infectiousStatus:InfectiousStatus) {
 
     const url = this.apiURL + "/update";

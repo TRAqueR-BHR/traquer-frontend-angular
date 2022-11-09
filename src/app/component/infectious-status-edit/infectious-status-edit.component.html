@@ -1,0 +1,77 @@
+<ng-container *ngIf="infectiousStatus != null">
+
+    <div class="custom-form-grid p-fluid">
+
+        <div class="custom-form-field col-12 md:col-6 flex align-items-center font-bold">
+            <label for="isCurrent" 
+                class="custom-label mr-1" 
+                i18n="@@is_current_status?">
+                Statut actuel ?</label>
+                 
+            <p-inputSwitch [(ngModel)]="infectiousStatus.isCurrent"
+                id="isCurrent"
+                name="isCurrent"></p-inputSwitch>
+            
+        </div>
+
+        <div class="custom-form-field col-12 md:col-6">
+            <label for="infectious_status" 
+                class="custom-label" 
+                i18n="@@infectious_status">
+                Statut infectieux</label>
+            
+            <p-dropdown [options]="optionsINFECTIOUS_STATUS_TYPE" 
+                id="infectiousStatus"
+                name="infectiousStatus"
+                appendTo="body"
+                [(ngModel)]="infectiousStatus.infectiousStatus"></p-dropdown>    
+        </div>
+
+        <div class="custom-form-field col-12 md:col-6 flex align-items-center font-bold">
+            <label for="isConfirmed" 
+                class="custom-label mr-1" 
+                i18n="@@confirmed?">
+                Confirmé ?</label>
+                 
+            <p-inputSwitch [(ngModel)]="infectiousStatus.isConfirmed"
+                id="isConfirmed"
+                name="isConfirmed"></p-inputSwitch>            
+        </div>
+
+        <div class="custom-form-field col-12 md:col-6">
+            <label for="refTime" 
+                class="custom-label" 
+                i18n="@@ref_time">Heure de référence</label>
+            <p-calendar id="refTime" 
+                name="refTime"
+                [showTime]="true" 
+                [showIcon]="true" 
+                dateFormat="dd/mm/yy" 
+                [(ngModel)]="infectiousStatus.refTime"
+            ></p-calendar>
+        </div>
+
+        <div class="custom-form-field col-12 md:col-6">
+            <label for="infectious_agent" 
+                class="custom-label" 
+                i18n="@@infectious_agent">
+                Agent infectieux</label>
+            
+            <p-dropdown [options]="optionsINFECTIOUS_AGENT_CATEGORY" 
+                id="infectiousAgent"
+                name="infectiousAgent"
+                appendTo="body"
+                [(ngModel)]="infectiousStatus.infectiousAgent"></p-dropdown>    
+        </div>
+        
+        <button pButton type="button" 
+            *ngIf="canDisplaySaveButton"
+            i18n-label="save" 
+            label="Enregistrer" 
+            (click)="save()"
+            class="mt-2 w-auto"></button>
+
+    </div>
+    
+
+</ng-container>

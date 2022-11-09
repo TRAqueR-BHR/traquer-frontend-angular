@@ -9,6 +9,9 @@ import { ResultOfQueryWithParams } from 'src/app/model-protected/ResultOfQueryWi
 import { Utils, deepCopy } from '../util/utils';
 import { Outbreak } from '../model/Outbreak';
 import { InfectiousStatus } from '../model/InfectiousStatus';
+import { OutbreakUnitAsso } from '../model/OutbreakUnitAsso';
+import { OUTBREAK_CRITICITY } from '../enum/OUTBREAK_CRITICITY';
+import { EventRequiringAttention } from '../model/EventRequiringAttention';
 
 
 @Injectable({
@@ -21,12 +24,12 @@ export class OutbreakService {
   constructor(private http: HttpClient,
     private errorHandlerService: ErrorHandlerService) { }
 
-  getOutbreakFromInfectiousStatus(
-    infectiousStatus:InfectiousStatus,
+  getOutbreakFromEventRequiringAttention(
+    eventRequiringAttention:EventRequiringAttention,
     includeComplexProperties:boolean
   ): Observable<Outbreak|null> {
     
-    const url = this.apiURL + "/get-outbreak-from-infectious-status";
+    const url = this.apiURL + "/get-outbreak-from-event-requiring-attention";
     
     // Force the dates without time to UTC
     // var colJourneeExploitation = args.cols.filter(x => x.field == "journee_exploitation")[0] ;
@@ -37,7 +40,7 @@ export class OutbreakService {
     return this.http.post<any>(
       url, 
       {
-        "infectiousStatus":infectiousStatus,
+        "eventRequiringAttention":eventRequiringAttention,
         "includeComplexProperties":includeComplexProperties
       }
     )
@@ -88,6 +91,8 @@ export class OutbreakService {
   initializeOutbreak(
     outbreakName:string,
     firstInfectiousStatus:InfectiousStatus,
+    criticity:OUTBREAK_CRITICITY,
+    refTime:Date
   ): Observable<Outbreak|null> {
     
     const url = this.apiURL + "/initialize";
@@ -102,7 +107,9 @@ export class OutbreakService {
       url, 
       {
         "firstInfectiousStatus":firstInfectiousStatus,
-        "outbreakName":outbreakName
+        "outbreakName":outbreakName,
+        "criticity":criticity,
+        "refTime":refTime
       }
     )
     .pipe(map(res => {      
@@ -115,6 +122,61 @@ export class OutbreakService {
     .pipe(
     catchError(this.errorHandlerService.handleError(`initializeOutbreak()`, null))
     );
+  }
+
+  save(
+    outbreak:Outbreak
+  ): Observable<Outbreak|null> {
+    
+    const url = this.apiURL + "/save";
+    
+    return this.http.post<any>(
+      url, 
+      outbreak
+    )
+    .pipe(map(res => {      
+      if (res != null) {
+        return new Outbreak(res);
+      } else {
+        return null;
+      }
+    })) 
+    .pipe(
+    catchError(this.errorHandlerService.handleError(`save()`, null))
+    );
+  }
+
+  getOutbreakUnitAssosFromOutbreak(
+    outbreak:Outbreak
+  ): Observable<OutbreakUnitAsso[]> {
+    
+    const url = this.apiURL + "/get-outbreak-unit-assos-from-outbreak";
+    
+    // Force the dates without time to UTC
+    // var colJourneeExploitation = args.cols.filter(x => x.field == "journee_exploitation")[0] ;
+    // colJourneeExploitation.filterValue = Utils.forceDateToUTC(colJourneeExploitation.filterValue);
+    // args.dateDebut = Utils.forceDateToUTC(args.dateDebut);
+    // args.dateFin = Utils.forceDateToUTC(args.dateFin);
+
+    return this.http.post<any>(
+      url, 
+      {
+        "outbreak":outbreak
+      }
+    )
+    .pipe(map(res => { 
+      return this.fromJSONArrayToOutbreakUnitAssoArray(res)
+    })) 
+    .pipe(
+      catchError(this.errorHandlerService.handleError(`getOutbreakUnitAssosFromOutbreak()`, null))
+    );
+  }
+
+  fromJSONArrayToOutbreakUnitAssoArray(array: Array<Object>): OutbreakUnitAsso[] {
+    console.log(array);
+    let res = array.map(res => new OutbreakUnitAsso(res));
+    console.log(res);
+    return res
   }
 
 }

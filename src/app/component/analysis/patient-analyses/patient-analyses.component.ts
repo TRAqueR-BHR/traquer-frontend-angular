@@ -3,12 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { AnalysisResult } from 'src/app/model/AnalysisResult';
 import { Outbreak } from 'src/app/model/Outbreak';
-import { OutbreakConfig } from 'src/app/model/OutbreakConfig';
-import { OutbreakConfigUnitAsso } from 'src/app/model/OutbreakConfigUnitAsso';
+import { OutbreakUnitAsso } from 'src/app/model/OutbreakUnitAsso';
 import { Patient } from 'src/app/model/Patient';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { AnalysisService } from 'src/app/service/analysis.service';
-import { OutbreakConfigService } from 'src/app/service/outbreak-config.service';
 import { OutbreakService } from 'src/app/service/outbreak.service';
 
 @Component({

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { INFECTIOUS_AGENT_CATEGORY } from 'src/app/enum/INFECTIOUS_AGENT_CATEGORY';
+import { OUTBREAK_CRITICITY } from 'src/app/enum/OUTBREAK_CRITICITY';
 import { RESPONSE_TYPE } from 'src/app/enum/RESPONSE_TYPE';
 import { EventRequiringAttention } from 'src/app/model/EventRequiringAttention';
 import { InfectiousStatus } from 'src/app/model/InfectiousStatus';
@@ -103,7 +104,7 @@ export class ResponsesToEventComponent implements OnInit {
       return;
     }
 
-    this.outbreakService.getOutbreakFromInfectiousStatus(this.infectiousStatus, true)
+    this.outbreakService.getOutbreakFromEventRequiringAttention(this.eventRequiringAttention, true)
     .subscribe(res => {
       console.log(res);
       if (res != null){
@@ -187,7 +188,9 @@ export class ResponsesToEventComponent implements OnInit {
       // If create a new outbreak
       if (this.outbreak == null) {        
         this.outbreak = new Outbreak({
-          "infectiousAgent":INFECTIOUS_AGENT_CATEGORY[this.eventRequiringAttention.infectiousStatus.infectiousAgent]
+          "infectiousAgent":INFECTIOUS_AGENT_CATEGORY[this.eventRequiringAttention.infectiousStatus.infectiousAgent],
+          "criticity":OUTBREAK_CRITICITY.dont_know,
+          "refTime":Date.now()
         });
       }
     } else if(changes.elementsRemoved.includes(RESPONSE_TYPE.declare_outbreak)){

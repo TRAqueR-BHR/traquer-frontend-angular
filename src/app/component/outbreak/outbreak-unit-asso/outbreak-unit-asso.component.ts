@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/api/selectitem';
-import { OutbreakConfigUnitAsso } from 'src/app/model/OutbreakConfigUnitAsso';
+import { OutbreakUnitAsso } from 'src/app/model/OutbreakUnitAsso';
 import { Stay } from 'src/app/model/Stay';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { ContactExposureService } from 'src/app/service/contact-exposure.service';
@@ -8,14 +8,14 @@ import { StayService } from 'src/app/service/stay.service';
 import { UINotificationService } from 'src/app/service/uinotification.service';
 
 @Component({
-  selector: 'app-outbreak-config-unit-asso,[app-outbreak-config-unit-asso]',
-  templateUrl: './outbreak-config-unit-asso.component.html',
-  styleUrls: ['./outbreak-config-unit-asso.component.scss']
+  selector: 'app-outbreak-unit-asso,[app-outbreak-unit-asso]',
+  templateUrl: './outbreak-unit-asso.component.html',
+  styleUrls: ['./outbreak-unit-asso.component.scss']
 })
-export class OutbreakConfigUnitAssoComponent implements OnInit {
-
+export class OutbreakUnitAssoComponent implements OnInit {
+  
   @Input()
-  outbreakConfigUnitAsso:OutbreakConfigUnitAsso;
+  outbreakUnitAsso:OutbreakUnitAsso;
 
   carrierStaysForListing:any[] = [];
   optionsYesNo:SelectItem[] = [];
@@ -32,12 +32,12 @@ export class OutbreakConfigUnitAssoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOptionsYesNo();
-    this.getCarrierStaysFromOutbreakConfigUnitAsso();
+    this.getCarrierStaysFromOutbreakUnitAsso();
     this.simulateContactExposures();
   }
 
-  getCarrierStaysFromOutbreakConfigUnitAsso(){
-    this.stayService.getCarriersStaysForListingFromOutbreakConfigUnitAsso(this.outbreakConfigUnitAsso)
+  getCarrierStaysFromOutbreakUnitAsso(){
+    this.stayService.getCarriersStaysForListingFromOutbreakUnitAsso(this.outbreakUnitAsso)
     .subscribe(res => {
       if (res != null) {
         this.carrierStaysForListing = res;
@@ -56,7 +56,7 @@ export class OutbreakConfigUnitAssoComponent implements OnInit {
   }  
 
   simulateContactExposures() {
-    this.contactExposureService.simulateContactExposures(this.outbreakConfigUnitAsso)
+    this.contactExposureService.simulateContactExposures(this.outbreakUnitAsso)
       .subscribe(res => {
         if (res != null){
           this.numberOfContactExposures = res.length;
@@ -65,7 +65,7 @@ export class OutbreakConfigUnitAssoComponent implements OnInit {
   }
 
   generateContactExposuresAndInfectiousStatuses() {
-    this.contactExposureService.generateContactExposuresAndInfectiousStatuses(this.outbreakConfigUnitAsso)
+    this.contactExposureService.generateContactExposuresAndInfectiousStatuses(this.outbreakUnitAsso)
       .subscribe(res => {
         this.saving = true;
         if (res != null){

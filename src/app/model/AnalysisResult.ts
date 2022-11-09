@@ -30,20 +30,40 @@ export class AnalysisResult {
         }
         this.id = _json['id'];
         if (_json['sampleMaterialType'] != null) {
-            this.sampleMaterialType = Number(SAMPLE_MATERIAL_TYPE[_json['sampleMaterialType']]);
+            if (isNaN(Number(_json['sampleMaterialType']))) {
+                this.sampleMaterialType = Number(SAMPLE_MATERIAL_TYPE[_json['sampleMaterialType']]);
+            } else {
+                this.sampleMaterialType = Number(_json['sampleMaterialType']);
+            }
         }
         if (_json['requestTime'] != null) {
-            this.requestTime = new Date(_json['requestTime']);
+            if (_json['refTime'] instanceof Date) {
+                this.requestTime = _json['requestTime'];
+            } else {
+                this.requestTime = new Date(_json['requestTime']);
+            }
         }
         if (_json['resultTime'] != null) {
-            this.resultTime = new Date(_json['resultTime']);
+            if (_json['refTime'] instanceof Date) {
+                this.resultTime = _json['resultTime'];
+            } else {
+                this.resultTime = new Date(_json['resultTime']);
+            }
         }
         if (_json['result'] != null) {
-            this.result = Number(ANALYSIS_RESULT_VALUE_TYPE[_json['result']]);
+            if (isNaN(Number(_json['result']))) {
+                this.result = Number(ANALYSIS_RESULT_VALUE_TYPE[_json['result']]);
+            } else {
+                this.result = Number(_json['result']);
+            }
         }
         this.resultRawText = _json['resultRawText'];
         if (_json['requestType'] != null) {
-            this.requestType = Number(ANALYSIS_REQUEST_TYPE[_json['requestType']]);
+            if (isNaN(Number(_json['requestType']))) {
+                this.requestType = Number(ANALYSIS_REQUEST_TYPE[_json['requestType']]);
+            } else {
+                this.requestType = Number(_json['requestType']);
+            }
         }
     }
 
