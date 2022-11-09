@@ -37,7 +37,7 @@
           <context context-type="linenumber">19</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component.html</context>
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component.html</context>
           <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
@@ -54,6 +54,69 @@
           <context context-type="sourcefile">src/app/component/analysis/patient-analyses/patient-analyses.component.html</context>
           <context context-type="linenumber">21</context>
         </context-group>
+      </trans-unit>
+      <trans-unit id="is_current_status?" datatype="html">
+        <source> Statut actuel ?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/infectious-status-edit/infectious-status-edit.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="infectious_status" datatype="html">
+        <source> Statut infectieux</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/infectious-status-edit/infectious-status-edit.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="confirmed?" datatype="html">
+        <source> Confirmé ?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/infectious-status-edit/infectious-status-edit.component.html</context>
+          <context context-type="linenumber">33,34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ref_time" datatype="html">
+        <source>Heure de référence</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/infectious-status-edit/infectious-status-edit.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="infectious_agent" datatype="html">
+        <source> Agent infectieux</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/infectious-status-edit/infectious-status-edit.component.html</context>
+          <context context-type="linenumber">57,58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4977912145007192180" datatype="html">
+        <source>Enregistrer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/infectious-status-edit/infectious-status-edit.component.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-edit/outbreak-edit.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+        <note priority="1" from="description">save</note>
       </trans-unit>
       <trans-unit id="carrier" datatype="html">
         <source>Porteur</source>
@@ -205,20 +268,6 @@
           <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="infectious_status" datatype="html">
-        <source>Statut infectieux</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="infectious_agent" datatype="html">
-        <source>Agent infectieux</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">20</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="not_at_risk" datatype="html">
         <source>Pas à risque</source>
         <context-group purpose="location">
@@ -246,13 +295,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
           <context context-type="linenumber">27</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="confirmed?" datatype="html">
-        <source>Confirmé ?</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="current?" datatype="html">
@@ -288,13 +330,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
           <context context-type="linenumber">33</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="is_current_status?" datatype="html">
-        <source>Statut actuel ?</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="outbreak" datatype="html">
@@ -486,89 +521,40 @@
           <context context-type="linenumber">72</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="simulated_number_of_contact_exposures" datatype="html">
-        <source>Nombre simulé de cas contacts</source>
+      <trans-unit id="OUTBREAK_CRITICITY_epidemic" datatype="html">
+        <source>Épidemique</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component.html</context>
-          <context context-type="linenumber">15</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="start_time" datatype="html">
-        <source>Heure de début</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component.html</context>
-          <context context-type="linenumber">22</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="end_time" datatype="html">
-        <source>Heure de fin</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component.html</context>
-          <context context-type="linenumber">36</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="start_date" datatype="html">
-        <source> Restreindre les cas contacts aux patients ayant partagé la même chambre</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component.html</context>
-          <context context-type="linenumber">50,51</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8203024106711668685" datatype="html">
-        <source>Prénom</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component.html</context>
-          <context context-type="linenumber">71</context>
-        </context-group>
-        <note priority="1" from="description">firstname</note>
-      </trans-unit>
-      <trans-unit id="5363451304863092478" datatype="html">
-        <source>Nom</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component.html</context>
-          <context context-type="linenumber">72</context>
-        </context-group>
-        <note priority="1" from="description">lastname</note>
-      </trans-unit>
-      <trans-unit id="1189682757385808291" datatype="html">
-        <source>Date de naissance</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component.html</context>
-          <context context-type="linenumber">73</context>
-        </context-group>
-        <note priority="1" from="description">birthdate</note>
-      </trans-unit>
-      <trans-unit id="6814354747578924767" datatype="html">
-        <source>Date d&apos;entrée à l&apos;UF</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component.html</context>
-          <context context-type="linenumber">74</context>
-        </context-group>
-        <note priority="1" from="description">in_time</note>
-      </trans-unit>
-      <trans-unit id="770586778630464597" datatype="html">
-        <source>Date de sortie de l&apos;UF</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component.html</context>
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
           <context context-type="linenumber">75</context>
         </context-group>
-        <note priority="1" from="description">out_time</note>
       </trans-unit>
-      <trans-unit id="1234831812785005167" datatype="html">
-        <source>Date d&apos;entrée à l&apos;hopital</source>
+      <trans-unit id="OUTBREAK_CRITICITY_non_epidemic" datatype="html">
+        <source>Non épidemique</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component.html</context>
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
           <context context-type="linenumber">76</context>
         </context-group>
-        <note priority="1" from="description">hospitalization_in_time</note>
       </trans-unit>
-      <trans-unit id="7350725484595364131" datatype="html">
-        <source>Date de sortie de l&apos;hopital</source>
+      <trans-unit id="OUTBREAK_CRITICITY_dont_know" datatype="html">
+        <source>Pas encore qualifié</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/outbreak/outbreak-config-unit-asso/outbreak-config-unit-asso.component.html</context>
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
           <context context-type="linenumber">77</context>
         </context-group>
-        <note priority="1" from="description">hospitalization_out_time</note>
+      </trans-unit>
+      <trans-unit id="carbapenemase_producing_enterobacteriaceae" datatype="html">
+        <source>Entérobactérie productrice de carbapénèmases (EPC)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="vancomycin_resistant_enterococcus" datatype="html">
+        <source>Entérocoque Résistant à la Vancomycine (ERV)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="outbreak_mnemo" datatype="html">
         <source> Mnemo de l&apos;épisode</source>
@@ -577,13 +563,104 @@
           <context context-type="linenumber">8,9</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="episode_criticity" datatype="html">
+        <source> Criticité de l&apos;épisode</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-edit/outbreak-edit.component.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="2830403447179135626" datatype="html">
         <source>Initialiser l&apos;épisode</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/outbreak/outbreak-edit/outbreak-edit.component.html</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">39</context>
         </context-group>
         <note priority="1" from="description">intialize_outbreak</note>
+      </trans-unit>
+      <trans-unit id="simulated_number_of_contact_exposures" datatype="html">
+        <source>Nombre simulé de cas contacts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="start_time" datatype="html">
+        <source>Heure de début</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="end_time" datatype="html">
+        <source>Heure de fin</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="start_date" datatype="html">
+        <source> Restreindre les cas contacts aux patients ayant partagé la même chambre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component.html</context>
+          <context context-type="linenumber">50,51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8203024106711668685" datatype="html">
+        <source>Prénom</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+        <note priority="1" from="description">firstname</note>
+      </trans-unit>
+      <trans-unit id="5363451304863092478" datatype="html">
+        <source>Nom</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <note priority="1" from="description">lastname</note>
+      </trans-unit>
+      <trans-unit id="1189682757385808291" datatype="html">
+        <source>Date de naissance</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <note priority="1" from="description">birthdate</note>
+      </trans-unit>
+      <trans-unit id="6814354747578924767" datatype="html">
+        <source>Date d&apos;entrée à l&apos;UF</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+        <note priority="1" from="description">in_time</note>
+      </trans-unit>
+      <trans-unit id="770586778630464597" datatype="html">
+        <source>Date de sortie de l&apos;UF</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+        <note priority="1" from="description">out_time</note>
+      </trans-unit>
+      <trans-unit id="1234831812785005167" datatype="html">
+        <source>Date d&apos;entrée à l&apos;hopital</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component.html</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+        <note priority="1" from="description">hospitalization_in_time</note>
+      </trans-unit>
+      <trans-unit id="7350725484595364131" datatype="html">
+        <source>Date de sortie de l&apos;hopital</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component.html</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+        <note priority="1" from="description">hospitalization_out_time</note>
       </trans-unit>
       <trans-unit id="select_the_responses_to_the_event" datatype="html">
         <source> Choisir les réponses à l&apos;événement </source>
@@ -611,17 +688,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/responses-to-event/responses-to-event.component.html</context>
           <context context-type="linenumber">54</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="save" datatype="html">
-        <source>Enregistrer</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/responses-to-event/responses-to-event.component.html</context>
-          <context context-type="linenumber">64</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/module/appuser/component/dataset-password/dataset-password.component.html</context>
-          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="the_cryption_password_exists" datatype="html">
@@ -662,6 +728,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/module/appuser/component/dataset-password/dataset-password.component.html</context>
           <context context-type="linenumber">31,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="save" datatype="html">
+        <source>Enregistrer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/module/appuser/component/dataset-password/dataset-password.component.html</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="edit_user_invite" datatype="html">
