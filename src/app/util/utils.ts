@@ -16,13 +16,21 @@ import { RESPONSE_TYPE } from '../enum/RESPONSE_TYPE';
 
 export class Utils {
 
-    constructor() { }    
-  
+    constructor() { }
+
     static convertPlainDataframe(df:any) {
 
       // console.log(df);
-  
+
       var res:any[] = [];
+
+      // Check that it is not an empty dataframe
+      if (
+        df // 👈 null and undefined check
+        && Object.keys(df).length === 0
+        && Object.getPrototypeOf(df) === Object.prototype){
+        return res
+      }
 
       // Handle the two types of results that we can get from the julia middleware
       if (df.columns != null) {
@@ -30,12 +38,12 @@ export class Utils {
         const nbCols = df.columns.length;
         const nbRows = df.columns[0].length; // get the number of rows from the first column
         const colNames = df.colindex.names;
-    
+
         for (var i = 0; i < nbRows; i++) {
           oneRow = {}; // important to create a new object at every iteration
           for (var j = 0; j < nbCols; j++) {
             oneRow[colNames[j]] = df.columns[j][i];
-          }      
+          }
           res.push(oneRow);
         }
       } else {
@@ -48,12 +56,12 @@ export class Utils {
           oneRow = {}; // important to create a new object at every iteration
           for (var j = 0; j < nbCols; j++) {
             oneRow[colNames[j]] = df[colNames[j]][i];
-          }      
+          }
           res.push(oneRow);
         }
-      }  
-      //console.log(res);    
-      return(res);  
+      }
+      //console.log(res);
+      return(res);
     }
 
     static getCryptPwdLocalStorageKey() {
@@ -81,7 +89,7 @@ export class Utils {
 
       return url;
     }
-  
+
     static getDefaultPictureURL():string {
       return "assets/img/dummy.png";
     }
@@ -92,17 +100,17 @@ export class Utils {
     static getNameOfDatasetPasswordAttributeInLocalStorage(datasetId:string) {
       return `orfead-password-for-dataset-${datasetId}`;
     }
-    
+
     static getNameOfDatasetPasswordHeaderForHttpRequest(datasetId:string) {
       return `x-password-for-dataset-${datasetId}`;
     }
 
-    // Algorithm called Fisher-Yates shuffle. 
+    // Algorithm called Fisher-Yates shuffle.
     // The idea is to walk the array in the reverse order and swap each element with a random one before it
     static shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-    
+
         // swap elements array[i] and array[j]
         // we use "destructuring assignment" syntax to achieve that
         // you'll find more details about that syntax in later chapters
@@ -119,13 +127,13 @@ export class Utils {
     }
 
     // Eg. Thu Aug 08 2019 00:00:00 GMT+0800 (Singapore Standard Time) -> Thu Aug 08 2019 08:00:00 GMT+0800 (Singapore Standard Time)
-    static forceDateToUTC(date:Date){ 
+    static forceDateToUTC(date:Date){
         if (date == null) {
             return null;
-        }   
+        }
         // console.log(date);
-        var dateForcedToUTC = new Date(Date.UTC(date.getFullYear(), 
-                                                date.getMonth(), 
+        var dateForcedToUTC = new Date(Date.UTC(date.getFullYear(),
+                                                date.getMonth(),
                                                 date.getDate(),
                                                 date.getHours(),
                                                 date.getMinutes(),
@@ -135,13 +143,13 @@ export class Utils {
     }
 
     static createDateFromLocaleDate(dateStr:string){
-      var date = Moment(dateStr).toDate(); 
-      return date;            
+      var date = Moment(dateStr).toDate();
+      return date;
     }
 
     static createDateFromUTCDate(dateStr:string){
         var date = Moment.tz(dateStr, "GMT").toDate();
-        return date;            
+        return date;
     }
 
     static getEnumInts(enumType):number[] {
@@ -188,10 +196,10 @@ export class Utils {
 
       // Get the items removed
       let elementsRemoved = oldArr.filter(x => !newArr.includes(x));
-      
+
       // Get the items added
       let elementsAdded = newArr.filter(x => !oldArr.includes(x));
-      
+
       return {
         "elementsAdded": elementsAdded,
         "elementsRemoved": elementsRemoved,
@@ -199,7 +207,7 @@ export class Utils {
     }
 
     static getEnumName(enumType) {
-    
+
      switch (enumType) {
 
       case ANALYSIS_REQUEST_STATUS_TYPE:
@@ -239,17 +247,17 @@ export class Utils {
         return "RESPONSE_TYPE";
         break;
       default:
-        throw new Error(`Unknown type[${enumType}]`);          
+        throw new Error(`Unknown type[${enumType}]`);
     }
   }
 
   static getEnumType(typeName:string) {
 
-    // It is possible that the type name is a julia type with the modules, in the 
+    // It is possible that the type name is a julia type with the modules, in the
     //   typescript world these modules do not exist
     let _elts = typeName.split('.');
     typeName = _elts[_elts.length - 1];
-    
+
     switch (typeName) {
 
       case "ANALYSIS_REQUEST_STATUS_TYPE":
@@ -290,13 +298,13 @@ export class Utils {
         break;
 
       default:
-        throw new Error(`Unknown type[${typeName}]`);          
+        throw new Error(`Unknown type[${typeName}]`);
     }
   }
 
 
 }
-  
+
 
 /**
  * Credit: https://gist.github.com/erikvullings/ada7af09925082cbb89f40ed962d475e
@@ -327,4 +335,3 @@ export const deepCopy = <T>(target: T): T => {
   }
   return target;
 };
-

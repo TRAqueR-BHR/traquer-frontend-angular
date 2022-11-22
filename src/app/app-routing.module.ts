@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {AuthGuardService} from 'src/app/service/auth-guard-service.service';
 import { PatientAnalysesComponent } from './component/analysis/patient-analyses/patient-analyses.component';
 import { InfectiousStatusEditComponent } from './component/infectious-status-edit/infectious-status-edit.component';
+import { InfectiousStatusExplanationComponent } from './component/infectious-status-explanation/infectious-status-explanation.component';
 import { OutbreakEditComponent } from './component/outbreak/outbreak-edit/outbreak-edit.component';
 import { ResponsesToEventComponent } from './component/responses-to-event/responses-to-event.component';
 import { UserDetailsComponent } from './module/appuser/component/user-details/user-details.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'debug2/outbreak-edit/:outbreakId', component: OutbreakEditComponent, canActivate: [AuthGuardService] },
   { path: 'debug3/patient-analyses/:patientId', component: PatientAnalysesComponent, canActivate: [AuthGuardService] },
   { path: 'debug4/infectious-status-edit/:infectiousStatusId', component: InfectiousStatusEditComponent, canActivate: [AuthGuardService] },
+  { path: 'debug5/infectious-status-explanation/:patientId', component: InfectiousStatusExplanationComponent, canActivate: [AuthGuardService] },
 
   { path: '', component: HomePageComponent, canActivate: [AuthGuardService] },
   // otherwise redirect to home

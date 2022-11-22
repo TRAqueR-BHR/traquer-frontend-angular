@@ -23,7 +23,7 @@ export class InfectiousStatusService {
     const url = this.apiURL + "/listing";
 
     var args = deepCopy(queryParams);
-    
+
     // Force the dates without time to UTC
     // var colJourneeExploitation = args.cols.filter(x => x.field == "journee_exploitation")[0] ;
     // colJourneeExploitation.filterValue = Utils.forceDateToUTC(colJourneeExploitation.filterValue);
@@ -31,10 +31,10 @@ export class InfectiousStatusService {
     // args.dateFin = Utils.forceDateToUTC(args.dateFin);
 
     return this.http.post<ResultOfQueryWithParams>(url,
-                                                   JSON.stringify(args))    
-    .pipe(map(res => {        
+                                                   JSON.stringify(args))
+    .pipe(map(res => {
       return new ResultOfQueryWithParams(res);
-    })) 
+    }))
     .pipe(
     catchError(this.errorHandlerService.handleError(`getInfectiousStatusForListing()`, null))
     );
@@ -43,10 +43,10 @@ export class InfectiousStatusService {
   geInfectiousStatusFromInfectiousStatusFilter(
     infectiousStatus:InfectiousStatus,
     includeComplexProperties:boolean
-  ): Observable<InfectiousStatus|null> {
-    
+  ): Observable<InfectiousStatus[]> {
+
     const url = this.apiURL + "/get-infectious-status-from-infectious-status-filter";
-    
+
     // Force the dates without time to UTC
     // var colJourneeExploitation = args.cols.filter(x => x.field == "journee_exploitation")[0] ;
     // colJourneeExploitation.filterValue = Utils.forceDateToUTC(colJourneeExploitation.filterValue);
@@ -54,28 +54,25 @@ export class InfectiousStatusService {
     // args.dateFin = Utils.forceDateToUTC(args.dateFin);
 
     return this.http.post<any>(
-      url, 
+      url,
       {
         "infectiousStatus":infectiousStatus,
         "includeComplexProperties":includeComplexProperties
       }
     )
-    .pipe(map(res => {      
-      if (res != null) {
-        return new InfectiousStatus(res);
-      } else {
-        return null;
-      }
-    })) 
+    .pipe(map(res => {
+      return this.fromJSONArrayToInfectiousStatusArray(res);
+    }))
     .pipe(
     catchError(this.errorHandlerService.handleError(`geInfectiousStatusFromInfectiousStatusFilter()`, null))
     );
   }
 
+
   update(infectiousStatus:InfectiousStatus) {
 
     const url = this.apiURL + "/update";
-    
+
     // Force the dates without time to UTC
     // var colJourneeExploitation = args.cols.filter(x => x.field == "journee_exploitation")[0] ;
     // colJourneeExploitation.filterValue = Utils.forceDateToUTC(colJourneeExploitation.filterValue);
@@ -83,20 +80,25 @@ export class InfectiousStatusService {
     // args.dateFin = Utils.forceDateToUTC(args.dateFin);
 
     return this.http.post<any>(
-      url, 
+      url,
       infectiousStatus
     )
-    .pipe(map(res => {      
+    .pipe(map(res => {
       if (res != null) {
         return new InfectiousStatus(res);
       } else {
         return null;
       }
-    })) 
+    }))
     .pipe(
     catchError(this.errorHandlerService.handleError(`InfectiousStatusService.update()`, null))
     );
-    
+
+  }
+
+  fromJSONArrayToInfectiousStatusArray(array: Array<Object>): InfectiousStatus[] {
+    let res = array.map(res => new InfectiousStatus(res));
+    return res
   }
 
 }

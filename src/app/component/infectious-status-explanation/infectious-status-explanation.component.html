@@ -1,1 +1,42 @@
-<p>infectious-status-explanation works!</p>
+<p-timeline [value]="timeline"  styleClass="customized-timeline">
+    <!-- <ng-template pTemplate="marker" let-elt>
+        <span class="custom-marker shadow-2" [style.backgroundColor]="elt.color">
+            <i [ngClass]="elt.icon"></i>
+        </span>
+    </ng-template> -->
+
+    <ng-template pTemplate="content" let-elt>
+        <p-card>
+            <ul>
+                <ng-container *ngFor="let item of elt.events">
+                  <li>
+                    {{item.title}}
+                  </li>
+                </ng-container>
+            </ul>
+        </p-card>
+    </ng-template>
+
+    <ng-template pTemplate="opposite" let-elt>
+        {{elt.date | date:'dd/MM/yyyy HH:mm'}}
+    </ng-template>
+
+
+
+</p-timeline>
+
+<!-- <p-timeline [value]="timelineNodes" align="alternate" styleClass="customized-timeline">
+    <ng-template pTemplate="marker" let-elt>
+        <span class="custom-marker shadow-2" [style.backgroundColor]="elt.color">
+            <i [ngClass]="elt.icon"></i>
+        </span>
+    </ng-template>
+    <ng-template pTemplate="content" let-elt>
+        <p-card [header]="elt.title" [subheader]="elt.date">
+            <img *ngIf="elt.image" [src]="'assets/' + elt.image" [alt]="elt.name" width="200" class="shadow-2" />
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
+            <button pButton label="Read more" class="p-button-text"></button>
+        </p-card>
+    </ng-template>
+</p-timeline> -->

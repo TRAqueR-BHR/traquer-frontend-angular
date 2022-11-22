@@ -64,10 +64,10 @@ body {
 
     .custom-form-grid {
         // @extend .grid, .formgrid, .p-fluid, .p-2;
-        @extend .pl-6, .pr-4; // need to add p-fluid manually      
+        @extend .pl-6, .pr-4; // need to add p-fluid manually
         // background: rgba(143, 199, 252,0.2);
-        background: radial-gradient(circle, 
-            rgba(143, 199, 252,0.2) 0%, 
+        background: radial-gradient(circle,
+            rgba(143, 199, 252,0.2) 0%,
             rgba(143, 199, 252,0.2) 80%,
             rgba(255,255,255,1) 100%);
     }
@@ -79,4 +79,43 @@ body {
 
 .custom-label {
     @extend .font-medium, .text-900;
+}
+
+// #################### //
+// For timeline - BEGIN //
+// #################### //
+.custom-marker {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+::ng-deep {
+    .p-timeline-event-content,
+    .p-timeline-event-opposite {
+        line-height: 1;
+    }
+}
+// #################### //
+// For timeline - ENDOF //
+// #################### //
+
+// Remove bullets for lists in a timeline
+.p-timeline-event-content {
+    ul{
+        // list-style: none;
+        margin-top:0;
+    }
+    .p-card .p-card-body {
+        padding: 0rem 0rem 0rem .5rem;
+    }
+
+    .p-card .p-card-content {
+        padding: 0rem 0rem 0rem .5rem;
+    }
 }

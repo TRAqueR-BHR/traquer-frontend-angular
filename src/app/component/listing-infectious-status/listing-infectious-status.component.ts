@@ -17,6 +17,7 @@ import { InfectiousStatusExplanationComponent } from '../infectious-status-expla
 import { EventRequiringAttention } from 'src/app/model/EventRequiringAttention';
 import { ResponsesToEventComponent } from '../responses-to-event/responses-to-event.component';
 import { EventRequiringAttentionService } from 'src/app/service/event-requiring-attention.service';
+import { Patient } from 'src/app/model/Patient';
 
 @Component({
   selector: 'app-listing-infectious-status',
@@ -31,7 +32,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
   ligneSelectionnee:any;
 
   totalRecords: number = 0;
-  
+
   // This is a workaround for not being able to reference the 'filterValue' entries in queryParams.cols
   filterValues: any = {};
 
@@ -49,8 +50,8 @@ export class ListingInfectiousStatusComponent implements OnInit {
   timerOnRefreshDataAfterChangesOnFilter:any;
 
   splitButtonDefPerEventType:any = {};
-  
-  actionMenuItemsFor:any = {}; // a Map of (EVENT_REQUIRING_ATTENTION_TYPE => MenuItem[])  
+
+  actionMenuItemsFor:any = {}; // a Map of (EVENT_REQUIRING_ATTENTION_TYPE => MenuItem[])
 
   constructor(
     private infectiousStatusService:InfectiousStatusService,
@@ -63,7 +64,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+
     this.prepareOptionsTrueFalse();
     this.prepareOptionsINFECTIOUS_STATUS_TYPE();
     this.prepareOptionsINFECTIOUS_AGENT_CATEGORY();
@@ -87,72 +88,72 @@ export class ListingInfectiousStatusComponent implements OnInit {
     let defaultResponseType:RESPONSE_TYPE;
     let secondaryResponseTypes:RESPONSE_TYPE[] = [];
 
-    if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.analysis_done) {      
+    if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.analysis_done) {
       defaultResponseType = RESPONSE_TYPE.acknowledge;
       secondaryResponseTypes = [
         RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
-      ] 
-    } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.analysis_in_progress) {      
-      defaultResponseType = RESPONSE_TYPE.acknowledge;    
+      ]
+    } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.analysis_in_progress) {
+      defaultResponseType = RESPONSE_TYPE.acknowledge;
       secondaryResponseTypes = [
         RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
-      ] 
-    } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.analysis_late) {      
-      defaultResponseType = RESPONSE_TYPE.send_a_reminder;    
+      ]
+    } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.analysis_late) {
+      defaultResponseType = RESPONSE_TYPE.send_a_reminder;
       secondaryResponseTypes = [
         RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
-      ] 
-    } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.hospitalization) {      
-    
+      ]
+    } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.hospitalization) {
+
       if (statusType == INFECTIOUS_STATUS_TYPE.carrier) {
         defaultResponseType = RESPONSE_TYPE.isolation_in_same_unit;
         secondaryResponseTypes = [
           RESPONSE_TYPE.isolation_in_special_unit,
           RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
-        ] 
+        ]
       } else if (statusType == INFECTIOUS_STATUS_TYPE.contact) {
         defaultResponseType = RESPONSE_TYPE.request_analysis;
         secondaryResponseTypes = [
           RESPONSE_TYPE.acknowledge,
           RESPONSE_TYPE.isolation_in_same_unit,
           RESPONSE_TYPE.isolation_in_special_unit,
-        ] 
+        ]
       } else if (statusType == INFECTIOUS_STATUS_TYPE.not_at_risk) {
         defaultResponseType = RESPONSE_TYPE.acknowledge;
-        secondaryResponseTypes = [          
+        secondaryResponseTypes = [
           RESPONSE_TYPE.request_analysis,
-        ] 
-      } 
+        ]
+      }
 
     } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.new_status) {
-      
+
       if (statusType == INFECTIOUS_STATUS_TYPE.carrier) {
         defaultResponseType = RESPONSE_TYPE.confirm;
-        secondaryResponseTypes = [          
+        secondaryResponseTypes = [
           RESPONSE_TYPE.declare_outbreak,
           RESPONSE_TYPE.request_analysis,
           RESPONSE_TYPE.isolation_in_same_unit,
           RESPONSE_TYPE.isolation_in_special_unit,
-        ] 
+        ]
       } else if (statusType == INFECTIOUS_STATUS_TYPE.contact) {
         defaultResponseType = RESPONSE_TYPE.confirm;
-        secondaryResponseTypes = [          
+        secondaryResponseTypes = [
           RESPONSE_TYPE.request_analysis,
           RESPONSE_TYPE.isolation_in_same_unit,
           RESPONSE_TYPE.isolation_in_special_unit,
-        ] 
+        ]
       } else if (statusType == INFECTIOUS_STATUS_TYPE.not_at_risk) {
         defaultResponseType = RESPONSE_TYPE.confirm;
-        secondaryResponseTypes = [          
+        secondaryResponseTypes = [
           RESPONSE_TYPE.request_analysis,
-        ] 
-      } 
-      
+        ]
+      }
+
     }
 
     if (defaultResponseType == null) {
       throw new Error(
-        `Unsupported INFECTIOUS_STATUS_TYPE[${INFECTIOUS_STATUS_TYPE[statusType]}] for 
+        `Unsupported INFECTIOUS_STATUS_TYPE[${INFECTIOUS_STATUS_TYPE[statusType]}] for
         EVENT_REQUIRING_ATTENTION_TYPE[${EVENT_REQUIRING_ATTENTION_TYPE[eventType]}]`
       )
     }
@@ -167,73 +168,73 @@ export class ListingInfectiousStatusComponent implements OnInit {
   prepareOptionsTrueFalse(){
     this.trueFalseSelectItems.push(
       {
-        label: this.translationService.getTranslation("null_option_label"), 
+        label: this.translationService.getTranslation("null_option_label"),
         value: null
       }
     );
     this.trueFalseSelectItems.push(
       {
-        label: this.translationService.getTranslation("true"), 
+        label: this.translationService.getTranslation("true"),
         value: true
       }
-    );     
+    );
     this.trueFalseSelectItems.push(
       {
-        label: this.translationService.getTranslation("false"), 
+        label: this.translationService.getTranslation("false"),
         value: false
       }
-    ); 
+    );
   }
 
   prepareOptionsINFECTIOUS_STATUS_TYPE() {
     this.enumService.listAllPossibleValues(INFECTIOUS_STATUS_TYPE).subscribe(
       res => {
-          this.optionsINFECTIOUS_STATUS_TYPE = 
+          this.optionsINFECTIOUS_STATUS_TYPE =
             this.selectItemService.createSelectItemsForEnums(
               res,
               INFECTIOUS_STATUS_TYPE,
               true // null options
-              );         
-      }       
-    );      
+              );
+      }
+    );
   }
 
   prepareOptionsINFECTIOUS_AGENT_CATEGORY() {
     this.enumService.listAllPossibleValues(INFECTIOUS_AGENT_CATEGORY).subscribe(
       res => {
-          this.optionsINFECTIOUS_AGENT_CATEGORY = 
+          this.optionsINFECTIOUS_AGENT_CATEGORY =
             this.selectItemService.createSelectItemsForEnums(
               res,
               INFECTIOUS_AGENT_CATEGORY,
               true, // null options
               "",
               "_shortname"
-              );         
-      }       
-    );      
+              );
+      }
+    );
   }
 
   prepareOptionsEVENT_REQUIRING_ATTENTION_TYPE() {
     this.enumService.listAllPossibleValues(EVENT_REQUIRING_ATTENTION_TYPE).subscribe(
       res => {
-          this.optionsEVENT_REQUIRING_ATTENTION_TYPE = 
+          this.optionsEVENT_REQUIRING_ATTENTION_TYPE =
             this.selectItemService.createSelectItemsForEnums(
               res,
               EVENT_REQUIRING_ATTENTION_TYPE,
               true, // null options
               "EVENT_REQUIRING_ATTENTION_TYPE_"
-              );         
-      }       
-    );      
+              );
+      }
+    );
   }
 
   intializeTablesPreferences() {
 
     // Initialize the query params
-    this.queryParams = {    
-      pageSize:environment.numberOfResultsForDashboard,     
-      pageNum:0, 
-      cols:[     
+    this.queryParams = {
+      pageSize:environment.numberOfResultsForDashboard,
+      pageNum:0,
+      cols:[
         ]
     };
 
@@ -271,8 +272,8 @@ export class ListingInfectiousStatusComponent implements OnInit {
     //   sorting:null, // null, 1, -1
     //   sortingRank:null,
     //   width:"2em"
-    // },              
-    
+    // },
+
     const infectiousStatusColDef = {
       field:"infectious_status",
       nameInSelect:"infectious_status",
@@ -424,7 +425,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
       sortingRank:null,
       width:"2em"
     };
-    
+
     const birthdateColDef = {
       field:"birthdate",
       nameInSelect:"birthdate",
@@ -500,7 +501,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
     const outbreakNameColDef = {
       field:"outbreak_name",
       nameInSelect:"outbreak_name",
-      nameInWhereClause:"o.name", 
+      nameInWhereClause:"o.name",
       header: this.translationService.getTranslation("outbreak"),
       attributeType:"string",
       sortable: false,
@@ -520,7 +521,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
     const actionColDef = {
       field:"action",
       nameInSelect:null,
-      nameInWhereClause:null, 
+      nameInWhereClause:null,
       header: this.translationService.getTranslation("action"),
       attributeType:null,
       sortable: false,
@@ -543,7 +544,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
       this.queryParams.cols.push(lastnameColDef);
       this.queryParams.cols.push(birthdateColDef);
     }
-    
+
     this.queryParams.cols.push(outbreakNameColDef);
     this.queryParams.cols.push(infectiousStatusColDef);
     this.queryParams.cols.push(infectiousAgentColDef);
@@ -558,10 +559,10 @@ export class ListingInfectiousStatusComponent implements OnInit {
     this.queryParams.cols.push(actionColDef);
 
     // this.queryParams.cols.push( {
-    //   field: 'view_details',                      
-    //   header: "Voir le détail",      
-    //   columnIsDisplayed:true,  
-    //   width:"2em"          
+    //   field: 'view_details',
+    //   header: "Voir le détail",
+    //   columnIsDisplayed:true,
+    //   width:"2em"
     // });
 
     // Initialize the filter proxy 'filterValues'
@@ -585,7 +586,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
   //   because we initialize the filters input. Because of this the event passed
   //   to the function doesnt contain the filters that are not null but not modified
   updateFiltering(andRefrehData:boolean = true) {
-    
+
     // loval variables for the articial filters
     var typesAnomalies = [];
 
@@ -607,82 +608,82 @@ export class ListingInfectiousStatusComponent implements OnInit {
       // Get the corresponding column in queryParams
       var col = this.queryParams.cols.filter(x => x.field == attrName)[0] ;
 
-      var attrValue = this.filterValues[attrName];       
+      var attrValue = this.filterValues[attrName];
 
       if (attrValue == null || attrValue.length == 0) {
-        col.filterIsActive = false;  
+        col.filterIsActive = false;
         col.filterValue = attrValue;
       } else {
-        if (col.attributeType.indexOf("text") > -1) {        
+        if (col.attributeType.indexOf("text") > -1) {
           if (attrValue.length < col.minimumCharactersNeeded) {
             col.filterIsActive = false;
           } else {
             col.filterValue = attrValue;
             col.filterIsActive = true;
           }
-        } else if (col.attributeType.indexOf("number") > -1) {         
-          
-         
+        } else if (col.attributeType.indexOf("number") > -1) {
+
+
           // The columns with numeric type but a boolean filter are interpreted as filters on the anomaly type.
           //  'false' is interpreted as null
           if (colonnesNumeriquesAvecSelecteurBoolees.includes(col.field)) {
 
             if (attrValue == true) {
               col.filterValue = attrValue;
-              
-  
-             
+
+
+
             } // We consider false to be null
             else if (attrValue == false) {
               col.filterValue = null;
-            } 
-          }        
+            }
+          }
           // For 'normal' numeric types, just convert to int
           else {
             col.filterIsActive = true;
             col.filterValue = parseInt(attrValue);
-          }         
+          }
 
         } else {
           col.filterValue = attrValue;
           col.filterIsActive = true;
         }
       }
-    }  
+    }
 
     // We don't want to update the list every time we press a key
     if (andRefrehData) {
       clearTimeout(this.timerOnRefreshDataAfterChangesOnFilter);
-      this.timerOnRefreshDataAfterChangesOnFilter = setTimeout(() => {              
+      this.timerOnRefreshDataAfterChangesOnFilter = setTimeout(() => {
         this.refreshData()
       }, 1000);
-    }         
+    }
 
   }
 
 
   refreshData() {
 
-    // Copy the values originating from the parent component to the query params 
+    // Copy the values originating from the parent component to the query params
     console.log(this.queryParams);
 
     this.loading = true;
     this.infectiousStatusService.getInfectiousStatusForListing(this.queryParams).subscribe(res => {
       if (res!= null) {
-        console.log(res.rows);                   
-        this.data = res.rows;        
+        console.log(res.rows);
+        this.data = res.rows;
         this.totalRecords = res.totalRecords;
       }
       this.loading = false;
-    });      
+    });
 
   }
 
-    // NOTE: Set 'lazyLoadOnInit' to false if you don't want this function to be called twice the 
+    // NOTE: Set 'lazyLoadOnInit' to false if you don't want this function to be called twice the
   //         first time the table is displayed
-  updateSorting(event: LazyLoadEvent) {    
+  updateSorting(event: LazyLoadEvent) {
 
-    this.queryParams.pageNum =  event.first! / event.rows!; // 'event.first' corresponds to an offset 
+    this.queryParams.pageNum =  event.first! / event.rows!; // 'event.first' corresponds to an offset
                                                           //    starting at 0 for the fist row of the first page.
 
     // Clear previous sortings and fill in the query params with the given sortings
@@ -692,30 +693,30 @@ export class ListingInfectiousStatusComponent implements OnInit {
       for (let oneSort of event.multiSortMeta) {
         var attrName = oneSort.field;
         console.log(`sortOn[${attrName}]`)
-        if (oneSort.order == 1 || oneSort.order == -1 ) {          
+        if (oneSort.order == 1 || oneSort.order == -1 ) {
           var col = this.queryParams.cols.filter(x => x.field == attrName,
                                                 this.queryParams.cols)[0] ;
-          col.sorting = oneSort.order;    
-          col.sortingRank = sortingRank++;        
+          col.sorting = oneSort.order;
+          col.sortingRank = sortingRank++;
         } else {
           // Left to null
-        }        
+        }
       }
-    }   
+    }
 
     // console.log(this.queryParams);
     this.refreshData();
   }
 
   clearSortingsInQueryParams() {
-    for (let col of this.queryParams.cols) {        
+    for (let col of this.queryParams.cols) {
       col.sorting = null;
       col.sortingRank = null;
     }
   }
 
-  updateColumnsSelection(event) {    
-    for (let attrName of this.selectableColumns.map(x => x.value)) {      
+  updateColumnsSelection(event) {
+    for (let attrName of this.selectableColumns.map(x => x.value)) {
 
       // Get the corresponding column in queryParams
       var col = this.queryParams.cols.filter(x => x.field == attrName,
@@ -725,21 +726,30 @@ export class ListingInfectiousStatusComponent implements OnInit {
       } else {
         // Hide the column
         col.columnIsDisplayed = false;
-      }                                             
+      }
     }
 
   }
 
-  showInfectiousStatusExplanation(event) {
+  showInfectiousStatusExplanation(rowData:any) {
+
+    let dialogHeader = `
+      ${this.translationService.getTranslation("history")}
+      ${rowData.firstname} ${rowData.lastname}
+    `
+
     const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
-        header: this.translationService.getTranslation("infectious_status_explanation"),
+        data: {
+          "patient": new Patient({id:rowData["patient_id"]})
+        },
+        header: dialogHeader,
         width: '85%'
     });
   }
 
 
   displayDialogForUserResponse(eventId:string) {
-    
+
     this.eventRequiringAttentionService.getEventRequiringAttention(eventId).subscribe(
       eventRequiringAttention => {
         if (eventRequiringAttention != null) {
@@ -754,7 +764,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
 
           ref.onClose.subscribe(res=> {
             this.refreshData();
-          }) 
+          })
         }
       }
     );

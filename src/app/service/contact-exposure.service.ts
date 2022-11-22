@@ -17,7 +17,7 @@ import { ContactExposure } from '../model/ContactExposure';
   providedIn: 'root'
 })
 export class ContactExposureService {
-  
+
   private apiURL = environment.apiURL + '/contact-exposure';  // URL to web api
 
   constructor(private http: HttpClient,
@@ -26,18 +26,18 @@ export class ContactExposureService {
   simulateContactExposures(
     asso:OutbreakUnitAsso
   ): Observable<ContactExposure[]> {
-    
+
     const url = this.apiURL + "/simulate-contact-exposures";
-    
+
     return this.http.post<any[]>(
-      url, 
+      url,
       {
         "outbreakUnitAsso":asso
       }
     )
-    .pipe(map(res => { 
+    .pipe(map(res => {
       return this.fromJSONArrayToContactExposureArray(res);
-    })) 
+    }))
     .pipe(
       catchError(this.errorHandlerService.handleError(`simulateContactExposures()`, null))
     );
@@ -46,11 +46,11 @@ export class ContactExposureService {
   generateContactExposuresAndInfectiousStatuses(
     asso:OutbreakUnitAsso
   ): Observable<boolean> {
-    
+
     const url = this.apiURL + "/generate-contact-exposures-and-infectious-statuses";
-    
+
     return this.http.post<any[]>(
-      url, 
+      url,
       {
         "outbreakUnitAsso":asso
       }
@@ -60,8 +60,20 @@ export class ContactExposureService {
     );
   }
 
+  getPatientExposuresForListing(patient:Patient): Observable<any[]> {
+    const url = this.apiURL + "/patient-exposures-for-listing";
+
+    return this.http.post<ResultOfQueryWithParams>(url, patient)
+    .pipe(map(res => {
+      return Utils.convertPlainDataframe(res);
+    }))
+    .pipe(
+    catchError(this.errorHandlerService.handleError(`getPatientExposuresForListing()`, null))
+    );
+  }
+
   fromJSONArrayToContactExposureArray(array: Array<Object>): ContactExposure[] {
-    let res = array.map(res => new ContactExposure(res));    
+    let res = array.map(res => new ContactExposure(res));
     return res
-  } 
+  }
 }

@@ -30,9 +30,9 @@ export class InfectiousStatusEditComponent implements OnInit {
   // Resources loaded checker
   resourcesLoadedChecker = {
     resourcesAreLoaded: false,
-    resourcesLoaded:{      
+    resourcesLoaded:{
       outbreakUnitAssos:false
-    }    
+    }
   }
 
   constructor(
@@ -52,19 +52,21 @@ export class InfectiousStatusEditComponent implements OnInit {
   }
 
   getInfectiousStatusAndOutbreaks(){
-    
+
     if (this.infectiousStatus != null) {
       this.getOutbreakInfectiousStatusAssosFromInfectiousStatus();
     }
-    else if (this.debug === true){      
-      const id = this.route.snapshot.paramMap.get('infectiousStatusId'); 
+    else if (this.debug === true){
+      const id = this.route.snapshot.paramMap.get('infectiousStatusId');
       this.infectiousStatusService.geInfectiousStatusFromInfectiousStatusFilter(
           new InfectiousStatus({"id":id}),true
         )
         .subscribe(res => {
-          this.infectiousStatus = res;
-          console.log(this.infectiousStatus);
-          this.getOutbreakInfectiousStatusAssosFromInfectiousStatus();
+          if (res != null) {
+            this.infectiousStatus = res[0];
+            console.log(this.infectiousStatus);
+            this.getOutbreakInfectiousStatusAssosFromInfectiousStatus();
+          }
         });
     }
   }
@@ -79,30 +81,30 @@ export class InfectiousStatusEditComponent implements OnInit {
   prepareOptionsINFECTIOUS_STATUS_TYPE() {
     this.enumService.listAllPossibleValues(INFECTIOUS_STATUS_TYPE).subscribe(
       res => {
-          this.optionsINFECTIOUS_STATUS_TYPE = 
+          this.optionsINFECTIOUS_STATUS_TYPE =
             this.selectItemService.createSelectItemsForEnums(
               res,
               INFECTIOUS_STATUS_TYPE,
               false, // null options
-              );         
-      }       
-    );      
+              );
+      }
+    );
   }
 
   prepareOptionsINFECTIOUS_AGENT_CATEGORY() {
     this.enumService.listAllPossibleValues(INFECTIOUS_AGENT_CATEGORY).subscribe(
       res => {
-          this.optionsINFECTIOUS_AGENT_CATEGORY = 
+          this.optionsINFECTIOUS_AGENT_CATEGORY =
             this.selectItemService.createSelectItemsForEnums(
               res,
               INFECTIOUS_AGENT_CATEGORY,
               false, // null options
-              );         
-      }       
-    );      
+              );
+      }
+    );
   }
 
-  setDebuggingComponentFlag() {    
+  setDebuggingComponentFlag() {
     if (this.route.snapshot.url.length > 0 && this.route.snapshot.url[0].path == "debug4") {
       this.debug = true;
     }

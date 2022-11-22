@@ -15,6 +15,8 @@ export const environment = {
   jwt_name: "traquer_jwt",
   cryptPwdHttpHeaderKey: "crypt_pwd",
   cryptPwdLocalStorageKey: "traquer_crypt_pwd",
+  datetime_format:"dd/MM/yyyy HH:mm",
+  date_format:"dd/MM/yyyy",
   defaultNumberOfResults:50,
   numberOfResultsForDeals: 50,
   numberOfResultsForDesigns: 25,

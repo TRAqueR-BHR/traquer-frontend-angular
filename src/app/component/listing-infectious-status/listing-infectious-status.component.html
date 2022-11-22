@@ -1,23 +1,23 @@
-<p-table [columns]="queryParams.cols" [value]="data" 
-    [lazy]="true" [lazyLoadOnInit]="false" (onLazyLoad)="updateSorting($event)" 
+<p-table [columns]="queryParams.cols" [value]="data"
+    [lazy]="true" [lazyLoadOnInit]="false" (onLazyLoad)="updateSorting($event)"
     [paginator]="true" paginatorPosition="both"
     sortMode="multiple"  [scrollable]="true" scrollHeight="75vh"
-    [rows]="queryParams.pageSize" [totalRecords]="totalRecords" [loading]="loading" 
-    styleClass="table_with_centered_content with-infinite-paginator">   
+    [rows]="queryParams.pageSize" [totalRecords]="totalRecords" [loading]="loading"
+    styleClass="table_with_centered_content with-infinite-paginator">
 
     <!-- Columns selection and download -->
     <ng-template pTemplate="caption">
         <div style="text-align:left">
-            <p-multiSelect [options]="selectableColumns" [(ngModel)]="selectedColumns" 
-                        selectedItemsLabel="{0} colonnes sélectionnées" [style]="{minWidth: '200px'}" 
+            <p-multiSelect [options]="selectableColumns" [(ngModel)]="selectedColumns"
+                        selectedItemsLabel="{0} colonnes sélectionnées" [style]="{minWidth: '200px'}"
                         defaultLabel="Choisir les colonnes à afficher" (ngModelChange)="updateColumnsSelection($event)"></p-multiSelect>
-            
+
             <div class="p-d-flex float-right">
                 <div class="p-mr-0">
                     <p-button *ngIf="canDisplayDownloadCSVButton" label="Export .csv"
                         icon="fas fa-download" (click)="exportCSV()"></p-button>
                 </div>
-            </div>    
+            </div>
 
         </div>
     </ng-template>
@@ -28,8 +28,8 @@
             <ng-container *ngFor="let col of columns" >
                 <ng-container *ngIf="col.columnIsDisplayed" [ngSwitch]="col.field">
                     <col *ngSwitchDefault [ngStyle]="{'width': col.width}"/>
-                </ng-container>                
-            </ng-container>                            
+                </ng-container>
+            </ng-container>
         </colgroup>
     </ng-template> -->
 
@@ -42,82 +42,82 @@
                     <th *ngIf="col.sortable" [pSortableColumn]="col.field">
                         {{col.header}}
                         <p-sortIcon *ngIf="col.sortable" [field]="col.field"></p-sortIcon>
-                    </th>    
+                    </th>
                     <th *ngIf="!col.sortable">
                         {{col.header}}
-                    </th>    
-                </ng-container>                
-            </ng-container>            
+                    </th>
+                </ng-container>
+            </ng-container>
         </tr>
 
         <!-- Filters -->
         <tr>
             <ng-container *ngFor="let col of columns" >
                 <ng-container *ngIf="col.columnIsDisplayed" >
-                    <th *ngIf="col.filterable" [ngSwitch]="true">                                                                              
-                        <input *ngSwitchDefault pInputText type="text" 
+                    <th *ngIf="col.filterable" [ngSwitch]="true">
+                        <input *ngSwitchDefault pInputText type="text"
                             [(ngModel)]="filterValues[col.field]"
-                            (keyup)="updateFiltering()"> 
-                        <p-dropdown *ngSwitchCase="col.field === 'infectious_status'" 
+                            (keyup)="updateFiltering()">
+                        <p-dropdown *ngSwitchCase="col.field === 'infectious_status'"
                             [options]="optionsINFECTIOUS_STATUS_TYPE" appendTo="body"
                             [(ngModel)]="filterValues[col.field]" filterPlaceholder="qq"
-                            (onChange)="updateFiltering()"></p-dropdown> 
-                        <p-dropdown *ngSwitchCase="col.field === 'infectious_agent'" 
+                            (onChange)="updateFiltering()"></p-dropdown>
+                        <p-dropdown *ngSwitchCase="col.field === 'infectious_agent'"
                             [options]="optionsINFECTIOUS_AGENT_CATEGORY" appendTo="body"
                             [(ngModel)]="filterValues[col.field]" filterPlaceholder="qq"
-                            (onChange)="updateFiltering()"></p-dropdown> 
-                        <p-dropdown *ngSwitchCase="col.field === 'event_type'" 
-                            [options]="optionsEVENT_REQUIRING_ATTENTION_TYPE" 
+                            (onChange)="updateFiltering()"></p-dropdown>
+                        <p-dropdown *ngSwitchCase="col.field === 'event_type'"
+                            [options]="optionsEVENT_REQUIRING_ATTENTION_TYPE"
                             appendTo="body"
-                            [(ngModel)]="filterValues[col.field]" 
+                            [(ngModel)]="filterValues[col.field]"
                             filterPlaceholder="qq"
-                            (onChange)="updateFiltering()"></p-dropdown> 
-                        <p-calendar *ngSwitchCase="col.field === 'journee_exploitation'" 
-                            [showTime]="false"  [showButtonBar]="true" 
-                            dateFormat="dd/mm/yy" 
+                            (onChange)="updateFiltering()"></p-dropdown>
+                        <p-calendar *ngSwitchCase="col.field === 'journee_exploitation'"
+                            [showTime]="false"  [showButtonBar]="true"
+                            dateFormat="dd/mm/yy"
                             [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
                             (onSelect)="updateFiltering()" (onClearClick)="updateFiltering()"
-                            appendTo="body" [locale]="translationForPrimengCalendar" 
-                            [(ngModel)]="filterValues[col.field]" 
+                            appendTo="body" [locale]="translationForPrimengCalendar"
+                            [(ngModel)]="filterValues[col.field]"
                             ></p-calendar>
-                        <p-dropdown 
-                            *ngSwitchCase="col.field === 'is_confirmed' 
+                        <p-dropdown
+                            *ngSwitchCase="col.field === 'is_confirmed'
                                         || col.field === 'is_current'
-                                        || col.field === 'event_is_pending' "  
+                                        || col.field === 'event_is_pending' "
                             [options]="trueFalseSelectItems"
-                            [(ngModel)]="filterValues[col.field]" 
+                            [(ngModel)]="filterValues[col.field]"
                             (onChange)="updateFiltering()">
-                        </p-dropdown> 
-                        <p-dropdown *ngSwitchCase="col.field === 'verifiee'" 
+                        </p-dropdown>
+                        <p-dropdown *ngSwitchCase="col.field === 'verifiee'"
                             [options]="trueFalseSelectItems" appendTo="body"
                             [(ngModel)]="filterValues[col.field]" filterPlaceholder="qq"
-                            (onChange)="updateFiltering()"></p-dropdown> 
-                        
+                            (onChange)="updateFiltering()"></p-dropdown>
+
                     </th>
                     <th *ngIf="!col.filterable" ></th>
-                </ng-container>                
+                </ng-container>
             </ng-container>
         </tr>
-    </ng-template>        
+    </ng-template>
     <!-- Values -->
-    <ng-template pTemplate="body" let-rowData let-columns="columns">        
-        <tr [pSelectableRow]="rowData"> 
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
             <ng-container  *ngFor="let col of columns" >
                 <ng-container *ngIf="col.columnIsDisplayed" >
-                    <td [ngSwitch]="col.field">                        
-                        <span *ngSwitchDefault>{{rowData[col.nameInSelect]}}</span> 
-                        <div  *ngSwitchCase="'infectious_status'" 
+                    <td [ngSwitch]="col.field">
+                        <span *ngSwitchDefault>{{rowData[col.nameInSelect]}}</span>
+                        <div  *ngSwitchCase="'infectious_status'"
                             class="flex align-content-center">
                             <span class="flex align-items-center justify-content-center">
                                 {{rowData[col.nameInSelect] | getTranslation}}
                             </span>
-                            <button  pButton pRipple type="button" 
-                                (click)="showInfectiousStatusExplanation($event)"
-                                icon="fas fa-info" 
+                            <button  pButton pRipple type="button"
+                                (click)="showInfectiousStatusExplanation(rowData)"
+                                icon="fas fa-info"
                                 class="p-button-rounded p-button-text p-button-sm"></button>
-                        </div>  
+                        </div>
                         <!-- <span *ngSwitchCase="'infectious_status'">
-                            {{rowData[col.nameInSelect] | getTranslation}}                            
+                            {{rowData[col.nameInSelect] | getTranslation}}
                         </span> -->
                         <span *ngSwitchCase="'infectious_agent'">{{rowData[col.nameInSelect] | concat:'_shortname' | getTranslation}}</span>
                         <span *ngSwitchCase="'ref_time'">{{rowData[col.nameInSelect] | date:'dd/MM/yyyy HH:mm'}}</span>
@@ -127,49 +127,48 @@
                         <span *ngSwitchCase="'patient_is_hospitalized'">{{rowData[col.nameInSelect] | getTranslation}}</span>
                         <span *ngSwitchCase="'event_type'">
                             {{
-                                rowData[col.nameInSelect] | 
-                                concatBefore:'EVENT_REQUIRING_ATTENTION_TYPE_' | 
+                                rowData[col.nameInSelect] |
+                                concatBefore:'EVENT_REQUIRING_ATTENTION_TYPE_' |
                                 getTranslation
                             }}
                         </span>
                         <span *ngSwitchCase="'event_is_pending'">{{rowData[col.nameInSelect] | getTranslation}}</span>
-                        <p-checkbox *ngSwitchCase="'verifiee'"  
-                            (onChange)="toggleCourseVerifiee($event,rowData)" 
+                        <p-checkbox *ngSwitchCase="'verifiee'"
+                            (onChange)="toggleCourseVerifiee($event,rowData)"
                             [(ngModel)]="rowData[col.nameInSelect]"
-                            [binary]="true"></p-checkbox> 
+                            [binary]="true"></p-checkbox>
 
                         <button  *ngSwitchCase="'action'"
-                            pButton pRipple type="button" 
+                            pButton pRipple type="button"
                             (click)="displayDialogForUserResponse(rowData.event_id)"
-                            icon="fas fa-hand-rock" 
+                            icon="fas fa-hand-rock"
                             class="p-button-rounded p-button-text"></button>
-                        
-                        <!-- <p-splitButton 
+
+                        <!-- <p-splitButton
                             *ngSwitchCase="'action'"
                             pTooltip="{{'RESPONSE_TYPE_acknowledge' | getTranslation}}"
-                            icon="fas fa-check"                                 
-                            [model]="actionMenuItemsFor[rowData['event_type']]" 
+                            icon="fas fa-check"
+                            [model]="actionMenuItemsFor[rowData['event_type']]"
                             styleClass="p-button-rounded p-button-sm"
                             (onClick)="acknowledgeEvent(rowData)">
                         </p-splitButton> -->
 
 
-                        <!-- <p-splitButton 
+                        <!-- <p-splitButton
                             *ngSwitchCase="'action'"
                             [pTooltip]="splitButtonDefPerEventType[rowData['event_type']][rowData['infectious_status']].defaultAction.toolTip"
-                            [icon]="splitButtonDefPerEventType[rowData['event_type']][rowData['infectious_status']].defaultAction.icon"                                 
-                            [model]="splitButtonDefPerEventType[rowData['event_type']][rowData['infectious_status']].secondaryActionsItems" 
+                            [icon]="splitButtonDefPerEventType[rowData['event_type']][rowData['infectious_status']].defaultAction.icon"
+                            [model]="splitButtonDefPerEventType[rowData['event_type']][rowData['infectious_status']].secondaryActionsItems"
                             styleClass="p-button-rounded p-button-sm"
                             (onClick)="splitButtonDefPerEventType[rowData['event_type']][rowData['infectious_status']].defaultAction.command(rowData)">
                         </p-splitButton> -->
 
-                       
-                        
+
+
                     </td>
-                </ng-container>                
-            </ng-container>            
+                </ng-container>
+            </ng-container>
         </tr>
     </ng-template>
-    
-</p-table>
 
+</p-table>

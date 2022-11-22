@@ -63,7 +63,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="infectious_status" datatype="html">
@@ -74,7 +74,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="confirmed?" datatype="html">
@@ -85,7 +85,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ref_time" datatype="html">
@@ -103,7 +103,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">20</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4977912145007192180" datatype="html">
@@ -114,93 +114,71 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/outbreak/outbreak-edit/outbreak-edit.component.html</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">61</context>
         </context-group>
         <note priority="1" from="description">save</note>
-      </trans-unit>
-      <trans-unit id="carrier" datatype="html">
-        <source>Porteur</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">1</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">22</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="contact" datatype="html">
-        <source>Contact</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">2</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">23</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="settings" datatype="html">
         <source>Paramètres</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">3</context>
+          <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
       <trans-unit id="general" datatype="html">
         <source>General</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">4</context>
+          <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
       <trans-unit id="home_page" datatype="html">
         <source>Accueil</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">5</context>
+          <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
       <trans-unit id="calendar" datatype="html">
         <source>Calendrier</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">6</context>
+          <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
       <trans-unit id="my_account" datatype="html">
         <source>Mon compte</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">7</context>
+          <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
       <trans-unit id="logout" datatype="html">
         <source>Déconnexion</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">8</context>
+          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="true" datatype="html">
         <source>Oui</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">9</context>
+          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="false" datatype="html">
         <source>Non</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">10</context>
+          <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="firstname" datatype="html">
         <source>Prénom</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">11</context>
+          <context context-type="linenumber">9</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/module/appuser/component/user-edit/user-edit.component.html</context>
@@ -215,7 +193,7 @@
         <source>Nom</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">12</context>
+          <context context-type="linenumber">10</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/module/appuser/component/user-edit/user-edit.component.html</context>
@@ -230,330 +208,407 @@
         <source>Date de naissance</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">13</context>
+          <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="infection" datatype="html">
         <source>Infection</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="carrier_or_contact" datatype="html">
         <source>Porteur/Contact</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="reference_time" datatype="html">
         <source>Heure de référence</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ARB_GRB" datatype="html">
         <source>BHRe ERG</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ARB_CPE" datatype="html">
         <source>BHRe EPC</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">18</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="not_at_risk" datatype="html">
-        <source>Pas à risque</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="carbapenemase_producing_enterobacteriaceae_shortname" datatype="html">
         <source>EPC</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">24</context>
+          <context context-type="linenumber">19</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">26</context>
+          <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
       <trans-unit id="vancomycin_resistant_enterococcus_shortname" datatype="html">
         <source>ERV</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">25</context>
+          <context context-type="linenumber">20</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
       <trans-unit id="current?" datatype="html">
         <source>Actuel ?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">24</context>
         </context-group>
       </trans-unit>
       <trans-unit id="hospitalized?" datatype="html">
         <source>Hospit. en cours ?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">25</context>
         </context-group>
       </trans-unit>
       <trans-unit id="current_unit_name" datatype="html">
         <source>UF actuelle</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="event_is_pending" datatype="html">
         <source>À traiter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="event_type" datatype="html">
         <source>Type d&apos;événement</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="outbreak" datatype="html">
         <source>Épisode</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="action" datatype="html">
         <source>Action</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">36</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="user_response_to_event" datatype="html">
         <source>Réponse à l&apos;événement</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="contact_cases_generated" datatype="html">
         <source>Cas contacts générés</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="infectious_status_updated" datatype="html">
         <source>Statut infectieux mis à jour</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="exposure" datatype="html">
+        <source>Exposition à un porteur</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="patient_history" datatype="html">
+        <source>Historique du patient</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="history" datatype="html">
+        <source>Historique</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stay" datatype="html">
+        <source>Séjour</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stay_begin" datatype="html">
+        <source>Début de séjour</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
           <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stay_end" datatype="html">
+        <source>Fin de séjour</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">40</context>
         </context-group>
       </trans-unit>
       <trans-unit id="null_option_label" datatype="html">
         <source>​</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="null" datatype="html">
         <source>​</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="EVENT_REQUIRING_ATTENTION_TYPE_hospitalization" datatype="html">
         <source>Nouvelle hospitalisation</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="EVENT_REQUIRING_ATTENTION_TYPE_new_status" datatype="html">
         <source>Nouveau statut infectieux</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="EVENT_REQUIRING_ATTENTION_TYPE_analysis_in_progress" datatype="html">
         <source>Analyse en cours</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="EVENT_REQUIRING_ATTENTION_TYPE_analysis_done" datatype="html">
         <source>Analyse faite</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="EVENT_REQUIRING_ATTENTION_TYPE_analysis_late" datatype="html">
         <source>Analyse en retard</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="RESPONSE_TYPE_acknowledge" datatype="html">
         <source>Vu (ne rien faire)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="RESPONSE_TYPE_confirm" datatype="html">
         <source>Confirmer statut</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="RESPONSE_TYPE_request_analysis" datatype="html">
         <source>Demander une analyse</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="RESPONSE_TYPE_confirm_and_request_analysis" datatype="html">
         <source>Confirmer le statut et demander une analyse</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="RESPONSE_TYPE_send_a_reminder" datatype="html">
         <source>Envoyer une relance</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
       <trans-unit id="RESPONSE_TYPE_isolation_in_same_unit" datatype="html">
         <source>Isoler le patient au sein de l&apos;UF</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="RESPONSE_TYPE_isolation_in_special_unit" datatype="html">
         <source>Transférer le patient à l&apos;UF d&apos;isolement</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="RESPONSE_TYPE_declare_outbreak" datatype="html">
         <source>Déclarer un nouvel épisode</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="molecular_analysis_carbapenemase_producing_enterobacteriaceae" datatype="html">
         <source>Analyse moléculaire EPC</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="bacterial_culture_carbapenemase_producing_enterobacteriaceae" datatype="html">
         <source>Culture EPC</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="molecular_analysis_vancomycin_resistant_enterococcus" datatype="html">
         <source>Analyse moléculaire ERV</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="bacterial_culture_vancomycin_resistant_enterococcus" datatype="html">
         <source>Culture ERV</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">65</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ANALYSIS_RESULT_VALUE_TYPE_positive" datatype="html">
         <source>Positif</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ANALYSIS_RESULT_VALUE_TYPE_negative" datatype="html">
         <source>Négatif</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="linenumber">70</context>
         </context-group>
       </trans-unit>
       <trans-unit id="SAMPLE_MATERIAL_TYPE_faeces" datatype="html">
         <source>Selles</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="OUTBREAK_CRITICITY_epidemic" datatype="html">
         <source>Épidemique</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">76</context>
         </context-group>
       </trans-unit>
       <trans-unit id="OUTBREAK_CRITICITY_non_epidemic" datatype="html">
         <source>Non épidemique</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">76</context>
+          <context context-type="linenumber">77</context>
         </context-group>
       </trans-unit>
       <trans-unit id="OUTBREAK_CRITICITY_dont_know" datatype="html">
         <source>Pas encore qualifié</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">77</context>
+          <context context-type="linenumber">78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="carbapenemase_producing_enterobacteriaceae" datatype="html">
         <source>Entérobactérie productrice de carbapénèmases (EPC)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">80</context>
+          <context context-type="linenumber">81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="vancomycin_resistant_enterococcus" datatype="html">
-        <source>Entérocoque Résistant à la Vancomycine (ERV)</source>
+        <source>Entérocoque résistant à la Vancomycine (ERV)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">81</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="not_at_risk" datatype="html">
+        <source>Pas à risque🍏</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="carrier" datatype="html">
+        <source>Porteur🍎</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="contact" datatype="html">
+        <source>Contact🍋</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="INFECTIOUS_STATUS_TYPE_not_at_risk" datatype="html">
+        <source>Pas à risque🍏</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="INFECTIOUS_STATUS_TYPE_carrier" datatype="html">
+        <source>Porteur🍎</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="INFECTIOUS_STATUS_TYPE_contact" datatype="html">
+        <source>Contact🍋</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">90</context>
         </context-group>
       </trans-unit>
       <trans-unit id="outbreak_mnemo" datatype="html">
@@ -570,11 +625,18 @@
           <context context-type="linenumber">26,27</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="outbreak_ref_time" datatype="html">
+        <source>Heure de référence de l&apos;épisode</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/outbreak/outbreak-edit/outbreak-edit.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="2830403447179135626" datatype="html">
         <source>Initialiser l&apos;épisode</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/outbreak/outbreak-edit/outbreak-edit.component.html</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">53</context>
         </context-group>
         <note priority="1" from="description">intialize_outbreak</note>
       </trans-unit>
