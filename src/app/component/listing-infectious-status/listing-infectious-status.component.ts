@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { LazyLoadEvent, MenuItem, SelectItem } from 'primeng/api';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { InfectiousStatusService } from 'src/app/service/infectious-status.service';
@@ -18,6 +18,7 @@ import { EventRequiringAttention } from 'src/app/model/EventRequiringAttention';
 import { ResponsesToEventComponent } from '../responses-to-event/responses-to-event.component';
 import { EventRequiringAttentionService } from 'src/app/service/event-requiring-attention.service';
 import { Patient } from 'src/app/model/Patient';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-listing-infectious-status',
@@ -60,7 +61,8 @@ export class ListingInfectiousStatusComponent implements OnInit {
     private selectItemService:SelectItemService,
     private eventRequiringAttentionService:EventRequiringAttentionService,
     private authenticationService:AuthenticationService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    @Inject(LOCALE_ID) private locale: string
   ) { }
 
   ngOnInit(): void {
@@ -733,9 +735,11 @@ export class ListingInfectiousStatusComponent implements OnInit {
 
   showInfectiousStatusExplanation(rowData:any) {
 
+    let formatedDate = formatDate(rowData.birthdate,environment.date_format,this.locale)
+
     let dialogHeader = `
       ${this.translationService.getTranslation("history")}
-      ${rowData.firstname} ${rowData.lastname}
+      ${rowData.firstname} ${rowData.lastname} ${formatedDate}
     `
 
     const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {

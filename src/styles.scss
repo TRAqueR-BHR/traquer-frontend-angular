@@ -30,6 +30,8 @@
 @import "primeflex/src/_borderradius.scss";
 @import "primeflex/src/_animation.scss";
 
+$dark-grey:rgb(189, 189, 189);
+
 html {
     font-size: 1rem;
     height: 100%;
@@ -118,4 +120,11 @@ body {
     .p-card .p-card-content {
         padding: 0rem 0rem 0rem .5rem;
     }
+}
+
+.outbreak-unit-asso:nth-child(odd),.outbreak-unit-asso{
+    border-right:solid;
+    border-bottom:solid;
+    border-color:$dark-grey;
+    border-width: thin;
 }

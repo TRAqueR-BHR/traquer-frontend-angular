@@ -27,7 +27,7 @@ export class ResponsesToEventComponent implements OnInit {
   @Input()
   eventRequiringAttention:EventRequiringAttention;
 
-  infectiousStatus:InfectiousStatus;  
+  infectiousStatus:InfectiousStatus;
   outbreak:Outbreak;
 
   optionsRESPONSE_TYPE:SelectItem[] = [];
@@ -38,11 +38,11 @@ export class ResponsesToEventComponent implements OnInit {
   // Resources loaded checker
   resourcesLoadedChecker = {
     resourcesAreLoaded: false,
-    resourcesLoaded:{      
+    resourcesLoaded:{
       eventRequiringAttention:false,
       optionsRESPONSE_TYPE:false,
       outbreak:false
-    }    
+    }
   }
 
   constructor(
@@ -51,7 +51,7 @@ export class ResponsesToEventComponent implements OnInit {
     private enumService:EnumService,
     private selectItemService:SelectItemService,
     private outbreakService:OutbreakService,
-    public dialogRef: DynamicDialogRef, 
+    public dialogRef: DynamicDialogRef,
     public dialogConfig: DynamicDialogConfig,
     public notificationService:UINotificationService,
     private infectiousStatusService:InfectiousStatusService,
@@ -74,17 +74,17 @@ export class ResponsesToEventComponent implements OnInit {
     //   Need to retrieve it from the URL
     if (this.eventRequiringAttention == null) {
 
-      const eventId = this.route.snapshot.paramMap.get('eventId');   
+      const eventId = this.route.snapshot.paramMap.get('eventId');
 
       this.eventRequiringAttentionService.getEventRequiringAttention(eventId).subscribe(
         res => {
           if (res != null) {
-            
-            this.eventRequiringAttention = res;  
-            
+
+            this.eventRequiringAttention = res;
+
             this.infectiousStatus = this.eventRequiringAttention.infectiousStatus;
             this.resourcesLoadedChecker.resourcesLoaded.eventRequiringAttention = true;
-            this.updateResourcesLoaded();   
+            this.updateResourcesLoaded();
 
             this.getOutbreak();
           }
@@ -93,14 +93,14 @@ export class ResponsesToEventComponent implements OnInit {
       this.infectiousStatus = this.eventRequiringAttention.infectiousStatus;
       this.getOutbreak();
       this.resourcesLoadedChecker.resourcesLoaded.eventRequiringAttention = true;
-      this.updateResourcesLoaded();   
+      this.updateResourcesLoaded();
     }
-    
+
   }
 
   getOutbreak() {
 
-    if (this.infectiousStatus == null) {      
+    if (this.infectiousStatus == null) {
       return;
     }
 
@@ -119,7 +119,7 @@ export class ResponsesToEventComponent implements OnInit {
   getOptionsRESPONSE_TYPE(){
     this.enumService.listAllPossibleValues(RESPONSE_TYPE).subscribe(
       res => {
-        this.optionsRESPONSE_TYPE = 
+        this.optionsRESPONSE_TYPE =
           this.selectItemService.createSelectItemsForEnums(res,RESPONSE_TYPE,false,"RESPONSE_TYPE_");
         this.resourcesLoadedChecker.resourcesLoaded.optionsRESPONSE_TYPE = true;
         this.updateResourcesLoaded();
@@ -138,9 +138,9 @@ export class ResponsesToEventComponent implements OnInit {
             return;
           }
         }
-      }         
+      }
     }
-    this.resourcesLoadedChecker.resourcesAreLoaded = true;    
+    this.resourcesLoadedChecker.resourcesAreLoaded = true;
     this.updateDisplayBooleans();
   }
 
@@ -157,7 +157,7 @@ export class ResponsesToEventComponent implements OnInit {
   save() {
     this.eventRequiringAttentionService.update(this.eventRequiringAttention).subscribe(
       res => {
-        // do nothing  
+        // do nothing
       }
     );
   }
@@ -173,7 +173,7 @@ export class ResponsesToEventComponent implements OnInit {
   }
 
   handleResponsesTypesChange(evt,val){
-    
+
     // ##################################### //
     // Take actions depending on the choices //
     // ##################################### //
@@ -186,11 +186,11 @@ export class ResponsesToEventComponent implements OnInit {
     // New outbreak
     if (changes.elementsAdded.includes(RESPONSE_TYPE.declare_outbreak)) {
       // If create a new outbreak
-      if (this.outbreak == null) {        
+      if (this.outbreak == null) {
         this.outbreak = new Outbreak({
           "infectiousAgent":INFECTIOUS_AGENT_CATEGORY[this.eventRequiringAttention.infectiousStatus.infectiousAgent],
           "criticity":OUTBREAK_CRITICITY.dont_know,
-          "refTime":Date.now()
+          "refTime":this.eventRequiringAttention.refTime
         });
       }
     } else if(changes.elementsRemoved.includes(RESPONSE_TYPE.declare_outbreak)){
@@ -218,15 +218,14 @@ export class ResponsesToEventComponent implements OnInit {
   // We consider that an event is not pending if there is at least one response
   checkIfResponseIsGiven() {
 
-    if (this.eventRequiringAttention.responsesTypes == null 
+    if (this.eventRequiringAttention.responsesTypes == null
       || this.eventRequiringAttention.responsesTypes.length == 0){
-        this.eventRequiringAttention.isPending = true;        
+        this.eventRequiringAttention.isPending = true;
     } else {
       this.eventRequiringAttention.isPending = false;
-      
-    }   
+
+    }
 
   }
 
 }
-
