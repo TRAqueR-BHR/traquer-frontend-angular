@@ -1,0 +1,163 @@
+<p-panel *ngIf="patientPanelShouldAppear"
+     header="Sélection du patient"
+    [toggleable]="true"
+    [(collapsed)]="patientSeachPanelCollapsed">
+
+    <app-patient-search></app-patient-search>
+
+</p-panel>
+
+<p-panel *ngIf="analysisResult"
+    header="Détails du résultat d'analyse"
+    [toggleable]="true"
+    [collapsed]="analysisResultPanelCollapsed">
+
+    <ng-container *ngIf="analysisResult != null">
+
+        <form name="form" #analysisResultForm="ngForm" class="ui-g"
+            (ngSubmit)="analysisResultForm.form.valid && save()">
+
+            <div class="custom-form-grid p-fluid">
+
+                <div class="custom-form-field col-12 flex align-items-center font-bold">
+                    <span>{{'patient'|getTranslation}} {{patientDecrypt.firstname}} {{patientDecrypt.lastname}}</span>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="stay"
+                        class="custom-label"
+                        i18n="@@stay_where_sample_was_taken">
+                        Séjour au cours duquel a été fait le prélèvement
+                    </label>
+
+                    <p-dropdown [options]="optionsPatientStays"
+                        id="stay"
+                        name="stay"
+                        appendTo="body"
+                        [(ngModel)]="analysisResult.stay"
+                        [filter]="true"
+                        required></p-dropdown>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="requestTime"
+                        class="custom-label"
+                        i18n="@@analysis_request_time">
+                        Date de la demande d'analyse</label>
+                    <p-calendar id="requestTime"
+                        name="requestTime"
+                        [showTime]="true"
+                        appendTo="body"
+                        [showIcon]="true"
+                        dateFormat="dd/mm/yy"
+                        [(ngModel)]="analysisResult.requestTime"
+                        required
+                    ></p-calendar>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="resultRawText"
+                        class="custom-label"
+                        i18n="@@analysis_ref">
+                        Référence de l'analyse</label>
+
+                    <input pInputText type="text"
+                        id="analysisRef"
+                        name="analysisRef"
+                        [(ngModel)]="analysisRef"
+                        required/>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="sample_material_type"
+                        class="custom-label"
+                        i18n="@@sample_material_type">
+                        Échantillon</label>
+
+                    <p-dropdown [options]="optionsSAMPLE_MATERIAL_TYPE"
+                        id="sampleMaterialType"
+                        name="sampleMaterialType"
+                        appendTo="body"
+                        [(ngModel)]="analysisResult.sampleMaterialType"
+                        required></p-dropdown>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="requestType"
+                        class="custom-label"
+                        i18n="@@request_type">
+                        Type d'analyse</label>
+
+                    <p-dropdown [options]="optionsANALYSIS_REQUEST_TYPE"
+                        id="requestType"
+                        name="requestType"
+                        appendTo="body"
+                        [(ngModel)]="analysisResult.requestType"
+                        required></p-dropdown>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="result"
+                        class="custom-label"
+                        i18n="@@result">
+                        Résultat</label>
+
+                    <p-dropdown [options]="optionsANALYSIS_RESULT_VALUE_TYPE"
+                        id="result"
+                        name="result"
+                        appendTo="body"
+                        [(ngModel)]="analysisResult.result"
+                        required></p-dropdown>
+                </div>
+
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="resultTime"
+                        class="custom-label"
+                        i18n="@@analysis_result_time_optional">
+                        Date du résultat (champs non obligatoire)</label>
+                    <p-calendar id="resultTime"
+                        name="resultTime"
+                        [showTime]="true"
+                        appendTo="body"
+                        [showIcon]="true"
+                        dateFormat="dd/mm/yy"
+                        [(ngModel)]="analysisResult.resultTime"
+                    ></p-calendar>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="resultRawText"
+                        class="custom-label"
+                        i18n="@@analysis_details_and_examples">
+                        Détails (ex. nom de la bactérie) (champs non obligatoire)</label>
+
+                    <textarea pInputTextarea
+                        id="resultRawText"
+                        name="resultRawText"
+                        [rows]="5"
+                        [cols]="30"
+                        [autoResize]="true"
+                        [(ngModel)]="analysisResult.resultRawText">
+                    </textarea>
+                </div>
+
+                <div class="custom-form-field col-12">
+
+                    <button pButton type="submit"
+                        [disabled]="analysisResultForm.invalid"
+                        i18n-label="save"
+                        label="Enregistrer"
+                        class="mt-2 w-auto">
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </ng-container>
+
+
+</p-panel>

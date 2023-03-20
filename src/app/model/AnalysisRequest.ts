@@ -33,14 +33,14 @@ export class AnalysisRequest {
             }
         }
         if (_json['creationTime'] != null) {
-            if (_json['refTime'] instanceof Date) {
+            if (_json['creationTime'] instanceof Date) {
                 this.creationTime = _json['creationTime'];
             } else {
                 this.creationTime = new Date(_json['creationTime']);
             }
         }
         if (_json['lastUpdateTime'] != null) {
-            if (_json['refTime'] instanceof Date) {
+            if (_json['lastUpdateTime'] instanceof Date) {
                 this.lastUpdateTime = _json['lastUpdateTime'];
             } else {
                 this.lastUpdateTime = new Date(_json['lastUpdateTime']);

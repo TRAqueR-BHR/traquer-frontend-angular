@@ -1,9 +1,10 @@
 export enum EVENT_REQUIRING_ATTENTION_TYPE {
 
-    hospitalization = 1, 
-    new_status = 2, 
-    analysis_in_progress = 3, 
-    analysis_done = 4, 
-    analysis_late = 5, 
+    new_status = 1, 
+    analysis_in_progress = 2, 
+    analysis_done = 3, 
+    analysis_late = 4, 
+    new_stay = 5, 
+    death = 6, 
 
 }

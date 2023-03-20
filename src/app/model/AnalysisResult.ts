@@ -13,10 +13,12 @@ export class AnalysisResult {
     id:string;
     sampleMaterialType:SAMPLE_MATERIAL_TYPE;
     requestTime:Date;
+    sysCreationTime:Date;
     resultTime:Date;
     result:ANALYSIS_RESULT_VALUE_TYPE;
     resultRawText:string;
     requestType:ANALYSIS_REQUEST_TYPE;
+    sysProcessingTime:Date;
 
     constructor(_json:Object) {
         if (_json['patient'] != null) {
@@ -37,14 +39,21 @@ export class AnalysisResult {
             }
         }
         if (_json['requestTime'] != null) {
-            if (_json['refTime'] instanceof Date) {
+            if (_json['requestTime'] instanceof Date) {
                 this.requestTime = _json['requestTime'];
             } else {
                 this.requestTime = new Date(_json['requestTime']);
             }
         }
+        if (_json['sysCreationTime'] != null) {
+            if (_json['sysCreationTime'] instanceof Date) {
+                this.sysCreationTime = _json['sysCreationTime'];
+            } else {
+                this.sysCreationTime = new Date(_json['sysCreationTime']);
+            }
+        }
         if (_json['resultTime'] != null) {
-            if (_json['refTime'] instanceof Date) {
+            if (_json['resultTime'] instanceof Date) {
                 this.resultTime = _json['resultTime'];
             } else {
                 this.resultTime = new Date(_json['resultTime']);
@@ -63,6 +72,13 @@ export class AnalysisResult {
                 this.requestType = Number(ANALYSIS_REQUEST_TYPE[_json['requestType']]);
             } else {
                 this.requestType = Number(_json['requestType']);
+            }
+        }
+        if (_json['sysProcessingTime'] != null) {
+            if (_json['sysProcessingTime'] instanceof Date) {
+                this.sysProcessingTime = _json['sysProcessingTime'];
+            } else {
+                this.sysProcessingTime = new Date(_json['sysProcessingTime']);
             }
         }
     }

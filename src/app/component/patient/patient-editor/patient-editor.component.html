@@ -1,0 +1,104 @@
+<ng-container *ngIf="patient">
+
+    <form name="form"  #patientForm="ngForm" class="ui-g" (ngSubmit)="patientForm.form.valid && save()">
+
+        <div class="custom-form-grid p-fluid">
+
+            <!-- needed because putting the 'ui-g-x' class messes up the display of the icon if we put it in the div that holds the 'ui-inputgroup' class -->
+            <div class="custom-form-field col-12 md:col-6">
+                <label for="firstname" class="custom-label" i18n="@@firstname">Prénom</label>
+
+                    <div class="p-inputgroup">
+                        <input [(ngModel)]="firstname" [disabled]="!firstnameWriteMode"
+                            #firstnameCheck="ngModel"
+                            name="firstname"
+                            type="text"
+                            pInputText placeholder="Prénom" required
+                            pattern="^[\D]+$"/>
+                        <button *ngIf="canDisplayFirstnameEditBtn" type="button" pButton pRipple
+                            icon="far fa-edit" styleClass="p-button-warn"
+                            (click)="handleClickOnFirstnameEditBtn($event)"></button>
+                        <button *ngIf="canDisplayFirstnameSaveBtn" type="button" pButton pRipple
+                            icon="far fa-save" styleClass="p-button-warn"
+                            (click)="handleClickOnFirstnameSaveBtn($event)"></button>
+                        <div *ngIf="firstnameCheck.invalid" >
+                            <p-message *ngIf="firstnameCheck.hasError('pattern')"
+                                severity="error"
+                                text="Le champs est invalide"></p-message>
+                            <p-message *ngIf="firstnameCheck.hasError('required')"
+                                severity="error"
+                                text="Le champs est obligatoire"></p-message>
+                        </div>
+
+                    </div>
+
+            </div>
+
+            <!-- needed because putting the 'ui-g-x' class messes up the display of the icon if we put it in the div that holds the 'ui-inputgroup' class -->
+            <div class="custom-form-field col-12 md:col-6">
+                <label for="lastname" class="custom-label" i18n="@@lastname">Nom</label>
+                <div class="p-inputgroup">
+                    <input [(ngModel)]="lastname" [disabled]="!lastnameWriteMode"
+                        #lastnameCheck="ngModel"
+                        name="lastname"
+                        type="text"
+                        pInputText placeholder="Nom" required
+                        pattern="^[\D]+$"/>
+                    <button *ngIf="canDisplayLastnameEditBtn" type="button" pButton pRipple
+                        icon="far fa-edit" styleClass="p-button-warn"
+                        (click)="handleClickOnLastnameEditBtn($event)"></button>
+                    <button *ngIf="canDisplayLastnameSaveBtn" type="button" pButton pRipple
+                        icon="far fa-save" styleClass="p-button-warn"
+                        (click)="handleClickOnLastnameSaveBtn($event)"></button>
+                    <div *ngIf="lastnameCheck.invalid" >
+                        <p-message *ngIf="lastnameCheck.hasError('pattern')"
+                            severity="error"
+                            text="Le champs est invalide"></p-message>
+                        <p-message *ngIf="lastnameCheck.hasError('required')"
+                            severity="error"
+                            text="Le champs est obligatoire"></p-message>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-form-field col-12 md:col-6">
+                <label for="birthdate" class="custom-label" i18n="@@birthdate">Date de naissance</label>
+                <div class='p-inputgroup'>
+                    <p-calendar  [(ngModel)]="birthdate" #birthdateCheck="ngModel"
+                        dateFormat="dd/mm/yy" [disabled]="!birthdateWriteMode"
+                        appendTo="body"
+                        name="birthdate"
+                        [showIcon]="true"
+                        required
+                        [showButtonBar]="true" [locale]="primengCalendarFrenchTranslation"></p-calendar>
+                    <button *ngIf="canDisplayBirthDateEditBtn" type="button" pButton pRipple
+                        icon="far fa-edit" styleClass="p-button-warn"
+                        (click)="handleClickOnBirthDateEditBtn($event)"></button>
+                    <button *ngIf="canDisplayBirthDateSaveBtn" type="button" pButton pRipple
+                        icon="far fa-save" styleClass="p-button-warn"
+                        (click)="handleClickOnBirthDateSaveBtn($event)"></button>
+                    <div *ngIf="birthdateCheck.invalid" >
+                        <p-message *ngIf="birthdateCheck.errors.required"
+                            severity="error"
+                            text="La date de naissance est obligatoire"></p-message>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-form-field col-12">
+                <button pButton type="submit" label="Enregistrer"
+                    *ngIf='canDisplayGeneralSaveBtn'
+                    (click)="save()"
+                    [disabled]="patientForm.invalid || savingInProgress"
+                    class="w-auto">
+                </button>
+                <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+            </div>
+
+        </div>
+
+
+
+    </form>
+
+    </ng-container>

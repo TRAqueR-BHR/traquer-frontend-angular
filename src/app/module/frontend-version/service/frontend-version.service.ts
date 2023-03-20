@@ -26,16 +26,15 @@ export class FrontendVersionService {
 
   getCurrentFrontendVersion(): Observable<FrontendVersion|null> {
     const url = this.apiURL + "/get-current-frontend-version";
-    
-    return this.http.get<FrontendVersion>(url)    
-    .pipe(map(res => new FrontendVersion(res)))     
+
+    return this.http.get<FrontendVersion>(url)
+    .pipe(map(res => new FrontendVersion(res)))
     .pipe(
       catchError(this.errorHandlerService.handleError(`getCurrentFrontendVersion()`, null))
     );
   }
- 
 
   fromJSONArray(array: Array<Object>): FrontendVersion[] {
     return array.map(res => new FrontendVersion(res));
-  } 
+  }
 }

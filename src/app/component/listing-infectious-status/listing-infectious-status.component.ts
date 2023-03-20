@@ -13,12 +13,16 @@ import { Utils } from 'src/app/util/utils';
 import { EVENT_REQUIRING_ATTENTION_TYPE } from 'src/app/enum/EVENT_REQUIRING_ATTENTION_TYPE';
 import { RESPONSE_TYPE } from 'src/app/enum/RESPONSE_TYPE';
 import { DialogService } from 'primeng/dynamicdialog';
-import { InfectiousStatusExplanationComponent } from '../infectious-status-explanation/infectious-status-explanation.component';
+import { InfectiousStatusExplanationComponent } from '../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
 import { EventRequiringAttention } from 'src/app/model/EventRequiringAttention';
 import { ResponsesToEventComponent } from '../responses-to-event/responses-to-event.component';
 import { EventRequiringAttentionService } from 'src/app/service/event-requiring-attention.service';
 import { Patient } from 'src/app/model/Patient';
 import { formatDate } from '@angular/common';
+import { InfectiousStatusEditComponent } from '../infectious-status/infectious-status-edit/infectious-status-edit.component';
+import { PatientEditorComponent } from '../patient/patient-editor/patient-editor.component';
+import { StayEditComponent } from '../stay/stay-edit/stay-edit.component';
+import { AnalysisResultEditComponent } from '../analysis/analysis-result-edit/analysis-result-edit.component';
 
 @Component({
   selector: 'app-listing-infectious-status',
@@ -105,13 +109,14 @@ export class ListingInfectiousStatusComponent implements OnInit {
       secondaryResponseTypes = [
         RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
       ]
-    } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.hospitalization) {
+    } else if (eventType == EVENT_REQUIRING_ATTENTION_TYPE.new_stay) {
 
       if (statusType == INFECTIOUS_STATUS_TYPE.carrier) {
         defaultResponseType = RESPONSE_TYPE.isolation_in_same_unit;
         secondaryResponseTypes = [
           RESPONSE_TYPE.isolation_in_special_unit,
-          RESPONSE_TYPE.request_analysis // Maybe we want to make another analysis
+          RESPONSE_TYPE.request_analysis, // Maybe we want to make another analysis
+          RESPONSE_TYPE.acknowledge,
         ]
       } else if (statusType == INFECTIOUS_STATUS_TYPE.contact) {
         defaultResponseType = RESPONSE_TYPE.request_analysis;
@@ -123,6 +128,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
       } else if (statusType == INFECTIOUS_STATUS_TYPE.not_at_risk) {
         defaultResponseType = RESPONSE_TYPE.acknowledge;
         secondaryResponseTypes = [
+          RESPONSE_TYPE.acknowledge,
           RESPONSE_TYPE.request_analysis,
         ]
       }
@@ -247,10 +253,10 @@ export class ListingInfectiousStatusComponent implements OnInit {
       field:"ref_time",
       nameInSelect:"ref_time",
       nameInWhereClause:"_is.ref_time",
-      header: this.translationService.getTranslation("reference_time"),
+      header: this.translationService.getTranslation("infectious_status_reference_time_abbreviated"),
       attributeType:"date",
       sortable: true,
-      filterable: true,
+      filterable: false,
       columnIsDisplayed:true,
       filterIsActive:false,
       minimumCharactersNeeded:3,
@@ -282,6 +288,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
       nameInWhereClause:"ist.infectious_status",
       header: this.translationService.getTranslation("infectious_status"),
       attributeType:"enum",
+      enumType: Utils.getEnumName(INFECTIOUS_STATUS_TYPE),
       attributeTest:"IN",
       sortable: true,
       filterable: true,
@@ -351,6 +358,23 @@ export class ListingInfectiousStatusComponent implements OnInit {
     // ################################# //
     // Event requiring attention columns //
     // ################################# //
+    const eventRefTimeColDef = {
+      field:"event_ref_time",
+      nameInSelect:"event_ref_time",
+      nameInWhereClause:"era.event_ref_time",
+      header: this.translationService.getTranslation("event_reference_time_abbreviated"),
+      attributeType:"date",
+      sortable: true,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
     const eventResponseTimeColDef = {
       field:"event_response_time",
       nameInSelect:"event_response_time",
@@ -555,6 +579,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
     this.queryParams.cols.push(isCurrentColDef);
     this.queryParams.cols.push(patientIsHospitalizedColDef);
     this.queryParams.cols.push(patientCurrentUnitNameColDef);
+    this.queryParams.cols.push(eventRefTimeColDef);
     this.queryParams.cols.push(eventResponseTimeColDef);
     this.queryParams.cols.push(eventTypeColDef);
     this.queryParams.cols.push(eventIsPendingColDef);
@@ -740,7 +765,15 @@ export class ListingInfectiousStatusComponent implements OnInit {
     let dialogHeader = `
       ${this.translationService.getTranslation("history")}
       ${rowData.firstname} ${rowData.lastname} ${formatedDate}
-    `
+    `;
+
+    if (rowData.patient_is_hospitalized === true) {
+      dialogHeader += " " + this.translationService.getTranslation("hospitalization_in_progress");
+    }
+
+    if (rowData.current_unit_name != null) {
+      dialogHeader += " " + rowData.current_unit_name;
+    }
 
     const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
         data: {
@@ -751,10 +784,98 @@ export class ListingInfectiousStatusComponent implements OnInit {
     });
   }
 
+  handleClickOnNewPatientBtn(evt:any){
+    const ref = this.dialogService.open(PatientEditorComponent, {
+      data: {
+        asDialog: true
+      },
+      header: this.translationService.getTranslation("new_patient"),
+      width: '85%'
+    });
 
-  displayDialogForUserResponse(eventId:string) {
+    ref.onClose.subscribe((_newPatient:Patient) => {
+      // var colPatientId = this.queryParams.cols.filter(x => x.field == "patient_id")[0] ;
+      // colPatientId.filterValue = _newPatient.id;
+      // colPatientId.filterable = true;
+      // colPatientId.filterIsActive = true;
+      this.refreshData();
+    });
+  }
 
-    this.eventRequiringAttentionService.getEventRequiringAttention(eventId).subscribe(
+
+  handleClickOnNewInfectiousStatusBtn(evt:any){
+    const ref = this.dialogService.open(InfectiousStatusEditComponent, {
+      data: {
+        "new": true
+      },
+      header: this.translationService.getTranslation("add_infectious_status"),
+      width: '85%'
+    });
+
+    ref.onClose.subscribe(res=> {
+      this.refreshData();
+    })
+  }
+
+  handleClickOnNewStayBtn(evt:any){
+    const ref = this.dialogService.open(StayEditComponent, {
+      data: {
+        "new": true
+      },
+      header: this.translationService.getTranslation("add_stay"),
+      width: '85%'
+    });
+
+    ref.onClose.subscribe(res=> {
+      this.refreshData();
+    })
+  }
+
+  handleClickOnNewAnalysisResultBtn(evt:any){
+    const ref = this.dialogService.open(AnalysisResultEditComponent, {
+      data: {
+        "new": true
+      },
+      header: this.translationService.getTranslation("add_analysis"),
+      width: '85%'
+    });
+
+    ref.onClose.subscribe(res=> {
+      this.refreshData();
+    })
+  }
+
+  displayDialogForUserResponse(rowData:any) {
+
+    console.log(`Open dialog for event[${rowData.event_id}]`)
+
+    // ################# //
+    // Create the header //
+    // ################# //
+    let header = (
+      this.translationService.getTranslation("user_response_to_event")
+    );
+
+    // Event type and details
+    header += (
+      " '" + this.translationService.getTranslation(
+        `EVENT_REQUIRING_ATTENTION_TYPE_${rowData.event_type}`
+        ).toLowerCase()
+      + "'"
+    );
+
+    // Patient name
+    header += (
+      " "
+      + this.translationService.getTranslation("of").toLowerCase()
+      + " " + rowData.firstname
+      + " " + rowData.lastname
+    );
+
+    // ############### //
+    // Open the dialog //
+    // ############### //
+    this.eventRequiringAttentionService.getEventRequiringAttention(rowData.event_id).subscribe(
       eventRequiringAttention => {
         if (eventRequiringAttention != null) {
 
@@ -762,7 +883,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
             data: {
               "eventRequiringAttention": eventRequiringAttention
             },
-            header: this.translationService.getTranslation("user_response_to_event"),
+            header: header,
             width: '85%'
           });
 

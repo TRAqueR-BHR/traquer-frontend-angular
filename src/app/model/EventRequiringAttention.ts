@@ -24,7 +24,7 @@ export class EventRequiringAttention {
         }
         this.id = _json['id'];
         if (_json['responseTime'] != null) {
-            if (_json['refTime'] instanceof Date) {
+            if (_json['responseTime'] instanceof Date) {
                 this.responseTime = _json['responseTime'];
             } else {
                 this.responseTime = new Date(_json['responseTime']);

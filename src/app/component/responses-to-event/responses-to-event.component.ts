@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Subscription } from 'rxjs';
 import { INFECTIOUS_AGENT_CATEGORY } from 'src/app/enum/INFECTIOUS_AGENT_CATEGORY';
 import { OUTBREAK_CRITICITY } from 'src/app/enum/OUTBREAK_CRITICITY';
 import { RESPONSE_TYPE } from 'src/app/enum/RESPONSE_TYPE';
@@ -9,6 +10,7 @@ import { EventRequiringAttention } from 'src/app/model/EventRequiringAttention';
 import { InfectiousStatus } from 'src/app/model/InfectiousStatus';
 import { Outbreak } from 'src/app/model/Outbreak';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
+import { ResponsesToEventCompIntService } from 'src/app/service/components-interaction/responses-to-event-comp-int.service';
 import { EnumService } from 'src/app/service/enum.service';
 import { EventRequiringAttentionService } from 'src/app/service/event-requiring-attention.service';
 import { InfectiousStatusService } from 'src/app/service/infectious-status.service';
@@ -20,7 +22,8 @@ import { Utils } from 'src/app/util/utils';
 @Component({
   selector: 'app-responses-to-event',
   templateUrl: './responses-to-event.component.html',
-  styleUrls: ['./responses-to-event.component.scss']
+  styleUrls: ['./responses-to-event.component.scss'],
+  providers: [ResponsesToEventCompIntService]
 })
 export class ResponsesToEventComponent implements OnInit {
 
@@ -34,16 +37,20 @@ export class ResponsesToEventComponent implements OnInit {
 
   // Display booleans
   canDisplayOutbreak = false;
+  canDisplayAssociateInfectiousStatusToOutbreaksComponent = false;
 
   // Resources loaded checker
   resourcesLoadedChecker = {
     resourcesAreLoaded: false,
     resourcesLoaded:{
       eventRequiringAttention:false,
-      optionsRESPONSE_TYPE:false,
-      outbreak:false
+      optionsRESPONSE_TYPE:false
     }
   }
+
+  // Observable subscriptions
+  subscriptions: Subscription[] = [];
+
 
   constructor(
     private route: ActivatedRoute,
@@ -55,12 +62,31 @@ export class ResponsesToEventComponent implements OnInit {
     public dialogConfig: DynamicDialogConfig,
     public notificationService:UINotificationService,
     private infectiousStatusService:InfectiousStatusService,
-    private translationService:TranslationService
-  ) { }
+    private translationService:TranslationService,
+    private responsesToEventCompIntService:ResponsesToEventCompIntService
+  ) {
+    this.createSubscriptions();
+  }
 
   ngOnInit(): void {
     this.getOptionsRESPONSE_TYPE();
     this.getEventRequiringAttention();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
+  createSubscriptions() {
+
+    const subscription_OutbreakInfectiousStatusAsso =
+      this.responsesToEventCompIntService.outbreakInfectiousStatusAsso$.subscribe(
+        bool => {
+          this.getOutbreak();
+        }
+      );
+    this.subscriptions.push(subscription_OutbreakInfectiousStatusAsso);
+
   }
 
   getEventRequiringAttention(): void {
@@ -83,15 +109,17 @@ export class ResponsesToEventComponent implements OnInit {
             this.eventRequiringAttention = res;
 
             this.infectiousStatus = this.eventRequiringAttention.infectiousStatus;
+            this.getOutbreak();
+
             this.resourcesLoadedChecker.resourcesLoaded.eventRequiringAttention = true;
             this.updateResourcesLoaded();
 
-            this.getOutbreak();
           }
         });
     } else {
       this.infectiousStatus = this.eventRequiringAttention.infectiousStatus;
       this.getOutbreak();
+
       this.resourcesLoadedChecker.resourcesLoaded.eventRequiringAttention = true;
       this.updateResourcesLoaded();
     }
@@ -99,6 +127,8 @@ export class ResponsesToEventComponent implements OnInit {
   }
 
   getOutbreak() {
+
+    console.log("DEBUG getOutbreak");
 
     if (this.infectiousStatus == null) {
       return;
@@ -109,11 +139,28 @@ export class ResponsesToEventComponent implements OnInit {
       console.log(res);
       if (res != null){
         this.outbreak = res;
-        this.resourcesLoadedChecker.resourcesLoaded.outbreak = true;
-        this.updateResourcesLoaded();
       }
+      this.updateResourcesLoaded(); // needed to update `canDisplayOutbreak`
     });
 
+  }
+
+  disableOptions(){
+
+    for (let o of this.optionsRESPONSE_TYPE){
+      o.disabled = false;
+      if (o.value == RESPONSE_TYPE.declare_outbreak){
+
+          if (this.infectiousStatus != null
+            && this.infectiousStatus.isConfirmed == false){
+              console.log(this.infectiousStatus.id);
+              o.disabled = true;
+            }
+      }
+    }
+
+    // Force angular to detect the change
+    this.optionsRESPONSE_TYPE = [...this.optionsRESPONSE_TYPE];
   }
 
   getOptionsRESPONSE_TYPE(){
@@ -142,6 +189,7 @@ export class ResponsesToEventComponent implements OnInit {
     }
     this.resourcesLoadedChecker.resourcesAreLoaded = true;
     this.updateDisplayBooleans();
+    this.disableOptions();
   }
 
   updateDisplayBooleans(){
@@ -150,6 +198,15 @@ export class ResponsesToEventComponent implements OnInit {
       this.canDisplayOutbreak = true;
     } else {
       this.canDisplayOutbreak = false;
+    }
+
+    if (
+      this.eventRequiringAttention.responsesTypes != null
+      && this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.associate_to_existing_outbreak)
+    ){
+      this.canDisplayAssociateInfectiousStatusToOutbreaksComponent = true;
+    } else {
+      this.canDisplayAssociateInfectiousStatusToOutbreaksComponent = false;
     }
 
   }
@@ -163,28 +220,41 @@ export class ResponsesToEventComponent implements OnInit {
   }
 
   updateInfectiousStatus() {
-    this.infectiousStatusService.update(this.infectiousStatus).subscribe(res => {
+    this.infectiousStatusService.upsert(this.infectiousStatus).subscribe(res => {
       if (res != null){
         this.infectiousStatus = res;
         this.notificationService.notifySuccess(
-          this.translationService.getTranslation("infectious_status_updated"))
+          this.translationService.getTranslation("infectious_status_updated"));
+        this.disableOptions();
       }
     });
   }
 
   handleResponsesTypesChange(evt,val){
 
-    // ##################################### //
-    // Take actions depending on the choices //
-    // ##################################### //
-
+    // ################################################# //
+    // Get what has been added and what has been removed //
+    // ################################################# //
     let changes = Utils.getArrayDiff(
       this.eventRequiringAttention.responsesTypes, // oldArr:any[],
       evt, // newArr:any[]
     )
 
+    // ##################################### //
+    // Take actions depending on the choices //
+    // ##################################### //
+
     // New outbreak
     if (changes.elementsAdded.includes(RESPONSE_TYPE.declare_outbreak)) {
+
+      // Check that the infectious status is confirmed
+      if (!evt.includes(RESPONSE_TYPE.confirm)){
+        this.notificationService.notifyWarn(
+          this.translationService.getTranslation(
+            "infectious_status_must_be_confirmed_to_initialize_the_outbreak")
+        );
+      }
+
       // If create a new outbreak
       if (this.outbreak == null) {
         this.outbreak = new Outbreak({

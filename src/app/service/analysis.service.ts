@@ -24,25 +24,71 @@ export class AnalysisService {
   getAnalysesFromPatient(
     patient:Patient
   ): Observable<AnalysisResult[]> {
-    
+
     const url = this.apiURL + "/get-analyses-from-patient";
-    
+
     return this.http.post<any[]>(
-      url, 
+      url,
       {
         "patient":patient
       }
     )
-    .pipe(map(res => { 
+    .pipe(map(res => {
       return this.fromJSONArrayToAnalysisArray(res);
-    })) 
+    }))
     .pipe(
       catchError(this.errorHandlerService.handleError(`getAnalysesFromPatient()`, null))
     );
   }
 
+
+  upsert(analysisResult:AnalysisResult, analysisRef:string) {
+
+    const url = this.apiURL + "/upsert";
+
+    // Force the dates without time to UTC
+    // var colJourneeExploitation = args.cols.filter(x => x.field == "journee_exploitation")[0] ;
+    // colJourneeExploitation.filterValue = Utils.forceDateToUTC(colJourneeExploitation.filterValue);
+    // args.dateDebut = Utils.forceDateToUTC(args.dateDebut);
+    // args.dateFin = Utils.forceDateToUTC(args.dateFin);
+
+    return this.http.post<any>(
+      url,
+      {
+        analysisResult:analysisResult,
+        analysisRef:analysisRef
+      }
+    )
+    .pipe(map(res => {
+      if (res != null) {
+        return new AnalysisResult(res);
+      } else {
+        return null;
+      }
+    }))
+    .pipe(
+    catchError(this.errorHandlerService.handleError(`AnalysisService.upsert`, null))
+    );
+
+  }
+
+  getAnalysesResultsForListing(queryParams:any): Observable<ResultOfQueryWithParams|null> {
+    const url = this.apiURL + "/listing";
+
+    var args = deepCopy(queryParams);
+
+    return this.http.post<ResultOfQueryWithParams>(url,
+                                                   JSON.stringify(args))
+    .pipe(map(res => {
+      return new ResultOfQueryWithParams(res);
+    }))
+    .pipe(
+    catchError(this.errorHandlerService.handleError(`getAnalysesResultsForListing()`, null))
+    );
+  }
+
   fromJSONArrayToAnalysisArray(array: Array<Object>): AnalysisResult[] {
-    let res = array.map(res => new AnalysisResult(res));    
+    let res = array.map(res => new AnalysisResult(res));
     return res
-  } 
+  }
 }

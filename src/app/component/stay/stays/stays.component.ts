@@ -1,0 +1,425 @@
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { LazyLoadEvent, MenuItem, SelectItem } from 'primeng/api';
+import { TranslationService } from 'src/app/module/translation/service/translation.service';
+import { InfectiousStatusService } from 'src/app/service/infectious-status.service';
+import { environment } from 'src/environments/environment';
+import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
+import { INFECTIOUS_STATUS_TYPE } from 'src/app/enum/INFECTIOUS_STATUS_TYPE';
+import { isConstructorDeclaration } from 'typescript';
+import { EnumService } from 'src/app/service/enum.service';
+import { SelectItemService } from 'src/app/service/select-item.service';
+import { INFECTIOUS_AGENT_CATEGORY } from 'src/app/enum/INFECTIOUS_AGENT_CATEGORY';
+import { Utils } from 'src/app/util/utils';
+import { EVENT_REQUIRING_ATTENTION_TYPE } from 'src/app/enum/EVENT_REQUIRING_ATTENTION_TYPE';
+import { RESPONSE_TYPE } from 'src/app/enum/RESPONSE_TYPE';
+import { DialogService } from 'primeng/dynamicdialog';
+import { EventRequiringAttention } from 'src/app/model/EventRequiringAttention';
+import { EventRequiringAttentionService } from 'src/app/service/event-requiring-attention.service';
+import { Patient } from 'src/app/model/Patient';
+import { formatDate } from '@angular/common';
+import { ANALYSIS_REQUEST_TYPE } from 'src/app/enum/ANALYSIS_REQUEST_TYPE';
+import { ANALYSIS_RESULT_VALUE_TYPE } from 'src/app/enum/ANALYSIS_RESULT_VALUE_TYPE';
+import { SAMPLE_MATERIAL_TYPE } from 'src/app/enum/SAMPLE_MATERIAL_TYPE';
+import { AnalysisService } from 'src/app/service/analysis.service';
+import { StayService } from 'src/app/service/stay.service';
+
+@Component({
+  selector: 'app-stays',
+  templateUrl: './stays.component.html',
+  styleUrls: ['./stays.component.scss']
+})
+export class StaysComponent implements OnInit {
+
+  data: any[] = [];
+
+  ligneSelectionnee:any;
+
+  totalRecords: number = 0;
+
+  // This is a workaround for not being able to reference the 'filterValue' entries in queryParams.cols
+  filterValues: any = {};
+
+  loading: boolean;
+
+  queryParams:any = {};
+  selectedColumns: string[] = [];
+  selectableColumns: SelectItem[] = [];
+
+  trueFalseSelectItems:SelectItem[] = [];
+  optionsANALYSIS_REQUEST_TYPE:SelectItem[] = [];
+  optionsANALYSIS_RESULT_VALUE_TYPE:SelectItem[] = [];
+  optionsSAMPLE_MATERIAL_TYPE:SelectItem[] = [];
+
+  timerOnRefreshDataAfterChangesOnFilter:any;
+
+  splitButtonDefPerEventType:any = {};
+
+  actionMenuItemsFor:any = {}; // a Map of (EVENT_REQUIRING_ATTENTION_TYPE => MenuItem[])
+
+  constructor(
+    private stayService:StayService,
+    private translationService:TranslationService,
+    private enumService:EnumService,
+    private selectItemService:SelectItemService,
+    private eventRequiringAttentionService:EventRequiringAttentionService,
+    private authenticationService:AuthenticationService,
+    @Inject(LOCALE_ID) private locale: string
+  ) { }
+
+  ngOnInit(): void {
+
+    this.prepareOptionsTrueFalse();
+    this.intializeTablesPreferences();
+  }
+
+  acknowledgeEvent(rowData:any) {
+    console.log(rowData);
+  }
+
+  prepareOptionsTrueFalse(){
+    this.trueFalseSelectItems.push(
+      {
+        label: this.translationService.getTranslation("null_option_label"),
+        value: null
+      }
+    );
+    this.trueFalseSelectItems.push(
+      {
+        label: this.translationService.getTranslation("true"),
+        value: true
+      }
+    );
+    this.trueFalseSelectItems.push(
+      {
+        label: this.translationService.getTranslation("false"),
+        value: false
+      }
+    );
+  }
+
+  intializeTablesPreferences() {
+
+    // Initialize the query params
+    this.queryParams = {
+      pageSize:environment.numberOfResultsForDashboard,
+      pageNum:0,
+      cols:[
+        ]
+    };
+
+    // ############ //
+    // Stay columns //
+    // ############ //
+    const inTimeColDef = {
+      field:"in_time",
+      nameInSelect:"in_time",
+      nameInWhereClause:"s.in_time",
+      header: this.translationService.getTranslation("in_time"),
+      attributeType:"date",
+      sortable: true,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    const outTimeColDef = {
+      field:"out_time",
+      nameInSelect:"out_time",
+      nameInWhereClause:"=s.out_time",
+      header: this.translationService.getTranslation("out_time"),
+      attributeType:"date",
+      sortable: true,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    const hospitalizationInTimeColDef = {
+      field:"hospitalization_in_time",
+      nameInSelect:"hospitalization_in_time",
+      nameInWhereClause:"s.hospitalization_in_time",
+      header: this.translationService.getTranslation("hospitalization_in_time"),
+      attributeType:"date",
+      sortable: true,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    const hospitalizationOutTimeColDef = {
+      field:"hospitalization_out_time",
+      nameInSelect:"hospitalization_out_time",
+      nameInWhereClause:"s.hospitalization_out_time",
+      header: this.translationService.getTranslation("hospitalization_out_time"),
+      attributeType:"date",
+      sortable: true,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    // ############ //
+    // Unit columns //
+    // ############ //
+    const unitNameColDef = {
+      field:"unit_name",
+      nameInSelect:"unit_name",
+      nameInWhereClause:"u.name",
+      header: this.translationService.getTranslation("unit"),
+      attributeType:"string",
+      attributeTest:"like",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    // ############### //
+    // Patient columns //
+    // ############### //
+    const birthdateColDef = {
+      field:"birthdate",
+      nameInSelect:"birthdate",
+      nameInWhereClause:"CUSTOM BECAUSE VALUE IS CRYPTED", // The where clause needs special treatment
+      header: this.translationService.getTranslation("birthdate"),
+      attributeType:"string",
+      sortable: false,
+      filterable: false,
+      columnIsDisplayed:false,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    const lastnameColDef = {
+      field:"lastname",
+      nameInSelect:"lastname",
+      nameInWhereClause:"CUSTOM BECAUSE VALUE IS CRYPTED", // The where clause needs special treatment
+      header: this.translationService.getTranslation("lastname"),
+      attributeType:"string",
+      sortable: false,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    const firstnameColDef = {
+      field:"firstname",
+      nameInSelect:"firstname",
+      nameInWhereClause:"CUSTOM BECAUSE VALUE IS CRYPTED", // The where clause needs special treatment
+      header: this.translationService.getTranslation("firstname"),
+      attributeType:"string",
+      sortable: false,
+      filterable: true,
+      columnIsDisplayed:false,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+
+    // ############### //
+    // Add the columns //
+    // ############### //
+    if (this.authenticationService.getCryptPwd() != null) {
+      this.queryParams.cols.push(firstnameColDef);
+      this.queryParams.cols.push(lastnameColDef);
+      this.queryParams.cols.push(birthdateColDef);
+    }
+
+    this.queryParams.cols.push(inTimeColDef);
+    this.queryParams.cols.push(outTimeColDef);
+    this.queryParams.cols.push(hospitalizationInTimeColDef);
+    this.queryParams.cols.push(hospitalizationOutTimeColDef);
+    this.queryParams.cols.push(unitNameColDef);
+
+    // this.queryParams.cols.push( {
+    //   field: 'view_details',
+    //   header: "Voir le détail",
+    //   columnIsDisplayed:true,
+    //   width:"2em"
+    // });
+
+    // Initialize the filter proxy 'filterValues'
+    for (let col of this.queryParams.cols) {
+      this.filterValues[col.field] = col.filterValue;
+    }
+
+    console.log(this.filterValues);
+
+    // Prepare the list of selectable/selected columns
+    this.selectableColumns = this.queryParams.cols.map(x => {return {label: x.header,
+                                                                     value: x.field}});
+    this.selectedColumns = this.queryParams.cols.filter(x => x.columnIsDisplayed).map(x => x.field);
+
+    // Update the filtering as if the user had change something in the filters
+    this.updateFiltering(true);
+
+  }
+
+  // We cannot  use the default 'onLazyLoad' function to update the filters
+  //   because we initialize the filters input. Because of this the event passed
+  //   to the function doesnt contain the filters that are not null but not modified
+  updateFiltering(andRefrehData:boolean = true) {
+
+    // loval variables for the articial filters
+    var typesAnomalies = [];
+
+    let colonnesRetard = ["nb_anomalies_retard","somme_valeurs_moins_seuil_retard","nb_situations_inacceptables_retard"];
+    let colonnesAvance = ["nb_anomalies_avance","somme_valeurs_moins_seuil_avance","nb_situations_inacceptables_avance"];
+    let colonnesManqueDeRegularite = ["nb_anomalies_manque_de_regularite","somme_valeurs_moins_seuil_manque_de_regularite","nb_situations_inacceptables_manque_de_regularite"];
+    let colonnesAbsenceTerminusDepart = ['nb_anomalies_absence_terminus_depart'];
+    let colonnesAbsenceTerminusArrivee = ['nb_anomalies_absence_terminus_arrivee'];
+    let colonnesAucunArret = ['nb_anomalies_aucun_arret'];
+
+    let colonnesNumeriquesAvecSelecteurBoolees = colonnesRetard.concat(colonnesAvance)
+                                                               .concat(colonnesManqueDeRegularite)
+                                                               .concat(colonnesAbsenceTerminusDepart)
+                                                               .concat(colonnesAbsenceTerminusArrivee)
+                                                               .concat(colonnesAucunArret)
+
+    for (let attrName in this.filterValues) {
+
+      // Get the corresponding column in queryParams
+      var col = this.queryParams.cols.filter(x => x.field == attrName)[0] ;
+
+      var attrValue = this.filterValues[attrName];
+
+      if (attrValue == null || attrValue.length == 0) {
+        col.filterIsActive = false;
+        col.filterValue = attrValue;
+      } else {
+        if (col.attributeType.indexOf("text") > -1) {
+          if (attrValue.length < col.minimumCharactersNeeded) {
+            col.filterIsActive = false;
+          } else {
+            col.filterValue = attrValue;
+            col.filterIsActive = true;
+          }
+        } else if (col.attributeType.indexOf("number") > -1) {
+            col.filterIsActive = true;
+            col.filterValue = parseInt(attrValue);
+        } else {
+          col.filterValue = attrValue;
+          col.filterIsActive = true;
+        }
+      }
+    }
+
+    // We don't want to update the list every time we press a key
+    if (andRefrehData) {
+      clearTimeout(this.timerOnRefreshDataAfterChangesOnFilter);
+      this.timerOnRefreshDataAfterChangesOnFilter = setTimeout(() => {
+        this.refreshData()
+      }, 1000);
+    }
+
+  }
+
+
+  refreshData() {
+
+    // Copy the values originating from the parent component to the query params
+    console.log(this.queryParams);
+
+    this.loading = true;
+    this.stayService.getStaysForListing(this.queryParams).subscribe(res => {
+      if (res!= null) {
+        console.log(res.rows);
+        this.data = res.rows;
+        this.totalRecords = res.totalRecords;
+      }
+      this.loading = false;
+    });
+
+  }
+
+    // NOTE: Set 'lazyLoadOnInit' to false if you don't want this function to be called twice the
+  //         first time the table is displayed
+  updateSorting(event: LazyLoadEvent) {
+
+    this.queryParams.pageNum =  event.first! / event.rows!; // 'event.first' corresponds to an offset
+                                                          //    starting at 0 for the fist row of the first page.
+
+    // Clear previous sortings and fill in the query params with the given sortings
+    this.clearSortingsInQueryParams();
+    if (event.multiSortMeta != null) {
+      var sortingRank = 0;
+      for (let oneSort of event.multiSortMeta) {
+        var attrName = oneSort.field;
+        console.log(`sortOn[${attrName}]`)
+        if (oneSort.order == 1 || oneSort.order == -1 ) {
+          var col = this.queryParams.cols.filter(x => x.field == attrName,
+                                                this.queryParams.cols)[0] ;
+          col.sorting = oneSort.order;
+          col.sortingRank = sortingRank++;
+        } else {
+          // Left to null
+        }
+      }
+    }
+
+    // console.log(this.queryParams);
+    this.refreshData();
+  }
+
+  clearSortingsInQueryParams() {
+    for (let col of this.queryParams.cols) {
+      col.sorting = null;
+      col.sortingRank = null;
+    }
+  }
+
+  updateColumnsSelection(event) {
+    for (let attrName of this.selectableColumns.map(x => x.value)) {
+
+      // Get the corresponding column in queryParams
+      var col = this.queryParams.cols.filter(x => x.field == attrName,
+                                        this.queryParams.cols)[0];
+      if (this.selectedColumns.indexOf(attrName) >= 0) {
+        col.columnIsDisplayed = true;
+      } else {
+        // Hide the column
+        col.columnIsDisplayed = false;
+      }
+    }
+
+  }
+
+}

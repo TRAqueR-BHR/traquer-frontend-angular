@@ -1,76 +1,79 @@
 <ng-container *ngIf="outbreakUnitAsso != null">
 
     <div class="custom-form-grid p-fluid">
-    
+
         <div class="custom-form-field col-12 md:col-6">
-            <label for="unit" 
-                class="custom-label" 
+            <label for="unit"
+                class="custom-label"
                 i18n="@@unit">UF</label>
-            : {{outbreakUnitAsso.unit.name}}         
+            : <strong>{{outbreakUnitAsso.unit.name}}</strong>
         </div>
-    
+
         <div class="custom-form-field col-12 md:col-6">
-            <label for="simulated_number_of_contact_exposures" 
-                class="custom-label" 
+            <label for="simulated_number_of_contact_exposures"
+                class="custom-label"
                 i18n="@@simulated_number_of_contact_exposures">Nombre simulé de cas contacts</label>
-            : {{numberOfContactExposures}}         
+            : {{numberOfContactExposures}}
         </div>
-    
+
         <div class="custom-form-field col-12 md:col-6">
-            <label for="startTime" 
-                class="custom-label" 
+            <label for="startTime"
+                class="custom-label"
                 i18n="@@start_time">Heure de début</label>
-            <p-calendar id="startTime" 
+            <p-calendar id="startTime"
                 name="startTime"
-                [showTime]="true" 
-                [showIcon]="true" 
-                dateFormat="dd/mm/yy" 
+                [showTime]="true"
+                [disabled]="true"
+                [showIcon]="true"
+                dateFormat="dd/mm/yy"
                 [(ngModel)]="outbreakUnitAsso.startTime"
                 (ngModelChange)="simulateContactExposures()"
             ></p-calendar>
         </div>
-    
+
         <div class="custom-form-field col-12 md:col-6">
-            <label for="endTime" 
-                class="custom-label" 
+            <label for="endTime"
+                class="custom-label"
                 i18n="@@end_time">Heure de fin</label>
-            <p-calendar id="endTime" 
+            <p-calendar id="endTime"
                 name="endTime"
-                [showTime]="true" 
-                [showIcon]="true" 
-                dateFormat="dd/mm/yy" 
+                [showTime]="true"
+                [disabled]="true"
+                [showIcon]="true"
+                dateFormat="dd/mm/yy"
                 [(ngModel)]="outbreakUnitAsso.endTime"
                 (ngModelChange)="simulateContactExposures()"
             ></p-calendar>
         </div>
-    
+
         <div class="custom-form-field col-12 md:col-6">
-            <label for="sameRoomOnly" 
-                class="custom-label" 
+            <label for="sameRoomOnly"
+                class="custom-label"
                 i18n="@@start_date">
                 Restreindre les cas contacts aux patients ayant partagé la même chambre</label>
             <p-selectButton id="sameRoomOnly"
                 name="sameRoomOnly"
-                [options]="optionsYesNo" 
+                [options]="optionsYesNo"
                 [(ngModel)]="outbreakUnitAsso.sameRoomOnly"
                 (ngModelChange)="simulateContactExposures()"></p-selectButton>
         </div>
-    
+
         <div class="col-12">
-            <button pButton pRipple 
-                label="Créer les {{numberOfContactExposures}} cas contacts de cette UF" 
-                class="w-auto" 
+            <button pButton pRipple
+                label="Enregistrer et mettre à jour les cas contacts de cette UF"
+                class="w-auto"
                 (click)="generateContactExposuresAndInfectiousStatuses()"
-                [disabled]="numberOfContactExposures == 0 || saving"></button>       
+                [disabled]="saving"></button>
         </div>
-    
+
         <h3 class="col-12">Séjours des porteurs dans l'UF</h3>
-        <p-table class="col-12" [value]="carrierStaysForListing" responsiveLayout="scroll">
+        <p-table class="col-12" [value]="carriersStaysForListing" responsiveLayout="scroll">
             <ng-template pTemplate="header">
                 <tr>
                     <th i18n="firstname">Prénom</th>
                     <th i18n="lastname">Nom</th>
                     <th i18n="birthdate">Date de naissance</th>
+                    <th i18n="room">Chambre</th>
                     <th i18n="in_time">Date d'entrée à l'UF</th>
                     <th i18n="out_time">Date de sortie de l'UF</th>
                     <th i18n="hospitalization_in_time">Date d'entrée à l'hopital</th>
@@ -82,6 +85,7 @@
                     <td>{{s.firstname}}</td>
                     <td>{{s.lastname}}</td>
                     <td>{{s.birthdate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{s.room}}</td>
                     <td>{{s.in_time | date:"dd/MM/yyyy H:mm"}}</td>
                     <td>{{s.out_time | date:"dd/MM/yyyy H:mm"}}</td>
                     <td>{{s.hospitalization_in_time | date:"dd/MM/yyyy H:mm"}}</td>
@@ -89,7 +93,45 @@
                 </tr>
             </ng-template>
         </p-table>
-        
-    </div>  
-    
+
+        <h3 class="col-12">Séjours des patients contacts dans l'UF</h3>
+        <p-table class="col-12"
+            [value]="contactsStaysForListing"
+            responsiveLayout="scroll"
+            >
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7" i18n="@@no_contacts_in_this_unit_or_not_generated_yet">
+                        Pas de patients contacts ou pas encore générés
+                    </td>
+                </tr>
+           </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th i18n="firstname">Prénom</th>
+                    <th i18n="lastname">Nom</th>
+                    <th i18n="birthdate">Date de naissance</th>
+                    <th i18n="room">Chambre</th>
+                    <th i18n="in_time">Date d'entrée à l'UF</th>
+                    <th i18n="out_time">Date de sortie de l'UF</th>
+                    <th i18n="hospitalization_in_time">Date d'entrée à l'hopital</th>
+                    <th i18n="hospitalization_out_time">Date de sortie de l'hopital</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-s>
+                <tr>
+                    <td>{{s.firstname}}</td>
+                    <td>{{s.lastname}}</td>
+                    <td>{{s.birthdate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{s.room}}</td>
+                    <td>{{s.in_time | date:"dd/MM/yyyy H:mm"}}</td>
+                    <td>{{s.out_time | date:"dd/MM/yyyy H:mm"}}</td>
+                    <td>{{s.hospitalization_in_time | date:"dd/MM/yyyy H:mm"}}</td>
+                    <td>{{s.hospitalization_out_time | date:"dd/MM/yyyy H:mm"}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+    </div>
+
     </ng-container>

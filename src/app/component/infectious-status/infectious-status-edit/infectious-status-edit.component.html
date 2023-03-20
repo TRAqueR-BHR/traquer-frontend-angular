@@ -1,0 +1,112 @@
+<p-panel *ngIf="patientPanelShouldAppear"
+     header="Sélection du patient"
+    [toggleable]="true"
+    [(collapsed)]="patientSeachPanelCollapsed">
+
+    <app-patient-search></app-patient-search>
+
+</p-panel>
+
+<p-panel *ngIf="infectiousStatus"
+    header="Détails du statut infectieux"
+    [toggleable]="true"
+    [collapsed]="infectiousStatusPanelCollapsed">
+
+    <ng-container *ngIf="infectiousStatus != null">
+
+        <form name="form" #infectiousStatusForm="ngForm" class="ui-g"
+            (ngSubmit)="infectiousStatusForm.form.valid && save()">
+
+            <div class="custom-form-grid p-fluid">
+
+                <div class="custom-form-field col-12 flex align-items-center font-bold">
+                    <span>{{'patient'|getTranslation}} {{patientDecrypt.firstname}} {{patientDecrypt.lastname}}</span>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6 flex align-items-center font-bold">
+                    <label for="isCurrent"
+                        class="custom-label mr-1"
+                        i18n="@@is_current_status?">
+                        Statut actuel ?</label>
+
+                    <p-inputSwitch [(ngModel)]="infectiousStatus.isCurrent"
+                        id="isCurrent"
+                        name="isCurrent"
+                        required></p-inputSwitch>
+
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="infectious_status"
+                        class="custom-label"
+                        i18n="@@infectious_status">
+                        Statut infectieux</label>
+
+                    <p-dropdown [options]="optionsINFECTIOUS_STATUS_TYPE"
+                        id="infectiousStatus"
+                        name="infectiousStatus"
+                        appendTo="body"
+                        [(ngModel)]="infectiousStatus.infectiousStatus"
+                        required></p-dropdown>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6 flex align-items-center font-bold">
+                    <label for="isConfirmed"
+                        class="custom-label mr-1"
+                        i18n="@@confirmed?">
+                        Confirmé ?</label>
+
+                    <p-inputSwitch [(ngModel)]="infectiousStatus.isConfirmed"
+                        id="isConfirmed"
+                        name="isConfirmed"
+                        required></p-inputSwitch>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="refTime"
+                        class="custom-label"
+                        i18n="@@ref_time">Heure de référence</label>
+                    <p-calendar id="refTime"
+                        name="refTime"
+                        [showTime]="true"
+                        appendTo="body"
+                        [showIcon]="true"
+                        dateFormat="dd/mm/yy"
+                        [(ngModel)]="infectiousStatus.refTime"
+                        required
+                    ></p-calendar>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="infectious_agent"
+                        class="custom-label"
+                        i18n="@@infectious_agent">
+                        Agent infectieux</label>
+                    <p-dropdown [options]="optionsINFECTIOUS_AGENT_CATEGORY"
+                        id="infectiousAgent"
+                        name="infectiousAgent"
+                        appendTo="body"
+                        required
+                        [(ngModel)]="infectiousStatus.infectiousAgent"></p-dropdown>
+                </div>
+
+
+                <div class="custom-form-field col-12">
+
+                    <button pButton type="submit"
+                        [disabled]="infectiousStatusForm.invalid"
+                        i18n-label="save"
+                        label="Enregistrer"
+                        class="mt-2 w-auto">
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </ng-container>
+
+
+</p-panel>

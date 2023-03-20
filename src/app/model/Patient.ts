@@ -4,9 +4,9 @@ import { PatientRefCrypt } from "./PatientRefCrypt";
 import { PatientBirthdateCrypt } from "./PatientBirthdateCrypt";
 import { GENDER } from "../enum/GENDER";
 import { AnalysisResult } from "./AnalysisResult";
-import { ContactExposure } from "./ContactExposure";
 import { InfectiousStatus } from "./InfectiousStatus";
 import { Stay } from "./Stay";
+import { ContactExposure } from "./ContactExposure";
 
 export class Patient {
 
@@ -19,10 +19,10 @@ export class Patient {
     traquerRef:number;
     gender:GENDER;
     analysisResults:AnalysisResult[];
-    contactContactExposures:ContactExposure[];
-    carrierContactExposures:ContactExposure[];
     infectiousStatuses:InfectiousStatus[];
     staies:Stay[];
+    contactContactExposures:ContactExposure[];
+    carrierContactExposures:ContactExposure[];
 
     constructor(_json:Object) {
         if (_json['currentUnit'] != null) {
@@ -53,18 +53,6 @@ export class Patient {
                 this.analysisResults.push(new AnalysisResult(e));
             }
         }
-        if (_json['contactContactExposures'] != null) {
-            this.contactContactExposures = [];
-            for (let e of _json['contactContactExposures']) {
-                this.contactContactExposures.push(new ContactExposure(e));
-            }
-        }
-        if (_json['carrierContactExposures'] != null) {
-            this.carrierContactExposures = [];
-            for (let e of _json['carrierContactExposures']) {
-                this.carrierContactExposures.push(new ContactExposure(e));
-            }
-        }
         if (_json['infectiousStatuses'] != null) {
             this.infectiousStatuses = [];
             for (let e of _json['infectiousStatuses']) {
@@ -75,6 +63,18 @@ export class Patient {
             this.staies = [];
             for (let e of _json['staies']) {
                 this.staies.push(new Stay(e));
+            }
+        }
+        if (_json['contactContactExposures'] != null) {
+            this.contactContactExposures = [];
+            for (let e of _json['contactContactExposures']) {
+                this.contactContactExposures.push(new ContactExposure(e));
+            }
+        }
+        if (_json['carrierContactExposures'] != null) {
+            this.carrierContactExposures = [];
+            for (let e of _json['carrierContactExposures']) {
+                this.carrierContactExposures.push(new ContactExposure(e));
             }
         }
     }

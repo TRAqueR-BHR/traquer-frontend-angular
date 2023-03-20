@@ -1,0 +1,58 @@
+<p-confirmPopup></p-confirmPopup>
+
+<p-panel header="Remise à zéro"
+    [toggleable]="true"
+    [collapsed]="true">
+
+    <div class="custom-form-grid p-fluid">
+
+        <div class="custom-form-field col-12">
+            <button (click)="confirmReset($event)" pButton
+                icon="pi pi-check"
+                label="Réinitialiser les données"
+                class="w-auto"
+                [disabled]="resetInProgress"></button>
+        </div>
+
+    </div>
+
+
+</p-panel>
+
+<p-panel header="Traitement des analyses et séjours"
+    [toggleable]="true"
+    [collapsed]="false">
+
+    <form name="form" #simulateForm="ngForm" class="ui-g" (ngSubmit)="simulateForm.form.valid && process()">
+
+        <div class="custom-form-grid p-fluid">
+
+            <div class="custom-form-field col-12 md:col-6">
+                <label for="forceProcessingTime"
+                    class="custom-label"
+                    i18n="@@simulated_processing_time">Date limite de traitement</label>
+                <p-calendar id="forceProcessingTime"
+                    name="forceProcessingTime"
+                    [showTime]="true"
+                    appendTo="body"
+                    [showIcon]="true"
+                    dateFormat="dd/mm/yy"
+                    [(ngModel)]="forceProcessingTime"
+                    required
+                ></p-calendar>
+            </div>
+
+            <div class="custom-form-field col-12">
+                <button pButton
+                    icon="pi pi-check"
+                    label="Lancer le traitement"
+                    class="w-auto"
+                    type="submit"
+                    [disabled]="simulateForm.invalid || processingInProgress"></button>
+            </div>
+
+        </div>
+
+    </form>
+
+</p-panel>

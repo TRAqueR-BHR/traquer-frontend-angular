@@ -26,14 +26,14 @@ export class OutbreakUnitAsso {
         }
         this.id = _json['id'];
         if (_json['startTime'] != null) {
-            if (_json['refTime'] instanceof Date) {
+            if (_json['startTime'] instanceof Date) {
                 this.startTime = _json['startTime'];
             } else {
                 this.startTime = new Date(_json['startTime']);
             }
         }
         if (_json['endTime'] != null) {
-            if (_json['refTime'] instanceof Date) {
+            if (_json['endTime'] instanceof Date) {
                 this.endTime = _json['endTime'];
             } else {
                 this.endTime = new Date(_json['endTime']);

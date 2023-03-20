@@ -1,14 +1,14 @@
 <ng-container *ngIf="eventRequiringAttention != null">
-    
+
 
 <div class="grid">
-    
+
     <div class="col-12"> <!-- BEGIN EventRequiringAttention edition -->
 
         <div class="custom-form-grid p-fluid">
             <div class="custom-form-field col-12 md:col-6">
-                <label for="responsesTypes" 
-                    class="custom-label" 
+                <label for="responsesTypes"
+                    class="custom-label"
                     i18n="@@select_the_responses_to_the_event">
                     Choisir les réponses à l'événement
                 </label>
@@ -18,41 +18,50 @@
                     (ngModelChange)="handleResponsesTypesChange($event)"
                     [(ngModel)]="eventRequiringAttention.responsesTypes"
                     #responsesTypesCheck="ngModel"
-                    [filter]="false" 
-                    [multiple]="true" 
+                    [filter]="false"
+                    [multiple]="true"
                     [checkbox]="true"
                     [required]="true"
                 >
                 </p-listbox>
             </div>
             <div class="custom-form-field col-12 md:col-6">
-                <label for="responseComment" 
-                    class="custom-label" 
+                <label for="responseComment"
+                    class="custom-label"
                     i18n="@@user_comment">Commentaire de l'utilisateur</label>
-                <textarea pInputTextarea 
-                    [disabled]="isLocked"  
-                    [(ngModel)]="eventRequiringAttention.responseComment" 
-                    autoResize="autoResize"></textarea>            
+                <textarea pInputTextarea
+                    [disabled]="isLocked"
+                    [(ngModel)]="eventRequiringAttention.responseComment"
+                    autoResize="autoResize"></textarea>
             </div>
-        </div>    
+        </div>
 
     </div> <!-- ENDOF EventRequiringAttention edition -->
 
+    <div class="col-12"
+        *ngIf="canDisplayAssociateInfectiousStatusToOutbreaksComponent"> <!-- BEGIN Associate infectious status to existing outbreak -->
+        <h1 class="m-2">Associer le statut infectieux à un épisode existant</h1>
+        <app-associate-infectious-status-to-outbreaks
+            [infectiousStatus]="infectiousStatus">
+        </app-associate-infectious-status-to-outbreaks>
+    </div>
+
+
     <div class="col-12"> <!-- BEGIN Outbreak edition -->
-        <h1 class="m-2">Épisode</h1>
-        <span class="m-2" *ngIf="!canDisplayOutbreak" 
+        <h1 class="m-2">Épisode lié à l'événement</h1>
+        <span class="m-2" *ngIf="!canDisplayOutbreak"
             i18n="@@this_event_has_not_been_associated_to_an_event" >
             Cet événement n'est pas rattaché à un épisode
         </span>
-        <app-outbreak-edit *ngIf="canDisplayOutbreak" 
+        <app-outbreak-edit *ngIf="canDisplayOutbreak"
             [outbreak]="outbreak"
             [infectiousStatus]="infectiousStatus"
         ></app-outbreak-edit>
     </div> <!-- ENDOF Outbreak edition -->
 
     <div class="col-12"> <!-- BEGIN analyses requests -->
-        <h2 class="m-2" i18n="@@patient_analyses">Analyses du patient</h2>        
-        <app-patient-analyses *ngIf="infectiousStatus" 
+        <h2 class="m-2" i18n="@@patient_analyses">Analyses du patient</h2>
+        <app-patient-analyses *ngIf="infectiousStatus"
             [patient]="infectiousStatus.patient"></app-patient-analyses>
     </div> <!-- ENDOF analyses requests -->
 
@@ -60,15 +69,15 @@
         <div class="custom-form-grid">
             <div class="custom-form-field col-12 md:col-6">
 
-                <button pButton pRipple 
-                    i18n-label="@@save" label="Enregistrer" 
+                <button pButton pRipple
+                    i18n-label="@@save" label="Enregistrer"
                     class="w-auto" (click)="save()"></button>
             </div>
         </div>
     </div> -->
 
 </div>
-    
-    
-   
+
+
+
 </ng-container>

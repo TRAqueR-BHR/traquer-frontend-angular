@@ -1,0 +1,137 @@
+<p-panel *ngIf="patientPanelShouldAppear"
+     header="Sélection du patient"
+    [toggleable]="true"
+    [(collapsed)]="patientSeachPanelCollapsed">
+
+    <app-patient-search></app-patient-search>
+
+</p-panel>
+
+<p-panel *ngIf="stay"
+    i18n-header="@@stay_details"
+    header="Détails du séjour"
+    [toggleable]="true"
+    [collapsed]="stayPanelCollapsed">
+
+    <ng-container *ngIf="stay != null">
+
+        <form name="form" #stayForm="ngForm" class="ui-g"
+            (ngSubmit)="stayForm.form.valid && save()">
+
+            <div class="custom-form-grid p-fluid">
+
+                <div class="custom-form-field col-12 flex align-items-center font-bold">
+                    <span>{{'patient'|getTranslation}} {{patientDecrypt.firstname}} {{patientDecrypt.lastname}}</span>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="selectedHospitalization"
+                        class="custom-label"
+                        i18n="@@know_hospitalizations">
+                        Vous pouvez préremplir les dates de l'hospitalisation
+                        à l'aide d'une hospitalisation déjà enregistrée</label>
+
+                    <p-dropdown [options]="optionsExistingHospitalizations"
+                        id="selectedHospitalization"
+                        name="selectedHospitalization"
+                        appendTo="body"
+                        (onChange)="handleChangeOnSelectedExistingHospitalization($event)"
+                        ></p-dropdown>
+                </div>
+
+                <div class="col-12"></div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="hospitalizationInTime"
+                        class="custom-label"
+                        i18n="@@hospitalization_in_time">Début de l'hospitalisation</label>
+                    <p-calendar id="hospitalizationInTime"
+                        name="hospitalizationInTime"
+                        [showTime]="true"
+                        appendTo="body"
+                        [showIcon]="true"
+                        dateFormat="dd/mm/yy"
+                        [(ngModel)]="stay.hospitalizationInTime"
+                        required
+                    ></p-calendar>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="hospitalizationOutTime"
+                        class="custom-label"
+                        i18n="@@hospitalization_out_time">Fin de l'hospitalisation</label>
+                    <p-calendar id="hospitalizationOutTime"
+                        name="hospitalizationOutTime"
+                        [showTime]="true"
+                        appendTo="body"
+                        [showIcon]="true"
+                        dateFormat="dd/mm/yy"
+                        [(ngModel)]="stay.hospitalizationOutTime"
+                        ></p-calendar>
+                </div>
+
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="unit"
+                        class="custom-label"
+                        i18n="@@unit">UF</label>
+
+                    <p-dropdown [options]="optionsUnits"
+                        id="unit"
+                        name="unit"
+                        appendTo="body"
+                        [(ngModel)]="stay.unit"
+                        [filter]="true"
+                        required></p-dropdown>
+                </div>
+
+                <div class="col-12"></div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="inTime"
+                        class="custom-label"
+                        i18n="@@in_time">Heure d'arrivée à l'UF</label>
+                    <p-calendar id="inTime"
+                        name="inTime"
+                        [showTime]="true"
+                        appendTo="body"
+                        [showIcon]="true"
+                        dateFormat="dd/mm/yy"
+                        [(ngModel)]="stay.inTime"
+                        required
+                    ></p-calendar>
+                </div>
+
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="outTime"
+                        class="custom-label"
+                        i18n="@@out_time">Heure de sortie de l'UF</label>
+                    <p-calendar id="outTime"
+                        name="outTime"
+                        [showTime]="true"
+                        appendTo="body"
+                        [showIcon]="true"
+                        dateFormat="dd/mm/yy"
+                        [(ngModel)]="stay.outTime"
+                    ></p-calendar>
+                </div>
+
+                <div class="custom-form-field col-12">
+
+                    <button pButton type="submit"
+                        [disabled]="stayForm.invalid"
+                        i18n-label="save"
+                        label="Enregistrer"
+                        class="mt-2 w-auto">
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </ng-container>
+
+
+</p-panel>

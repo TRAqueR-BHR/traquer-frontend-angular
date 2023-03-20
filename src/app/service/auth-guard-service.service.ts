@@ -12,19 +12,19 @@ export class AuthGuardService implements CanActivate {
 
     constructor(private router: Router,
         private authenticationService:AuthenticationService) { }
- 
-    canActivate(route: ActivatedRouteSnapshot,
-                state: RouterStateSnapshot) {        
 
-        console.log(route);
-        console.log(state);        
-        
+    canActivate(route: ActivatedRouteSnapshot,
+                state: RouterStateSnapshot) {
+
+        // console.log(route);
+        // console.log(state);
+
         // Not logged in so redirect to login page
         if (!localStorage.getItem(environment.jwt_name)) {
             this.redirectToLoginPage();
             return false;
         }
-        
+
         // No restriction on '/'
         if (route.url.length == 0) {
             return true;
@@ -32,8 +32,8 @@ export class AuthGuardService implements CanActivate {
 
         // Add restrictions here
         // ...
-        
-        return true;                
+
+        return true;
     }
 
     redirectToLoginPage() {
@@ -42,4 +42,3 @@ export class AuthGuardService implements CanActivate {
     }
 
 }
-

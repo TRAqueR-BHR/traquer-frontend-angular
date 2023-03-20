@@ -1,6 +1,6 @@
 import { OutbreakUnitAsso } from "./OutbreakUnitAsso";
-import { ContactExposure } from "./ContactExposure";
 import { Stay } from "./Stay";
+import { ContactExposure } from "./ContactExposure";
 import { Patient } from "./Patient";
 import { AnalysisRequest } from "./AnalysisRequest";
 
@@ -10,8 +10,8 @@ export class Unit {
     name:string;
     codeName:string;
     outbreakUnitAssoes:OutbreakUnitAsso[];
-    contactExposures:ContactExposure[];
     staies:Stay[];
+    contactExposures:ContactExposure[];
     patients:Patient[];
     analysisRequests:AnalysisRequest[];
 
@@ -25,16 +25,16 @@ export class Unit {
                 this.outbreakUnitAssoes.push(new OutbreakUnitAsso(e));
             }
         }
-        if (_json['contactExposures'] != null) {
-            this.contactExposures = [];
-            for (let e of _json['contactExposures']) {
-                this.contactExposures.push(new ContactExposure(e));
-            }
-        }
         if (_json['staies'] != null) {
             this.staies = [];
             for (let e of _json['staies']) {
                 this.staies.push(new Stay(e));
+            }
+        }
+        if (_json['contactExposures'] != null) {
+            this.contactExposures = [];
+            for (let e of _json['contactExposures']) {
+                this.contactExposures.push(new ContactExposure(e));
             }
         }
         if (_json['patients'] != null) {

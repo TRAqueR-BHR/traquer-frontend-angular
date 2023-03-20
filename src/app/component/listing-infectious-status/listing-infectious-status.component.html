@@ -7,19 +7,48 @@
 
     <!-- Columns selection and download -->
     <ng-template pTemplate="caption">
-        <div style="text-align:left">
-            <p-multiSelect [options]="selectableColumns" [(ngModel)]="selectedColumns"
-                        selectedItemsLabel="{0} colonnes sélectionnées" [style]="{minWidth: '200px'}"
-                        defaultLabel="Choisir les colonnes à afficher" (ngModelChange)="updateColumnsSelection($event)"></p-multiSelect>
 
-            <div class="p-d-flex float-right">
-                <div class="p-mr-0">
-                    <p-button *ngIf="canDisplayDownloadCSVButton" label="Export .csv"
-                        icon="fas fa-download" (click)="exportCSV()"></p-button>
-                </div>
-            </div>
+        <div class="flex">
 
+            <p-multiSelect [options]="selectableColumns"
+                [(ngModel)]="selectedColumns"
+                selectedItemsLabel="{0} colonnes sélectionnées"
+                [style]="{minWidth: '200px'}"
+                defaultLabel="Choisir les colonnes à afficher"
+                (ngModelChange)="updateColumnsSelection($event)">
+            </p-multiSelect>
+            <span class="p-input-icon-left ml-auto">
+                <p-button
+                    i18n-pTooltip="@@add_patient"
+                    pTooltip="Ajouter un patient"
+                    class="mr-1"
+                    label="+"
+                    icon="fa fa-solid fa-user"
+                    (onClick)="handleClickOnNewPatientBtn($event)"></p-button>
+                <p-button
+                    i18n-pTooltip="@@add_stay"
+                    pTooltip="Ajouter un séjour"
+                    class="mr-1"
+                    label="+"
+                    icon="fa fa-solid fa-bed"
+                    (onClick)="handleClickOnNewStayBtn($event)"></p-button>
+                <p-button
+                    i18n-pTooltip="@@add_analysis_result"
+                    pTooltip="Ajouter un résultat d'analyse"
+                    class="mr-1"
+                    label="+"
+                    icon="fa fa-solid fa-flask"
+                    (onClick)="handleClickOnNewAnalysisResultBtn($event)"></p-button>
+                <p-button
+                    i18n-pTooltip="@@add_infectious_status"
+                    pTooltip="Ajouter un statut infectieux"
+                    class="mr-1"
+                    label="+"
+                    icon="fas fa-lemon"
+                    (onClick)="handleClickOnNewInfectiousStatusBtn($event)"></p-button>
+            </span>
         </div>
+
     </ng-template>
 
     <!-- Columns sizes -->
@@ -83,15 +112,12 @@
                         <p-dropdown
                             *ngSwitchCase="col.field === 'is_confirmed'
                                         || col.field === 'is_current'
-                                        || col.field === 'event_is_pending' "
+                                        || col.field === 'event_is_pending'
+                                        || col.field === 'patient_is_hospitalized'"
                             [options]="trueFalseSelectItems"
                             [(ngModel)]="filterValues[col.field]"
                             (onChange)="updateFiltering()">
                         </p-dropdown>
-                        <p-dropdown *ngSwitchCase="col.field === 'verifiee'"
-                            [options]="trueFalseSelectItems" appendTo="body"
-                            [(ngModel)]="filterValues[col.field]" filterPlaceholder="qq"
-                            (onChange)="updateFiltering()"></p-dropdown>
 
                     </th>
                     <th *ngIf="!col.filterable" ></th>
@@ -132,6 +158,12 @@
                                 getTranslation
                             }}
                         </span>
+                        <span *ngSwitchCase="'event_ref_time'">
+                            {{
+                                rowData[col.nameInSelect] |
+                                date:'dd/MM/yyyy HH:mm'
+                            }}
+                        </span>
                         <span *ngSwitchCase="'event_is_pending'">{{rowData[col.nameInSelect] | getTranslation}}</span>
                         <p-checkbox *ngSwitchCase="'verifiee'"
                             (onChange)="toggleCourseVerifiee($event,rowData)"
@@ -140,7 +172,7 @@
 
                         <button  *ngSwitchCase="'action'"
                             pButton pRipple type="button"
-                            (click)="displayDialogForUserResponse(rowData.event_id)"
+                            (click)="displayDialogForUserResponse(rowData)"
                             icon="fas fa-hand-rock"
                             class="p-button-rounded p-button-text"></button>
 

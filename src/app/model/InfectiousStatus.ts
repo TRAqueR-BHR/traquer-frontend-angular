@@ -2,8 +2,8 @@ import { Patient } from "./Patient";
 import { INFECTIOUS_STATUS_TYPE } from "../enum/INFECTIOUS_STATUS_TYPE";
 import { ANALYSIS_REQUEST_STATUS_TYPE } from "../enum/ANALYSIS_REQUEST_STATUS_TYPE";
 import { INFECTIOUS_AGENT_CATEGORY } from "../enum/INFECTIOUS_AGENT_CATEGORY";
-import { EventRequiringAttention } from "./EventRequiringAttention";
 import { OutbreakInfectiousStatusAsso } from "./OutbreakInfectiousStatusAsso";
+import { EventRequiringAttention } from "./EventRequiringAttention";
 
 export class InfectiousStatus {
 
@@ -15,8 +15,8 @@ export class InfectiousStatus {
     isConfirmed:boolean;
     refTime:Date;
     infectiousAgent:INFECTIOUS_AGENT_CATEGORY;
-    eventRequiringAttentions:EventRequiringAttention[];
     outbreakInfectiousStatusAssoes:OutbreakInfectiousStatusAsso[];
+    eventRequiringAttentions:EventRequiringAttention[];
 
     constructor(_json:Object) {
         if (_json['patient'] != null) {
@@ -53,16 +53,16 @@ export class InfectiousStatus {
                 this.infectiousAgent = Number(_json['infectiousAgent']);
             }
         }
-        if (_json['eventRequiringAttentions'] != null) {
-            this.eventRequiringAttentions = [];
-            for (let e of _json['eventRequiringAttentions']) {
-                this.eventRequiringAttentions.push(new EventRequiringAttention(e));
-            }
-        }
         if (_json['outbreakInfectiousStatusAssoes'] != null) {
             this.outbreakInfectiousStatusAssoes = [];
             for (let e of _json['outbreakInfectiousStatusAssoes']) {
                 this.outbreakInfectiousStatusAssoes.push(new OutbreakInfectiousStatusAsso(e));
+            }
+        }
+        if (_json['eventRequiringAttentions'] != null) {
+            this.eventRequiringAttentions = [];
+            for (let e of _json['eventRequiringAttentions']) {
+                this.eventRequiringAttentions.push(new EventRequiringAttention(e));
             }
         }
     }

@@ -34,6 +34,8 @@ import {SplitButtonModule} from 'primeng/splitbutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {TimelineModule} from 'primeng/timeline';
+import {PanelModule} from 'primeng/panel';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
 
 import { TranslationModule } from './module/translation/translation.module';
 import { TranslationService } from './module/translation/service/translation.service';
@@ -55,11 +57,10 @@ import { LoginComponent } from './page/login/login.component';
 import { OtherTranslationsComponent } from './component/other-translations/other-translations.component';
 import { UserDetailsPageComponent } from './page/user-details-page/user-details-page.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { InfectiousStatusHistoryComponent } from './component/infectious-status-history/infectious-status-history.component';
 import { PatientPageComponent } from './page/patient-page/patient-page.component';
 import { CalendarPageComponent } from './page/calendar-page/calendar-page.component';
 import { CalendarComponent } from './calendar/calendar.component';
-import { InfectiousStatusExplanationComponent } from './component/infectious-status-explanation/infectious-status-explanation.component';
+import { InfectiousStatusExplanationComponent } from './component/infectious-status/infectious-status-explanation/infectious-status-explanation.component';
 import { ResponsesToEventComponent } from './component/responses-to-event/responses-to-event.component';
 import { ListboxModule } from 'primeng/listbox';
 import { OutbreakEditComponent } from './component/outbreak/outbreak-edit/outbreak-edit.component';
@@ -67,8 +68,18 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { CalendarModule } from 'primeng/calendar';
 import { PatientAnalysesComponent } from './component/analysis/patient-analyses/patient-analyses.component';
 import { OutbreakUnitAssoComponent } from './component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component';
-import { InfectiousStatusEditComponent } from './component/infectious-status-edit/infectious-status-edit.component';
+import { InfectiousStatusEditComponent } from './component/infectious-status/infectious-status-edit/infectious-status-edit.component';
 import { CardModule } from 'primeng/card';
+import { AssociateInfectiousStatusToOutbreaksComponent } from './component/infectious-status/associate-infectious-status-to-outbreaks/associate-infectious-status-to-outbreaks.component';
+import { PatientSearchComponent } from './component/patient/patient-search/patient-search.component';
+import { PatientEditorComponent } from './component/patient/patient-editor/patient-editor.component';
+import { StayEditComponent } from './component/stay/stay-edit/stay-edit.component';
+import { AnalysisResultEditComponent } from './component/analysis/analysis-result-edit/analysis-result-edit.component';
+import { SimulateProcessingAtPointInTimeComponent } from './component/simulate-processing-at-point-in-time/simulate-processing-at-point-in-time.component';
+import { AnalysesResultsComponent } from './component/analysis/analyses-results/analyses-results.component';
+import { StaysComponent } from './component/stay/stays/stays.component';
+import { AnalysesPageComponent } from './page/analyses-page/analyses-page.component';
+import { StaysPageComponent } from './page/stays-page/stays-page.component';
 
 // References: - https://devblog.dymel.pl/2017/10/17/angular-preload/
 //             - https://www.tektutorialshub.com/angular/angular-how-to-use-app-initializer/
@@ -98,7 +109,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ListingInfectiousStatusComponent,
     OtherTranslationsComponent,
     UserDetailsPageComponent,
-    InfectiousStatusHistoryComponent,
     PatientPageComponent,
     CalendarPageComponent,
     CalendarComponent,
@@ -107,7 +117,17 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     OutbreakEditComponent,
     PatientAnalysesComponent,
     OutbreakUnitAssoComponent,
-    InfectiousStatusEditComponent
+    InfectiousStatusEditComponent,
+    AssociateInfectiousStatusToOutbreaksComponent,
+    PatientSearchComponent,
+    PatientEditorComponent,
+    StayEditComponent,
+    AnalysisResultEditComponent,
+    SimulateProcessingAtPointInTimeComponent,
+    AnalysesResultsComponent,
+    StaysComponent,
+    StaysPageComponent,
+    AnalysesPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -140,6 +160,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     InputSwitchModule,
     TimelineModule,
     CardModule,
+    PanelModule,
+    ConfirmPopupModule,
 
     // Spe3dlab modules (needed for pipes)
     Spe3dlabUtilsModule,

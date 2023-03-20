@@ -13,27 +13,27 @@ export class AuthInterceptor implements HttpInterceptor {
 
     const idToken = localStorage.getItem(environment.jwt_name);
     const cryptPwd = localStorage.getItem(environment.cryptPwdLocalStorageKey)!;
-    // const idToken = "qqqqqqqqqqqqqqqqqqqq";
-    console.log(`cryptPwd[${cryptPwd}]`);
+
+    // console.log(`cryptPwd[${cryptPwd}]`);
     if (idToken && cryptPwd) {
         // console.log(req.headers);
         let cloned = req.clone({
-            // The header key must be lower case (authorization not Authorization) 
+            // The header key must be lower case (authorization not Authorization)
             //   because haproxy makes everything lower case
             headers: req.headers.append("authorization",
                                         "Bearer " + idToken)
                                 .append(environment.cryptPwdHttpHeaderKey,
                                         cryptPwd)
         });
-        console.log(cloned);
+        // console.log(cloned);
         return next.handle(cloned);
     }
     else if (idToken) {
         let cloned = req.clone({
-            // The header key must be lower case (authorization not Authorization) 
+            // The header key must be lower case (authorization not Authorization)
             //   because haproxy makes everything lower case
             headers: req.headers.append("authorization",
-                                        "Bearer " + idToken)                                
+                                        "Bearer " + idToken)
         });
         console.log(cloned);
         return next.handle(cloned);
