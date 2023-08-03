@@ -54,17 +54,15 @@
             <ng-container *ngFor="let col of columns" >
                 <ng-container *ngIf="col.columnIsDisplayed" >
                     <th *ngIf="col.filterable" [ngSwitch]="true">
-                        <input *ngSwitchDefault pInputText type="text"
-                            [(ngModel)]="filterValues[col.field]"
-                            (keyup)="updateFiltering()">
-                        <p-dropdown *ngSwitchCase="col.field === 'request_type'"
+                        <p-multiSelect *ngSwitchCase="col.field === 'request_type'"
                             [options]="optionsANALYSIS_REQUEST_TYPE"
                             appendTo="body"
                             [(ngModel)]="filterValues[col.field]"
                             filterPlaceholder="qq"
-                            (onChange)="updateFiltering()"></p-dropdown>
-                        <p-multiSelect *ngSwitchCase="col.field === 'result'"
-                            [options]="optionsANALYSIS_RESULT_VALUE_TYPE"
+                            (onChange)="updateFiltering()"
+                            ></p-multiSelect>
+                        <p-multiSelect *ngSwitchCase="col.field === 'sample_material_type'"
+                            [options]="optionsSAMPLE_MATERIAL_TYPE"
                             appendTo="body"
                             [(ngModel)]="filterValues[col.field]"
                             filterPlaceholder="qq"
@@ -77,6 +75,15 @@
                             appendTo="body" [locale]="translationForPrimengCalendar"
                             [(ngModel)]="filterValues[col.field]"
                             ></p-calendar>
+                        <p-dropdown *ngSwitchCase="col.field === 'result'"
+                            [options]="optionsANALYSIS_RESULT_VALUE_TYPE"
+                            appendTo="body"
+                            [(ngModel)]="filterValues[col.field]"
+                            filterPlaceholder="qq"
+                            (onChange)="updateFiltering()"></p-dropdown>
+                        <input *ngSwitchDefault pInputText type="text"
+                            [(ngModel)]="filterValues[col.field]"
+                            (keyup)="updateFiltering()">
 
                     </th>
                     <th *ngIf="!col.filterable" ></th>

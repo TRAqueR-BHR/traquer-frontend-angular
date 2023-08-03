@@ -54,6 +54,7 @@ export class AnalysisResultEditComponent implements OnInit {
   patientPanelShouldAppear:boolean = false;
   patientSeachPanelCollapsed:boolean = false;
   analysisResultPanelCollapsed:boolean = false;
+  processing:boolean = false;
 
   // Resources loaded checker
   resourcesLoadedChecker = {
@@ -214,8 +215,10 @@ export class AnalysisResultEditComponent implements OnInit {
   }
 
   save(){
+    this.processing = true;
     this.analysisResultService.upsert(this.analysisResult, this.analysisRef)
     .subscribe(res => {
+      this.processing = false;
       if (res != null){
         this.analysisResult = res;
         this.notificationService.notifySuccess(
@@ -246,7 +249,8 @@ export class AnalysisResultEditComponent implements OnInit {
               res,
               ANALYSIS_RESULT_VALUE_TYPE,
               true, // null options
-              );
+              "ANALYSIS_RESULT_VALUE_TYPE_"
+            );
       }
     );
   }

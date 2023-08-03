@@ -107,7 +107,7 @@ export class AnalysesResultsComponent implements OnInit {
             this.selectItemService.createSelectItemsForEnums(
               res,
               ANALYSIS_REQUEST_TYPE,
-              true // null options
+              false // null options
               );
       }
     );
@@ -135,7 +135,7 @@ export class AnalysesResultsComponent implements OnInit {
             this.selectItemService.createSelectItemsForEnums(
               res,
               SAMPLE_MATERIAL_TYPE,
-              true, // null options
+              false, // null options
               "SAMPLE_MATERIAL_TYPE_"
               );
       }
@@ -179,6 +179,25 @@ export class AnalysesResultsComponent implements OnInit {
       header: this.translationService.getTranslation("request_type"),
       attributeType:"enum",
       enumType: Utils.getEnumName(ANALYSIS_REQUEST_TYPE),
+      attributeTest:"IN",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"2em"
+    };
+
+    const sampleMaterialTypeColDef = {
+      field:"sample_material_type",
+      nameInSelect:"sample_material_type",
+      nameInWhereClause:"a.sample_material_type",
+      header: this.translationService.getTranslation("sample_material_type"),
+      attributeType:"enum",
+      enumType: Utils.getEnumName(SAMPLE_MATERIAL_TYPE),
       attributeTest:"IN",
       sortable: true,
       filterable: true,
@@ -265,9 +284,6 @@ export class AnalysesResultsComponent implements OnInit {
       width:"4em"
     };
 
-
-
-
     // ############### //
     // Add the columns //
     // ############### //
@@ -278,8 +294,9 @@ export class AnalysesResultsComponent implements OnInit {
     }
 
     this.queryParams.cols.push(requestTypeColDef);
-    this.queryParams.cols.push(resultColDef);
     this.queryParams.cols.push(requestTimeColDef);
+    this.queryParams.cols.push(sampleMaterialTypeColDef);
+    this.queryParams.cols.push(resultColDef);
 
     // this.queryParams.cols.push( {
     //   field: 'view_details',

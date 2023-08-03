@@ -177,6 +177,23 @@ export class StaysComponent implements OnInit {
       sortingRank:null,
       width:"4em"
     };
+    const roomColDef = {
+      field:"room",
+      nameInSelect:"room",
+      nameInWhereClause:"s.room",
+      header: this.translationService.getTranslation("room"),
+      attributeType:"string",
+      attributeTest:"like",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
 
     // ############ //
     // Unit columns //
@@ -268,6 +285,7 @@ export class StaysComponent implements OnInit {
     this.queryParams.cols.push(hospitalizationInTimeColDef);
     this.queryParams.cols.push(hospitalizationOutTimeColDef);
     this.queryParams.cols.push(unitNameColDef);
+    this.queryParams.cols.push(roomColDef);
 
     // this.queryParams.cols.push( {
     //   field: 'view_details',

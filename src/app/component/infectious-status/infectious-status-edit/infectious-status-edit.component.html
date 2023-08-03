@@ -94,7 +94,7 @@
                 <div class="custom-form-field col-12">
 
                     <button pButton type="submit"
-                        [disabled]="infectiousStatusForm.invalid"
+                        [disabled]="infectiousStatusForm.invalid || processing"
                         i18n-label="save"
                         label="Enregistrer"
                         class="mt-2 w-auto">

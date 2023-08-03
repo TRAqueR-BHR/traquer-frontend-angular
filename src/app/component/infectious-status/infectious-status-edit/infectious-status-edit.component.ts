@@ -45,6 +45,7 @@ export class InfectiousStatusEditComponent implements OnInit {
   patientPanelShouldAppear:boolean = false;
   patientSeachPanelCollapsed:boolean = false;
   infectiousStatusPanelCollapsed:boolean = false;
+  processing:boolean = false;
 
   // Resources loaded checker
   resourcesLoadedChecker = {
@@ -198,7 +199,9 @@ export class InfectiousStatusEditComponent implements OnInit {
   }
 
   save(){
+    this.processing = true;
     this.infectiousStatusService.upsert(this.infectiousStatus).subscribe(res => {
+      this.processing = false;
       if (res != null){
         this.infectiousStatus = res;
         this.notificationService.notifySuccess(

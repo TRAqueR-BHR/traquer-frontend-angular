@@ -43,6 +43,7 @@ export class StayEditComponent implements OnInit {
   patientPanelShouldAppear:boolean = false;
   patientSeachPanelCollapsed:boolean = false;
   stayPanelCollapsed:boolean = false;
+  processing:boolean = false;
 
   // Resources loaded checker
   resourcesLoadedChecker = {
@@ -195,7 +196,9 @@ export class StayEditComponent implements OnInit {
   }
 
   save(){
+    this.processing = true;
     this.stayService.upsert(this.stay).subscribe(res => {
+      this.processing = false;
       if (res != null){
         this.stay = res;
         this.notificationService.notifySuccess(

@@ -83,9 +83,9 @@ export class OutbreakUnitAssoComponent implements OnInit {
   }
 
   generateContactExposuresAndInfectiousStatuses() {
+    this.saving = true;
     this.contactExposureService.generateContactExposuresAndInfectiousStatuses(this.outbreakUnitAsso)
       .subscribe(res => {
-        this.saving = true;
         if (res != null){
           this.saving = false;
           this.getContactsStaysFromOutbreakUnitAsso();

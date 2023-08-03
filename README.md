@@ -30,4 +30,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 `ng xi18n --output-path src/assets/translation`
 
 ## HOWTO Build for production (the default 'production' configuration builds for French)
-`ng build --configuration production`
+`ng build --configuration production-cht-noumea`
+`ng build --configuration dev-cht-noumea`
