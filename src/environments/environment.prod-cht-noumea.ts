@@ -26,6 +26,7 @@ export const environment = {
   hideSalesReportsModule:false,
   maxFileSizeInMByteForRasterImages:1,
   maxFileSizeInMByteForOtherFiles:1,
+  ignoreForceReloadIfDifferentVersionFromDB:false,
 };
 
 /*

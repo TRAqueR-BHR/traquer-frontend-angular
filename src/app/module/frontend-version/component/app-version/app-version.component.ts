@@ -47,9 +47,15 @@ export class AppVersionComponent implements OnInit {
     console.log("Check version");
     this.frontendVersionService.getCurrentFrontendVersion().subscribe(res => {
       if (res!=null) {
-        if (res.forceReloadIfDifferentVersion === true && res.name != environment.frontEndVersion) {
+        console.log(res);
+        if (
+          res.forceReloadIfDifferentVersion === true
+          && res.name != environment.frontEndVersion
+          && environment.ignoreForceReloadIfDifferentVersionFromDB === false
+        ) {
+
           this.contentForReloadAppDialog = this.translationService.getTranslation("a_new_version_is_available_long");
-          this.contentForReloadAppDialog = this.contentForReloadAppDialog.replace("#VERSION_NAME#",res.name);      
+          this.contentForReloadAppDialog = this.contentForReloadAppDialog.replace("#VERSION_NAME#",res.name);
           this.displayReloadAppDialog = true;
         }
       }
@@ -63,4 +69,3 @@ export class AppVersionComponent implements OnInit {
 
 
 }
-

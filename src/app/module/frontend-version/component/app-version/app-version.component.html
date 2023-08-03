@@ -1,10 +1,18 @@
-<p-dialog [(visible)]="displayReloadAppDialog" 
-i18n-header="@@a_new_version_is_available_short" header="New version available!"
+<p-dialog [(visible)]="displayReloadAppDialog"
+    i18n-header="@@a_new_version_is_available_short"
+    header="Nouvelle version disponible"
 [closable]="false" appendTo="body" [closeOnEscape]="false" [modal]="true">
     <div class="load-new-version-dialog-content">
-        <div>{{contentForReloadAppDialog}}</div>
-        <div><p-button i18n-label="@@load_latest_version" label="Get new version" (onClick)="reloadApp()"></p-button></div>
-    </div>    
+        <div>
+            {{contentForReloadAppDialog}}
+        </div>
+        <div style="margin-top: 1em;">
+            <p-button i18n-label="@@load_latest_version"
+                label="Télécharger la dernière version"
+                (onClick)="reloadApp()"
+            ></p-button>
+        </div>
+    </div>
 </p-dialog>
 
 <div style="position: fixed;bottom: 0px;right:.5em;left: auto;font-size: 80%; color: rgb(59, 59, 59)">Powered by ORFeAD {{currentVersionName}}</div>
