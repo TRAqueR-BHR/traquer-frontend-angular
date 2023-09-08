@@ -361,7 +361,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
     const eventRefTimeColDef = {
       field:"event_ref_time",
       nameInSelect:"event_ref_time",
-      nameInWhereClause:"era.event_ref_time",
+      nameInWhereClause:"era.ref_time",
       header: this.translationService.getTranslation("event_reference_time_abbreviated"),
       attributeType:"date",
       sortable: true,

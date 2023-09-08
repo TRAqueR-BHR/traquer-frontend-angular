@@ -14,7 +14,9 @@ export class LoginComponent implements OnInit {
   value: number = 0;
 
   model: any = {username: "", password: ""};
-  
+
+  processing = false;
+
   constructor(private authenticationService:AuthenticationService,
               private router: Router,) { }
 
@@ -24,21 +26,26 @@ export class LoginComponent implements OnInit {
     }
     this.authenticationService.logout();
   }
-  
+
   login(evt) {
     console.log(evt);
-    this.authenticationService.login(this.model.username,
-                                     this.model.password).subscribe(res => {
-      console.log(res);
-      if (res != null) {    
-        // this.processingService.unblockUI("LoginComponent.login");                        
-            this.router.navigate(['/']);
-      } 
-    else {
-        // login failed
-        // this.error = 'Le login ou mot de passe est incorrect';
+    this.processing = true;
+    this.authenticationService.login(
+      this.model.username,
+      this.model.password
+    ).subscribe(res => {
+
+      this.processing = false;
+
+      if (res != null) {
         // this.processingService.unblockUI("LoginComponent.login");
-    }
+            this.router.navigate(['/']);
+      }
+      else {
+          // login failed
+          // this.error = 'Le login ou mot de passe est incorrect';
+          // this.processingService.unblockUI("LoginComponent.login");
+      }
     })
   }
 

@@ -9,10 +9,10 @@
          <div>
              <label for="login" class="block text-900 font-medium mb-2">Login</label>
              <input id="login" type="text" pInputText class="w-full mb-3" [(ngModel)]="model.username">
- 
+
              <label for="password" class="block text-900 font-medium mb-2" i18n="@@password">Mot de passe</label>
              <input id="password" type="password" pInputText class="w-full mb-3" [(ngModel)]="model.password">
- 
+
              <div class="hidden align-items-center justify-content-between mb-6" *ngIf="true">
                  <div class="flex align-items-center">
                      <p-checkbox id="rememberme" [binary]="true" styleClass="mr-2"></p-checkbox>
@@ -20,9 +20,16 @@
                  </div>
                  <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot your password?</a>
              </div>
- 
-             <button pButton pRipple i18n-label="@@sign_in" label="S'identifier" icon="pi pi-user" class="w-full" 
-                     (click)="login($event)"></button>
+
+             <button pButton pRipple
+                i18n-label="@@sign_in"
+                label="S'identifier"
+                icon="pi pi-user"
+                class="w-full"
+                (click)="login($event)"
+                [disabled]="processing"
+            >
+            </button>
          </div>
     </div>
     <!-- <div class="hidden md:block w-6 bg-no-repeat bg-cover" style="background-image: url('assets/images/blocks/signin/signin.jpg')"></div> -->

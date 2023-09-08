@@ -80,6 +80,7 @@ import { AnalysesResultsComponent } from './component/analysis/analyses-results/
 import { StaysComponent } from './component/stay/stays/stays.component';
 import { AnalysesPageComponent } from './page/analyses-page/analyses-page.component';
 import { StaysPageComponent } from './page/stays-page/stays-page.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 // References: - https://devblog.dymel.pl/2017/10/17/angular-preload/
 //             - https://www.tektutorialshub.com/angular/angular-how-to-use-app-initializer/
@@ -162,6 +163,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     CardModule,
     PanelModule,
     ConfirmPopupModule,
+    AutoCompleteModule,
 
     // Spe3dlab modules (needed for pipes)
     Spe3dlabUtilsModule,

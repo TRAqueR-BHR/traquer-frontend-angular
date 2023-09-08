@@ -22,6 +22,7 @@ import { ANALYSIS_RESULT_VALUE_TYPE } from 'src/app/enum/ANALYSIS_RESULT_VALUE_T
 import { SAMPLE_MATERIAL_TYPE } from 'src/app/enum/SAMPLE_MATERIAL_TYPE';
 import { AnalysisService } from 'src/app/service/analysis.service';
 import { StayService } from 'src/app/service/stay.service';
+import { UnitService } from 'src/app/service/unit.service';
 
 @Component({
   selector: 'app-stays',
@@ -49,6 +50,7 @@ export class StaysComponent implements OnInit {
   optionsANALYSIS_REQUEST_TYPE:SelectItem[] = [];
   optionsANALYSIS_RESULT_VALUE_TYPE:SelectItem[] = [];
   optionsSAMPLE_MATERIAL_TYPE:SelectItem[] = [];
+  optionsUnits:SelectItem[] = [];
 
   timerOnRefreshDataAfterChangesOnFilter:any;
 
@@ -63,12 +65,13 @@ export class StaysComponent implements OnInit {
     private selectItemService:SelectItemService,
     private eventRequiringAttentionService:EventRequiringAttentionService,
     private authenticationService:AuthenticationService,
+    private unitService:UnitService,
     @Inject(LOCALE_ID) private locale: string
   ) { }
 
   ngOnInit(): void {
-
     this.prepareOptionsTrueFalse();
+    this.prepareOptionsUnits();
     this.intializeTablesPreferences();
   }
 
@@ -95,6 +98,20 @@ export class StaysComponent implements OnInit {
         value: false
       }
     );
+  }
+
+  prepareOptionsUnits(){
+    this.unitService.getAllUnits(false).subscribe(res =>{
+
+      if (res != null){
+        this.optionsUnits = this.selectItemService.createSelectItemsForEntities(
+          res,
+          "name", // no value property, use the entity itself
+          "name"
+        );
+      }
+
+    });
   }
 
   intializeTablesPreferences() {
@@ -204,7 +221,7 @@ export class StaysComponent implements OnInit {
       nameInWhereClause:"u.name",
       header: this.translationService.getTranslation("unit"),
       attributeType:"string",
-      attributeTest:"like",
+      attributeTest:"IN",
       sortable: true,
       filterable: true,
       columnIsDisplayed:true,

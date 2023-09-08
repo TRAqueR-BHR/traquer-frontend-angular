@@ -101,8 +101,8 @@ export class SelectItemService {
     let unTranslatedLabel = item;
     while (labelPropertyTree.length > 0){
       let _prop = labelPropertyTree.shift();
-      console.log(unTranslatedLabel);
-      console.log(_prop);
+      // console.log(unTranslatedLabel);
+      // console.log(_prop);
       unTranslatedLabel = unTranslatedLabel[_prop];
     }
 

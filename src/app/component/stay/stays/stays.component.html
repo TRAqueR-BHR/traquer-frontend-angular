@@ -56,7 +56,7 @@
                     <th *ngIf="col.filterable" [ngSwitch]="true">
                         <input *ngSwitchDefault pInputText type="text"
                             [(ngModel)]="filterValues[col.field]"
-                            (keyup)="updateFiltering()">
+                            (keyup)="updateFiltering()"/>
                         <p-calendar
                             *ngSwitchCase="col.field === 'in_time' || col.field === 'out_time'"
                             [showTime]="false"  [showButtonBar]="true"
@@ -65,7 +65,16 @@
                             (onSelect)="updateFiltering()" (onClearClick)="updateFiltering()"
                             appendTo="body" [locale]="translationForPrimengCalendar"
                             [(ngModel)]="filterValues[col.field]"
-                            ></p-calendar>
+                            >
+                        </p-calendar>
+                        <p-multiSelect *ngSwitchCase="col.field === 'unit_name'"
+                            [options]="optionsUnits"
+                            appendTo="body"
+                            [(ngModel)]="filterValues[col.field]"
+                            filterPlaceholder="qq"
+                            (onChange)="updateFiltering()"
+                            >
+                        </p-multiSelect>
 
                     </th>
                     <th *ngIf="!col.filterable" ></th>

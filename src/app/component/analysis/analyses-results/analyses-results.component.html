@@ -21,17 +21,6 @@
 
     </ng-template>
 
-    <!-- Columns sizes -->
-    <!-- <ng-template pTemplate="colgroup" let-columns>
-        <colgroup>
-            <ng-container *ngFor="let col of columns" >
-                <ng-container *ngIf="col.columnIsDisplayed" [ngSwitch]="col.field">
-                    <col *ngSwitchDefault [ngStyle]="{'width': col.width}"/>
-                </ng-container>
-            </ng-container>
-        </colgroup>
-    </ng-template> -->
-
     <ng-template pTemplate="header" let-columns>
 
         <!-- Names and sorting -->
@@ -129,6 +118,7 @@
                         <span *ngSwitchCase="'sample_material_type'">
                             {{
                                 rowData[col.nameInSelect] |
+                                concatBefore:'SAMPLE_MATERIAL_TYPE_' |
                                 getTranslation
                             }}
                         </span>

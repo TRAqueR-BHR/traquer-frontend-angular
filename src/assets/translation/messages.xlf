@@ -801,88 +801,564 @@
           <context context-type="linenumber">97</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="SAMPLE_MATERIAL_TYPE_faeces" datatype="html">
-        <source>Selles</source>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_purulent_collection" datatype="html">
+        <source>Collection purulente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
           <context context-type="linenumber">100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_actinomycetes" datatype="html">
+        <source>Actinomycètes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_joint_liquid" datatype="html">
+        <source>Liquide articulaire</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_ascites_liquid" datatype="html">
+        <source>Liquide d&apos;ascite</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_broncho_tracheal_aspiration" datatype="html">
+        <source>Aspiration broncho-trachéale</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_bronchial_aspiration" datatype="html">
+        <source>Aspiration Bronchique</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">105</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_tracheal_aspiration" datatype="html">
+        <source>Aspiration Trachéale</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_biopsy_fragment" datatype="html">
+        <source>Fragment biopsique</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_biliary_liquid" datatype="html">
+        <source>Liquide biliaire</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_mouth" datatype="html">
+        <source>Bouche</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_bronchial_brushing" datatype="html">
+        <source>Brossage bronchique</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_fungal_mapping" datatype="html">
+        <source>cartographie fongique</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_implantable_chamber_pac" datatype="html">
+        <source>Chambre implantable (PAC)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_conjunctiva" datatype="html">
+        <source>Conjonctive</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">113</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_cornea" datatype="html">
+        <source>Cornée</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_sputum" datatype="html">
+        <source>Expectoration</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">115</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_cryptococcus" datatype="html">
+        <source>Cryptocoque</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">116</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_miscellaneous" datatype="html">
+        <source>Divers</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">117</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_dpc_liquid" datatype="html">
+        <source>Liquide de DPCA</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_dpc_microbiology" datatype="html">
+        <source>Microbiologie sur DPCA</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_intra_tissular_device" datatype="html">
+        <source>Dispositif intra-tissulaire</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_intra_cavitary_device" datatype="html">
+        <source>Dispositif intra-cavitaire</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">121</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_throat_tonsils" datatype="html">
+        <source>Gorge, amygdales</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">122</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_gynecological_pelvic" datatype="html">
+        <source>Gynécologique/Pelvien</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">123</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_blood_culture" datatype="html">
+        <source>Hémoculture</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">124</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_pediatric_blood_culture" datatype="html">
+        <source>Hémoculture Pédiatrique</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">125</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_unspecified_nature_sample" datatype="html">
+        <source>Prél. nature non précisée</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_intravascular_device" datatype="html">
+        <source>Dispositif intra-vasculaire</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">127</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_broncho_alveolar_lavage" datatype="html">
+        <source>Lavage Broncho-Alvéolaire</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_biological_liquid" datatype="html">
+        <source>Liquide biologique</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">129</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_csf_chemistry_serology" datatype="html">
+        <source>Liq. Céphalo-Rach. Chimie/Séro</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_csf_bacterial" datatype="html">
+        <source>Liq.Céphalo-Rachidien (Bact)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">131</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_gastric_liquid" datatype="html">
+        <source>Liquide gastrique</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">132</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_amniotic_liquid" datatype="html">
+        <source>Liquide amniotique</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">133</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_lochial" datatype="html">
+        <source>Lochies</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_pleural_liquid" datatype="html">
+        <source>Liquide pleural</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">135</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_pericardial_liquid" datatype="html">
+        <source>Liquide péricardique</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_mycobacterium" datatype="html">
+        <source>Mycobactérie</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">137</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_nose" datatype="html">
+        <source>Nez</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">138</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_placenta" datatype="html">
+        <source>Placenta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">139</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_external_ear" datatype="html">
+        <source>Oreille externe</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">140</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_middle_ear" datatype="html">
+        <source>Oreille moyenne</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">141</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_ears" datatype="html">
+        <source>Oreilles</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_bone" datatype="html">
+        <source>Os</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_puncture" datatype="html">
+        <source>Ponction</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">144</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_skin_or_appendages" datatype="html">
+        <source>Peau ou phanères</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_skin" datatype="html">
+        <source>Peau</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">146</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_peritoneal_liquid" datatype="html">
+        <source>Liquide peritonéal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">147</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_pica_liquid" datatype="html">
+        <source>Liquide de PICA</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">148</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_wound_or_oozing" datatype="html">
+        <source>Plaie ou suintement</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">149</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_blood_bag_and_tubings" datatype="html">
+        <source>Poche sang et tubulures</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">150</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_sinus_puncture" datatype="html">
+        <source>Ponction de sinus</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">151</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_urethral_sampling" datatype="html">
+        <source>Prélèvement Uréthral</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_superficial_pus" datatype="html">
+        <source>Pus superficiel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">153</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_rectal_swab" datatype="html">
+        <source>Ecouvillon Rectal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">154</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_respiratory" datatype="html">
+        <source>Respiratoire</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">155</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_indwelling_urinary_catheter" datatype="html">
+        <source>Sonde Urinaire à demeure</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">156</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_stool" datatype="html">
+        <source>Selles</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">157</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_bacterial_strain" datatype="html">
+        <source>Souche bactérienne</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">158</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_semen" datatype="html">
+        <source>Sperme</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">159</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_scales" datatype="html">
+        <source>Squames</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">160</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_iud" datatype="html">
+        <source>Sterilet</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">161</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_tissue" datatype="html">
+        <source>Tissu</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_transmitted_sample" datatype="html">
+        <source>Echantillon transmis</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">163</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_protected_tracheal_aspiration" datatype="html">
+        <source>Aspi. trachéale protégée</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">164</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_urine" datatype="html">
+        <source>Urines</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">165</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_urine_b" datatype="html">
+        <source>Urines [B)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">166</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_resistant_screening_swabs" datatype="html">
+        <source>Ecouvillonages (Recherche BMR)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">167</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="SAMPLE_MATERIAL_TYPE_cancelled" datatype="html">
+        <source>Annulé</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
+          <context context-type="linenumber">168</context>
         </context-group>
       </trans-unit>
       <trans-unit id="OUTBREAK_CRITICITY_epidemic" datatype="html">
         <source>Épidemique</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">103</context>
+          <context context-type="linenumber">171</context>
         </context-group>
       </trans-unit>
       <trans-unit id="OUTBREAK_CRITICITY_non_epidemic" datatype="html">
         <source>Non épidemique</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">104</context>
+          <context context-type="linenumber">172</context>
         </context-group>
       </trans-unit>
       <trans-unit id="OUTBREAK_CRITICITY_dont_know" datatype="html">
         <source>Pas encore qualifié</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">105</context>
+          <context context-type="linenumber">173</context>
         </context-group>
       </trans-unit>
       <trans-unit id="carbapenemase_producing_enterobacteriaceae" datatype="html">
         <source>Entérobactérie productrice de carbapénèmases (EPC)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">176</context>
         </context-group>
       </trans-unit>
       <trans-unit id="vancomycin_resistant_enterococcus" datatype="html">
         <source>Entérocoque résistant à la Vancomycine (ERV)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">109</context>
+          <context context-type="linenumber">177</context>
         </context-group>
       </trans-unit>
       <trans-unit id="not_at_risk" datatype="html">
         <source>Pas à risque🍏</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">180</context>
         </context-group>
       </trans-unit>
       <trans-unit id="carrier" datatype="html">
         <source>Porteur🍎</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">113</context>
+          <context context-type="linenumber">181</context>
         </context-group>
       </trans-unit>
       <trans-unit id="contact" datatype="html">
         <source>Contact🍋</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">114</context>
+          <context context-type="linenumber">182</context>
         </context-group>
       </trans-unit>
       <trans-unit id="INFECTIOUS_STATUS_TYPE_not_at_risk" datatype="html">
         <source>Pas à risque🍏</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">115</context>
+          <context context-type="linenumber">183</context>
         </context-group>
       </trans-unit>
       <trans-unit id="INFECTIOUS_STATUS_TYPE_carrier" datatype="html">
         <source>Porteur🍎</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">116</context>
+          <context context-type="linenumber">184</context>
         </context-group>
       </trans-unit>
       <trans-unit id="INFECTIOUS_STATUS_TYPE_contact" datatype="html">
         <source>Contact🍋</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
-          <context context-type="linenumber">117</context>
+          <context context-type="linenumber">185</context>
         </context-group>
       </trans-unit>
       <trans-unit id="outbreak_mnemo" datatype="html">
@@ -1285,17 +1761,17 @@
         </context-group>
       </trans-unit>
       <trans-unit id="a_new_version_is_available_short" datatype="html">
-        <source>New version available!</source>
+        <source>Nouvelle version disponible</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/module/frontend-version/component/app-version/app-version.component.html</context>
-          <context context-type="linenumber">2</context>
+          <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
       <trans-unit id="load_latest_version" datatype="html">
-        <source>Get new version</source>
+        <source>Télécharger la dernière version</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/module/frontend-version/component/app-version/app-version.component.html</context>
-          <context context-type="linenumber">6</context>
+          <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ask_your_admin_for_an_account" datatype="html">

@@ -21,6 +21,7 @@ import { ANALYSIS_REQUEST_TYPE } from 'src/app/enum/ANALYSIS_REQUEST_TYPE';
 import { ANALYSIS_RESULT_VALUE_TYPE } from 'src/app/enum/ANALYSIS_RESULT_VALUE_TYPE';
 import { SAMPLE_MATERIAL_TYPE } from 'src/app/enum/SAMPLE_MATERIAL_TYPE';
 import { AnalysisService } from 'src/app/service/analysis.service';
+import { UnitService } from 'src/app/service/unit.service';
 
 @Component({
   selector: 'app-analyses-results',
@@ -275,7 +276,7 @@ export class AnalysesResultsComponent implements OnInit {
       attributeType:"string",
       sortable: false,
       filterable: true,
-      columnIsDisplayed:false,
+      columnIsDisplayed:true,
       filterIsActive:false,
       minimumCharactersNeeded:3,
       filterValue:null,
