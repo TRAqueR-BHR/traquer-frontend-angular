@@ -14,6 +14,13 @@
                 class="custom-label"
                 i18n="@@simulated_number_of_contact_exposures">Nombre simulé de cas contacts</label>
             : {{numberOfContactExposures}}
+            <app-processing-anim *ngIf="processingExposuresSimulation"></app-processing-anim>
+        </div>
+
+        <div class="custom-form-field col-12" *ngIf="isDebugMode">
+            <label for="outbreakUnitAsso.id"
+                class="custom-label">outbreakUnitAsso.id</label>
+            : {{outbreakUnitAsso.id}}
         </div>
 
         <div class="custom-form-field col-12 md:col-6">
@@ -67,9 +74,17 @@
         </div>
 
         <h3 class="col-12">Séjours des porteurs dans l'UF</h3>
-        <p-table class="col-12" [value]="carriersStaysForListing" responsiveLayout="scroll">
+        <p-table
+            [loading]="loadingCarriers"
+            class="col-12"
+            [value]="carriersStaysForListing"
+            responsiveLayout="scroll"
+            [scrollable]="true"
+            scrollHeight="200px"
+        >
             <ng-template pTemplate="header">
                 <tr>
+                    <th *ngIf="isDebugMode">Id</th>
                     <th i18n="firstname">Prénom</th>
                     <th i18n="lastname">Nom</th>
                     <th i18n="birthdate">Date de naissance</th>
@@ -82,6 +97,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-s>
                 <tr>
+                    <td *ngIf="isDebugMode">{{s.patient_id}}</td>
                     <td>{{s.firstname}}</td>
                     <td>{{s.lastname}}</td>
                     <td>{{s.birthdate | date:'dd/MM/yyyy'}}</td>
@@ -95,10 +111,13 @@
         </p-table>
 
         <h3 class="col-12">Séjours des patients contacts dans l'UF</h3>
-        <p-table class="col-12"
+        <p-table [loading]="loadingContacts"
+            class="col-12"
             [value]="contactsStaysForListing"
             responsiveLayout="scroll"
-            >
+            [scrollable]="true"
+            scrollHeight="400px"
+        >
             <ng-template pTemplate="emptymessage">
                 <tr>
                     <td colspan="7" i18n="@@no_contacts_in_this_unit_or_not_generated_yet">
@@ -108,6 +127,7 @@
            </ng-template>
             <ng-template pTemplate="header">
                 <tr>
+                    <th *ngIf="isDebugMode">Id</th>
                     <th i18n="firstname">Prénom</th>
                     <th i18n="lastname">Nom</th>
                     <th i18n="birthdate">Date de naissance</th>
@@ -120,6 +140,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-s>
                 <tr>
+                    <td *ngIf="isDebugMode">{{s.patient_id}}</td>
                     <td>{{s.firstname}}</td>
                     <td>{{s.lastname}}</td>
                     <td>{{s.birthdate | date:'dd/MM/yyyy'}}</td>

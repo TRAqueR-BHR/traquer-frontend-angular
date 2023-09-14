@@ -9,6 +9,7 @@ import { RESPONSE_TYPE } from 'src/app/enum/RESPONSE_TYPE';
 import { EventRequiringAttention } from 'src/app/model/EventRequiringAttention';
 import { InfectiousStatus } from 'src/app/model/InfectiousStatus';
 import { Outbreak } from 'src/app/model/Outbreak';
+import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { ResponsesToEventCompIntService } from 'src/app/service/components-interaction/responses-to-event-comp-int.service';
 import { EnumService } from 'src/app/service/enum.service';
@@ -38,6 +39,8 @@ export class ResponsesToEventComponent implements OnInit {
   // Display booleans
   canDisplayOutbreak = false;
   canDisplayAssociateInfectiousStatusToOutbreaksComponent = false;
+  debugComponent:boolean = false;
+  isDebugMode:boolean = false;
 
   // Resources loaded checker
   resourcesLoadedChecker = {
@@ -63,12 +66,15 @@ export class ResponsesToEventComponent implements OnInit {
     public notificationService:UINotificationService,
     private infectiousStatusService:InfectiousStatusService,
     private translationService:TranslationService,
-    private responsesToEventCompIntService:ResponsesToEventCompIntService
+    private responsesToEventCompIntService:ResponsesToEventCompIntService,
+    private authenticationService:AuthenticationService
   ) {
     this.createSubscriptions();
   }
 
   ngOnInit(): void {
+    this.isDebugMode = this.authenticationService.isDebugMode();
+    this.setDebuggingComponentFlag();
     this.getOptionsRESPONSE_TYPE();
     this.getEventRequiringAttention();
   }
@@ -98,7 +104,7 @@ export class ResponsesToEventComponent implements OnInit {
 
     // In debug mode, the exam is not passed by the parent component.
     //   Need to retrieve it from the URL
-    if (this.eventRequiringAttention == null) {
+    if (this.debugComponent && this.eventRequiringAttention == null) {
 
       const eventId = this.route.snapshot.paramMap.get('eventId');
 
@@ -296,6 +302,12 @@ export class ResponsesToEventComponent implements OnInit {
 
     }
 
+  }
+
+  setDebuggingComponentFlag() {
+    if (this.route.snapshot.url.length > 0 && this.route.snapshot.url[0].path == "debug1") {
+      this.debugComponent = true;
+    }
   }
 
 }

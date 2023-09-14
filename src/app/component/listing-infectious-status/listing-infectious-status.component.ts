@@ -249,10 +249,27 @@ export class ListingInfectiousStatusComponent implements OnInit {
     // ######################## //
     // Infectious status column //
     // ######################## //
+    const idColDef = {
+      field:"infectious_status_id",
+      nameInSelect:"infectious_status_id",
+      nameInWhereClause:"ist.id",
+      header: this.translationService.getTranslation("infectious_status_id"),
+      attributeType:"string",
+      sortable: false,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
     const refTimeColDef = {
       field:"ref_time",
       nameInSelect:"ref_time",
-      nameInWhereClause:"_is.ref_time",
+      nameInWhereClause:"ist.ref_time",
       header: this.translationService.getTranslation("infectious_status_reference_time_abbreviated"),
       attributeType:"date",
       sortable: true,
@@ -358,6 +375,23 @@ export class ListingInfectiousStatusComponent implements OnInit {
     // ################################# //
     // Event requiring attention columns //
     // ################################# //
+    const eventIdColDef = {
+      field:"event_id",
+      nameInSelect:"event_id",
+      nameInWhereClause:"era.id",
+      header: this.translationService.getTranslation("event_id"),
+      attributeType:"string",
+      sortable: false,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
     const eventRefTimeColDef = {
       field:"event_ref_time",
       nameInSelect:"event_ref_time",
@@ -565,6 +599,10 @@ export class ListingInfectiousStatusComponent implements OnInit {
     // ############### //
     // Add the columns //
     // ############### //
+    if (this.authenticationService.isDebugMode()) {
+      this.queryParams.cols.push(eventIdColDef);
+    }
+
     if (this.authenticationService.getCryptPwd() != null) {
       this.queryParams.cols.push(firstnameColDef);
       this.queryParams.cols.push(lastnameColDef);
@@ -572,6 +610,9 @@ export class ListingInfectiousStatusComponent implements OnInit {
     }
 
     this.queryParams.cols.push(outbreakNameColDef);
+    if (this.authenticationService.isDebugMode()) {
+      this.queryParams.cols.push(idColDef);
+    }
     this.queryParams.cols.push(infectiousStatusColDef);
     this.queryParams.cols.push(infectiousAgentColDef);
     this.queryParams.cols.push(refTimeColDef);

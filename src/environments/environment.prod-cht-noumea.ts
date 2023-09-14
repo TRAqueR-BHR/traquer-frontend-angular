@@ -4,14 +4,14 @@
 
 export const environment = {
   production: false,
-  prefillLoginForm: true,
+  prefillLoginForm: false,
   displayProcessesInfo: true,
   debugBlockUnblockUI:true,
   apiURL: "http://traquer.cht.nc/api",
   apiURLForFiles: "http://traquer.cht.nc/api",
   numberOfSecondsBetweenRefreshOfMessages: 120,
   numberOfSecondsBetweenChecksOfVersion: 120,
-  frontEndVersion:"2023-09-08.01",
+  frontEndVersion:"2023-09-14.01",
   jwt_name: "traquer_jwt",
   cryptPwdHttpHeaderKey: "crypt_pwd",
   cryptPwdLocalStorageKey: "traquer_crypt_pwd",

@@ -52,6 +52,8 @@ export class AnalysesResultsComponent implements OnInit {
 
   timerOnRefreshDataAfterChangesOnFilter:any;
 
+  isDebugMode:boolean = false;
+
   splitButtonDefPerEventType:any = {};
 
   actionMenuItemsFor:any = {}; // a Map of (EVENT_REQUIRING_ATTENTION_TYPE => MenuItem[])
@@ -67,6 +69,8 @@ export class AnalysesResultsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.isDebugMode = this.authenticationService.isDebugMode();
 
     this.prepareOptionsTrueFalse();
     this.prepareOptionsANALYSIS_REQUEST_TYPE();
@@ -156,6 +160,23 @@ export class AnalysesResultsComponent implements OnInit {
     // ###################### //
     // AnalysisResult columns //
     // ###################### //
+    const idColDef = {
+      field:"id",
+      nameInSelect:"id",
+      nameInWhereClause:"a.id",
+      header: this.translationService.getTranslation("id"),
+      attributeType:"string",
+      sortable: true,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
     const requestTimeColDef = {
       field:"request_time",
       nameInSelect:"request_time",
@@ -242,7 +263,7 @@ export class AnalysesResultsComponent implements OnInit {
       attributeType:"string",
       sortable: false,
       filterable: false,
-      columnIsDisplayed:false,
+      columnIsDisplayed:true,
       filterIsActive:false,
       minimumCharactersNeeded:3,
       filterValue:null,
@@ -288,6 +309,10 @@ export class AnalysesResultsComponent implements OnInit {
     // ############### //
     // Add the columns //
     // ############### //
+    if (this.isDebugMode) {
+      this.queryParams.cols.push(idColDef);
+    }
+
     if (this.authenticationService.getCryptPwd() != null) {
       this.queryParams.cols.push(firstnameColDef);
       this.queryParams.cols.push(lastnameColDef);
@@ -327,22 +352,6 @@ export class AnalysesResultsComponent implements OnInit {
   //   because we initialize the filters input. Because of this the event passed
   //   to the function doesnt contain the filters that are not null but not modified
   updateFiltering(andRefrehData:boolean = true) {
-
-    // loval variables for the articial filters
-    var typesAnomalies = [];
-
-    let colonnesRetard = ["nb_anomalies_retard","somme_valeurs_moins_seuil_retard","nb_situations_inacceptables_retard"];
-    let colonnesAvance = ["nb_anomalies_avance","somme_valeurs_moins_seuil_avance","nb_situations_inacceptables_avance"];
-    let colonnesManqueDeRegularite = ["nb_anomalies_manque_de_regularite","somme_valeurs_moins_seuil_manque_de_regularite","nb_situations_inacceptables_manque_de_regularite"];
-    let colonnesAbsenceTerminusDepart = ['nb_anomalies_absence_terminus_depart'];
-    let colonnesAbsenceTerminusArrivee = ['nb_anomalies_absence_terminus_arrivee'];
-    let colonnesAucunArret = ['nb_anomalies_aucun_arret'];
-
-    let colonnesNumeriquesAvecSelecteurBoolees = colonnesRetard.concat(colonnesAvance)
-                                                               .concat(colonnesManqueDeRegularite)
-                                                               .concat(colonnesAbsenceTerminusDepart)
-                                                               .concat(colonnesAbsenceTerminusArrivee)
-                                                               .concat(colonnesAucunArret)
 
     for (let attrName in this.filterValues) {
 

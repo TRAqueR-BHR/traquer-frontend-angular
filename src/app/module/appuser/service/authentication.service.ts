@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 import { Utils } from 'src/app/util/utils';
 
 
-// LoginService and AuthenticationService are two separate services because 
-//   we need AuthenticationService in APP_INITIALIZER (see app.module) 
+// LoginService and AuthenticationService are two separate services because
+//   we need AuthenticationService in APP_INITIALIZER (see app.module)
 //   and ErrorHandlerService creates a cyclic exception
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class AuthenticationService {
   constructor(private http: HttpClient,
               // private router: Router,
               // private errorHandlerService:ErrorHandlerService // WARNING: DO NOT try to use ErrorHandlerService here,
-                                                                //             it is not possible because authentication 
+                                                                //             it is not possible because authentication
                                                                 //             is initialized ay application startup.
                                                                 //   TODO: Try (again) to add ErrorHandlerService at startup
               ) {
@@ -36,7 +36,7 @@ export class AuthenticationService {
   getNameOfDatasetPasswordHeaderForHttpRequest() {
 
   }
-  
+
   parseJwt(token):Object {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -58,7 +58,7 @@ export class AuthenticationService {
 
     // Use JWT if no Appuser is given
     if (_user == null) {
-      
+
       if (this.currentUserRoles.length == 0){
           this.initializeRoles();
       }
@@ -67,7 +67,7 @@ export class AuthenticationService {
       } else {
         return false;
       }
-      
+
     } else {
       var allRolesNames:string[] = _user.allRoles.map(x => ROLE_CODE_NAME[x.codeName]);
       if (allRolesNames.includes(roleCodeName)) {
@@ -86,13 +86,13 @@ export class AuthenticationService {
     console.log("DEBUG initializeRoles");
 
     // Important check, DO NOT REMOVE!
-    // This function is called at the initialization of the app, the jwt may not exist yet    
+    // This function is called at the initialization of the app, the jwt may not exist yet
     if (this.getJWT() != null) {
       console.log(`DEBUG initializeRoles - this.getJWT() != null`);
-      this.currentUserRoles = this.parseJwt(this.getJWT())['roles'];   
+      this.currentUserRoles = this.parseJwt(this.getJWT())['roles'];
       console.log(this.currentUserRoles);
     }
-    
+
   }
 
   public isLoggedIn() {
@@ -109,28 +109,32 @@ export class AuthenticationService {
       return moment(expiresAt);
   }
 
+  isDebugMode():boolean {
+    return localStorage.getItem("debug_mode") == "true";
+  }
+
   setJWT(jwt:string) {
     localStorage.setItem(environment.jwt_name, jwt);
   }
 
   getAppuserIdFromJWT() {
-    return this.parseJwt(this.getJWT())['userId'];    
+    return this.parseJwt(this.getJWT())['userId'];
   }
 
   getAppuserFirstnameFromJWT() {
-    return this.parseJwt(this.getJWT())['firstname'];    
+    return this.parseJwt(this.getJWT())['firstname'];
   }
 
   getJWT() {
-    return localStorage.getItem(environment.jwt_name);    
+    return localStorage.getItem(environment.jwt_name);
   }
 
   login(login: string, password: string): Observable<Appuser> {
 
     var url =  this.apiURL;
-   
-    return this.http.post<Appuser>(url, 
-                                   JSON.stringify({login, password}), 
+
+    return this.http.post<Appuser>(url,
+                                   JSON.stringify({login, password}),
 //                                        ,{headers: this.headers}
                                    )
         // Set the current user before returning it
@@ -139,13 +143,13 @@ export class AuthenticationService {
             this.setJWT(res.jwt);
             this.initializeRoles();
             //  console.dir(this.currentUser);
-            })) 
+            }))
         .pipe(
           catchError(this.handleLoginError<any>(`login`,null))
         )
       //  .pipe(map(res => {
       //      return res;
-      //  }))                        
+      //  }))
       // .shareReplay()
                         ;
   }

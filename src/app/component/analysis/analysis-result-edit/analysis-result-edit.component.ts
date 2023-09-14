@@ -50,7 +50,7 @@ export class AnalysisResultEditComponent implements OnInit {
   choosePatientAndCreateAnalysisResultMode:boolean = true;
 
   // Display booleans
-  debug:boolean = false;
+  debugComponent:boolean = false;
   patientPanelShouldAppear:boolean = false;
   patientSeachPanelCollapsed:boolean = false;
   analysisResultPanelCollapsed:boolean = false;
@@ -153,7 +153,7 @@ export class AnalysisResultEditComponent implements OnInit {
     }
 
     // If debug get the infectious status from the url
-    if (this.debug){
+    if (this.debugComponent){
 
       if (this.route.snapshot.paramMap.get('analysisResultId') == "new"){
         this.choosePatientAndCreateAnalysisResultMode = true;
@@ -327,7 +327,7 @@ export class AnalysisResultEditComponent implements OnInit {
 
   setDebuggingComponentFlag() {
     if (this.route.snapshot.url.length > 0 && this.route.snapshot.url[0].path == "debug10") {
-      this.debug = true;
+      this.debugComponent = true;
     }
   }
 
