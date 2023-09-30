@@ -87,7 +87,7 @@
                 <ng-container *ngIf="col.columnIsDisplayed" >
                     <td [ngSwitch]="col.field">
                         <span *ngSwitchDefault>{{rowData[col.nameInSelect]}}</span>
-                        <div  *ngSwitchCase="'infectious_status'"
+                        <div  *ngSwitchCase="'lastname'"
                             class="flex align-content-center">
                             <span class="flex align-items-center justify-content-center">
                                 {{rowData[col.nameInSelect] | getTranslation}}

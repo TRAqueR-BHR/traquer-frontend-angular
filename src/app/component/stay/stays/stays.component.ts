@@ -58,6 +58,8 @@ export class StaysComponent implements OnInit {
 
   actionMenuItemsFor:any = {}; // a Map of (EVENT_REQUIRING_ATTENTION_TYPE => MenuItem[])
 
+  isDebugMode:boolean = false;
+
   constructor(
     private stayService:StayService,
     private translationService:TranslationService,
@@ -70,6 +72,9 @@ export class StaysComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.isDebugMode = this.authenticationService.isDebugMode();
+
     this.prepareOptionsTrueFalse();
     this.prepareOptionsUnits();
     this.intializeTablesPreferences();
@@ -127,6 +132,23 @@ export class StaysComponent implements OnInit {
     // ############ //
     // Stay columns //
     // ############ //
+    const idColDef = {
+      field:"id",
+      nameInSelect:"id",
+      nameInWhereClause:"s.id",
+      header: this.translationService.getTranslation("id"),
+      attributeType:"string",
+      sortable: true,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
     const inTimeColDef = {
       field:"in_time",
       nameInSelect:"in_time",
@@ -194,6 +216,7 @@ export class StaysComponent implements OnInit {
       sortingRank:null,
       width:"4em"
     };
+
     const roomColDef = {
       field:"room",
       nameInSelect:"room",
@@ -236,6 +259,23 @@ export class StaysComponent implements OnInit {
     // ############### //
     // Patient columns //
     // ############### //
+    const patientIdColDef = {
+      field:"patient_id",
+      nameInSelect:"patient_id",
+      nameInWhereClause:"p.id", // The where clause needs special treatment
+      header: this.translationService.getTranslation("patient_id"),
+      attributeType:"string",
+      sortable: false,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
     const birthdateColDef = {
       field:"birthdate",
       nameInSelect:"birthdate",
@@ -291,6 +331,11 @@ export class StaysComponent implements OnInit {
     // ############### //
     // Add the columns //
     // ############### //
+    if (this.isDebugMode) {
+      this.queryParams.cols.push(idColDef);
+      this.queryParams.cols.push(patientIdColDef);
+    }
+
     if (this.authenticationService.getCryptPwd() != null) {
       this.queryParams.cols.push(firstnameColDef);
       this.queryParams.cols.push(lastnameColDef);
@@ -332,22 +377,6 @@ export class StaysComponent implements OnInit {
   //   because we initialize the filters input. Because of this the event passed
   //   to the function doesnt contain the filters that are not null but not modified
   updateFiltering(andRefrehData:boolean = true) {
-
-    // loval variables for the articial filters
-    var typesAnomalies = [];
-
-    let colonnesRetard = ["nb_anomalies_retard","somme_valeurs_moins_seuil_retard","nb_situations_inacceptables_retard"];
-    let colonnesAvance = ["nb_anomalies_avance","somme_valeurs_moins_seuil_avance","nb_situations_inacceptables_avance"];
-    let colonnesManqueDeRegularite = ["nb_anomalies_manque_de_regularite","somme_valeurs_moins_seuil_manque_de_regularite","nb_situations_inacceptables_manque_de_regularite"];
-    let colonnesAbsenceTerminusDepart = ['nb_anomalies_absence_terminus_depart'];
-    let colonnesAbsenceTerminusArrivee = ['nb_anomalies_absence_terminus_arrivee'];
-    let colonnesAucunArret = ['nb_anomalies_aucun_arret'];
-
-    let colonnesNumeriquesAvecSelecteurBoolees = colonnesRetard.concat(colonnesAvance)
-                                                               .concat(colonnesManqueDeRegularite)
-                                                               .concat(colonnesAbsenceTerminusDepart)
-                                                               .concat(colonnesAbsenceTerminusArrivee)
-                                                               .concat(colonnesAucunArret)
 
     for (let attrName in this.filterValues) {
 

@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, take, switchMap } from 'rxjs/operators';
+import { Utils } from './util/utils';
 
 // https://angular-academy.com/angular-jwt/
 @Injectable()
@@ -22,6 +23,8 @@ export class AuthInterceptor implements HttpInterceptor {
             //   because haproxy makes everything lower case
             headers: req.headers.append("authorization",
                                         "Bearer " + idToken)
+                                .append("browser-timezone",
+                                    Utils.getBrowserTimezone())
                                 .append(environment.cryptPwdHttpHeaderKey,
                                         cryptPwd)
         });

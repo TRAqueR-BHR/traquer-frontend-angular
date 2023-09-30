@@ -468,6 +468,23 @@ export class ListingInfectiousStatusComponent implements OnInit {
     // ############### //
     // Patient columns //
     // ############### //
+    const patientIdColDef = {
+      field:"patient_id",
+      nameInSelect:"patient_id",
+      nameInWhereClause:"p.id",
+      header: this.translationService.getTranslation("patient_id"),
+      attributeType:"string",
+      sortable: false,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
     const patientIsHospitalizedColDef = {
       field:"patient_is_hospitalized",
       nameInSelect:"patient_is_hospitalized",
@@ -601,6 +618,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
     // ############### //
     if (this.authenticationService.isDebugMode()) {
       this.queryParams.cols.push(eventIdColDef);
+      this.queryParams.cols.push(patientIdColDef);
     }
 
     if (this.authenticationService.getCryptPwd() != null) {

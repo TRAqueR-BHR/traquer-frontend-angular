@@ -152,6 +152,10 @@ export class Utils {
         return date;
     }
 
+    static getBrowserTimezone() {
+      return Moment.tz.guess();
+    }
+
     static getEnumInts(enumType):number[] {
       var result:number[] = [];
       for (let item in enumType) {
@@ -304,6 +308,7 @@ export class Utils {
 
 
 }
+
 
 
 /**

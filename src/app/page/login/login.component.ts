@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ROLE_CODE_NAME } from 'src/app/module/appuser/enum/ROLE_CODE_NAME';
 import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
+import { Utils } from 'src/app/util/utils';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -39,7 +40,16 @@ export class LoginComponent implements OnInit {
 
       if (res != null) {
         // this.processingService.unblockUI("LoginComponent.login");
-            this.router.navigate(['/']);
+
+        // This is a temporary solution to store the testing crypt password in the local
+        // storage for the first presentation
+        // TODO remove the following line
+        localStorage.setItem(
+          Utils.getCryptPwdLocalStorageKey(),
+          "aaaaaaaxxxxxcccccc"
+        );
+
+        this.router.navigate(['/']);
       }
       else {
           // login failed

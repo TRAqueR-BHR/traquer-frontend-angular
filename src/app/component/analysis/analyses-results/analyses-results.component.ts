@@ -22,11 +22,13 @@ import { ANALYSIS_RESULT_VALUE_TYPE } from 'src/app/enum/ANALYSIS_RESULT_VALUE_T
 import { SAMPLE_MATERIAL_TYPE } from 'src/app/enum/SAMPLE_MATERIAL_TYPE';
 import { AnalysisService } from 'src/app/service/analysis.service';
 import { UnitService } from 'src/app/service/unit.service';
+import { InfectiousStatusExplanationComponent } from '../../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
 
 @Component({
   selector: 'app-analyses-results',
   templateUrl: './analyses-results.component.html',
-  styleUrls: ['./analyses-results.component.scss']
+  styleUrls: ['./analyses-results.component.scss'],
+  providers: [DialogService]
 })
 export class AnalysesResultsComponent implements OnInit {
 
@@ -64,6 +66,7 @@ export class AnalysesResultsComponent implements OnInit {
     private enumService:EnumService,
     private selectItemService:SelectItemService,
     private eventRequiringAttentionService:EventRequiringAttentionService,
+    public dialogService: DialogService,
     private authenticationService:AuthenticationService,
     @Inject(LOCALE_ID) private locale: string
   ) { }
@@ -194,6 +197,23 @@ export class AnalysesResultsComponent implements OnInit {
       width:"4em"
     };
 
+    const resultTimeColDef = {
+      field:"result_time",
+      nameInSelect:"result_time",
+      nameInWhereClause:"a.result_time",
+      header: this.translationService.getTranslation("result_time"),
+      attributeType:"date",
+      sortable: true,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
     const requestTypeColDef = {
       field:"request_type",
       nameInSelect:"request_type",
@@ -255,6 +275,23 @@ export class AnalysesResultsComponent implements OnInit {
     // ############### //
     // Patient columns //
     // ############### //
+    const patientIdColDef = {
+      field:"patient_id",
+      nameInSelect:"patient_id",
+      nameInWhereClause:"p.id", // The where clause needs special treatment
+      header: this.translationService.getTranslation("patient_id"),
+      attributeType:"string",
+      sortable: false,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
     const birthdateColDef = {
       field:"birthdate",
       nameInSelect:"birthdate",
@@ -311,6 +348,7 @@ export class AnalysesResultsComponent implements OnInit {
     // ############### //
     if (this.isDebugMode) {
       this.queryParams.cols.push(idColDef);
+      this.queryParams.cols.push(patientIdColDef);
     }
 
     if (this.authenticationService.getCryptPwd() != null) {
@@ -321,6 +359,7 @@ export class AnalysesResultsComponent implements OnInit {
 
     this.queryParams.cols.push(requestTypeColDef);
     this.queryParams.cols.push(requestTimeColDef);
+    this.queryParams.cols.push(resultTimeColDef);
     this.queryParams.cols.push(sampleMaterialTypeColDef);
     this.queryParams.cols.push(resultColDef);
 
@@ -459,6 +498,24 @@ export class AnalysesResultsComponent implements OnInit {
       }
     }
 
+  }
+
+  showInfectiousStatusExplanation(rowData:any) {
+
+    let formatedDate = formatDate(rowData.birthdate,environment.date_format,this.locale)
+
+    let dialogHeader = `
+      ${this.translationService.getTranslation("history")}
+      ${rowData.firstname} ${rowData.lastname} ${formatedDate}
+    `;
+
+    const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
+        data: {
+          "patient": new Patient({id:rowData["patient_id"]})
+        },
+        header: dialogHeader,
+        width: '85%'
+    });
   }
 
 

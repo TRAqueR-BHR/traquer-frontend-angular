@@ -157,6 +157,11 @@ export class AuthenticationService {
   logout() {
     localStorage.removeItem(environment.jwt_name);
     localStorage.removeItem("expires_at");
+
+    // Remove the testing crypt password from the local storage, for the first demo of Traquer
+    // TODO: remove the following line after presentation
+    localStorage.removeItem(Utils.getCryptPwdLocalStorageKey());
+
   }
 
 
