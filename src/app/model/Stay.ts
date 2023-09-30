@@ -10,6 +10,7 @@ export class Stay {
     inDate:Date;
     outTime:Date;
     sysCreationTime:Date;
+    patientDiedDuringStay:boolean;
     hospitalizationOutTime:Date;
     inTime:Date;
     hospitalizationInTime:Date;
@@ -46,6 +47,7 @@ export class Stay {
                 this.sysCreationTime = new Date(_json['sysCreationTime']);
             }
         }
+        this.patientDiedDuringStay = _json['patientDiedDuringStay'];
         if (_json['hospitalizationOutTime'] != null) {
             if (_json['hospitalizationOutTime'] instanceof Date) {
                 this.hospitalizationOutTime = _json['hospitalizationOutTime'];
