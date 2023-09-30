@@ -8,6 +8,7 @@ export class Unit {
 
     id:string;
     name:string;
+    canBeAssociatedToAnOutbreak:boolean;
     codeName:string;
     outbreakUnitAssoes:OutbreakUnitAsso[];
     staies:Stay[];
@@ -18,6 +19,7 @@ export class Unit {
     constructor(_json:Object) {
         this.id = _json['id'];
         this.name = _json['name'];
+        this.canBeAssociatedToAnOutbreak = _json['canBeAssociatedToAnOutbreak'];
         this.codeName = _json['codeName'];
         if (_json['outbreakUnitAssoes'] != null) {
             this.outbreakUnitAssoes = [];
