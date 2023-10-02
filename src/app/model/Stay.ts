@@ -8,6 +8,7 @@ export class Stay {
     unit:Unit;
     id:string;
     inDate:Date;
+    isolationTime:Date;
     outTime:Date;
     sysCreationTime:Date;
     patientDiedDuringStay:boolean;
@@ -31,6 +32,13 @@ export class Stay {
                 this.inDate = _json['inDate'];
             } else {
                 this.inDate = new Date(_json['inDate']);
+            }
+        }
+        if (_json['isolationTime'] != null) {
+            if (_json['isolationTime'] instanceof Date) {
+                this.isolationTime = _json['isolationTime'];
+            } else {
+                this.isolationTime = new Date(_json['isolationTime']);
             }
         }
         if (_json['outTime'] != null) {
