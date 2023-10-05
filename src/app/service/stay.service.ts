@@ -11,6 +11,7 @@ import { Stay } from '../model/Stay';
 import { INFECTIOUS_STATUS_TYPE } from '../enum/INFECTIOUS_STATUS_TYPE';
 import { Patient } from '../model/Patient';
 import { ResultOfQueryWithParams } from '../model-protected/ResultOfQueryWithParams';
+import { EventRequiringAttention } from '../model/EventRequiringAttention';
 
 @Injectable({
   providedIn: 'root'
@@ -131,6 +132,31 @@ export class StayService {
     .pipe(
     catchError(this.errorHandlerService.handleError(`getStaysForListing()`, null))
     );
+  }
+
+  savePatientIsolationDateFromEventRequiringAttention(
+    eventRequiringAttention:EventRequiringAttention,
+    isolationTime:Date
+  ): Observable<Stay>{
+    const url = `${this.apiURL}/save-patient-isolation-date-from-event-requiring-attention`;
+    return this.http.post<any>(
+      url,
+      {
+        "event":eventRequiringAttention,
+        "isolationTime":isolationTime
+      }
+    )
+    .pipe(map(res => {
+      if (res != null) {
+        return new Stay(res);
+      } else {
+        return null;
+      }
+    }))
+    .pipe(
+      catchError(this.errorHandlerService.handleError(`StayService.upsert()`, null))
+    );
+
   }
 
 

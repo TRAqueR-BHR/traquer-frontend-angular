@@ -6,6 +6,14 @@
         eventRequiringAttention.id: {{eventRequiringAttention.id}}
     </div>
 
+    <div class="col-12">
+        <button  pButton pRipple type="button"
+                    (click)="showInfectiousStatusExplanation()"
+                    icon="fas fa-info"
+                    class="p-button-rounded p-button-text p-button-sm">
+        </button>
+    </div>
+
     <div class="col-12"> <!-- BEGIN EventRequiringAttention edition -->
 
         <div class="custom-form-grid p-fluid">
@@ -47,6 +55,34 @@
         <app-associate-infectious-status-to-outbreaks
             [infectiousStatus]="infectiousStatus">
         </app-associate-infectious-status-to-outbreaks>
+    </div>
+
+    <div class="col-12" *ngIf="canDisplayIsolationTime">
+        <h1 class="m-2">Isolement du patient</h1>
+        <div class="custom-form-grid p-fluid">
+            <div class="custom-form-field col-12 md:col-6">
+                <label for="isolationTime"
+                    class="custom-label"
+                    i18n="@@isolation_time">Heure d'isolement du patient</label>
+                <p-calendar id="isolationTime"
+                    name="isolationTime"
+                    [appendTo]="'body'"
+                    [showTime]="true"
+                    [showIcon]="true"
+                    dateFormat="dd/mm/yy"
+                    [(ngModel)]="isolationTime"
+                ></p-calendar>
+            </div>
+        </div>
+        <div class="custom-form-field col-12">
+
+            <button pButton type="button"
+                [disabled]="isolationTime==null"
+                i18n-label="save_isolation_time"
+                label="Enregistrer l'heure d'isolement"
+                (click)="savePatientIsolationDate()"
+                class="w-auto"></button>
+        </div>
     </div>
 
 

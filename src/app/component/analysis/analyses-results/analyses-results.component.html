@@ -114,6 +114,7 @@
                             }}
                         </span>
                         <span *ngSwitchCase="'request_time'">{{rowData[col.nameInSelect] | date:'dd/MM/yyyy HH:mm'}}</span>
+                        <span *ngSwitchCase="'result_time'">{{rowData[col.nameInSelect] | date:'dd/MM/yyyy HH:mm'}}</span>
                         <span *ngSwitchCase="'birthdate'">{{rowData[col.nameInSelect] | date:'dd/MM/yyyy'}}</span>
                         <span *ngSwitchCase="'sample_material_type'">
                             {{

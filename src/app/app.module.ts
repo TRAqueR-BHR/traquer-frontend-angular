@@ -36,6 +36,7 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {TimelineModule} from 'primeng/timeline';
 import {PanelModule} from 'primeng/panel';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import {MessageModule} from 'primeng/message';
 
 import { TranslationModule } from './module/translation/translation.module';
 import { TranslationService } from './module/translation/service/translation.service';
@@ -144,6 +145,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     // PrimeNG
     CheckboxModule,
     StyleClassModule,
+    MessageModule,
     KnobModule,
     ButtonModule,
     InputTextModule,

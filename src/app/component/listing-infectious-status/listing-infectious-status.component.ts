@@ -323,6 +323,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
       nameInSelect:"infectious_agent",
       nameInWhereClause:"ist.infectious_agent",
       header: this.translationService.getTranslation("infectious_agent"),
+      enumType: Utils.getEnumName(INFECTIOUS_AGENT_CATEGORY),
       attributeType:"enum",
       attributeTest:"IN",
       sortable: true,
@@ -575,6 +576,23 @@ export class ListingInfectiousStatusComponent implements OnInit {
     // ################ //
     // Outbreak columns //
     // ################ //
+    const outbreakIdColDef = {
+      field:"outbreak_id",
+      nameInSelect:"outbreak_id",
+      nameInWhereClause:"o.id",
+      header: this.translationService.getTranslation("outbreak_id"),
+      attributeType:"string",
+      sortable: false,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
     const outbreakNameColDef = {
       field:"outbreak_name",
       nameInSelect:"outbreak_name",
@@ -627,6 +645,9 @@ export class ListingInfectiousStatusComponent implements OnInit {
       this.queryParams.cols.push(birthdateColDef);
     }
 
+    if (this.authenticationService.isDebugMode()) {
+      this.queryParams.cols.push(outbreakIdColDef);
+    }
     this.queryParams.cols.push(outbreakNameColDef);
     if (this.authenticationService.isDebugMode()) {
       this.queryParams.cols.push(idColDef);
@@ -673,22 +694,6 @@ export class ListingInfectiousStatusComponent implements OnInit {
   //   to the function doesnt contain the filters that are not null but not modified
   updateFiltering(andRefrehData:boolean = true) {
 
-    // loval variables for the articial filters
-    var typesAnomalies = [];
-
-    let colonnesRetard = ["nb_anomalies_retard","somme_valeurs_moins_seuil_retard","nb_situations_inacceptables_retard"];
-    let colonnesAvance = ["nb_anomalies_avance","somme_valeurs_moins_seuil_avance","nb_situations_inacceptables_avance"];
-    let colonnesManqueDeRegularite = ["nb_anomalies_manque_de_regularite","somme_valeurs_moins_seuil_manque_de_regularite","nb_situations_inacceptables_manque_de_regularite"];
-    let colonnesAbsenceTerminusDepart = ['nb_anomalies_absence_terminus_depart'];
-    let colonnesAbsenceTerminusArrivee = ['nb_anomalies_absence_terminus_arrivee'];
-    let colonnesAucunArret = ['nb_anomalies_aucun_arret'];
-
-    let colonnesNumeriquesAvecSelecteurBoolees = colonnesRetard.concat(colonnesAvance)
-                                                               .concat(colonnesManqueDeRegularite)
-                                                               .concat(colonnesAbsenceTerminusDepart)
-                                                               .concat(colonnesAbsenceTerminusArrivee)
-                                                               .concat(colonnesAucunArret)
-
     for (let attrName in this.filterValues) {
 
       // Get the corresponding column in queryParams
@@ -712,23 +717,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
 
           // The columns with numeric type but a boolean filter are interpreted as filters on the anomaly type.
           //  'false' is interpreted as null
-          if (colonnesNumeriquesAvecSelecteurBoolees.includes(col.field)) {
 
-            if (attrValue == true) {
-              col.filterValue = attrValue;
-
-
-
-            } // We consider false to be null
-            else if (attrValue == false) {
-              col.filterValue = null;
-            }
-          }
-          // For 'normal' numeric types, just convert to int
-          else {
-            col.filterIsActive = true;
-            col.filterValue = parseInt(attrValue);
-          }
 
         } else {
           col.filterValue = attrValue;
@@ -751,7 +740,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
   refreshData() {
 
     // Copy the values originating from the parent component to the query params
-    console.log(this.queryParams);
+    console.log(this.queryParams["field"]);
 
     this.loading = true;
     this.infectiousStatusService.getInfectiousStatusForListing(this.queryParams).subscribe(res => {

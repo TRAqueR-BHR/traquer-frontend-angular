@@ -11,7 +11,8 @@
                 <input type="text" pInputText
                     id="name"
                     name="name"
-                    [(ngModel)]="outbreak.name"/>
+                    [(ngModel)]="outbreak.name"
+                    required/>
                 <span class="p-inputgroup-addon">{{
                     outbreak.infectiousAgent|
                     enumCode2EnumName:"INFECTIOUS_AGENT_CATEGORY"|
@@ -60,16 +61,23 @@
                 i18n-label="save"
                 label="Enregistrer"
                 (click)="save()"
-                class="w-auto"></button>
+                class="w-auto"
+                [disabled]="saveOutbreakBtnIsDisabled"></button>
         </div>
 
     </div>
 
     <h2 class="ml-2">UFs de l'épisode</h2>
-    <div class="grid">
+    <div class="col-12" *ngIf="outbreak == null || outbreak.id == null">
+        <p-message severity="info" *ngIf="gender == null"
+            text="L'épisode doit être enregistré pour que les UF associées apparaissent"
+            i18n-text="@@outbreak_must_be_saved_first">
+        </p-message>
+    </div>
+    <div class="grid" *ngIf="outbreak != null && outbreak.id != null">
         <ng-container *ngFor="let unitAsso of outbreakUnitAssos">
             <div app-outbreak-unit-asso
-                class="col-12 md:col-6 outbreak-unit-asso"
+                class="col-12 outbreak-unit-asso"
                 [outbreakUnitAsso]="unitAsso"></div>
         </ng-container>
     </div>

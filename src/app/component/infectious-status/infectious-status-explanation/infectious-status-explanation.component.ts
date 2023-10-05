@@ -223,16 +223,32 @@ export class InfectiousStatusExplanationComponent implements OnInit {
 
   }
 
+  getHospitalizationDescription(stay:Stay):string {
+    let hospitalizationInTimeStr = formatDate(
+      new Date(stay.hospitalizationInTime),environment.datetime_format,this.locale
+    );
+    let hospitalizationOutTimeStr = stay.hospitalizationOutTime != null ?
+      formatDate(new Date(stay.hospitalizationOutTime),environment.datetime_format,this.locale) : "";
+    let result = `
+        ${this.translationService.getTranslation("hospitalization")} :
+        ${hospitalizationInTimeStr} ⟶ ${hospitalizationOutTimeStr}
+    `;
+
+    return result;
+  }
+
   merge() {
 
     let eltsFromExposures = this.contactExposureArr2TimelineEltArr(this.contactExposuresDF);
     let eltsFromAnalysis = this.analysisResultArr2TimelineEltArr(this.analysesResults);
     let eltsFromInfectiousStatus = this.infectiousStatusArr2TimelineEltArr(this.infectiousStatuses);
     let eltsFromStaysIn = this.stayInArr2TimelineEltArr(this.stays);
+    let eltsFromStaysIsolationTime = this.stayIsolationTimeArr2TimelineEltArr(this.stays);
     let eltsFromStaysOut = this.stayOutArr2TimelineEltArr(this.stays);
 
     let allElts:{title: string, date: Date, type: string, details:string, link:string}[] = [];
     allElts.push(...eltsFromStaysIn);
+    allElts.push(...eltsFromStaysIsolationTime);
     allElts.push(...eltsFromStaysOut);
     allElts.push(...eltsFromExposures);
     allElts.push(...eltsFromAnalysis);
@@ -257,6 +273,8 @@ export class InfectiousStatusExplanationComponent implements OnInit {
       }
 
     }
+
+
 
     // Sort
     this.timeline.sort((a,b) => {
@@ -369,9 +387,19 @@ export class InfectiousStatusExplanationComponent implements OnInit {
     let result = array.map(x => {
 
       let inTimeStr = formatDate(new Date(x.inTime),environment.datetime_format,this.locale);
-      let outTimeStr = x.outTime != null ? formatDate(new Date(x.outTime),environment.datetime_format,this.locale) : "";
+      let outTimeStr = x.outTime != null ?
+        formatDate(new Date(x.outTime),environment.datetime_format,this.locale) : "";
+      let hospitalizationInTimeStr = formatDate(
+        new Date(x.hospitalizationInTime),environment.datetime_format,this.locale
+      );
+      let hospitalizationOutTimeStr = x.hospitalizationOutTime != null ?
+        formatDate(new Date(x.hospitalizationOutTime),environment.datetime_format,this.locale) : "";
       let title = `
-        ${this.translationService.getTranslation("stay_begin")} ${x.unit.name} ${inTimeStr} ⟶ ${outTimeStr}
+        ${this.translationService.getTranslation("stay_begin")}
+        ${x.unit.name}
+        (
+          ${this.getHospitalizationDescription(x)}
+        )
       `;
       let details = "TODO details of analysis";
 
@@ -401,7 +429,11 @@ export class InfectiousStatusExplanationComponent implements OnInit {
       let inTimeStr = formatDate(new Date(x.inTime),environment.datetime_format,this.locale);
       let outTimeStr = x.outTime != null ? formatDate(new Date(x.outTime),environment.datetime_format,this.locale) : "";
       let title = `
-        ${this.translationService.getTranslation("stay_end")} ${x.unit.name} ${inTimeStr} ⟶ ${outTimeStr}
+        ${this.translationService.getTranslation("stay_end")}
+        ${x.unit.name}
+        (
+          ${this.getHospitalizationDescription(x)}
+        )
       `;
       let details = "TODO details of analysis";
 
@@ -409,6 +441,35 @@ export class InfectiousStatusExplanationComponent implements OnInit {
       let node = {
         title:title,
         date:new Date(x.outTime),
+        type:"stay",
+        details:details,
+        link:null,
+      };
+
+      return node;
+    })
+    return result;
+  }
+
+  stayIsolationTimeArr2TimelineEltArr(array:Array<Stay>):
+  {title: string, date: Date, type: string, details:string, link:string}[]
+  {
+
+    // Only keep the stays with an out time
+    array = array.filter(x => x.isolationTime != null);
+
+    let result = array.map(x => {
+
+      let isolationTimeStr = formatDate(new Date(x.isolationTime),environment.datetime_format,this.locale);
+      let title = `
+        ${this.translationService.getTranslation("isolation")}
+      `;
+      let details = "";
+
+
+      let node = {
+        title:title,
+        date:new Date(x.isolationTime),
         type:"stay",
         details:details,
         link:null,

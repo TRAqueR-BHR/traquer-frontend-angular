@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { SelectItem } from 'primeng/api/selectitem';
 import { INFECTIOUS_STATUS_TYPE } from 'src/app/enum/INFECTIOUS_STATUS_TYPE';
 import { OutbreakUnitAsso } from 'src/app/model/OutbreakUnitAsso';
@@ -9,6 +10,10 @@ import { TranslationService } from 'src/app/module/translation/service/translati
 import { ContactExposureService } from 'src/app/service/contact-exposure.service';
 import { StayService } from 'src/app/service/stay.service';
 import { UINotificationService } from 'src/app/service/uinotification.service';
+import { environment } from 'src/environments/environment';
+import { InfectiousStatusExplanationComponent } from '../../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
+import { Patient } from 'src/app/model/Patient';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-outbreak-unit-asso,[app-outbreak-unit-asso]',
@@ -41,7 +46,9 @@ export class OutbreakUnitAssoComponent implements OnInit {
     private translationService:TranslationService,
     private contactExposureService:ContactExposureService,
     private notificationService:UINotificationService,
-    private authenticationService:AuthenticationService
+    private authenticationService:AuthenticationService,
+    private dialogService:DialogService,
+    @Inject(LOCALE_ID) private locale: string
   ) { }
 
   ngOnInit(): void {
@@ -114,6 +121,27 @@ export class OutbreakUnitAssoComponent implements OnInit {
             this.translationService.getTranslation("contact_cases_generated"));
         }
       })
+  }
+
+
+  showInfectiousStatusExplanation(patientId:string) {
+
+    // let formatedDate = formatDate(rowData.birthdate,environment.date_format,this.locale)
+
+    // let dialogHeader = `
+    //   ${this.translationService.getTranslation("history")}
+    //   ${rowData.firstname} ${rowData.lastname} ${formatedDate}
+    // `;
+
+    let dialogHeader = ``;
+
+    const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
+        data: {
+          "patient": new Patient({id:patientId})
+        },
+        header: dialogHeader,
+        width: '85%'
+    });
   }
 
 }

@@ -23,11 +23,13 @@ import { SAMPLE_MATERIAL_TYPE } from 'src/app/enum/SAMPLE_MATERIAL_TYPE';
 import { AnalysisService } from 'src/app/service/analysis.service';
 import { StayService } from 'src/app/service/stay.service';
 import { UnitService } from 'src/app/service/unit.service';
+import { InfectiousStatusExplanationComponent } from '../../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
 
 @Component({
   selector: 'app-stays',
   templateUrl: './stays.component.html',
-  styleUrls: ['./stays.component.scss']
+  styleUrls: ['./stays.component.scss'],
+  providers: [DialogService]
 })
 export class StaysComponent implements OnInit {
 
@@ -68,6 +70,7 @@ export class StaysComponent implements OnInit {
     private eventRequiringAttentionService:EventRequiringAttentionService,
     private authenticationService:AuthenticationService,
     private unitService:UnitService,
+    private dialogService: DialogService,
     @Inject(LOCALE_ID) private locale: string
   ) { }
 
@@ -484,6 +487,24 @@ export class StaysComponent implements OnInit {
       }
     }
 
+  }
+
+  showInfectiousStatusExplanation(rowData:any) {
+
+    let formatedDate = formatDate(rowData.birthdate,environment.date_format,this.locale)
+
+    let dialogHeader = `
+      ${this.translationService.getTranslation("history")}
+      ${rowData.firstname} ${rowData.lastname} ${formatedDate}
+    `;
+
+    const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
+        data: {
+          "patient": new Patient({id:rowData["patient_id"]})
+        },
+        header: dialogHeader,
+        width: '85%'
+    });
   }
 
 }

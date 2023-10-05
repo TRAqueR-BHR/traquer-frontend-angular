@@ -80,30 +80,41 @@
             [value]="carriersStaysForListing"
             responsiveLayout="scroll"
             [scrollable]="true"
-            scrollHeight="200px"
+            scrollHeight="300px"
         >
             <ng-template pTemplate="header">
                 <tr>
-                    <th *ngIf="isDebugMode">Id</th>
+                    <th *ngIf="isDebugMode">stay_id</th>
+                    <th *ngIf="isDebugMode">patient_id</th>
                     <th i18n="firstname">Prénom</th>
                     <th i18n="lastname">Nom</th>
                     <th i18n="birthdate">Date de naissance</th>
                     <th i18n="room">Chambre</th>
                     <th i18n="in_time">Date d'entrée à l'UF</th>
                     <th i18n="out_time">Date de sortie de l'UF</th>
+                    <th i18n="isolation_time">Date d'isolement</th>
                     <th i18n="hospitalization_in_time">Date d'entrée à l'hopital</th>
                     <th i18n="hospitalization_out_time">Date de sortie de l'hopital</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-s>
                 <tr>
+                    <td *ngIf="isDebugMode">{{s.id}}</td>
                     <td *ngIf="isDebugMode">{{s.patient_id}}</td>
                     <td>{{s.firstname}}</td>
-                    <td>{{s.lastname}}</td>
+                    <td>
+                        {{s.lastname}}
+                        <button  pButton pRipple type="button"
+                            (click)="showInfectiousStatusExplanation(s.patient_id)"
+                            icon="fas fa-info"
+                            class="p-button-rounded p-button-text p-button-sm">
+                        </button>
+                    </td>
                     <td>{{s.birthdate | date:'dd/MM/yyyy'}}</td>
                     <td>{{s.room}}</td>
                     <td>{{s.in_time | date:"dd/MM/yyyy H:mm"}}</td>
                     <td>{{s.out_time | date:"dd/MM/yyyy H:mm"}}</td>
+                    <td>{{s.isolation_time | date:"dd/MM/yyyy H:mm"}}</td>
                     <td>{{s.hospitalization_in_time | date:"dd/MM/yyyy H:mm"}}</td>
                     <td>{{s.hospitalization_out_time | date:"dd/MM/yyyy H:mm"}}</td>
                 </tr>
@@ -114,9 +125,6 @@
         <p-table [loading]="loadingContacts"
             class="col-12"
             [value]="contactsStaysForListing"
-            responsiveLayout="scroll"
-            [scrollable]="true"
-            scrollHeight="400px"
         >
             <ng-template pTemplate="emptymessage">
                 <tr>
@@ -142,7 +150,14 @@
                 <tr>
                     <td *ngIf="isDebugMode">{{s.patient_id}}</td>
                     <td>{{s.firstname}}</td>
-                    <td>{{s.lastname}}</td>
+                    <td>
+                        {{s.lastname}}
+                        <button  pButton pRipple type="button"
+                            (click)="showInfectiousStatusExplanation(s.patient_id)"
+                            icon="fas fa-info"
+                            class="p-button-rounded p-button-text p-button-sm">
+                        </button>
+                    </td>
                     <td>{{s.birthdate | date:'dd/MM/yyyy'}}</td>
                     <td>{{s.room}}</td>
                     <td>{{s.in_time | date:"dd/MM/yyyy H:mm"}}</td>

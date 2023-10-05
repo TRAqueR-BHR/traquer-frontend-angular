@@ -9,6 +9,7 @@ import { TranslationService } from 'src/app/module/translation/service/translati
 import { EnumService } from 'src/app/service/enum.service';
 import { OutbreakService } from 'src/app/service/outbreak.service';
 import { SelectItemService } from 'src/app/service/select-item.service';
+import { UINotificationService } from 'src/app/service/uinotification.service';
 
 @Component({
   selector: 'app-outbreak-edit',
@@ -33,14 +34,15 @@ export class OutbreakEditComponent implements OnInit {
   canDisplayInitializeOutbreakButton:boolean = false;
   canDisplaySaveOutbreakButton:boolean = false;
   initializeOutbreakBtnIsDisabled:boolean = false;
+  saveOutbreakBtnIsDisabled:boolean = false;s
   debug:boolean = false;
 
   // Resources loaded checker
   resourcesLoadedChecker = {
     resourcesAreLoaded: false,
-    resourcesLoaded:{      
+    resourcesLoaded:{
       outbreakUnitAssos:false
-    }    
+    }
   }
 
   constructor(
@@ -49,6 +51,7 @@ export class OutbreakEditComponent implements OnInit {
     private outbreakService:OutbreakService,
     private enumService:EnumService,
     private selectItemService:SelectItemService,
+    private notificationService:UINotificationService
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +61,10 @@ export class OutbreakEditComponent implements OnInit {
     this.getOutbreak();
   }
 
+  ngOnChanges() {
+    this.updateDisplayBooleans();
+  }
+
   getOutbreak(){
 
     console.log(this.outbreak);
@@ -65,8 +72,8 @@ export class OutbreakEditComponent implements OnInit {
     if (this.outbreak != null) {
       this.getOutbreakUnitAssosFromOutbreak();
     }
-    else if (this.debug === true){      
-      const id = this.route.snapshot.paramMap.get('outbreakId'); 
+    else if (this.debug === true){
+      const id = this.route.snapshot.paramMap.get('outbreakId');
       this.outbreakService.getOutbreakFromOutbreakFilter(
           new Outbreak({"id":id}),true
         )
@@ -99,7 +106,7 @@ export class OutbreakEditComponent implements OnInit {
     );
   }
 
-  setDebuggingComponentFlag() {    
+  setDebuggingComponentFlag() {
     if (this.route.snapshot.url.length > 0 && this.route.snapshot.url[0].path == "debug2") {
       this.debug = true;
     }
@@ -116,19 +123,19 @@ export class OutbreakEditComponent implements OnInit {
             return;
           }
         }
-      }         
+      }
     }
-    this.resourcesLoadedChecker.resourcesAreLoaded = true;    
+    this.resourcesLoadedChecker.resourcesAreLoaded = true;
     this.updateDisplayBooleans();
   }
 
-  updateDisplayBooleans() {        
+  updateDisplayBooleans() {
     if (this.outbreak.id == null){
       this.canDisplaySaveButton = false;
       this.canDisplayInitializeOutbreakButton = true;
     } else {
       this.canDisplayInitializeOutbreakButton = false;
-      this.canDisplaySaveButton = true;      
+      this.canDisplaySaveButton = true;
     }
   }
 
@@ -140,6 +147,7 @@ export class OutbreakEditComponent implements OnInit {
         this.initializeOutbreakBtnIsDisabled = false;
         if (res != null){
           this.outbreak = res;
+          this.notificationService.notifySuccess("outbreak_initialized");
           this.getOutbreakUnitAssosFromOutbreak();
           this.updateDisplayBooleans();
         }
@@ -147,21 +155,30 @@ export class OutbreakEditComponent implements OnInit {
   }
 
   save(){
-
+    this.saveOutbreakBtnIsDisabled = true;
+    this.outbreakService.save(this.outbreak).subscribe(res => {
+      this.saveOutbreakBtnIsDisabled = false;
+      if (res != null){
+        this.outbreak = res;
+        this.notificationService.notifySuccess("outbreak_saved");
+        this.getOutbreakUnitAssosFromOutbreak();
+        this.updateDisplayBooleans();
+      }
+    });
   }
 
   prepareOptionsOUTBREAK_CRITICITY() {
     this.enumService.listAllPossibleValues(OUTBREAK_CRITICITY).subscribe(
       res => {
-          this.optionsOUTBREAK_CRITICITY = 
+          this.optionsOUTBREAK_CRITICITY =
             this.selectItemService.createSelectItemsForEnums(
               res,
               OUTBREAK_CRITICITY,
               false, // null options
               "OUTBREAK_CRITICITY_"
-              );         
-      }       
-    );      
+              );
+      }
+    );
   }
 
 }

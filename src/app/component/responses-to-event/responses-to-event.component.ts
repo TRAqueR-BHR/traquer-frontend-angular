@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { INFECTIOUS_AGENT_CATEGORY } from 'src/app/enum/INFECTIOUS_AGENT_CATEGORY';
 import { OUTBREAK_CRITICITY } from 'src/app/enum/OUTBREAK_CRITICITY';
@@ -17,14 +17,19 @@ import { EventRequiringAttentionService } from 'src/app/service/event-requiring-
 import { InfectiousStatusService } from 'src/app/service/infectious-status.service';
 import { OutbreakService } from 'src/app/service/outbreak.service';
 import { SelectItemService } from 'src/app/service/select-item.service';
+import { StayService } from 'src/app/service/stay.service';
 import { UINotificationService } from 'src/app/service/uinotification.service';
 import { Utils } from 'src/app/util/utils';
+import { formatDate } from '@angular/common';
+import { environment } from 'src/environments/environment';
+import { InfectiousStatusExplanationComponent } from '../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
+import { Patient } from 'src/app/model/Patient';
 
 @Component({
   selector: 'app-responses-to-event',
   templateUrl: './responses-to-event.component.html',
   styleUrls: ['./responses-to-event.component.scss'],
-  providers: [ResponsesToEventCompIntService]
+  providers: [ResponsesToEventCompIntService,DialogService]
 })
 export class ResponsesToEventComponent implements OnInit {
 
@@ -36,8 +41,12 @@ export class ResponsesToEventComponent implements OnInit {
 
   optionsRESPONSE_TYPE:SelectItem[] = [];
 
+  isolationTime:Date;
+
   // Display booleans
   canDisplayOutbreak = false;
+  canDisplayIsolationTime = false;
+
   canDisplayAssociateInfectiousStatusToOutbreaksComponent = false;
   debugComponent:boolean = false;
   isDebugMode:boolean = false;
@@ -67,7 +76,10 @@ export class ResponsesToEventComponent implements OnInit {
     private infectiousStatusService:InfectiousStatusService,
     private translationService:TranslationService,
     private responsesToEventCompIntService:ResponsesToEventCompIntService,
-    private authenticationService:AuthenticationService
+    private authenticationService:AuthenticationService,
+    private dialogService:DialogService,
+    private stayService:StayService,
+    @Inject(LOCALE_ID) private locale: string
   ) {
     this.createSubscriptions();
   }
@@ -200,12 +212,14 @@ export class ResponsesToEventComponent implements OnInit {
 
   updateDisplayBooleans(){
 
+    // Outbreak display boolean
     if (this.outbreak != null){
       this.canDisplayOutbreak = true;
     } else {
       this.canDisplayOutbreak = false;
     }
 
+    // Associate infectious status to outbreaks component display boolean
     if (
       this.eventRequiringAttention.responsesTypes != null
       && this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.associate_to_existing_outbreak)
@@ -213,6 +227,16 @@ export class ResponsesToEventComponent implements OnInit {
       this.canDisplayAssociateInfectiousStatusToOutbreaksComponent = true;
     } else {
       this.canDisplayAssociateInfectiousStatusToOutbreaksComponent = false;
+    }
+
+    // Isolation time display boolean
+    if (
+      this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.isolation_in_same_unit)
+      || this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.isolation_in_special_unit)
+    ) {
+      this.canDisplayIsolationTime = true;
+    }else {
+      this.canDisplayIsolationTime = false;
     }
 
   }
@@ -262,13 +286,13 @@ export class ResponsesToEventComponent implements OnInit {
       }
 
       // If create a new outbreak
-      if (this.outbreak == null) {
-        this.outbreak = new Outbreak({
-          "infectiousAgent":INFECTIOUS_AGENT_CATEGORY[this.eventRequiringAttention.infectiousStatus.infectiousAgent],
-          "criticity":OUTBREAK_CRITICITY.dont_know,
-          "refTime":this.eventRequiringAttention.refTime
-        });
-      }
+      this.outbreak = new Outbreak({
+        "infectiousAgent":INFECTIOUS_AGENT_CATEGORY[this.eventRequiringAttention.infectiousStatus.infectiousAgent],
+        "criticity":OUTBREAK_CRITICITY.dont_know,
+        "refTime":this.eventRequiringAttention.refTime
+      });
+      this.updateDisplayBooleans();
+
     } else if(changes.elementsRemoved.includes(RESPONSE_TYPE.declare_outbreak)){
       if (this.outbreak != null && this.outbreak.id == null) {
         this.outbreak = null;
@@ -308,6 +332,32 @@ export class ResponsesToEventComponent implements OnInit {
     if (this.route.snapshot.url.length > 0 && this.route.snapshot.url[0].path == "debug1") {
       this.debugComponent = true;
     }
+  }
+
+  savePatientIsolationDate(){
+    this.stayService.savePatientIsolationDateFromEventRequiringAttention(
+      this.eventRequiringAttention,this.isolationTime
+    ).subscribe(res => {
+      if (res != null){
+        console.log(res);
+        this.notificationService.notifySuccess(
+          this.translationService.getTranslation("isolation_date_updated"));
+      }
+    });
+  }
+
+  showInfectiousStatusExplanation() {
+
+    let patientId = this.infectiousStatus.patient.id;
+    let dialogHeader = "";
+
+    const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
+        data: {
+          "patient": new Patient({id:patientId})
+        },
+        header: dialogHeader,
+        width: '85%'
+    });
   }
 
 }
