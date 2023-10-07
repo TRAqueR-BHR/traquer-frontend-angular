@@ -101,14 +101,13 @@
                             [(ngModel)]="filterValues[col.field]"
                             filterPlaceholder="qq"
                             (onChange)="updateFiltering()"></p-dropdown>
-                        <p-calendar *ngSwitchCase="col.field === 'journee_exploitation'"
-                            [showTime]="false"  [showButtonBar]="true"
-                            dateFormat="dd/mm/yy"
-                            [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
-                            (onSelect)="updateFiltering()" (onClearClick)="updateFiltering()"
-                            appendTo="body" [locale]="translationForPrimengCalendar"
+                        <p-calendar *ngSwitchCase="col.field === 'birthdate'" type="date"
+                            [showTime]="false" [showIcon]="true"
+                            [showButtonBar]="true"
+                            dateFormat="dd/mm/yy" appendTo="body"
                             [(ngModel)]="filterValues[col.field]"
-                            ></p-calendar>
+                            (ngModelChange)="updateFiltering()">
+                        </p-calendar>
                         <p-dropdown
                             *ngSwitchCase="col.field === 'is_confirmed'
                                         || col.field === 'is_current'

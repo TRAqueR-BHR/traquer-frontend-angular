@@ -45,15 +45,16 @@ export class PatientEditorComponent implements OnInit {
 
   primengCalendarFrenchTranslation: any;
 
-  constructor(private patientService: PatientService,
-              private enumService: EnumService,
-              private notificationsService: UINotificationService,
-              private router: Router,
-              private route: ActivatedRoute,
-              private translationService:TranslationService,
-              public dynamicDialogRef: DynamicDialogRef,
-              public dynamicDialogConfig: DynamicDialogConfig
-              ) {
+  constructor(
+    private patientService: PatientService,
+    private enumService: EnumService,
+    private notificationsService: UINotificationService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private translationService:TranslationService,
+    public dynamicDialogRef: DynamicDialogRef,
+    public dynamicDialogConfig: DynamicDialogConfig
+  ) {
 
         // This ensures that the page will be refreshed when redirecting to the
         // '/patient/XX' after a new patient has been saved

@@ -70,9 +70,15 @@
                             [(ngModel)]="filterValues[col.field]"
                             filterPlaceholder="qq"
                             (onChange)="updateFiltering()"></p-dropdown>
+                        <p-calendar *ngSwitchCase="col.field === 'birthdate'" type="date"
+                            [showTime]="false" [showIcon]="true"
+                            dateFormat="dd/mm/yy" appendTo="body"
+                            [(ngModel)]="filterValues[col.field]"
+                            (ngModelChange)="updateFiltering()"></p-calendar>
                         <input *ngSwitchDefault pInputText type="text"
                             [(ngModel)]="filterValues[col.field]"
                             (keyup)="updateFiltering()">
+
 
                     </th>
                     <th *ngIf="!col.filterable" ></th>

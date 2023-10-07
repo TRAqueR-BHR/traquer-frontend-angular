@@ -1,4 +1,4 @@
-import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -24,6 +24,7 @@ import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { InfectiousStatusExplanationComponent } from '../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
 import { Patient } from 'src/app/model/Patient';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-responses-to-event',
@@ -46,6 +47,7 @@ export class ResponsesToEventComponent implements OnInit {
   // Display booleans
   canDisplayOutbreak = false;
   canDisplayIsolationTime = false;
+  processingSavePatientIsolationDate = false;
 
   canDisplayAssociateInfectiousStatusToOutbreaksComponent = false;
   debugComponent:boolean = false;
@@ -97,6 +99,8 @@ export class ResponsesToEventComponent implements OnInit {
 
   createSubscriptions() {
 
+    // When the infectious status of the response gets added to an outbreak, we want to
+    // refresh the page
     const subscription_OutbreakInfectiousStatusAsso =
       this.responsesToEventCompIntService.outbreakInfectiousStatusAsso$.subscribe(
         bool => {
@@ -231,8 +235,11 @@ export class ResponsesToEventComponent implements OnInit {
 
     // Isolation time display boolean
     if (
-      this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.isolation_in_same_unit)
-      || this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.isolation_in_special_unit)
+      this.eventRequiringAttention.responsesTypes != null
+      && (
+        this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.isolation_in_same_unit)
+        || this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.isolation_in_special_unit)
+      )
     ) {
       this.canDisplayIsolationTime = true;
     }else {
@@ -335,15 +342,21 @@ export class ResponsesToEventComponent implements OnInit {
   }
 
   savePatientIsolationDate(){
+    this.processingSavePatientIsolationDate = true;
     this.stayService.savePatientIsolationDateFromEventRequiringAttention(
       this.eventRequiringAttention,this.isolationTime
-    ).subscribe(res => {
-      if (res != null){
-        console.log(res);
-        this.notificationService.notifySuccess(
-          this.translationService.getTranslation("isolation_date_updated"));
+    ).subscribe(
+      res => {
+        this.processingSavePatientIsolationDate = false;
+        if (res != null){
+          console.log(res);
+          this.notificationService.notifySuccess(
+            this.translationService.getTranslation("isolation_date_updated")
+          );
+          this.responsesToEventCompIntService.announceIsolationTimeSaved();
+        }
       }
-    });
+    );
   }
 
   showInfectiousStatusExplanation() {

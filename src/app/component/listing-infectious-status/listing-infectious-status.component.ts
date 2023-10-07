@@ -42,6 +42,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
   filterValues: any = {};
 
   loading: boolean;
+  primengCalendarTranslation:any;
 
   queryParams:any = {};
   selectedColumns: string[] = [];
@@ -58,6 +59,8 @@ export class ListingInfectiousStatusComponent implements OnInit {
 
   actionMenuItemsFor:any = {}; // a Map of (EVENT_REQUIRING_ATTENTION_TYPE => MenuItem[])
 
+  fr: any;
+
   constructor(
     private infectiousStatusService:InfectiousStatusService,
     private translationService:TranslationService,
@@ -70,13 +73,11 @@ export class ListingInfectiousStatusComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.prepareOptionsTrueFalse();
     this.prepareOptionsINFECTIOUS_STATUS_TYPE();
     this.prepareOptionsINFECTIOUS_AGENT_CATEGORY();
     this.prepareOptionsEVENT_REQUIRING_ATTENTION_TYPE();
     this.intializeTablesPreferences();
-
   }
 
   acknowledgeEvent(rowData:any) {
@@ -511,8 +512,8 @@ export class ListingInfectiousStatusComponent implements OnInit {
       header: this.translationService.getTranslation("birthdate"),
       attributeType:"string",
       sortable: false,
-      filterable: false,
-      columnIsDisplayed:false,
+      filterable: true,
+      columnIsDisplayed:true,
       filterIsActive:false,
       minimumCharactersNeeded:3,
       filterValue:null,
@@ -546,7 +547,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
       attributeType:"string",
       sortable: false,
       filterable: true,
-      columnIsDisplayed:false,
+      columnIsDisplayed:true,
       filterIsActive:false,
       minimumCharactersNeeded:3,
       filterValue:null,

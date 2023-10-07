@@ -73,7 +73,7 @@
                 [disabled]="saving"></button>
         </div>
 
-        <h3 class="col-12">Séjours des porteurs dans l'UF</h3>
+        <h3 class="col-12">Séjours des porteurs dans l'UF ({{carriersStaysForListing.length}} séjours)</h3>
         <p-table
             [loading]="loadingCarriers"
             class="col-12"
@@ -121,10 +121,13 @@
             </ng-template>
         </p-table>
 
-        <h3 class="col-12">Séjours des patients contacts dans l'UF</h3>
+        <h3 class="col-12">Séjours des patients contacts dans l'UF ({{contactsStaysForListing.length}} séjours)</h3>
         <p-table [loading]="loadingContacts"
             class="col-12"
             [value]="contactsStaysForListing"
+            responsiveLayout="scroll"
+            [scrollable]="true"
+            scrollHeight="800px"
         >
             <ng-template pTemplate="emptymessage">
                 <tr>

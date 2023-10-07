@@ -43,22 +43,6 @@ export class ContactExposureService {
     );
   }
 
-  generateContactExposuresAndInfectiousStatuses(
-    asso:OutbreakUnitAsso
-  ): Observable<boolean> {
-
-    const url = this.apiURL + "/generate-contact-exposures-and-infectious-statuses";
-
-    return this.http.post<any[]>(
-      url,
-      {
-        "outbreakUnitAsso":asso
-      }
-    )
-    .pipe(
-      catchError(this.errorHandlerService.handleError(`generateContactExposuresAndInfectiousStatuses()`, null))
-    );
-  }
 
   getPatientExposuresForListing(patient:Patient): Observable<any[]> {
     const url = this.apiURL + "/patient-exposures-for-listing";

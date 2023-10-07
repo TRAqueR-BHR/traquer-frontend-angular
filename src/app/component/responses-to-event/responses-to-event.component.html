@@ -58,31 +58,34 @@
     </div>
 
     <div class="col-12" *ngIf="canDisplayIsolationTime">
-        <h1 class="m-2">Isolement du patient</h1>
-        <div class="custom-form-grid p-fluid">
-            <div class="custom-form-field col-12 md:col-6">
-                <label for="isolationTime"
-                    class="custom-label"
-                    i18n="@@isolation_time">Heure d'isolement du patient</label>
-                <p-calendar id="isolationTime"
-                    name="isolationTime"
-                    [appendTo]="'body'"
-                    [showTime]="true"
-                    [showIcon]="true"
-                    dateFormat="dd/mm/yy"
-                    [(ngModel)]="isolationTime"
-                ></p-calendar>
+        <form #formForIsolationTime="ngForm"
+            (ngSubmit)="savePatientIsolationDate()">
+            <h1 class="m-2">Isolement du patient</h1>
+            <div class="custom-form-grid p-fluid">
+                <div class="custom-form-field col-12 md:col-6">
+                    <label for="isolationTime"
+                        class="custom-label"
+                        i18n="@@isolation_time">Heure d'isolement du patient</label>
+                    <p-calendar id="isolationTime"
+                        name="isolationTime"
+                        [appendTo]="'body'"
+                        [showTime]="true"
+                        [showIcon]="true"
+                        dateFormat="dd/mm/yy"
+                        [(ngModel)]="isolationTime"
+                        required
+                    ></p-calendar>
+                </div>
             </div>
-        </div>
-        <div class="custom-form-field col-12">
-
-            <button pButton type="button"
-                [disabled]="isolationTime==null"
-                i18n-label="save_isolation_time"
-                label="Enregistrer l'heure d'isolement"
-                (click)="savePatientIsolationDate()"
-                class="w-auto"></button>
-        </div>
+            <div class="custom-form-field col-12">
+                <button pButton type="submit"
+                    i18n-label="save_isolation_time"
+                    label="Enregistrer l'heure d'isolement"
+                    [disabled]="!formForIsolationTime.valid || processingSavePatientIsolationDate"
+                    class="w-auto"
+                ></button>
+            </div>
+        </form>
     </div>
 
 

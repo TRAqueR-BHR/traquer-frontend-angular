@@ -124,6 +124,10 @@ export class StayService {
 
     var args = deepCopy(queryParams);
 
+    // Force the dates without time to UTC
+    var colBirthDate = args.cols.filter(x => x.field == "birthdate")[0] ;
+    colBirthDate.filterValue = Utils.forceDateToUTC(colBirthDate.filterValue);
+
     return this.http.post<ResultOfQueryWithParams>(url,
                                                    JSON.stringify(args))
     .pipe(map(res => {

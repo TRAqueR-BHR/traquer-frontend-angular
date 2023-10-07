@@ -14,6 +14,9 @@ import { environment } from 'src/environments/environment';
 import { InfectiousStatusExplanationComponent } from '../../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
 import { Patient } from 'src/app/model/Patient';
 import { DialogService } from 'primeng/dynamicdialog';
+import { OutbreakUnitAssoService } from 'src/app/service/outbreak-unit-asso.service';
+import { Subscription } from 'rxjs';
+import { ResponsesToEventCompIntService } from 'src/app/service/components-interaction/responses-to-event-comp-int.service';
 
 @Component({
   selector: 'app-outbreak-unit-asso,[app-outbreak-unit-asso]',
@@ -41,6 +44,9 @@ export class OutbreakUnitAssoComponent implements OnInit {
   loadingCarriers:boolean = false;
   loadingContacts:boolean = false;
 
+  // Observable subscriptions
+  subscriptions: Subscription[] = [];
+
   constructor(
     private stayService:StayService,
     private translationService:TranslationService,
@@ -48,8 +54,12 @@ export class OutbreakUnitAssoComponent implements OnInit {
     private notificationService:UINotificationService,
     private authenticationService:AuthenticationService,
     private dialogService:DialogService,
+    private outbreakUnitAssoService:OutbreakUnitAssoService,
+    private responsesToEventCompIntService:ResponsesToEventCompIntService,
     @Inject(LOCALE_ID) private locale: string
-  ) { }
+  ) {
+    this.createSubscriptions();
+  }
 
   ngOnInit(): void {
     this.getOptionsYesNo();
@@ -57,6 +67,26 @@ export class OutbreakUnitAssoComponent implements OnInit {
     this.getContactsStaysFromOutbreakUnitAsso();
     this.simulateContactExposures();
     this.isDebugMode = this.authenticationService.isDebugMode();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
+  createSubscriptions() {
+
+    // When an isolation time (and the contacts refreshed) we want to refresh the contacts
+    // table and also the carriers table (to show the update to the isolation time column)
+    const subscriptionToIsolationTimeSaved =
+      this.responsesToEventCompIntService.isolationTimeSaved$.subscribe(
+        bool => {
+          console.log("isolationTimeSaved$");
+          this.getCarriersStaysFromOutbreakUnitAsso();
+          this.getContactsStaysFromOutbreakUnitAsso();
+        }
+      );
+    this.subscriptions.push(subscriptionToIsolationTimeSaved);
+
   }
 
   getCarriersStaysFromOutbreakUnitAsso(){
@@ -112,7 +142,7 @@ export class OutbreakUnitAssoComponent implements OnInit {
 
   generateContactExposuresAndInfectiousStatuses() {
     this.saving = true;
-    this.contactExposureService.generateContactExposuresAndInfectiousStatuses(this.outbreakUnitAsso)
+    this.outbreakUnitAssoService.updateAssoAndRefreshExposuresAndContactStatuses(this.outbreakUnitAsso)
       .subscribe(res => {
         if (res != null){
           this.saving = false;

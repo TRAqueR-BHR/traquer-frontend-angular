@@ -299,7 +299,7 @@ export class AnalysesResultsComponent implements OnInit {
       header: this.translationService.getTranslation("birthdate"),
       attributeType:"string",
       sortable: false,
-      filterable: false,
+      filterable: true,
       columnIsDisplayed:true,
       filterIsActive:false,
       minimumCharactersNeeded:3,

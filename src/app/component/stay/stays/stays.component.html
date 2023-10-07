@@ -75,6 +75,12 @@
                             (onChange)="updateFiltering()"
                             >
                         </p-multiSelect>
+                        <p-calendar *ngSwitchCase="col.field === 'birthdate'" type="date"
+                            [showTime]="false" [showIcon]="true"
+                            dateFormat="dd/mm/yy" appendTo="body"
+                            [(ngModel)]="filterValues[col.field]"
+                            (ngModelChange)="updateFiltering()">
+                        </p-calendar>
 
                     </th>
                     <th *ngIf="!col.filterable" ></th>
