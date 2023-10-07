@@ -1,4 +1,5 @@
 import { Patient } from "./Patient";
+import { ContactExposure } from "./ContactExposure";
 import { INFECTIOUS_STATUS_TYPE } from "../enum/INFECTIOUS_STATUS_TYPE";
 import { ANALYSIS_REQUEST_STATUS_TYPE } from "../enum/ANALYSIS_REQUEST_STATUS_TYPE";
 import { INFECTIOUS_AGENT_CATEGORY } from "../enum/INFECTIOUS_AGENT_CATEGORY";
@@ -8,8 +9,10 @@ import { EventRequiringAttention } from "./EventRequiringAttention";
 export class InfectiousStatus {
 
     patient:Patient;
+    contactExposure:ContactExposure;
     id:string;
     isCurrent:boolean;
+    updatedRefTime:Date;
     infectiousStatus:INFECTIOUS_STATUS_TYPE;
     analysisRequestStatus:ANALYSIS_REQUEST_STATUS_TYPE;
     isConfirmed:boolean;
@@ -22,8 +25,18 @@ export class InfectiousStatus {
         if (_json['patient'] != null) {
             this.patient = new Patient(_json['patient']);
         }
+        if (_json['contactExposure'] != null) {
+            this.contactExposure = new ContactExposure(_json['contactExposure']);
+        }
         this.id = _json['id'];
         this.isCurrent = _json['isCurrent'];
+        if (_json['updatedRefTime'] != null) {
+            if (_json['updatedRefTime'] instanceof Date) {
+                this.updatedRefTime = _json['updatedRefTime'];
+            } else {
+                this.updatedRefTime = new Date(_json['updatedRefTime']);
+            }
+        }
         if (_json['infectiousStatus'] != null) {
             if (isNaN(Number(_json['infectiousStatus']))) {
                 this.infectiousStatus = Number(INFECTIOUS_STATUS_TYPE[_json['infectiousStatus']]);

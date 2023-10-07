@@ -1,6 +1,7 @@
 import { Unit } from "./Unit";
 import { Patient } from "./Patient";
 import { Outbreak } from "./Outbreak";
+import { InfectiousStatus } from "./InfectiousStatus";
 
 export class ContactExposure {
 
@@ -11,6 +12,7 @@ export class ContactExposure {
     id:string;
     startTime:Date;
     endTime:Date;
+    infectiousStatuses:InfectiousStatus[];
 
     constructor(_json:Object) {
         if (_json['unit'] != null) {
@@ -38,6 +40,12 @@ export class ContactExposure {
                 this.endTime = _json['endTime'];
             } else {
                 this.endTime = new Date(_json['endTime']);
+            }
+        }
+        if (_json['infectiousStatuses'] != null) {
+            this.infectiousStatuses = [];
+            for (let e of _json['infectiousStatuses']) {
+                this.infectiousStatuses.push(new InfectiousStatus(e));
             }
         }
     }
