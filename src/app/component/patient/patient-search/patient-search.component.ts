@@ -66,7 +66,7 @@ export class PatientSearchComponent implements OnInit {
         ]
     };
 
-  
+
     // ############### //
     // Patient columns //
     // ############### //
@@ -93,6 +93,23 @@ export class PatientSearchComponent implements OnInit {
       nameInSelect:"birthdate",
       nameInWhereClause:"CUSTOM BECAUSE VALUE IS CRYPTED", // The where clause needs special treatment
       header: this.translationService.getTranslation("birthdate"),
+      attributeType:"string",
+      sortable: false,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
+    const patientRefColDef = {
+      field:"patient_ref",
+      nameInSelect:"patient_ref",
+      nameInWhereClause:"CUSTOM BECAUSE VALUE IS CRYPTED", // The where clause needs special treatment
+      header: this.translationService.getTranslation("patient_ref"),
       attributeType:"string",
       sortable: false,
       filterable: true,
@@ -185,6 +202,7 @@ export class PatientSearchComponent implements OnInit {
       this.queryParams.cols.push(firstnameColDef);
       this.queryParams.cols.push(lastnameColDef);
       this.queryParams.cols.push(birthdateColDef);
+      this.queryParams.cols.push(patientRefColDef);
     }
     this.queryParams.cols.push(patientIsHospitalizedColDef);
     this.queryParams.cols.push(patientCurrentUnitNameColDef);
@@ -242,7 +260,7 @@ export class PatientSearchComponent implements OnInit {
     console.log(event);
   }
 
-  
+
   goToExamPage(examId:string) {
     this.router.navigateByUrl(`/exam/${examId}`);
   }

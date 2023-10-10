@@ -73,6 +73,7 @@
                         <p-calendar *ngSwitchCase="col.field === 'birthdate'" type="date"
                             [showTime]="false" [showIcon]="true"
                             dateFormat="dd/mm/yy" appendTo="body"
+                            [showButtonBar]="true"
                             [(ngModel)]="filterValues[col.field]"
                             (ngModelChange)="updateFiltering()"></p-calendar>
                         <input *ngSwitchDefault pInputText type="text"

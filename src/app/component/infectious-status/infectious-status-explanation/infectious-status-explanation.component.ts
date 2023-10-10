@@ -45,6 +45,8 @@ export class InfectiousStatusExplanationComponent implements OnInit {
     }[]
   }[] = [];
 
+  preparingTimeline:boolean = false;
+
   // timeline:any[] = [3];
 
   // @Input()
@@ -89,6 +91,7 @@ export class InfectiousStatusExplanationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.preparingTimeline = true;
     this.setDebuggingComponentFlag();
     this.getPatient();
 
@@ -274,8 +277,6 @@ export class InfectiousStatusExplanationComponent implements OnInit {
 
     }
 
-
-
     // Sort
     this.timeline.sort((a,b) => {
       if (a.date > b.date){
@@ -288,6 +289,8 @@ export class InfectiousStatusExplanationComponent implements OnInit {
       }
     });
     this.timeline.reverse();
+
+    this.preparingTimeline = false;
 
   }
 

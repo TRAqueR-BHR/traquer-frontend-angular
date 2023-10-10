@@ -11,6 +11,8 @@ export const environment = {
   apiURLForFiles: "http://traquer-noumea-appli1:7980/api",
   numberOfSecondsBetweenRefreshOfMessages: 120,
   numberOfSecondsBetweenChecksOfVersion: 120,
+  numberOfSecondsBetweenCheckIfAnyPendingTask: 30,
+  numberOfSecondsBetweenExecutionOfPendingTasks: 10,
   frontEndVersion:"2020-11-11.02",
   jwt_name: "traquer_jwt",
   cryptPwdHttpHeaderKey: "crypt_pwd",

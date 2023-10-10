@@ -11,6 +11,8 @@ export const environment = {
   apiURLForFiles: "http://localhost:8093/api",
   numberOfSecondsBetweenRefreshOfMessages: 120,
   numberOfSecondsBetweenChecksOfVersion: 120,
+  numberOfSecondsBetweenCheckIfAnyPendingTask: 30,
+  numberOfSecondsBetweenExecutionOfPendingTasks: 30,
   frontEndVersion:"2020-11-11.02",
   jwt_name: "traquer_jwt",
   cryptPwdHttpHeaderKey: "crypt_pwd",

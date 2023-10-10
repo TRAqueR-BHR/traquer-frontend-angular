@@ -84,6 +84,9 @@ import { StaysPageComponent } from './page/stays-page/stays-page.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ProcessingAnimationModule } from './module/processing-animation/processing-animation.module';
 import { BlockUIModule } from 'primeng/blockui';
+import { BlockUiComponent } from './component/misc/block-ui/block-ui.component';
+import { WebSocketComponent } from './component/misc/web-socket/web-socket.component';
+import { ExecutePendingTasksComponent } from './component/misc/execute-pending-tasks/execute-pending-tasks.component';
 
 // References: - https://devblog.dymel.pl/2017/10/17/angular-preload/
 //             - https://www.tektutorialshub.com/angular/angular-how-to-use-app-initializer/
@@ -132,6 +135,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     StaysComponent,
     StaysPageComponent,
     AnalysesPageComponent,
+    BlockUiComponent,
+    WebSocketComponent,
+    ExecutePendingTasksComponent
   ],
   imports: [
     BrowserModule,

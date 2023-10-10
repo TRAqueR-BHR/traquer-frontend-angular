@@ -522,6 +522,23 @@ export class ListingInfectiousStatusComponent implements OnInit {
       width:"4em"
     };
 
+    const patientRefColDef = {
+      field:"patient_ref",
+      nameInSelect:"patient_ref",
+      nameInWhereClause:"CUSTOM BECAUSE VALUE IS CRYPTED", // The where clause needs special treatment
+      header: this.translationService.getTranslation("patient_ref"),
+      attributeType:"string",
+      sortable: false,
+      filterable: true,
+      columnIsDisplayed:false,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
     const lastnameColDef = {
       field:"lastname",
       nameInSelect:"lastname",
@@ -644,6 +661,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
       this.queryParams.cols.push(firstnameColDef);
       this.queryParams.cols.push(lastnameColDef);
       this.queryParams.cols.push(birthdateColDef);
+      this.queryParams.cols.push(patientRefColDef);
     }
 
     if (this.authenticationService.isDebugMode()) {

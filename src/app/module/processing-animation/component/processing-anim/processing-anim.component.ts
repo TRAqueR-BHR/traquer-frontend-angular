@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-processing-anim',
@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class ProcessingAnimComponent implements OnInit {
 
   visible:boolean = false;
+
+  @Input() withText:boolean = false;
 
   constructor() { }
 
