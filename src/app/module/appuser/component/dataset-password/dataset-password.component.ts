@@ -35,8 +35,8 @@ export class DatasetPasswordComponent implements OnInit {
               public config: DynamicDialogConfig,
               private translationService:TranslationService,
               private authenticationService:AuthenticationService
-              ) { 
-    
+              ) {
+
   }
 
   ngOnInit(): void {
@@ -59,10 +59,14 @@ export class DatasetPasswordComponent implements OnInit {
       if (res != null) {
         this.allWords = [];
         for (let w of res) {
+
           this.allWords.push({
-            label:w,
+            // Remove accents from the label, to workaround the problem of the search not
+            //   behaving as expected for accented characters
+            label: w.normalize('NFD').replace(/[\u0300-\u036f]/g, ''),
             value: w
-          })             
+          })
+
         }
         Utils.shuffle(this.allWords);
       }
@@ -71,7 +75,7 @@ export class DatasetPasswordComponent implements OnInit {
       // console.log(res);
       // console.log(Md5.hashStr('blah blah blah'));
       // console.log(Md5.hashAsciiStr('blah blah blah'));
-    }); 
+    });
   }
 
   checkIfCanSavePassword(evt) {

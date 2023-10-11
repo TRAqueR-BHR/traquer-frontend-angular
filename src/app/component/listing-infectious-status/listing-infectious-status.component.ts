@@ -61,6 +61,11 @@ export class ListingInfectiousStatusComponent implements OnInit {
 
   fr: any;
 
+  // This is used to check if the queryParams have changed since the last time we refreshed
+  // the data. It is needed because the table widget may detect some changes when actually
+  // there is not
+  lastQueryParamsAsString:string = null;
+
   constructor(
     private infectiousStatusService:InfectiousStatusService,
     private translationService:TranslationService,
@@ -713,6 +718,9 @@ export class ListingInfectiousStatusComponent implements OnInit {
   //   to the function doesnt contain the filters that are not null but not modified
   updateFiltering(andRefrehData:boolean = true) {
 
+    // Reset to first page
+    this.queryParams.pageNum = 0;
+
     for (let attrName in this.filterValues) {
 
       // Get the corresponding column in queryParams
@@ -758,8 +766,16 @@ export class ListingInfectiousStatusComponent implements OnInit {
 
   refreshData() {
 
-    // Copy the values originating from the parent component to the query params
-    console.log(this.queryParams["field"]);
+    // Check if any change since last refresh
+    if (this.lastQueryParamsAsString != null){
+      if (this.lastQueryParamsAsString == JSON.stringify(this.queryParams)){
+        console.log("No change in queryParams. Skipping refreshData().");
+        return;
+      }
+    }
+
+    // Update the queryParamsString representation
+    this.lastQueryParamsAsString = JSON.stringify(this.queryParams);
 
     this.loading = true;
     this.infectiousStatusService.getInfectiousStatusForListing(this.queryParams).subscribe(res => {

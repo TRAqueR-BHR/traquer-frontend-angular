@@ -60,6 +60,11 @@ export class AnalysesResultsComponent implements OnInit {
 
   actionMenuItemsFor:any = {}; // a Map of (EVENT_REQUIRING_ATTENTION_TYPE => MenuItem[])
 
+  // This is used to check if the queryParams have changed since the last time we refreshed
+  // the data. It is needed because the table widget may detect some changes when actually
+  // there is not
+  lastQueryParamsAsString:string = null;
+
   constructor(
     private analysisService:AnalysisService,
     private translationService:TranslationService,
@@ -432,6 +437,9 @@ export class AnalysesResultsComponent implements OnInit {
 
     for (let attrName in this.filterValues) {
 
+      // Reset to first page
+      this.queryParams.pageNum = 0;
+
       // Get the corresponding column in queryParams
       var col = this.queryParams.cols.filter(x => x.field == attrName)[0] ;
 
@@ -471,8 +479,16 @@ export class AnalysesResultsComponent implements OnInit {
 
   refreshData() {
 
-    // Copy the values originating from the parent component to the query params
-    console.log(this.queryParams);
+    // Check if any change since last refresh
+    if (this.lastQueryParamsAsString != null){
+      if (this.lastQueryParamsAsString == JSON.stringify(this.queryParams)){
+        console.log("No change in queryParams. Skipping refreshData().");
+        return;
+      }
+    }
+
+    // Update the queryParamsString representation
+    this.lastQueryParamsAsString = JSON.stringify(this.queryParams);
 
     this.loading = true;
     this.analysisService.getAnalysesResultsForListing(this.queryParams).subscribe(res => {

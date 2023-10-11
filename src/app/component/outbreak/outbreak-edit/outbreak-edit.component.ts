@@ -147,7 +147,9 @@ export class OutbreakEditComponent implements OnInit {
         this.initializeOutbreakBtnIsDisabled = false;
         if (res != null){
           this.outbreak = res;
-          this.notificationService.notifySuccess("outbreak_initialized");
+          this.notificationService.notifySuccess(
+            this.translationService.getTranslation("outbreak_initialized")
+          );
           this.getOutbreakUnitAssosFromOutbreak();
           this.updateDisplayBooleans();
         }

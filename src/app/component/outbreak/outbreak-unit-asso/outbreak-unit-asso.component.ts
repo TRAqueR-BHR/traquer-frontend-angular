@@ -35,7 +35,8 @@ export class OutbreakUnitAssoComponent implements OnInit {
   contactsStaysForListing:any[] = [];
   optionsYesNo:SelectItem[] = [];
 
-  numberOfContactExposures:number;
+  simulatedExposuresDescription:string;
+
   saving:boolean = false;
   isDebugMode:boolean = false;
 
@@ -135,10 +136,18 @@ export class OutbreakUnitAssoComponent implements OnInit {
       .subscribe(res => {
         this.processingExposuresSimulation = false;
         if (res != null){
-          this.numberOfContactExposures = res.length;
+          let numberOfContactExposures = res.length;
+          let numberOfContactPatients = (new Set(res.map(exposure => exposure.contact.id))).size;
+          this.simulatedExposuresDescription = (
+            numberOfContactPatients
+            + " " +  this.translationService.getTranslation("contact_patient(s)").toLowerCase()
+            + ", " + numberOfContactExposures
+            + " " + this.translationService.getTranslation("exposure(s)").toLowerCase()
+          );
         }
       })
   }
+
 
   generateContactExposuresAndInfectiousStatuses() {
     this.saving = true;

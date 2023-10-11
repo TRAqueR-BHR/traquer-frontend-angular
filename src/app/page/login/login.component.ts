@@ -41,14 +41,6 @@ export class LoginComponent implements OnInit {
       if (res != null) {
         // this.processingService.unblockUI("LoginComponent.login");
 
-        // This is a temporary solution to store the testing crypt password in the local
-        // storage for the first presentation
-        // TODO remove the following line
-        localStorage.setItem(
-          Utils.getCryptPwdLocalStorageKey(),
-          "aaaaaaaxxxxxcccccc"
-        );
-
         this.router.navigate(['/']);
       }
       else {
