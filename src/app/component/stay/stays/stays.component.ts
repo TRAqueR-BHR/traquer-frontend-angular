@@ -337,7 +337,7 @@ export class StaysComponent implements OnInit {
       header: this.translationService.getTranslation("firstname"),
       attributeType:"string",
       sortable: false,
-      filterable: true,
+      filterable: false, // Can put too much stress on the database if not combined with other filters
       columnIsDisplayed:true,
       filterIsActive:false,
       minimumCharactersNeeded:3,
