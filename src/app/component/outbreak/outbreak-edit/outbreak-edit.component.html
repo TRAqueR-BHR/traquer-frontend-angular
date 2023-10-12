@@ -75,11 +75,18 @@
         </p-message>
     </div>
     <div class="grid" *ngIf="outbreak != null && outbreak.id != null">
-        <ng-container *ngFor="let unitAsso of outbreakUnitAssos">
-            <div app-outbreak-unit-asso
-                class="col-12 outbreak-unit-asso"
-                [outbreakUnitAsso]="unitAsso"></div>
-        </ng-container>
+
+        <p-accordion >
+
+            <ng-container *ngFor="let unitAsso of outbreakUnitAssos">
+                <p-accordionTab [header]="unitAsso.unit.name">
+                    <div app-outbreak-unit-asso
+                        class="col-12 outbreak-unit-asso"
+                        [outbreakUnitAsso]="unitAsso"></div>
+                </p-accordionTab>
+            </ng-container>
+
+        </p-accordion>
     </div>
 
 </ng-container>
