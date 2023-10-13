@@ -1,5 +1,7 @@
 export enum APPUSER_TYPE {
 
-    healthcare_professional = 1, 
+    admin = 1, 
+    staff_member = 2, 
+    external_user = 3, 
 
 }
