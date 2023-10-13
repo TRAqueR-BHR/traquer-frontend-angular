@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ROLE_CODE_NAME } from 'src/app/module/appuser/enum/ROLE_CODE_NAME';
 import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
 import { Utils } from 'src/app/util/utils';
 import { environment } from 'src/environments/environment';

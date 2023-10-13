@@ -1,12 +1,12 @@
 import { Role } from "./Role";
 import { EntityBase } from 'src/app/model-protected/EntityBase';
 import { AppuserRoleAsso } from './AppuserRoleAsso';
-import { APPUSER_TYPE } from '../enum/APPUSER_TYPE';
+import { APPUSER_TYPE } from "src/app/enum/APPUSER_TYPE";
 
 export class Appuser extends EntityBase {
-    
+
     login: string;
-    password: string;    
+    password: string;
     jwt: string;
 
     firstname: string;
@@ -14,16 +14,16 @@ export class Appuser extends EntityBase {
     phone:string;
     email: string;
     fullname:string; // built in constructor
-    
+
     appuserAppuserRoleAssoes:AppuserRoleAsso[];
-    allRoles:Role[];   
+    allRoles:Role[];
 
     appuserType:APPUSER_TYPE;
 
     languageCode:string;
     avatar:File;
     deactivated:boolean;
-    
+
     constructor(_json:Object) {
 //        console.dir(_json);
         // console.log("in Appuser construtor");
@@ -33,8 +33,8 @@ export class Appuser extends EntityBase {
         this.jwt = _json['jwt'];
 
         this.firstname = _json['firstname'];
-        this.lastname = _json['lastname'];  
-        this.phone = _json['phone'];  
+        this.lastname = _json['lastname'];
+        this.phone = _json['phone'];
         this.email = _json['email'];
 
         this.fullname = this.firstname + " " + this.lastname;
@@ -51,24 +51,22 @@ export class Appuser extends EntityBase {
                 this.allRoles.push(new Role(e));
             }
         }
-        this.deactivated = _json['deactivated'];        
+        this.deactivated = _json['deactivated'];
         this.languageCode = _json['languageCode'];
 
         if (_json['appuserType'] != null) {
             // console.log(_json['appuserType']);
-            this.appuserType = Number(APPUSER_TYPE[_json['appuserType']]) ;        
+            this.appuserType = Number(APPUSER_TYPE[_json['appuserType']]) ;
         }
 
         // This is here and not in the EntityBase to avoid circular dependencies
-        if (_json['creator'] != null) {                
-            this.creator = new Appuser(_json['creator']);                    
+        if (_json['creator'] != null) {
+            this.creator = new Appuser(_json['creator']);
         }
-        if (_json['lastEditor'] != null) {                
-            this.lastEditor = new Appuser(_json['lastEditor']);                    
+        if (_json['lastEditor'] != null) {
+            this.lastEditor = new Appuser(_json['lastEditor']);
         }
 
     }
-    
+
 }
-
-

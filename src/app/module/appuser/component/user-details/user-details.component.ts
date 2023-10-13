@@ -4,7 +4,7 @@ import { AppuserService } from '../../service/app-user.service';
 import { Appuser } from 'src/app/module/appuser/model/Appuser';
 import { ProcessingService } from 'src/app/service/processing.service';
 import { AuthenticationService } from '../../service/authentication.service';
-import { ROLE_CODE_NAME } from '../../enum/ROLE_CODE_NAME';
+import { ROLE_CODE_NAME } from 'src/app/enum/ROLE_CODE_NAME';
 
 @Component({
   selector: 'app-user-details',
@@ -13,14 +13,14 @@ import { ROLE_CODE_NAME } from '../../enum/ROLE_CODE_NAME';
 })
 export class UserDetailsComponent implements OnInit {
 
-  appuser:Appuser;  
+  appuser:Appuser;
   canDisplayCryptPwdWidget = true;
 
   constructor(private route: ActivatedRoute,
               private appUserService: AppuserService,
               private processingService:ProcessingService,
               private authenticationService:AuthenticationService) {
-    
+
   }
 
   ngOnInit() {
@@ -34,21 +34,15 @@ export class UserDetailsComponent implements OnInit {
       this.getAppuserFromParam();
     });
 
-    
+
   }
 
   updateDisplayBooleans() {
-    console.log(this.authenticationService.hasRole(ROLE_CODE_NAME.healthcare_professional,
-      this.appuser));
-    if (this.authenticationService.hasRole(ROLE_CODE_NAME.healthcare_professional,
-                                           this.appuser)) {
-        this.canDisplayCryptPwdWidget = true;
-       
-    }
+    this.canDisplayCryptPwdWidget = true;
   }
-  
-  getAppuserFromParam(): void {    
-    const id = this.route.snapshot.paramMap.get('id')!;   
+
+  getAppuserFromParam(): void {
+    const id = this.route.snapshot.paramMap.get('id')!;
     this.processingService.blockUI("UserDetailsComponent.getAppuserFromParam");
     // Either create a new user or consult an existing one
     if (id == "new") {
@@ -56,15 +50,15 @@ export class UserDetailsComponent implements OnInit {
       this.appuser = new Appuser({});
       this.updateDisplayBooleans();
     }  else {
-      this.appUserService.getAppuser(id).subscribe(res => {            
+      this.appUserService.getAppuser(id).subscribe(res => {
         this.processingService.unblockUI("UserDetailsComponent.getAppuserFromParam()");
         if (res != null) {
-          this.appuser = res;     
-          this.updateDisplayBooleans(); 
+          this.appuser = res;
+          this.updateDisplayBooleans();
           console.log(this.appuser);
-        }        
+        }
       });
-    }    
+    }
   }
 
 }

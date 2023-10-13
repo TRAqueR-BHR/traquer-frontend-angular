@@ -6,9 +6,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ErrorHandlerService } from 'src/app/service/error-handler.service';
 import { of, Observable } from 'rxjs';
 import { catchError, map, tap, filter } from 'rxjs/operators';
-import { ROLE_CODE_NAME } from '../enum/ROLE_CODE_NAME';
 import { Router } from '@angular/router';
 import { Utils } from 'src/app/util/utils';
+import { ROLE_CODE_NAME } from 'src/app/enum/ROLE_CODE_NAME';
 
 
 // LoginService and AuthenticationService are two separate services because

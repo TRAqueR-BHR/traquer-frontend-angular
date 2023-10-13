@@ -10,11 +10,9 @@ import { ErrorHandlerService } from 'src/app/service/error-handler.service';
 import { AppuserService } from '../../service/app-user.service';
 import { Router } from '@angular/router';
 import { EnumService } from 'src/app/service/enum.service';
-import { APPUSER_TYPE } from 'src/app/module/appuser/enum/APPUSER_TYPE';
 import { AuthenticationService } from '../../service/authentication.service';
 import { environment } from 'src/environments/environment';
-import { ROLE_CODE_NAME } from '../../enum/ROLE_CODE_NAME';
-
+import { APPUSER_TYPE } from 'src/app/enum/APPUSER_TYPE';
 
 @Component({
   selector: 'app-user-edit',

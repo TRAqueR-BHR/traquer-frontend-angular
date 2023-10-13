@@ -1,13 +1,13 @@
 import {EntityBase} from "src/app/model-protected/EntityBase";
-import { APPUSER_TYPE } from '../enum/APPUSER_TYPE';
-import { ROLE_CODE_NAME } from '../enum/ROLE_CODE_NAME';
 import { Appuser } from './Appuser';
+import { ROLE_CODE_NAME } from "src/app/enum/ROLE_CODE_NAME";
+import { APPUSER_TYPE } from "src/app/enum/APPUSER_TYPE";
 
 export class Role  extends EntityBase {
-    
+
     codeName:ROLE_CODE_NAME;
     nameEn:string;
-    nameFr:string;    
+    nameFr:string;
     description:string;
 
     composed:boolean;
@@ -22,7 +22,7 @@ export class Role  extends EntityBase {
     // # RoleRoleAssos where this role is the handled role
     // roleRoleAssosAsHandled::Union{Missing,Vector{IRoleRoleAsso}}
 
-    
+
     constructor(_json:Object) {
         super(_json);
         this.nameEn = _json['nameEn'];
@@ -31,24 +31,19 @@ export class Role  extends EntityBase {
         this.composed = _json['composed'];
         this.without_manager = _json['without_manager'];
         if (_json['restrictedToAppuserType'] != null) {
-            this.restrictedToAppuserType = Number(APPUSER_TYPE[_json['restrictedToAppuserType']]) ;        
+            this.restrictedToAppuserType = Number(APPUSER_TYPE[_json['restrictedToAppuserType']]) ;
         }
         if (_json['codeName'] != null) {
-            this.codeName = Number(ROLE_CODE_NAME[_json['codeName']]) ;        
+            this.codeName = Number(ROLE_CODE_NAME[_json['codeName']]) ;
         }
 
         // This is here and not in the EntityBase to avoid circular dependencies
-        if (_json['creator'] != null) {                
-            this.creator = new Appuser(_json['creator']);                    
+        if (_json['creator'] != null) {
+            this.creator = new Appuser(_json['creator']);
         }
-        if (_json['lastEditor'] != null) {                
-            this.lastEditor = new Appuser(_json['lastEditor']);                    
+        if (_json['lastEditor'] != null) {
+            this.lastEditor = new Appuser(_json['lastEditor']);
         }
     }
-    
+
 }
-
-
-
-
-

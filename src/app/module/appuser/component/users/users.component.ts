@@ -3,10 +3,10 @@ import { AppuserService } from '../../service/app-user.service';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { ProcessingService } from 'src/app/service/processing.service';
 import { SelectItem } from 'primeng/api';
-import { APPUSER_TYPE } from '../../enum/APPUSER_TYPE';
 import { Utils } from 'src/app/util/utils';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { APPUSER_TYPE } from 'src/app/enum/APPUSER_TYPE';
 
 @Component({
   selector: 'app-users',
@@ -64,13 +64,13 @@ export class UsersComponent implements OnInit {
   }
 
   prepareAppuserTypesSelectItems(){
-    // this.appuserTypesSelectItems.push({label: null, 
-    //                                     value: null,                                                       
+    // this.appuserTypesSelectItems.push({label: null,
+    //                                     value: null,
     //                                     title: null});
-    for (let codeName of Utils.getEnumCodeNames(APPUSER_TYPE)) {         
+    for (let codeName of Utils.getEnumCodeNames(APPUSER_TYPE)) {
       var label = this.translationService.getTranslation(codeName);
-      this.appuserTypesSelectItems.push({label: label, 
-                                         value: Number(APPUSER_TYPE[codeName]),                                                       
+      this.appuserTypesSelectItems.push({label: label,
+                                         value: Number(APPUSER_TYPE[codeName]),
                                          title: label});
     }
   }

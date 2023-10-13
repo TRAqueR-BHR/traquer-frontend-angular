@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
-import { ROLE_CODE_NAME } from 'src/app/module/appuser/enum/ROLE_CODE_NAME';
 
 /**
  * http://jasonwatmore.com/post/2016/08/16/angular-2-jwt-authentication-example-tutorial
