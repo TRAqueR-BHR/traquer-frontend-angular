@@ -174,6 +174,23 @@ export class StaysComponent implements OnInit {
       width:"4em"
     };
 
+    const isolationTimeColDef = {
+      field:"isolation_time",
+      nameInSelect:"isolation_time",
+      nameInWhereClause:"s.isolation_time",
+      header: this.translationService.getTranslation("isolation_time"),
+      attributeType:"date",
+      sortable: true,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
     const outTimeColDef = {
       field:"out_time",
       nameInSelect:"out_time",
@@ -232,7 +249,7 @@ export class StaysComponent implements OnInit {
       header: this.translationService.getTranslation("room"),
       attributeType:"string",
       attributeTest:"like",
-      sortable: true,
+      sortable: false,
       filterable: true,
       columnIsDisplayed:true,
       filterIsActive:false,
@@ -253,7 +270,7 @@ export class StaysComponent implements OnInit {
       header: this.translationService.getTranslation("unit"),
       attributeType:"string",
       attributeTest:"IN",
-      sortable: true,
+      sortable: false,
       filterable: true,
       columnIsDisplayed:true,
       filterIsActive:false,
@@ -368,9 +385,10 @@ export class StaysComponent implements OnInit {
       this.queryParams.cols.push(patientRefColDef);
     }
 
-    this.queryParams.cols.push(inTimeColDef);
-    this.queryParams.cols.push(outTimeColDef);
     this.queryParams.cols.push(hospitalizationInTimeColDef);
+    this.queryParams.cols.push(inTimeColDef);
+    this.queryParams.cols.push(isolationTimeColDef);
+    this.queryParams.cols.push(outTimeColDef);
     this.queryParams.cols.push(hospitalizationOutTimeColDef);
     this.queryParams.cols.push(unitNameColDef);
     this.queryParams.cols.push(roomColDef);

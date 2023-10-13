@@ -58,7 +58,11 @@
                             [(ngModel)]="filterValues[col.field]"
                             (keyup)="updateFiltering()"/>
                         <p-calendar
-                            *ngSwitchCase="col.field === 'in_time' || col.field === 'out_time'"
+                            *ngSwitchCase="
+                                col.field === 'in_time'
+                                || col.field === 'out_time'
+                                || col.field === 'isolation_time'
+                                "
                             [showTime]="false"  [showButtonBar]="true"
                             dateFormat="dd/mm/yy"
                             [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
@@ -124,6 +128,7 @@
                         </span>
                         <span *ngSwitchCase="'in_time'">{{rowData[col.nameInSelect] | date:'dd/MM/yyyy HH:mm'}}</span>
                         <span *ngSwitchCase="'out_time'">{{rowData[col.nameInSelect] | date:'dd/MM/yyyy HH:mm'}}</span>
+                        <span *ngSwitchCase="'isolation_time'">{{rowData[col.nameInSelect] | date:'dd/MM/yyyy HH:mm'}}</span>
                         <span *ngSwitchCase="'hospitalization_in_time'">{{rowData[col.nameInSelect] | date:'dd/MM/yyyy HH:mm'}}</span>
                         <span *ngSwitchCase="'hospitalization_out_time'">{{rowData[col.nameInSelect] | date:'dd/MM/yyyy HH:mm'}}</span>
                         <span *ngSwitchCase="'birthdate'">{{rowData[col.nameInSelect] | date:'dd/MM/yyyy'}}</span>
