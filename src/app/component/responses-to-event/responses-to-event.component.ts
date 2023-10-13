@@ -25,6 +25,9 @@ import { environment } from 'src/environments/environment';
 import { InfectiousStatusExplanationComponent } from '../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
 import { Patient } from 'src/app/model/Patient';
 import { NgForm } from '@angular/forms';
+import { PatientService } from 'src/app/service/patient.service';
+import { PatientDecrypt } from 'src/app/model-protected/PatientDecrypt';
+import { BlockUiService } from 'src/app/service/block-ui.service';
 
 @Component({
   selector: 'app-responses-to-event',
@@ -81,6 +84,8 @@ export class ResponsesToEventComponent implements OnInit {
     private authenticationService:AuthenticationService,
     private dialogService:DialogService,
     private stayService:StayService,
+    private patientService:PatientService,
+    private blockUiService:BlockUiService,
     @Inject(LOCALE_ID) private locale: string
   ) {
     this.createSubscriptions();
@@ -362,15 +367,39 @@ export class ResponsesToEventComponent implements OnInit {
   showInfectiousStatusExplanation() {
 
     let patientId = this.infectiousStatus.patient.id;
-    let dialogHeader = "";
+    let patientDecrypt;
+    this.blockUiService.blockUI("getPatientDecrypt");
+    this.patientService.getPatientDecrypt(this.infectiousStatus.patient)
+      .subscribe(res =>{
+        this.blockUiService.unblockUI("getPatientDecrypt");
+        if (res != null) {
 
-    const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
-        data: {
-          "patient": new Patient({id:patientId})
-        },
-        header: dialogHeader,
-        width: '85%'
-    });
+          patientDecrypt = res;
+          let dialogHeader = Utils.buildDialogHeaderForCallingComponent(
+            patientDecrypt.firstname,
+            patientDecrypt.lastname,
+            patientDecrypt.birthdate,
+            {
+              history:this.translationService.getTranslation("history"),
+              hospitalization_in_progress:
+                this.translationService.getTranslation("hospitalization_in_progress")
+            },
+            this.locale,
+            // rowData.current_unit_name,
+            // rowData.patient_is_hospitalized,
+          )
+
+          const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
+              data: {
+                "patient": new Patient({id:patientId})
+              },
+              header: dialogHeader,
+              width: '85%'
+          });
+        }
+      }
+    );
+
   }
 
 }

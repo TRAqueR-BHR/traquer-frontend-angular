@@ -13,6 +13,7 @@ import { ANALYSIS_RESULT_VALUE_TYPE } from '../enum/ANALYSIS_RESULT_VALUE_TYPE';
 import { EVENT_REQUIRING_ATTENTION_TYPE } from '../enum/EVENT_REQUIRING_ATTENTION_TYPE';
 import { SAMPLE_MATERIAL_TYPE } from '../enum/SAMPLE_MATERIAL_TYPE';
 import { RESPONSE_TYPE } from '../enum/RESPONSE_TYPE';
+import { formatDate } from '@angular/common';
 
 export class Utils {
 
@@ -208,6 +209,34 @@ export class Utils {
         "elementsAdded": elementsAdded,
         "elementsRemoved": elementsRemoved,
       };
+    }
+
+    static buildDialogHeaderForCallingComponent(
+      firstname:string,
+      lastname:string,
+      birthdate:Date,
+      translations:{history:string, hospitalization_in_progress:string},
+      locale:string,
+      currentUnitName?:string,
+      patientIsHospitalized?:boolean,
+    ):string{
+
+      let formatedbirthdate = formatDate(birthdate,environment.date_format,locale)
+
+      let dialogHeader = `
+        ${translations.history}
+        ${firstname} ${lastname} ${formatedbirthdate}
+      `;
+
+      if (patientIsHospitalized === true) {
+        dialogHeader += " " + translations.hospitalization_in_progress;
+      }
+
+      if (currentUnitName != null) {
+        dialogHeader += " " + currentUnitName;
+      }
+
+      return dialogHeader;
     }
 
     static getEnumName(enumType) {

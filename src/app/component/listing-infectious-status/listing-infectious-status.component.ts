@@ -843,26 +843,23 @@ export class ListingInfectiousStatusComponent implements OnInit {
 
   showInfectiousStatusExplanation(rowData:any) {
 
-    let formatedDate = formatDate(rowData.birthdate,environment.date_format,this.locale)
-
-    let dialogHeader = `
-      ${this.translationService.getTranslation("history")}
-      ${rowData.firstname} ${rowData.lastname} ${formatedDate}
-    `;
-
-    if (rowData.patient_is_hospitalized === true) {
-      dialogHeader += " " + this.translationService.getTranslation("hospitalization_in_progress");
-    }
-
-    if (rowData.current_unit_name != null) {
-      dialogHeader += " " + rowData.current_unit_name;
-    }
-
     const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
         data: {
           "patient": new Patient({id:rowData["patient_id"]})
         },
-        header: dialogHeader,
+        header: Utils.buildDialogHeaderForCallingComponent(
+          rowData.firstname,
+          rowData.lastname,
+          rowData.birthdate,
+          {
+            history:this.translationService.getTranslation("history"),
+            hospitalization_in_progress:
+              this.translationService.getTranslation("hospitalization_in_progress")
+          },
+          this.locale,
+          rowData.current_unit_name,
+          rowData.patient_is_hospitalized,
+        ),
         width: '85%'
     });
   }

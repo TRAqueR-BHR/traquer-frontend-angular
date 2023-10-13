@@ -30,13 +30,13 @@ export class UserEditComponent implements OnInit {
   uploadAvatarURL:string;
 
   waitingForEndOfAction = false;
-  
+
   rolesSelectItems:SelectItem[] = [];
   selectedRolesIds:String[] = [];
   selectedOrganizationsIds:String[] = [];
   selectedRolesNames:String[] = [];
   selectedOrganizationsNames:String[] = [];
-  
+
   appuserTypesSelectItems:SelectItem[] = [];
   organizationsSelectItems:SelectItem[] = [];
   selectedAppuserType:APPUSER_TYPE;
@@ -46,7 +46,7 @@ export class UserEditComponent implements OnInit {
     resourcesLoaded:{
         selectableComposedRoles: false,
         allAppuserTypes:false,
-    }    
+    }
   }
 
   constructor(private translationService:TranslationService,
@@ -60,29 +60,29 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit() {
     // this.uploadAvatarURL = this.fileUploadService.apiURL + "/upload-appuser-avatar/";
-    console.log(this.appuser);    
+    console.log(this.appuser);
   }
 
-  // The 'My account' link is accessible from anywhere in the menu. Therefore we can be in the 
+  // The 'My account' link is accessible from anywhere in the menu. Therefore we can be in the
   //   following situation: user is viewing the page of a given user, he clicks on 'my account'
   //   which will not reload the component. We want to reinitialize the selected roles, which is called
   //   once all resources are loaded. Of course this is not optimal because we force the reloading of
   //   resources just to have the side effect of calling 'initializeSelected';
   ngOnChanges() {
     this.selectedRolesIds = [];
-    this.selectedRolesNames = [];    
+    this.selectedRolesNames = [];
     this.selectedOrganizationsIds = [];
     this.getComposedRoles();
     this.getAllUserTypes();
-    
+
   }
 
-  
-  
+
+
   onSuccessfulUploadOfAvatar(e) {
     // Retrieve the newly create file id
     console.log(e);
-    
+
   }
 
   onBeforeUpload(event) {
@@ -103,20 +103,20 @@ export class UserEditComponent implements OnInit {
 
       this.appuserTypesSelectItems = [];
 
-      // Create the SelectItem[] 
+      // Create the SelectItem[]
       for (let o of res) {
         var label = this.translationService.getTranslation(APPUSER_TYPE[o]);
         var description = label;
-                
-        this.appuserTypesSelectItems.push({label: label, 
-                                            value: o,                                                       
+
+        this.appuserTypesSelectItems.push({label: label,
+                                            value: o,
                                             title: description});
-        
+
       }
-      
+
       this.resourcesLoadedChecker.resourcesLoaded.allAppuserTypes = true;
       this.updateResourcesLoaded();
-      
+
     });
   }
 
@@ -124,7 +124,7 @@ export class UserEditComponent implements OnInit {
     if (this.appuser != null) {
       return this.authenticationService.hasRole("can_have_avatar",this.appuser);
     }
-    return false;    
+    return false;
   }
 
   getComposedRoles(){
@@ -133,13 +133,13 @@ export class UserEditComponent implements OnInit {
     this.rolesSelectItems = [];
 
     // Get the composed of the edited user if any
-    this.roleService.getAllRoles().subscribe(res1 => { 
+    this.roleService.getAllRoles().subscribe(res1 => {
 
         // Add the roles that the editor can see for this user type
-        this.roleService.getAllRoles().subscribe(res2 => {   
+        this.roleService.getAllRoles().subscribe(res2 => {
           if (res2 != null) {
             console.log(res2);
-            
+
             roles.push(...res2);
 
             // Create the SelectItem[] using the appropriate translations for the labels
@@ -150,11 +150,11 @@ export class UserEditComponent implements OnInit {
             }
             const role_nameAttr = "name" + languageCode;
 
-            for (let o of roles) {      
-              
+            for (let o of roles) {
+
               var label:string =  o[role_nameAttr];
-              
-              // Prepare the title 
+
+              // Prepare the title
               // TODO: show the embedded non-composed roles in the title
               var title = label;
 
@@ -163,29 +163,29 @@ export class UserEditComponent implements OnInit {
                 continue;
               }
 
-              this.rolesSelectItems.push({label: label, 
-                                          value: o.id,                                        
+              this.rolesSelectItems.push({label: label,
+                                          value: o.id,
                                           title: title});
-              
+
             }
             this.resourcesLoadedChecker.resourcesLoaded.selectableComposedRoles = true;
             this.updateResourcesLoaded();
 
-          }          
+          }
         });
-      
+
     });
-    
+
   }
 
-  handleChangeOnFieldAppuserType(id) {    
-    this.appuser.appuserType = id;   
+  handleChangeOnFieldAppuserType(id) {
+    this.appuser.appuserType = id;
     // Reload the roles and companies because they depends on the user type
     this.getComposedRoles();
   }
 
   updateResourcesLoaded():void {
-    
+
     for (let k in this.resourcesLoadedChecker) {
       // console.log(this.resourcesLoadedChecker[k]);
       if (this.resourcesLoadedChecker[k] instanceof Object) {
@@ -195,16 +195,16 @@ export class UserEditComponent implements OnInit {
                 return;
             }
         }
-      }         
-    }   
+      }
+    }
     this.resourcesLoadedChecker.resourcesAreLoaded = true;
     this.initializeSelected();
 
   }
 
-  save(withNotification:boolean = true) {     
-        
-    // If deal is new we want to redirect to a different url after the save action 
+  save(withNotification:boolean = true) {
+
+    // If deal is new we want to redirect to a different url after the save action
     var redirect_after_save = false;
     if (this.appuser.id == null) {
        redirect_after_save = true;
@@ -212,11 +212,11 @@ export class UserEditComponent implements OnInit {
 
     this.waitingForEndOfAction = true;
 
-    this.appuserService.saveAppuser(this.appuser).subscribe(result => {    
+    this.appuserService.saveAppuser(this.appuser).subscribe(result => {
 
+      this.waitingForEndOfAction = false;
       if (result != null) {
-        this.waitingForEndOfAction = false;
-        
+
         // If it was the creation of a deal we redirect to the correct url
         if (redirect_after_save) {
           this.uinotificationService.notifySuccess("i18n@@user_saved");
@@ -224,40 +224,42 @@ export class UserEditComponent implements OnInit {
           //   even if the route has not change ('/user/new' and '/user/33434-4234-3242' are the same route)
           this.router.navigate(["/user",result.id]);
          } else {
-          this.postSaveActions(result,withNotification);         
-         }  
+          this.postSaveActions(result,withNotification);
+         }
       }
-      
+
     }
-    
-    )      
+
+    )
 
   }
 
   postSaveActions(result:Appuser, withNotification:boolean = true) {
 
-    if (result != null) {            
-      this.appuser = result; 
-      this.initializeSelected();        
+    if (result != null) {
+      this.appuser = result;
+      this.initializeSelected();
       if (withNotification) {
-        this.uinotificationService.notifySuccess("i18n@@appuser_saved");
-      }             
-    } 
+        this.uinotificationService.notifySuccess(
+          this.translationService.getTranslation("appuser_saved")
+        );
+      }
+    }
 
   }
 
   initializeSelected(): void {
 
-    // 
+    //
     // Composed roles
-    // 
+    //
     if (this.appuser.appuserAppuserRoleAssoes!= null) {
-      this.selectedRolesIds = 
+      this.selectedRolesIds =
         this.appuser.appuserAppuserRoleAssoes.map(x => x.role.id);
-    }    
+    }
     this.updateSelectedRolesNames();
 
-  
+
 
     //
     // Appuser type
@@ -269,23 +271,23 @@ export class UserEditComponent implements OnInit {
   }
 
   updateSelectedRolesNames() {
-    this.selectedRolesNames = 
+    this.selectedRolesNames =
       this.rolesSelectItems.filter(x => this.selectedRolesIds.includes(x.value)).map(x => x.label!);
   }
 
 
 
   handleChangeOnFieldRoles(ids) {
-    
+
     // Get the unchanged assos (without the ones that are removed)
-    var unchangedAssos:AppuserRoleAsso[] = 
+    var unchangedAssos:AppuserRoleAsso[] =
       this.appuser.appuserAppuserRoleAssoes.filter(x => ids.includes(x.role.id));
       this.appuser.appuserAppuserRoleAssoes = unchangedAssos;
-    
+
     // Add the new IDs
     var sameIDs:string[] = this.appuser.appuserAppuserRoleAssoes.map(x => x.role.id);
     var newIDs = ids.filter(x => !sameIDs.includes(x));
-  
+
     // console.log(unchangedRoleAssos);
 
     // Loop over the new IDs and add create the corresponding associations
@@ -304,6 +306,6 @@ export class UserEditComponent implements OnInit {
   }
 
 
- 
+
 
 }

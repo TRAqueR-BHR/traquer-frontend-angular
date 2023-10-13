@@ -1,33 +1,33 @@
 <form name="form"  #userEditForm="ngForm" (ngSubmit)="userEditForm.form.valid">
-    
+
 
     <div class="grid">
 
         <!-- Login -->
-        <div class="field grid col-12 md:col-6">    
+        <div class="field grid col-12 md:col-6">
             <label for="login" i18n="@@login" class="col-fixed" style="width:100px">Login</label>
             <div class="col">
-                <input name="login" id="login" #loginCheck="ngModel" 
-                    type="text" pInputText 
-                    i18n-placeholder="@@login" placeholder="Login" 
+                <input name="login" id="login" #loginCheck="ngModel"
+                    type="text" pInputText
+                    i18n-placeholder="@@login" placeholder="Login"
                     required pattern="^[a-zA-Z0-9_\-]+$"
                     [(ngModel)]="appuser.login" class="mr-2">
-                <p-message severity="error" i18n-text="@@field_is_required" text="Le champs est requis" 
+                <p-message severity="error" i18n-text="@@field_is_required" text="Le champs est requis"
                             *ngIf="loginCheck.hasError('required')" ></p-message>
-                <p-message *ngIf="loginCheck.hasError('pattern')" 
-                            severity="error" 
-                            i18n-text="@@field_is_no_valid" text="Le champs n'est pas valide"></p-message> 
-                
+                <p-message *ngIf="loginCheck.hasError('pattern')"
+                            severity="error"
+                            i18n-text="@@field_is_no_valid" text="Le champs n'est pas valide"></p-message>
+
             </div>
-            
+
         </div>
 
          <!-- Password -->
-         <div class="field grid col-12 md:col-6">    
+         <div class="field grid col-12 md:col-6">
             <label for="password" i18n="@@password" class="col-fixed" style="width:100px">Mot de passe</label>
             <div class="col">
-                <p-password [(ngModel)]="appuser.password" 
-                    name="password" id="password" #passwordCheck="ngModel" 
+                <p-password [(ngModel)]="appuser.password"
+                    name="password" id="password" #passwordCheck="ngModel"
                         required
                     class="mr-2">
                     <ng-template pTemplate="header">
@@ -44,75 +44,75 @@
                         </ul>
                     </ng-template>
                 </p-password>
-                <p-message severity="error" i18n-text="@@field_is_required" text="Le champs est requis" 
+                <p-message severity="error" i18n-text="@@field_is_required" text="Le champs est requis"
                             *ngIf="passwordCheck.hasError('required')" ></p-message>
-            </div>            
+            </div>
         </div>
 
         <!-- Deactivated -->
-        <div class="field grid col-12">    
+        <div class="field grid col-12">
             <label for="deactivated" i18n="@@deactivated" class="col-fixed" style="width:100px">Désactivé</label>
             <div class="col">
-                <p-checkbox name="deactivated" id="deactivated" [(ngModel)]="appuser.deactivated" 
-                        [disabled]="appuser.id == null" binary="true" ></p-checkbox>   
+                <p-checkbox name="deactivated" id="deactivated" [(ngModel)]="appuser.deactivated"
+                        [disabled]="appuser.id == null" binary="true" ></p-checkbox>
             </div>
-            
+
         </div>
 
 
         <!-- Firstname -->
-        <div class="field grid col-12 md:col-6">    
+        <div class="field grid col-12 md:col-6">
             <label for="firstname" i18n="@@firstname" class="col-fixed" style="width:100px">Prénom</label>
             <div class="col">
-                <input name="firstname" id="firstname" #firstnameCheck="ngModel" 
-                    type="text" pInputText 
-                    i18n-placeholder="@@firstname" placeholder="Login" 
+                <input name="firstname" id="firstname" #firstnameCheck="ngModel"
+                    type="text" pInputText
+                    i18n-placeholder="@@firstname" placeholder="Login"
                     required pattern="^[\D\-]+$"
                     [(ngModel)]="appuser.firstname" class="mr-2">
-                <p-message severity="error" i18n-text="@@field_is_required" text="Le champs est requis" 
+                <p-message severity="error" i18n-text="@@field_is_required" text="Le champs est requis"
                             *ngIf="firstnameCheck.hasError('required')" ></p-message>
-                <p-message *ngIf="firstnameCheck.hasError('pattern')" 
-                            severity="error" 
-                            i18n-text="@@field_is_no_valid" text="Le champs n'est pas valide"></p-message> 
-                
-            </div>            
+                <p-message *ngIf="firstnameCheck.hasError('pattern')"
+                            severity="error"
+                            i18n-text="@@field_is_no_valid" text="Le champs n'est pas valide"></p-message>
+
+            </div>
         </div>
 
         <!-- Lastname -->
-        <div class="field grid col-12 md:col-6">    
+        <div class="field grid col-12 md:col-6">
             <label for="lastname" i18n="@@lastname" class="col-fixed" style="width:100px">Nom</label>
             <div class="col">
-                <input name="lastname" id="lastname" #lastnameCheck="ngModel" 
-                    type="text" pInputText 
-                    i18n-placeholder="@@lastname" placeholder="Login" 
+                <input name="lastname" id="lastname" #lastnameCheck="ngModel"
+                    type="text" pInputText
+                    i18n-placeholder="@@lastname" placeholder="Login"
                     required pattern="^[\D\-]+$"
                     [(ngModel)]="appuser.lastname" class="mr-2">
-                <p-message severity="error" i18n-text="@@field_is_required" text="Le champs est requis" 
+                <p-message severity="error" i18n-text="@@field_is_required" text="Le champs est requis"
                             *ngIf="lastnameCheck.hasError('required')" ></p-message>
-                <p-message *ngIf="lastnameCheck.hasError('pattern')" 
-                            severity="error" 
-                            i18n-text="@@field_is_no_valid" text="Le champs n'est pas valide"></p-message> 
-                
-            </div>            
+                <p-message *ngIf="lastnameCheck.hasError('pattern')"
+                            severity="error"
+                            i18n-text="@@field_is_no_valid" text="Le champs n'est pas valide"></p-message>
+
+            </div>
         </div>
 
         <!-- Email -->
-        <div class="field grid col-12 md:col-6">    
+        <div class="field grid col-12 md:col-6">
             <label for="email" i18n="@@email" class="col-fixed" style="width:100px">Email</label>
             <div class="col">
-                <input name="email" id="email" #emailCheck="ngModel" 
-                    type="text" pInputText 
-                    i18n-placeholder="@@email" placeholder="Email" 
+                <input name="email" id="email" #emailCheck="ngModel"
+                    type="text" pInputText
+                    i18n-placeholder="@@email" placeholder="Email"
                     required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                     [(ngModel)]="appuser.email" class="mr-2">
-                <p-message severity="error" i18n-text="@@field_is_required" text="Le champs est requis" 
+                <p-message severity="error" i18n-text="@@field_is_required" text="Le champs est requis"
                             *ngIf="emailCheck.hasError('required')" ></p-message>
-                <p-message *ngIf="emailCheck.hasError('pattern')" 
-                            severity="error" 
-                            i18n-text="@@field_is_no_valid" text="Le champs n'est pas valide"></p-message> 
-                
+                <p-message *ngIf="emailCheck.hasError('pattern')"
+                            severity="error"
+                            i18n-text="@@field_is_no_valid" text="Le champs n'est pas valide"></p-message>
+
             </div>
-            
+
         </div>
 
 
@@ -120,68 +120,70 @@
         <div class="field grid col-12 md:col-6">
             <label for="appuserType" i18n="@@user_type" class="col-fixed" style="width:100px">Type d'utilisateur</label>
             <div class="col">
-                <p-dropdown [options]="appuserTypesSelectItems" 
-                                [(ngModel)]="selectedAppuserType" 
-                                #Check="ngModel" 
+                <p-dropdown [options]="appuserTypesSelectItems"
+                                [(ngModel)]="selectedAppuserType"
+                                #Check="ngModel"
                                 (ngModelChange)="handleChangeOnFieldAppuserType($event)"
                                 name="appuserType" id="appuserType"
                                 i18n-placeholder="@@select_the_type_of_user"
-                                placeholder="Select the type of user" 
+                                placeholder="Select the type of user"
                                 [filter]="true"
-                                [showClear]="true" 
+                                [showClear]="true"
                                 [required]="true" class="mr-2"
                                 [disabled]="appuser.id != null">
-        
+
                         <ng-template let-selectedItem pTemplate="selectedItem">
                             {{selectedItem.label}}
                         </ng-template>
-                        <ng-template let-item pTemplate="item">                    
+                        <ng-template let-item pTemplate="item">
                             <span  [pTooltip]="item.title">{{item.label}}</span>
                         </ng-template>
-                                
+
                     </p-dropdown>
-                    <p-message *ngIf="Check.hasError('required')" 
-                            severity="error" 
-                            i18n-text="@@field_is_required" text="Field is required"></p-message> 
-            </div>  
+                    <p-message *ngIf="Check.hasError('required')"
+                            severity="error"
+                            i18n-text="@@field_is_required" text="Field is required"></p-message>
+            </div>
         </div>
 
-        <ng-container *ngIf="appuser.id != null && appuser.appuserType != null">          
+        <ng-container *ngIf="appuser.id != null && appuser.appuserType != null">
 
             <!-- Composed roles -->
             <div class="field grid col-12 md:col-6" *ngIf="rolesSelectItems.length > 0">
 
                 <label for="roles" i18n="@@roles" class="col-fixed" style="width:100px">Roles</label>
-                <p-multiSelect [options]="rolesSelectItems" 
-                    [(ngModel)]="selectedRolesIds" 
+                <p-multiSelect [options]="rolesSelectItems"
+                    [(ngModel)]="selectedRolesIds"
                     [panelStyle]="{minWidth:'12em'}"
-                    (ngModelChange)="handleChangeOnFieldRoles($event)" 
+                    (ngModelChange)="handleChangeOnFieldRoles($event)"
                     name="roles" #rolesCheck="ngModel"
-                    [required]="true" class="mr-2">                            
-                    <ng-template let-item pTemplate="item">                    
+                    [required]="true" class="mr-2">
+                    <ng-template let-item pTemplate="item">
                         <span  [pTooltip]="item.title">{{item.label}}</span>
-                    </ng-template>        
-                </p-multiSelect>          
-                <p-message *ngIf="rolesCheck.hasError('required')" 
-                        severity="error" 
-                        i18n-text="@@field_is_required" text="Field is required"></p-message>                 
-    
+                    </ng-template>
+                </p-multiSelect>
+                <p-message *ngIf="rolesCheck.hasError('required')"
+                        severity="error"
+                        i18n-text="@@field_is_required" text="Field is required"></p-message>
+
             </div>
 
         </ng-container>
 
-        <div class="col-12 ">            
-                <button class="big-button" pButton type="button" i18n-label="@@save_appuser" label="Enregistrer"  
-                (click)="save()"
-                [disabled]="userEditForm.invalid || waitingForEndOfAction"></button>
-            
+        <div class="col-12 ">
+                <button class="big-button"
+                    pButton type="button"
+                    i18n-label="@@save_appuser"
+                    label="Enregistrer"
+                    (click)="save()"
+                    [disabled]="userEditForm.invalid || waitingForEndOfAction">
+                </button>
+
         </div>
-        
-      
+
+
     </div> <!-- ENDOF the parent grid-->
-    
-   
-    
+
+
+
 </form>
-
-

@@ -56,7 +56,7 @@ export class PatientService {
       url,
       patient
     ).pipe(map(res => {
-      return new ResultOfQueryWithParams(res);
+      return new PatientDecrypt(res);
     })).pipe(
       catchError(this.errorHandlerService.handleError(`getPatientDecrypt()`, null))
     );
@@ -65,10 +65,10 @@ export class PatientService {
   getPatientDecryptedInfoFromId(patientId:string) {
     var url = this.apiURL + "/get-patient-decrypted-info/" + patientId;
 
-    return this.http.get<any[]>(url)       
+    return this.http.get<any[]>(url)
     .pipe(
       catchError(this.errorHandlerService.handleError(
-        `getPatientDecryptedInfoFromId()`, 
+        `getPatientDecryptedInfoFromId()`,
         null))
     );
   }
@@ -76,10 +76,10 @@ export class PatientService {
   create(firstname:string,lastname:string,birthdate:Date): Observable<Patient> {
 
     birthdate = Utils.forceDateToUTC(birthdate);
-    
-    const url = `${this.apiURL}/create`;    
+
+    const url = `${this.apiURL}/create`;
     return this.http.post(
-      url, 
+      url,
       {
         firstname:firstname,
         lastname:lastname,
@@ -87,7 +87,7 @@ export class PatientService {
       })
     .pipe(map(res => {
         return new Patient(res);
-     }))  
+     }))
     .pipe(
 //        catchError(this.errorHandlerService.handleError<any>(`updatePatient id=${patient.id}`,null))
         catchError(this.errorHandlerService.handleError<any>(`create`,null))
@@ -95,16 +95,16 @@ export class PatientService {
   }
 
   updatePatientNameAndBirthdate(
-    patient: Patient, 
+    patient: Patient,
     firstname:string,
     lastname:string,
     birthdate:Date): Observable<Patient> {
 
     birthdate = Utils.forceDateToUTC(birthdate);
-    
-    const url = `${this.apiURL}/update-name-and-birthdate`;    
+
+    const url = `${this.apiURL}/update-name-and-birthdate`;
     return this.http.post(
-      url, 
+      url,
       {
         patient:patient,
         firstname:firstname,
@@ -113,7 +113,7 @@ export class PatientService {
       })
     .pipe(map(res => {
         return new Patient(res);
-     }))  
+     }))
     .pipe(
 //        catchError(this.errorHandlerService.handleError<any>(`updatePatient id=${patient.id}`,null))
         catchError(this.errorHandlerService.handleError<any>(`updatePatientNameAndBirthdate[${patient.id}]`,null))

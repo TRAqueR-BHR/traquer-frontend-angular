@@ -4,6 +4,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { SimulateProcessingAtPointInTimeComponent } from '../simulate-processing-at-point-in-time/simulate-processing-at-point-in-time.component';
+import { ROLE_CODE_NAME } from 'src/app/enum/ROLE_CODE_NAME';
 
 @Component({
   selector: 'app-main-menu',
@@ -76,6 +77,13 @@ export class MainMenuComponent implements OnInit {
         icon: 'far fa-address-card',
         routerLink: [this.linkToUserAccount],
     });
+    if (this.authenticationService.hasRole(ROLE_CODE_NAME.can_modify_user)) {
+      settingsItems.push({
+        label: this.translationService.getTranslation('users'),
+        icon: 'far fa-address-card',
+        routerLink: ["/users"],
+      });
+    }
     settingsItems.push({
       label: this.translationService.getTranslation('logout'),
       icon: 'fas fa-sign-out-alt',

@@ -21,10 +21,12 @@ import { LoginComponent } from './page/login/login.component';
 import { PatientPageComponent } from './page/patient-page/patient-page.component';
 import { StaysPageComponent } from './page/stays-page/stays-page.component';
 import { UserDetailsPageComponent } from './page/user-details-page/user-details-page.component';
+import { UsersPageComponent } from './page/users-page/users-page.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'user/:id', component: UserDetailsPageComponent, canActivate: [AuthGuardService] },
+  { path: 'users', component: UsersPageComponent, canActivate: [AuthGuardService] },
   { path: 'patient/:id', component: PatientPageComponent, canActivate: [AuthGuardService] },
   { path: 'stays', component: StaysPageComponent, canActivate: [AuthGuardService] },
   { path: 'analyses', component: AnalysesPageComponent, canActivate: [AuthGuardService] },

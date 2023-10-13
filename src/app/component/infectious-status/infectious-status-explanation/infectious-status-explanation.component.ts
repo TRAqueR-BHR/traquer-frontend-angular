@@ -226,6 +226,12 @@ export class InfectiousStatusExplanationComponent implements OnInit {
 
   }
 
+  getRoomDescription(stay:Stay):string {
+    let roomStr = stay.room != null ?
+      this.translationService.getTranslation("room") + " " + stay.room : "";
+    return roomStr;
+  }
+
   getHospitalizationDescription(stay:Stay):string {
     let hospitalizationInTimeStr = formatDate(
       new Date(stay.hospitalizationInTime),environment.datetime_format,this.locale
@@ -244,7 +250,10 @@ export class InfectiousStatusExplanationComponent implements OnInit {
 
     let eltsFromExposures = this.contactExposureArr2TimelineEltArr(this.contactExposuresDF);
     let eltsFromAnalysis = this.analysisResultArr2TimelineEltArr(this.analysesResults);
-    let eltsFromInfectiousStatus = this.infectiousStatusArr2TimelineEltArr(this.infectiousStatuses);
+    let eltsFromInfectiousStatusRefTime =
+      this.infectiousStatusArr2TimelineRefTimeEltArr(this.infectiousStatuses);
+    let eltsFromInfectiousStatusUpdatedRefTime =
+      this.infectiousStatusArr2TimelineUpdatedRefTimeEltArr(this.infectiousStatuses);
     let eltsFromStaysIn = this.stayInArr2TimelineEltArr(this.stays);
     let eltsFromStaysIsolationTime = this.stayIsolationTimeArr2TimelineEltArr(this.stays);
     let eltsFromStaysOut = this.stayOutArr2TimelineEltArr(this.stays);
@@ -252,10 +261,11 @@ export class InfectiousStatusExplanationComponent implements OnInit {
     let allElts:{title: string, date: Date, type: string, details:string, link:string}[] = [];
     allElts.push(...eltsFromStaysIn);
     allElts.push(...eltsFromStaysIsolationTime);
+    allElts.push(...eltsFromInfectiousStatusUpdatedRefTime);
     allElts.push(...eltsFromStaysOut);
     allElts.push(...eltsFromExposures);
     allElts.push(...eltsFromAnalysis);
-    allElts.push(...eltsFromInfectiousStatus);
+    allElts.push(...eltsFromInfectiousStatusRefTime);
 
     this.timeline = []; // Needed to mage angular detect that the array has changed
 
@@ -355,7 +365,7 @@ export class InfectiousStatusExplanationComponent implements OnInit {
     return result;
   }
 
-  infectiousStatusArr2TimelineEltArr(array:Array<InfectiousStatus>):
+  infectiousStatusArr2TimelineRefTimeEltArr(array:Array<InfectiousStatus>):
     {title: string, date: Date, type: string, details:string, link:string}[]
   {
 
@@ -383,26 +393,47 @@ export class InfectiousStatusExplanationComponent implements OnInit {
     return result;
   }
 
+  infectiousStatusArr2TimelineUpdatedRefTimeEltArr(array:Array<InfectiousStatus>):
+    {title: string, date: Date, type: string, details:string, link:string}[]
+  {
+
+    let result = array.filter(x => x.updatedRefTime != null).map(x => {
+      let title = (
+        this.translationService.getTranslation("infectious_status") + " "
+        + this.translationService.getTranslation(`${INFECTIOUS_AGENT_CATEGORY[x.infectiousAgent]}_shortname`) + " : "
+        + this.translationService.getTranslation(
+          `INFECTIOUS_STATUS_TYPE_${INFECTIOUS_STATUS_TYPE[x.infectiousStatus]}`
+        )
+        + ` (${this.translationService.getTranslation("reactivated")})`
+      );
+      let details = "TODO details of infectious status";
+
+      let node = {
+        title:title,
+        date:new Date(x.updatedRefTime),
+        type:"infectious_status",
+        details:details,
+        link:null,
+      };
+
+      return node;
+    })
+    return result;
+  }
+
   stayInArr2TimelineEltArr(array:Array<Stay>):
   {title: string, date: Date, type: string, details:string, link:string}[]
   {
 
     let result = array.map(x => {
 
-      let inTimeStr = formatDate(new Date(x.inTime),environment.datetime_format,this.locale);
-      let outTimeStr = x.outTime != null ?
-        formatDate(new Date(x.outTime),environment.datetime_format,this.locale) : "";
-      let hospitalizationInTimeStr = formatDate(
-        new Date(x.hospitalizationInTime),environment.datetime_format,this.locale
-      );
-      let hospitalizationOutTimeStr = x.hospitalizationOutTime != null ?
-        formatDate(new Date(x.hospitalizationOutTime),environment.datetime_format,this.locale) : "";
+      let roomStr = x.room != null ? this.translationService.getTranslation("room") + " " + x.room : "";
+
       let title = `
         ${this.translationService.getTranslation("stay_begin")}
         ${x.unit.name}
-        (
-          ${this.getHospitalizationDescription(x)}
-        )
+        ${this.getRoomDescription(x)}
+        (${this.getHospitalizationDescription(x)})
       `;
       let details = "TODO details of analysis";
 
@@ -429,15 +460,15 @@ export class InfectiousStatusExplanationComponent implements OnInit {
 
     let result = array.map(x => {
 
-      let inTimeStr = formatDate(new Date(x.inTime),environment.datetime_format,this.locale);
-      let outTimeStr = x.outTime != null ? formatDate(new Date(x.outTime),environment.datetime_format,this.locale) : "";
+      let roomStr = x.room != null ? this.translationService.getTranslation("room") + " " + x.room : "";
+
       let title = `
         ${this.translationService.getTranslation("stay_end")}
         ${x.unit.name}
-        (
-          ${this.getHospitalizationDescription(x)}
-        )
+        ${this.getRoomDescription(x)}
+        (${this.getHospitalizationDescription(x)})
       `;
+
       let details = "TODO details of analysis";
 
 
