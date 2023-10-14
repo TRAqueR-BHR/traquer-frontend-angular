@@ -9,6 +9,7 @@ export class AnalysisRequest {
     lastEditor:Appuser;
     unit:Unit;
     id:string;
+    unitExpectedCollectionTime:Date;
     requestType:ANALYSIS_REQUEST_TYPE;
     creationTime:Date;
     lastUpdateTime:Date;
@@ -25,6 +26,13 @@ export class AnalysisRequest {
             this.unit = new Unit(_json['unit']);
         }
         this.id = _json['id'];
+        if (_json['unitExpectedCollectionTime'] != null) {
+            if (_json['unitExpectedCollectionTime'] instanceof Date) {
+                this.unitExpectedCollectionTime = _json['unitExpectedCollectionTime'];
+            } else {
+                this.unitExpectedCollectionTime = new Date(_json['unitExpectedCollectionTime']);
+            }
+        }
         if (_json['requestType'] != null) {
             if (isNaN(Number(_json['requestType']))) {
                 this.requestType = Number(ANALYSIS_REQUEST_TYPE[_json['requestType']]);
