@@ -1,4 +1,5 @@
 import { Appuser } from "src/app/module/appuser/model/Appuser";
+import { Patient } from "./Patient";
 import { Unit } from "./Unit";
 import { ANALYSIS_REQUEST_TYPE } from "../enum/ANALYSIS_REQUEST_TYPE";
 import { ANALYSIS_REQUEST_STATUS_TYPE } from "../enum/ANALYSIS_REQUEST_STATUS_TYPE";
@@ -6,6 +7,7 @@ import { ANALYSIS_REQUEST_STATUS_TYPE } from "../enum/ANALYSIS_REQUEST_STATUS_TY
 export class AnalysisRequest {
 
     creator:Appuser;
+    patient:Patient;
     lastEditor:Appuser;
     unit:Unit;
     id:string;
@@ -18,6 +20,9 @@ export class AnalysisRequest {
     constructor(_json:Object) {
         if (_json['creator'] != null) {
             this.creator = new Appuser(_json['creator']);
+        }
+        if (_json['patient'] != null) {
+            this.patient = new Patient(_json['patient']);
         }
         if (_json['lastEditor'] != null) {
             this.lastEditor = new Appuser(_json['lastEditor']);

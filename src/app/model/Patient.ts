@@ -7,6 +7,7 @@ import { AnalysisResult } from "./AnalysisResult";
 import { InfectiousStatus } from "./InfectiousStatus";
 import { Stay } from "./Stay";
 import { ContactExposure } from "./ContactExposure";
+import { AnalysisRequest } from "./AnalysisRequest";
 
 export class Patient {
 
@@ -23,6 +24,7 @@ export class Patient {
     staies:Stay[];
     contactContactExposures:ContactExposure[];
     carrierContactExposures:ContactExposure[];
+    analysisRequests:AnalysisRequest[];
 
     constructor(_json:Object) {
         if (_json['currentUnit'] != null) {
@@ -75,6 +77,12 @@ export class Patient {
             this.carrierContactExposures = [];
             for (let e of _json['carrierContactExposures']) {
                 this.carrierContactExposures.push(new ContactExposure(e));
+            }
+        }
+        if (_json['analysisRequests'] != null) {
+            this.analysisRequests = [];
+            for (let e of _json['analysisRequests']) {
+                this.analysisRequests.push(new AnalysisRequest(e));
             }
         }
     }
