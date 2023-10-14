@@ -173,7 +173,9 @@
                             pButton pRipple type="button"
                             (click)="displayDialogForUserResponse(rowData)"
                             icon="fas fa-hand-rock"
-                            class="p-button-rounded p-button-text"></button>
+                            class="p-button-rounded p-button-text"
+                            [disabled]="loadingDialogForEventResponses"
+                        ></button>
 
                     </td>
                 </ng-container>

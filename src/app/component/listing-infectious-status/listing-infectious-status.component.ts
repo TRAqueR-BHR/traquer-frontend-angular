@@ -41,8 +41,10 @@ export class ListingInfectiousStatusComponent implements OnInit {
   // This is a workaround for not being able to reference the 'filterValue' entries in queryParams.cols
   filterValues: any = {};
 
+  // Display booleans
   loading: boolean;
   primengCalendarTranslation:any;
+  loadingDialogForEventResponses:boolean = false;
 
   queryParams:any = {};
   selectedColumns: string[] = [];
@@ -764,13 +766,15 @@ export class ListingInfectiousStatusComponent implements OnInit {
   }
 
 
-  refreshData() {
+  refreshData(forceRefreshEvenIfNoChangesInQueryParams:boolean = false) {
 
     // Check if any change since last refresh
-    if (this.lastQueryParamsAsString != null){
-      if (this.lastQueryParamsAsString == JSON.stringify(this.queryParams)){
-        console.log("No change in queryParams. Skipping refreshData().");
-        return;
+    if (!forceRefreshEvenIfNoChangesInQueryParams) {
+      if (this.lastQueryParamsAsString != null){
+        if (this.lastQueryParamsAsString == JSON.stringify(this.queryParams)){
+          console.log("No change in queryParams. Skipping refreshData().");
+          return;
+        }
       }
     }
 
@@ -929,6 +933,8 @@ export class ListingInfectiousStatusComponent implements OnInit {
 
     console.log(`Open dialog for event[${rowData.event_id}]`)
 
+    this.loadingDialogForEventResponses = true;
+
     // ################# //
     // Create the header //
     // ################# //
@@ -957,6 +963,9 @@ export class ListingInfectiousStatusComponent implements OnInit {
     // ############### //
     this.eventRequiringAttentionService.getEventRequiringAttention(rowData.event_id).subscribe(
       eventRequiringAttention => {
+
+        this.loadingDialogForEventResponses = false;
+
         if (eventRequiringAttention != null) {
 
           const ref = this.dialogService.open(ResponsesToEventComponent, {
@@ -968,20 +977,12 @@ export class ListingInfectiousStatusComponent implements OnInit {
           });
 
           ref.onClose.subscribe(res=> {
-            this.refreshData();
+            this.refreshData(true);
           })
         }
       }
     );
 
-    // let eventRequiringAttention:EventRequiringAttention = null;
-    // const ref = this.dialogService.open(ResponsesToEventComponent, {
-    //     data: {
-    //       "eventRequiringAttention": eventRequiringAttention
-    //     },
-    //     header: this.translationService.getTranslation("user_response_to_event"),
-    //     width: '70%'
-    // });
   }
 
 
