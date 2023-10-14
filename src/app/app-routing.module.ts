@@ -22,6 +22,7 @@ import { PatientPageComponent } from './page/patient-page/patient-page.component
 import { StaysPageComponent } from './page/stays-page/stays-page.component';
 import { UserDetailsPageComponent } from './page/user-details-page/user-details-page.component';
 import { UsersPageComponent } from './page/users-page/users-page.component';
+import { AnalysisRequestEditComponent } from './component/analysis/analysis-request-edit/analysis-request-edit.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -96,6 +97,11 @@ const routes: Routes = [
   {
     path: 'debug13/stays-for-listing',
     component: StaysComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'debug14/analysis-request-edit/:analysisRequestId',
+    component: AnalysisRequestEditComponent,
     canActivate: [AuthGuardService]
   },
   {

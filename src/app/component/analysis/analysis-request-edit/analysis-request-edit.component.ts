@@ -1,4 +1,4 @@
-import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, Inject, Input, LOCALE_ID, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -7,7 +7,7 @@ import { ANALYSIS_RESULT_VALUE_TYPE } from 'src/app/enum/ANALYSIS_RESULT_VALUE_T
 import { SAMPLE_MATERIAL_TYPE } from 'src/app/enum/SAMPLE_MATERIAL_TYPE';
 import { OUTBREAK_CRITICITY } from 'src/app/enum/OUTBREAK_CRITICITY';
 import { PatientDecrypt } from 'src/app/model-protected/PatientDecrypt';
-import { AnalysisResult } from 'src/app/model/AnalysisResult';
+import { AnalysisRequest } from 'src/app/model/AnalysisRequest';
 import { Patient } from 'src/app/model/Patient';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { EnumService } from 'src/app/service/enum.service';
@@ -22,46 +22,49 @@ import { StayService } from 'src/app/service/stay.service';
 import { Stay } from 'src/app/model/Stay';
 import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { AnalysisRequestService } from 'src/app/service/analysis-request.service';
+import { Unit } from 'src/app/model/Unit';
 
 @Component({
-  selector: 'app-analysis-result-edit',
-  templateUrl: './analysis-result-edit.component.html',
-  styleUrls: ['./analysis-result-edit.component.scss'],
-  providers: [InfectiousStatusEditCompIntService]
+  selector: 'app-analysis-request-edit',
+  templateUrl: './analysis-request-edit.component.html',
+  styleUrls: ['./analysis-request-edit.component.scss']
 })
-export class AnalysisResultEditComponent implements OnInit {
+export class AnalysisRequestEditComponent implements OnInit {
 
   @Input()
-  analysisResult:AnalysisResult;
+  analysisRequest:AnalysisRequest;
 
-  analysisRef:string;
+  @Input()
+  patient:Patient;
 
+  @Input()
   patientDecrypt:PatientDecrypt;
 
-  patient:Patient;
+  analysisRef:string;
 
   // Options
   optionsSAMPLE_MATERIAL_TYPE:SelectItem[] = [];
   optionsANALYSIS_RESULT_VALUE_TYPE:SelectItem[] = [];
   optionsANALYSIS_REQUEST_TYPE:SelectItem[] = [];
-  optionsPatientStays:SelectItem[] = [];
+  optionsPatientUnits:SelectItem[] = [];
 
   // Modes
-  choosePatientAndCreateAnalysisResultMode:boolean = true;
+  choosePatientAndCreateAnalysisRequestMode:boolean = true;
 
   // Display booleans
   debugComponent:boolean = false;
   patientPanelShouldAppear:boolean = false;
   patientSeachPanelCollapsed:boolean = false;
-  analysisResultPanelCollapsed:boolean = false;
+  analysisRequestPanelCollapsed:boolean = false;
   processing:boolean = false;
+  loadingUnits:boolean = true;
 
   // Resources loaded checker
   resourcesLoadedChecker = {
     resourcesAreLoaded: false,
     resourcesLoaded:{
-      patient:false,
-      patientStays:false
+      patient:false
     }
   }
 
@@ -72,7 +75,7 @@ export class AnalysisResultEditComponent implements OnInit {
     private translationService:TranslationService,
     private route: ActivatedRoute,
     private outbreakService:OutbreakService,
-    private analysisResultService:AnalysisService,
+    private analysisRequestService:AnalysisRequestService,
     private enumService:EnumService,
     private selectItemService:SelectItemService,
     private patientService: PatientService,
@@ -91,19 +94,30 @@ export class AnalysisResultEditComponent implements OnInit {
     this.prepareOptionsANALYSIS_RESULT_VALUE_TYPE();
     this.prepareOptionsANALYSIS_REQUEST_TYPE();
     this.setDebuggingComponentFlag();
-    this.getAnalysisResult();
+    this.getAnalysisRequest();
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
-  intializeAnalysisResult(patient:Patient){
-    this.analysisResult = new AnalysisResult(
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['patient']) {
+      this.intializeAnalysisRequest(this.patient);
+      this.prepareForm();
+    }
+  }
+
+  intializeAnalysisRequest(patient:Patient){
+    this.analysisRequest = new AnalysisRequest(
       {
         "patient":patient
       }
     );
+  }
+
+  prepareForm(){
+    this.prepareOptionsUnits();
   }
 
   createSubscriptions() {
@@ -118,12 +132,12 @@ export class AnalysisResultEditComponent implements OnInit {
               id:this.patientDecrypt.patientId
             }
           );
-          this.intializeAnalysisResult(this.patient);
+          this.intializeAnalysisRequest(this.patient);
 
           this.resourcesLoadedChecker.resourcesLoaded.patient = true;
           this.updateResourcesLoaded();
 
-          this.prepareOptionsStays();
+          this.prepareForm();
 
         }
       );
@@ -131,10 +145,10 @@ export class AnalysisResultEditComponent implements OnInit {
 
   }
 
-  getAnalysisResult(){
+  getAnalysisRequest(){
 
     // If the infectious status is given as an input
-    if (this.analysisResult != null) {
+    if (this.analysisRequest != null) {
       return ;
     }
 
@@ -143,7 +157,7 @@ export class AnalysisResultEditComponent implements OnInit {
       && this.dialogConfig.data != null) {
 
         if (this.dialogConfig.data.new === true){
-          this.choosePatientAndCreateAnalysisResultMode = true;
+          this.choosePatientAndCreateAnalysisRequestMode = true;
           this.updateDisplayBooleans();
           return;
         } else {
@@ -155,14 +169,14 @@ export class AnalysisResultEditComponent implements OnInit {
     // If debug get the infectious status from the url
     if (this.debugComponent){
 
-      if (this.route.snapshot.paramMap.get('analysisResultId') == "new"){
-        this.choosePatientAndCreateAnalysisResultMode = true;
+      if (this.route.snapshot.paramMap.get('analysisRequestId') == "new"){
+        this.choosePatientAndCreateAnalysisRequestMode = true;
         this.updateDisplayBooleans();
         return;
       }
 
       // TODO
-      // this.getAnalysisResultFromURL().subscribe(res => {
+      // this.getAnalysisRequestFromURL().subscribe(res => {
       //   console.log(res);
       //   if (res != null){
       //     this.analysisResult = res;
@@ -172,11 +186,11 @@ export class AnalysisResultEditComponent implements OnInit {
 
   }
 
-  // getAnalysisResultFromURL():Observable<AnalysisResult>{
+  // getAnalysisRequestFromURL():Observable<AnalysisRequest>{
   //   const id = this.route.snapshot.paramMap.get('analysisResultId');
 
-  //   return this.analysisResultService.getAnalysisResultFromAnalysisResultFilter(
-  //     new AnalysisResult({"id":id}),true
+  //   return this.analysisResultService.getAnalysisRequestFromAnalysisRequestFilter(
+  //     new AnalysisRequest({"id":id}),true
   //   ).pipe(map(res => {
   //     if (res != null){
   //       return res[0];
@@ -188,7 +202,7 @@ export class AnalysisResultEditComponent implements OnInit {
   // }
 
   getPatient(){
-    this.patientService.getPatientDecrypt(this.analysisResult.patient).subscribe(
+    this.patientService.getPatientDecrypt(this.analysisRequest.patient).subscribe(
       res => {
         if (res != null){
           this.patientDecrypt = res;
@@ -216,13 +230,13 @@ export class AnalysisResultEditComponent implements OnInit {
 
   save(){
     this.processing = true;
-    this.analysisResultService.upsert(this.analysisResult, this.analysisRef)
+    this.analysisRequestService.save(this.analysisRequest)
     .subscribe(res => {
       this.processing = false;
       if (res != null){
-        this.analysisResult = res;
+        this.analysisRequest = res;
         this.notificationService.notifySuccess(
-          this.translationService.getTranslation("analysis_result_saved"));
+          this.translationService.getTranslation("analsys_request_saved"));
         }
         this.dialogRef.close();
     });
@@ -268,41 +282,39 @@ export class AnalysisResultEditComponent implements OnInit {
     );
   }
 
-  prepareOptionsStays(){
+  prepareOptionsUnits(){
+
+    this.loadingUnits = true;
+
+    this.optionsPatientUnits = [];
+
     let stayFilter = new Stay({
       patient:this.patient
     });
+    console.log(this.patient);
     this.stayService.geStayFromStayFilter(stayFilter, true).subscribe(res =>{
+
+      this.loadingUnits = false;
 
       if (res != null){
 
-        let options:SelectItem[] = [];
-
-        options.push({
-          value: null,
-          label: this.translationService.getTranslation("null_option_label")
-        });
-
-        for (let s of res){
-
-          let inTimeStr = formatDate(
-            s.inTime,
-            environment.datetime_format,
-            this.locale
-          );
-          let outTimeStr = s.outTime != null ?
-            formatDate(s.outTime,environment.datetime_format,this.locale) : "";
-
-          options.push({
-            value: s,
-            label: `${s.unit.name} ${inTimeStr} ⟶ ${outTimeStr}`
-          });
+        // Get the list of distinct units
+        let units:Unit[] = [];
+        for (let stay of res){
+          // Is the unit of that stay has not been added to the list of units, add it
+          if (units.map(u => u.id).indexOf(stay.unit.id) == -1){
+            units.push(stay.unit);
+          }
         }
-        this.optionsPatientStays = options;
-      }
 
-      this.resourcesLoadedChecker.resourcesLoaded.patientStays = true;
-      this.updateResourcesLoaded();
+        this.optionsPatientUnits = this.selectItemService.createSelectItemsForEntities(
+          units,
+          null, // value property
+          "name", // labelProperty: string,
+          false, // translate: boolean = false,
+          false, // includeNullOption:boolean = false
+        );
+      }
 
     });
   }
@@ -310,23 +322,23 @@ export class AnalysisResultEditComponent implements OnInit {
 
   updateDisplayBooleans(){
 
-    if (this.choosePatientAndCreateAnalysisResultMode) {
+    if (this.choosePatientAndCreateAnalysisRequestMode) {
       this.patientPanelShouldAppear = true;
       // If no patient selected yet, unfold the panel for choosing one and fold the panel for
       //   editing the infectious status itself
       if (this.patientDecrypt == null){
         this.patientSeachPanelCollapsed = false;
-        this.analysisResultPanelCollapsed = true;
+        this.analysisRequestPanelCollapsed = true;
       } else {
         this.patientSeachPanelCollapsed = true;
-        this.analysisResultPanelCollapsed = false;
+        this.analysisRequestPanelCollapsed = false;
       }
     }
 
   }
 
   setDebuggingComponentFlag() {
-    if (this.route.snapshot.url.length > 0 && this.route.snapshot.url[0].path == "debug10") {
+    if (this.route.snapshot.url.length > 0 && this.route.snapshot.url[0].path == "debug14") {
       this.debugComponent = true;
     }
   }

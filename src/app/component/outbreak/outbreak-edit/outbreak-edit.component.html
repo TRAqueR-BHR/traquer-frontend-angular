@@ -1,71 +1,76 @@
 <ng-container *ngIf="outbreak != null">
 
-    <div class="custom-form-grid p-fluid">
+    <p-panel header="Information de l'épisode">
 
-        <div class="custom-form-field col-12 md:col-6">
-            <label for="name"
-                class="custom-label"
-                i18n="@@outbreak_mnemo">
-                Mnemo de l'épisode</label>
-            <div class="p-inputgroup">
-                <input type="text" pInputText
-                    id="name"
-                    name="name"
-                    [(ngModel)]="outbreak.name"
-                    required/>
-                <span class="p-inputgroup-addon">{{
-                    outbreak.infectiousAgent|
-                    enumCode2EnumName:"INFECTIOUS_AGENT_CATEGORY"|
-                    concat:"_shortname"|
-                    getTranslation}}</span>
+        <div class="custom-form-grid p-fluid">
+
+            <div class="custom-form-field col-12 md:col-6">
+                <label for="name"
+                    class="custom-label"
+                    i18n="@@outbreak_mnemo">
+                    Mnemo de l'épisode</label>
+                <div class="p-inputgroup">
+                    <input type="text" pInputText
+                        id="name"
+                        name="name"
+                        [(ngModel)]="outbreak.name"
+                        required/>
+                    <span class="p-inputgroup-addon">{{
+                        outbreak.infectiousAgent|
+                        enumCode2EnumName:"INFECTIOUS_AGENT_CATEGORY"|
+                        concat:"_shortname"|
+                        getTranslation}}</span>
+                </div>
             </div>
+
+            <div class="custom-form-field col-12 md:col-6">
+                <label for="criticity"
+                    class="custom-label"
+                    i18n="@@episode_criticity">
+                    Criticité de l'épisode</label>
+
+                <p-dropdown [options]="optionsOUTBREAK_CRITICITY"
+                    id="criticity"
+                    name="criticity"
+                    appendTo="body"
+                    [(ngModel)]="outbreak.criticity"></p-dropdown>
+            </div>
+
+            <div class="custom-form-field col-12 md:col-6">
+                <label for="refTime"
+                    class="custom-label"
+                    i18n="@@outbreak_ref_time">Heure de référence de l'épisode</label>
+                <p-calendar id="refTime"
+                    name="refTime"
+                    [showTime]="true"
+                    [showIcon]="true"
+                    dateFormat="dd/mm/yy"
+                    [(ngModel)]="outbreak.refTime"
+                ></p-calendar>
+            </div>
+
+            <div class="custom-form-field col-12">
+                <button pButton type="button"
+                    *ngIf="canDisplayInitializeOutbreakButton"
+                    i18n-label="intialize_outbreak"
+                    label="Initialiser l'épisode"
+                    (click)="initializeOutbreak()"
+                    class="w-auto"
+                    [disabled]="initializeOutbreakBtnIsDisabled"></button>
+
+                <button pButton type="button"
+                    *ngIf="canDisplaySaveButton"
+                    i18n-label="save"
+                    label="Enregistrer"
+                    (click)="save()"
+                    class="w-auto"
+                    [disabled]="saveOutbreakBtnIsDisabled"></button>
+            </div>
+
         </div>
 
-        <div class="custom-form-field col-12 md:col-6">
-            <label for="criticity"
-                class="custom-label"
-                i18n="@@episode_criticity">
-                Criticité de l'épisode</label>
+    </p-panel>
 
-            <p-dropdown [options]="optionsOUTBREAK_CRITICITY"
-                id="criticity"
-                name="criticity"
-                appendTo="body"
-                [(ngModel)]="outbreak.criticity"></p-dropdown>
-        </div>
-
-        <div class="custom-form-field col-12 md:col-6">
-            <label for="refTime"
-                class="custom-label"
-                i18n="@@outbreak_ref_time">Heure de référence de l'épisode</label>
-            <p-calendar id="refTime"
-                name="refTime"
-                [showTime]="true"
-                [showIcon]="true"
-                dateFormat="dd/mm/yy"
-                [(ngModel)]="outbreak.refTime"
-            ></p-calendar>
-        </div>
-
-        <div class="custom-form-field col-12">
-            <button pButton type="button"
-                *ngIf="canDisplayInitializeOutbreakButton"
-                i18n-label="intialize_outbreak"
-                label="Initialiser l'épisode"
-                (click)="initializeOutbreak()"
-                class="w-auto"
-                [disabled]="initializeOutbreakBtnIsDisabled"></button>
-
-            <button pButton type="button"
-                *ngIf="canDisplaySaveButton"
-                i18n-label="save"
-                label="Enregistrer"
-                (click)="save()"
-                class="w-auto"
-                [disabled]="saveOutbreakBtnIsDisabled"></button>
-        </div>
-
-    </div>
 
     <h2 class="ml-2">UFs de l'épisode</h2>
     <div class="col-12" *ngIf="outbreak == null || outbreak.id == null">

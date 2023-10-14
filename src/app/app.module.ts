@@ -89,6 +89,7 @@ import { WebSocketComponent } from './component/misc/web-socket/web-socket.compo
 import { ExecutePendingTasksComponent } from './component/misc/execute-pending-tasks/execute-pending-tasks.component';
 import { AccordionModule } from 'primeng/accordion';
 import { UsersPageComponent } from './page/users-page/users-page.component';
+import { AnalysisRequestEditComponent } from './component/analysis/analysis-request-edit/analysis-request-edit.component';
 
 // References: - https://devblog.dymel.pl/2017/10/17/angular-preload/
 //             - https://www.tektutorialshub.com/angular/angular-how-to-use-app-initializer/
@@ -140,7 +141,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AnalysesPageComponent,
     BlockUiComponent,
     WebSocketComponent,
-    ExecutePendingTasksComponent
+    ExecutePendingTasksComponent,
+    AnalysisRequestEditComponent
   ],
   imports: [
     BrowserModule,

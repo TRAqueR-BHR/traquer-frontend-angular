@@ -42,6 +42,8 @@ export class ResponsesToEventComponent implements OnInit {
 
   infectiousStatus:InfectiousStatus;
   outbreak:Outbreak;
+  patientDecrypt:PatientDecrypt;
+  patient:Patient; // For conveinience, we can very well just use infectiousStatus.patient
 
   optionsRESPONSE_TYPE:SelectItem[] = [];
 
@@ -51,6 +53,7 @@ export class ResponsesToEventComponent implements OnInit {
   canDisplayOutbreak = false;
   canDisplayIsolationTime = false;
   processingSavePatientIsolationDate = false;
+  canDisplayRequestAnalysisComponent = false;
 
   canDisplayAssociateInfectiousStatusToOutbreaksComponent = false;
   debugComponent:boolean = false;
@@ -61,7 +64,8 @@ export class ResponsesToEventComponent implements OnInit {
     resourcesAreLoaded: false,
     resourcesLoaded:{
       eventRequiringAttention:false,
-      optionsRESPONSE_TYPE:false
+      optionsRESPONSE_TYPE:false,
+      patientDecrypt:false
     }
   }
 
@@ -135,9 +139,14 @@ export class ResponsesToEventComponent implements OnInit {
 
             this.eventRequiringAttention = res;
 
+            // CAUTION: the following lines must be duplicated in the 'else' block below
+            // TODO: Find a way to avoid this duplication
             this.infectiousStatus = this.eventRequiringAttention.infectiousStatus;
+            this.patient = this.infectiousStatus.patient;
+            this.getPatientDecrypt();
             this.getOutbreak();
 
+            // Update the resources loaded checker
             this.resourcesLoadedChecker.resourcesLoaded.eventRequiringAttention = true;
             this.updateResourcesLoaded();
 
@@ -145,8 +154,11 @@ export class ResponsesToEventComponent implements OnInit {
         });
     } else {
       this.infectiousStatus = this.eventRequiringAttention.infectiousStatus;
+      this.patient = this.infectiousStatus.patient;
+      this.getPatientDecrypt();
       this.getOutbreak();
 
+      // Update the resources loaded checker
       this.resourcesLoadedChecker.resourcesLoaded.eventRequiringAttention = true;
       this.updateResourcesLoaded();
     }
@@ -249,6 +261,16 @@ export class ResponsesToEventComponent implements OnInit {
       this.canDisplayIsolationTime = true;
     }else {
       this.canDisplayIsolationTime = false;
+    }
+
+    // Request analysis display boolean
+    if (
+      this.eventRequiringAttention.responsesTypes != null
+      &&this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.request_analysis)
+    ) {
+      this.canDisplayRequestAnalysisComponent = true;
+    }else {
+      this.canDisplayRequestAnalysisComponent = false;
     }
 
   }
@@ -364,41 +386,43 @@ export class ResponsesToEventComponent implements OnInit {
     );
   }
 
+  getPatientDecrypt() {
+    this.patientService.getPatientDecrypt(this.infectiousStatus.patient).subscribe(res => {
+      console.log("getPatientDecrypt1")
+      if (res != null){
+        console.log("getPatientDecrypt2")
+        this.patientDecrypt = res;
+        this.resourcesLoadedChecker.resourcesLoaded.patientDecrypt = true;
+        this.updateResourcesLoaded();
+      }
+    });
+  }
+
   showInfectiousStatusExplanation() {
 
     let patientId = this.infectiousStatus.patient.id;
-    let patientDecrypt;
-    this.blockUiService.blockUI("getPatientDecrypt");
-    this.patientService.getPatientDecrypt(this.infectiousStatus.patient)
-      .subscribe(res =>{
-        this.blockUiService.unblockUI("getPatientDecrypt");
-        if (res != null) {
 
-          patientDecrypt = res;
-          let dialogHeader = Utils.buildDialogHeaderForCallingComponent(
-            patientDecrypt.firstname,
-            patientDecrypt.lastname,
-            patientDecrypt.birthdate,
-            {
-              history:this.translationService.getTranslation("history"),
-              hospitalization_in_progress:
-                this.translationService.getTranslation("hospitalization_in_progress")
-            },
-            this.locale,
-            // rowData.current_unit_name,
-            // rowData.patient_is_hospitalized,
-          )
+    let dialogHeader = Utils.buildDialogHeaderForCallingComponent(
+      this.patientDecrypt.firstname,
+      this.patientDecrypt.lastname,
+      new Date(this.patientDecrypt.birthdate),
+      {
+        history:this.translationService.getTranslation("history"),
+        hospitalization_in_progress:
+          this.translationService.getTranslation("hospitalization_in_progress")
+      },
+      this.locale,
+      // rowData.current_unit_name,
+      // rowData.patient_is_hospitalized,
+    )
 
-          const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
-              data: {
-                "patient": new Patient({id:patientId})
-              },
-              header: dialogHeader,
-              width: '85%'
-          });
-        }
-      }
-    );
+    const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
+        data: {
+          "patient": new Patient({id:patientId})
+        },
+        header: dialogHeader,
+        width: '85%'
+    });
 
   }
 

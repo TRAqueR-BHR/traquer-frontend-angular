@@ -1,31 +1,34 @@
-<div class="custom-form-grid p-fluid">
+<p-panel header="Association du statut infectieux à un ou plusieurs épisodes existants">
 
-    <div class="custom-form-field col-12 md:col-6">
+    <div class="custom-form-grid p-fluid">
 
-        <label for="selectedOutbreaksIds"
-            i18n="@@choose_the_associated_outbreaks"
-            class="custom-label">Choisir le(s) épisode(s)</label>
-        <p-multiSelect [options]="optionsOutbreak"
-            [(ngModel)]="selectedOutbreaksIds"
-            [panelStyle]="{minWidth:'12em'}"
-            (ngModelChange)="handleChangeOnSelectedOutbreaksIds($event)"
-            name="roles"
-            #selectedOutbreaksIdsCheck="ngModel"
-            [required]="true" class="mr-2">
+        <div class="custom-form-field col-12 md:col-6">
 
-        </p-multiSelect>
-        <p-message *ngIf="selectedOutbreaksIdsCheck.hasError('required')"
-                severity="error"
-                i18n-text="@@field_is_required" text="Field is required"></p-message>
+            <label for="selectedOutbreaksIds"
+                i18n="@@choose_the_associated_outbreaks"
+                class="custom-label">Choisir le(s) épisode(s)</label>
+            <p-multiSelect [options]="optionsOutbreak"
+                [(ngModel)]="selectedOutbreaksIds"
+                [panelStyle]="{minWidth:'12em'}"
+                (ngModelChange)="handleChangeOnSelectedOutbreaksIds($event)"
+                name="roles"
+                #selectedOutbreaksIdsCheck="ngModel"
+                [required]="true" class="mr-2">
+
+            </p-multiSelect>
+            <p-message *ngIf="selectedOutbreaksIdsCheck.hasError('required')"
+                    severity="error"
+                    i18n-text="@@field_is_required" text="Field is required"></p-message>
+
+        </div>
+
+        <div class="custom-form-field col-12">
+            <button pButton type="button"
+                    i18n-label="save"
+                    label="Enregistrer"
+                    (click)="save()"
+                    class="w-auto"></button>
+        </div>
 
     </div>
-
-    <div class="custom-form-field col-12">
-        <button pButton type="button"
-                i18n-label="save"
-                label="Enregistrer"
-                (click)="save()"
-                class="w-auto"></button>
-    </div>
-
-</div>
+</p-panel>

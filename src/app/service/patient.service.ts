@@ -52,7 +52,7 @@ export class PatientService {
   getPatientDecrypt(patient:Patient): Observable<PatientDecrypt> {
     const url = this.apiURL + "/get-decrypted";
 
-    return this.http.post<PatientDecrypt>(
+    return this.http.post<any>(
       url,
       patient
     ).pipe(map(res => {

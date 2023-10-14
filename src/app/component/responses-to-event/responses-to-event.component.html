@@ -6,15 +6,15 @@
         eventRequiringAttention.id: {{eventRequiringAttention.id}}
     </div>
 
+    <!-- Choice of responses -->
     <div class="col-12">
-        <button  pButton pRipple type="button"
-                    (click)="showInfectiousStatusExplanation()"
-                    icon="fas fa-info"
-                    class="p-button-rounded p-button-text p-button-sm">
-        </button>
-    </div>
 
-    <div class="col-12"> <!-- BEGIN EventRequiringAttention edition -->
+        <h1 class="m-2" style="display: inline;">Réponses à l'événement</h1>
+        <button  pButton pRipple type="button"
+            (click)="showInfectiousStatusExplanation()"
+            icon="fas fa-info"
+            class="p-button-rounded p-button-text p-button-sm">
+        </button>
 
         <div class="custom-form-grid p-fluid">
             <div class="custom-form-field col-12 md:col-6">
@@ -47,49 +47,70 @@
             </div>
         </div>
 
-    </div> <!-- ENDOF EventRequiringAttention edition -->
+    </div>
 
+    <!-- Associate infectious status to existing outbreak -->
     <div class="col-12"
-        *ngIf="canDisplayAssociateInfectiousStatusToOutbreaksComponent"> <!-- BEGIN Associate infectious status to existing outbreak -->
+        *ngIf="canDisplayAssociateInfectiousStatusToOutbreaksComponent">
         <h1 class="m-2">Associer le statut infectieux à un épisode existant</h1>
         <app-associate-infectious-status-to-outbreaks
             [infectiousStatus]="infectiousStatus">
         </app-associate-infectious-status-to-outbreaks>
     </div>
 
-    <div class="col-12" *ngIf="canDisplayIsolationTime">
-        <form #formForIsolationTime="ngForm"
-            (ngSubmit)="savePatientIsolationDate()">
-            <h1 class="m-2">Isolement du patient</h1>
-            <div class="custom-form-grid p-fluid">
-                <div class="custom-form-field col-12 md:col-6">
-                    <label for="isolationTime"
-                        class="custom-label"
-                        i18n="@@isolation_time">Heure d'isolement du patient</label>
-                    <p-calendar id="isolationTime"
-                        name="isolationTime"
-                        [appendTo]="'body'"
-                        [showTime]="true"
-                        [showIcon]="true"
-                        dateFormat="dd/mm/yy"
-                        [(ngModel)]="isolationTime"
-                        required
-                    ></p-calendar>
-                </div>
-            </div>
-            <div class="custom-form-field col-12">
-                <button pButton type="submit"
-                    i18n-label="save_isolation_time"
-                    label="Enregistrer l'heure d'isolement"
-                    [disabled]="!formForIsolationTime.valid || processingSavePatientIsolationDate"
-                    class="w-auto"
-                ></button>
-            </div>
-        </form>
+    <!-- Request a new analysis -->
+    <div class="col-12"
+        *ngIf="canDisplayRequestAnalysisComponent">
+        <h1 class="m-2">Demander une analyse</h1>
+        <app-analysis-request-edit
+            *ngIf="
+                this.infectiousStatus
+                && this.patient
+                && this.patientDecrypt
+                "
+            [patient]="patient"
+            [patientDecrypt]="patientDecrypt"
+        >
+        </app-analysis-request-edit>
     </div>
 
+    <!-- Declare isolation -->
+    <div class="col-12" *ngIf="canDisplayIsolationTime">
+        <h1 class="m-2">Isolement du patient</h1>
+        <p-panel header="Détails de la demande d'isolement">
 
-    <div class="col-12"> <!-- BEGIN Outbreak edition -->
+            <form #formForIsolationTime="ngForm"
+                (ngSubmit)="savePatientIsolationDate()">
+                <div class="custom-form-grid p-fluid">
+                    <div class="custom-form-field col-12 md:col-6">
+                        <label for="isolationTime"
+                            class="custom-label"
+                            i18n="@@isolation_time">Heure d'isolement du patient</label>
+                        <p-calendar id="isolationTime"
+                            name="isolationTime"
+                            [appendTo]="'body'"
+                            [showTime]="true"
+                            [showIcon]="true"
+                            dateFormat="dd/mm/yy"
+                            [(ngModel)]="isolationTime"
+                            required
+                        ></p-calendar>
+                    </div>
+                </div>
+                <div class="custom-form-field col-12">
+                    <button pButton type="submit"
+                        i18n-label="save_isolation_time"
+                        label="Enregistrer l'heure d'isolement"
+                        [disabled]="!formForIsolationTime.valid || processingSavePatientIsolationDate"
+                        class="w-auto"
+                    ></button>
+                </div>
+            </form>
+        </p-panel>
+    </div>
+
+    <!-- Outbreak edition -->
+    <div class="col-12">
         <h1 class="m-2">Épisode lié à l'événement</h1>
         <span class="m-2" *ngIf="!canDisplayOutbreak"
             i18n="@@this_event_has_not_been_associated_to_an_event" >
@@ -99,24 +120,15 @@
             [outbreak]="outbreak"
             [infectiousStatus]="infectiousStatus"
         ></app-outbreak-edit>
-    </div> <!-- ENDOF Outbreak edition -->
+    </div>
 
-    <div class="col-12"> <!-- BEGIN analyses requests -->
-        <h2 class="m-2" i18n="@@patient_analyses">Analyses du patient</h2>
+    <!-- Analyses results -->
+    <div class="col-12">
+        <h1 class="m-2" i18n="@@patient_analyses">Analyses du patient</h1>
         <app-patient-analyses *ngIf="infectiousStatus"
             [patient]="infectiousStatus.patient"></app-patient-analyses>
-    </div> <!-- ENDOF analyses requests -->
+    </div>
 
-    <!-- <div class="col-12">
-        <div class="custom-form-grid">
-            <div class="custom-form-field col-12 md:col-6">
-
-                <button pButton pRipple
-                    i18n-label="@@save" label="Enregistrer"
-                    class="w-auto" (click)="save()"></button>
-            </div>
-        </div>
-    </div> -->
 
 </div>
 
