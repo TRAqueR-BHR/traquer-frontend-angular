@@ -233,6 +233,10 @@ export class ResponsesToEventComponent implements OnInit {
 
   updateDisplayBooleans(){
 
+    // ################################################################################# //
+    // NOTE: A lot of display booleans are set in `handleResponsesTypesChange(evt, val)` //
+    // ################################################################################# //
+
     // Outbreak display boolean
     if (this.outbreak != null){
       this.canDisplayOutbreak = true;
@@ -240,45 +244,14 @@ export class ResponsesToEventComponent implements OnInit {
       this.canDisplayOutbreak = false;
     }
 
-    // Associate infectious status to outbreaks component display boolean
-    if (
-      this.eventRequiringAttention.responsesTypes != null
-      && this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.associate_to_existing_outbreak)
-    ){
-      this.canDisplayAssociateInfectiousStatusToOutbreaksComponent = true;
-    } else {
-      this.canDisplayAssociateInfectiousStatusToOutbreaksComponent = false;
-    }
-
-    // Isolation time display boolean
-    if (
-      this.eventRequiringAttention.responsesTypes != null
-      && (
-        this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.isolation_in_same_unit)
-        || this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.isolation_in_special_unit)
-      )
-    ) {
-      this.canDisplayIsolationTime = true;
-    }else {
-      this.canDisplayIsolationTime = false;
-    }
-
-    // Request analysis display boolean
-    if (
-      this.eventRequiringAttention.responsesTypes != null
-      &&this.eventRequiringAttention.responsesTypes.includes(RESPONSE_TYPE.request_analysis)
-    ) {
-      this.canDisplayRequestAnalysisComponent = true;
-    }else {
-      this.canDisplayRequestAnalysisComponent = false;
-    }
-
   }
 
   save() {
     this.eventRequiringAttentionService.update(this.eventRequiringAttention).subscribe(
       res => {
-        // do nothing
+        this.notificationService.notifySuccess(
+          this.translationService.getTranslation("saved")
+        );
       }
     );
   }
@@ -308,7 +281,9 @@ export class ResponsesToEventComponent implements OnInit {
     // Take actions depending on the choices //
     // ##################################### //
 
-    // New outbreak
+    // ############ //
+    // New outbreak //
+    // ############ //
     if (changes.elementsAdded.includes(RESPONSE_TYPE.declare_outbreak)) {
 
       // Check that the infectious status is confirmed
@@ -333,10 +308,44 @@ export class ResponsesToEventComponent implements OnInit {
       }
     }
 
-    // Confirm status
+    // ############## //
+    // Confirm status //
+    // ############## //
     if (changes.elementsAdded.includes(RESPONSE_TYPE.confirm)) {
       this.infectiousStatus.isConfirmed = true;
       this.updateInfectiousStatus();
+    }
+
+    // ################################################################## //
+    // Associate infectious status to outbreaks component display boolean //
+    // ################################################################## //
+    if (changes.elementsAdded.includes(RESPONSE_TYPE.associate_to_existing_outbreak))
+    {
+      this.canDisplayAssociateInfectiousStatusToOutbreaksComponent = true;
+    } else {
+      this.canDisplayAssociateInfectiousStatusToOutbreaksComponent = false;
+    }
+
+    // ############################## //
+    // Isolation time display boolean //
+    // ############################## //
+    if (
+      changes.elementsAdded.includes(RESPONSE_TYPE.isolation_in_same_unit)
+      || changes.elementsAdded.includes(RESPONSE_TYPE.isolation_in_special_unit)
+    ){
+      this.canDisplayIsolationTime = true;
+    } else {
+      this.canDisplayIsolationTime = false;
+    }
+
+    // ################################ //
+    // Request analysis display boolean //
+    // ################################ //
+    if (changes.elementsAdded.includes(RESPONSE_TYPE.request_analysis))
+    {
+      this.canDisplayRequestAnalysisComponent = true;
+    }else {
+      this.canDisplayRequestAnalysisComponent = false;
     }
 
     // ############## //

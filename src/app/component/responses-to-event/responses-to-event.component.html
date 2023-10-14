@@ -43,7 +43,8 @@
                 <textarea pInputTextarea
                     [disabled]="isLocked"
                     [(ngModel)]="eventRequiringAttention.responseComment"
-                    autoResize="autoResize"></textarea>
+                    autoResize="autoResize"
+                    (focusout)="save()"></textarea>
             </div>
         </div>
 
