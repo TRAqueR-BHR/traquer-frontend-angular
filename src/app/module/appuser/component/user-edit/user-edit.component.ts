@@ -13,6 +13,7 @@ import { EnumService } from 'src/app/service/enum.service';
 import { AuthenticationService } from '../../service/authentication.service';
 import { environment } from 'src/environments/environment';
 import { APPUSER_TYPE } from 'src/app/enum/APPUSER_TYPE';
+import { ROLE_CODE_NAME } from 'src/app/enum/ROLE_CODE_NAME';
 
 @Component({
   selector: 'app-user-edit',
@@ -140,17 +141,9 @@ export class UserEditComponent implements OnInit {
 
             roles.push(...res2);
 
-            // Create the SelectItem[] using the appropriate translations for the labels
-            // The only other supported languagge for Nice types is French
-            var languageCode = "En";
-            if (this.translationService.getSupportedLanguageCode() == "fr") {
-              languageCode = "Fr";
-            }
-            const role_nameAttr = "name" + languageCode;
-
             for (let o of roles) {
 
-              var label:string =  o[role_nameAttr];
+              let label = this.translationService.getTranslation(ROLE_CODE_NAME[o.codeName]);
 
               // Prepare the title
               // TODO: show the embedded non-composed roles in the title
