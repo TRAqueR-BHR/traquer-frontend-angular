@@ -6,5 +6,6 @@ export enum EVENT_REQUIRING_ATTENTION_TYPE {
     analysis_late = 4, 
     new_stay = 5, 
     death = 6, 
+    transfer_to_another_care_facility = 7, 
 
 }
