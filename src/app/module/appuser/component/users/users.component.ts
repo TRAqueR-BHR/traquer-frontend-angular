@@ -38,7 +38,6 @@ export class UsersComponent implements OnInit {
       // { field: 'appuser_avatar_id', header: this.translationService.getTranslation("avatar") },
       { field: 'appuser_firstname', header: this.translationService.getTranslation("firstname") },
       { field: 'appuser_lastname', header: this.translationService.getTranslation("lastname") },
-      { field: 'appuser_organizations', header: this.translationService.getTranslation("organizations") },
       { field: 'appuser_type', header: this.translationService.getTranslation("user_type") },
       { field: 'appuser_roles', header: this.translationService.getTranslation("roles") },
       // { field: 'action', header: '' }
@@ -51,7 +50,14 @@ export class UsersComponent implements OnInit {
     this.appuserService.getAllUsers().subscribe(res => {
       if (res != null) {
         this.processingService.unblockUI("UsersComponent.getAllUsers()");
-        console.log(res);
+
+        // Translate the roles and make it a string
+        for (let u of res) {
+          u["appuser_roles"] = (u["appuser_roles"] as any[])
+            .map(r => this.translationService.getTranslation(r))
+            .join(", ");
+        }
+
         this.data = res;
       }
     });

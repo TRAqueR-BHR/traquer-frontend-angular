@@ -6,30 +6,14 @@ import { APPUSER_TYPE } from "src/app/enum/APPUSER_TYPE";
 export class Role  extends EntityBase {
 
     codeName:ROLE_CODE_NAME;
-    nameEn:string;
-    nameFr:string;
-    description:string;
 
     composed:boolean;
     restrictedToAppuserType:APPUSER_TYPE;
 
-    without_manager:boolean;
-
-    // TODO: Implement those two if needed
-    // # RoleRoleAssos where this role is the handler role
-    // roleRoleAssos_as_handler::Union{Missing,Vector{IRoleRoleAsso}}
-
-    // # RoleRoleAssos where this role is the handled role
-    // roleRoleAssosAsHandled::Union{Missing,Vector{IRoleRoleAsso}}
-
 
     constructor(_json:Object) {
         super(_json);
-        this.nameEn = _json['nameEn'];
-        this.nameFr = _json['nameFr'];
-        this.description = _json['description'];
         this.composed = _json['composed'];
-        this.without_manager = _json['without_manager'];
         if (_json['restrictedToAppuserType'] != null) {
             this.restrictedToAppuserType = Number(APPUSER_TYPE[_json['restrictedToAppuserType']]) ;
         }
