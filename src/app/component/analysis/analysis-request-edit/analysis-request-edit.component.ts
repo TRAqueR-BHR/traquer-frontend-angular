@@ -24,6 +24,7 @@ import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { AnalysisRequestService } from 'src/app/service/analysis-request.service';
 import { Unit } from 'src/app/model/Unit';
+import { ANALYSIS_REQUEST_STATUS_TYPE } from 'src/app/enum/ANALYSIS_REQUEST_STATUS_TYPE';
 
 @Component({
   selector: 'app-analysis-request-edit',
@@ -111,7 +112,8 @@ export class AnalysisRequestEditComponent implements OnInit {
   intializeAnalysisRequest(patient:Patient){
     this.analysisRequest = new AnalysisRequest(
       {
-        "patient":patient
+        "patient":patient,
+        "status":ANALYSIS_REQUEST_STATUS_TYPE.requested,
       }
     );
   }

@@ -1,0 +1,22 @@
+
+    <ng-container *ngIf="isDate">
+        <label for="valueAsDate" 
+                class="custom-label">
+                {{argument.prettyName}}</label>
+        <p-calendar [id]="inputId" 
+            [name]="inputId"
+            [showTime]="false" 
+            [showIcon]="true" 
+            dateFormat="dd/mm/yy"  
+            [(ngModel)]="argument.value" 
+            [required]="true"
+        ></p-calendar>
+    </ng-container>
+
+    <ng-container *ngIf="isBool">
+        <label for="valueAsBool" class="custom-label suffix-colon" >
+            {{argument.prettyName}}</label>
+        <p-inputSwitch [(ngModel)]="argument.value"            
+            inputId="valueAsBool"
+            name="valueAsBool"></p-inputSwitch>
+    </ng-container>

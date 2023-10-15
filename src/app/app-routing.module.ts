@@ -23,6 +23,7 @@ import { StaysPageComponent } from './page/stays-page/stays-page.component';
 import { UserDetailsPageComponent } from './page/user-details-page/user-details-page.component';
 import { UsersPageComponent } from './page/users-page/users-page.component';
 import { AnalysisRequestEditComponent } from './component/analysis/analysis-request-edit/analysis-request-edit.component';
+import { ExposedFunctionPageComponent } from './page/exposed-function-page/exposed-function-page.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -32,6 +33,8 @@ const routes: Routes = [
   { path: 'stays', component: StaysPageComponent, canActivate: [AuthGuardService] },
   { path: 'analyses', component: AnalysesPageComponent, canActivate: [AuthGuardService] },
   { path: 'calendar', component: CalendarPageComponent, canActivate: [AuthGuardService] },
+  { path: 'exposed-function', component: ExposedFunctionPageComponent, canActivate: [AuthGuardService] },
+
 
   // Debugging components
   {

@@ -61,6 +61,11 @@ export class MainMenuComponent implements OnInit {
           this.openSimulateProcessingAtPointInTime();
         }
     });
+    advancedFunctionsItems.push({
+      label: this.translationService.getTranslation('advanced_functions'),
+      icon: 'fas fa-play',
+      routerLink: ["/exposed-function"],
+    });
 
     this.items.push({
       // label: this.translationService.getTranslation('i18n@@settings'),
