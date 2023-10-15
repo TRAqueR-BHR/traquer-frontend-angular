@@ -17,6 +17,7 @@ export class Stay {
     inTime:Date;
     hospitalizationInTime:Date;
     sysProcessingTime:Date;
+    sector:string;
     room:string;
     analysisResults:AnalysisResult[];
 
@@ -86,6 +87,7 @@ export class Stay {
                 this.sysProcessingTime = new Date(_json['sysProcessingTime']);
             }
         }
+        this.sector = _json['sector'];
         this.room = _json['room'];
         if (_json['analysisResults'] != null) {
             this.analysisResults = [];
