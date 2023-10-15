@@ -1,8 +1,8 @@
 import { Patient } from "./Patient";
 import { ContactExposure } from "./ContactExposure";
-import { INFECTIOUS_STATUS_TYPE } from "../enum/INFECTIOUS_STATUS_TYPE";
-import { ANALYSIS_REQUEST_STATUS_TYPE } from "../enum/ANALYSIS_REQUEST_STATUS_TYPE";
 import { INFECTIOUS_AGENT_CATEGORY } from "../enum/INFECTIOUS_AGENT_CATEGORY";
+import { ANALYSIS_REQUEST_STATUS_TYPE } from "../enum/ANALYSIS_REQUEST_STATUS_TYPE";
+import { INFECTIOUS_STATUS_TYPE } from "../enum/INFECTIOUS_STATUS_TYPE";
 import { OutbreakInfectiousStatusAsso } from "./OutbreakInfectiousStatusAsso";
 import { EventRequiringAttention } from "./EventRequiringAttention";
 
@@ -11,13 +11,14 @@ export class InfectiousStatus {
     patient:Patient;
     contactExposure:ContactExposure;
     id:string;
-    isCurrent:boolean;
-    updatedRefTime:Date;
-    infectiousStatus:INFECTIOUS_STATUS_TYPE;
-    analysisRequestStatus:ANALYSIS_REQUEST_STATUS_TYPE;
     isConfirmed:boolean;
     refTime:Date;
     infectiousAgent:INFECTIOUS_AGENT_CATEGORY;
+    analysisRequestStatus:ANALYSIS_REQUEST_STATUS_TYPE;
+    updatedRefTime:Date;
+    isCancelled:boolean;
+    isCurrent:boolean;
+    infectiousStatus:INFECTIOUS_STATUS_TYPE;
     outbreakInfectiousStatusAssoes:OutbreakInfectiousStatusAsso[];
     eventRequiringAttentions:EventRequiringAttention[];
 
@@ -29,28 +30,6 @@ export class InfectiousStatus {
             this.contactExposure = new ContactExposure(_json['contactExposure']);
         }
         this.id = _json['id'];
-        this.isCurrent = _json['isCurrent'];
-        if (_json['updatedRefTime'] != null) {
-            if (_json['updatedRefTime'] instanceof Date) {
-                this.updatedRefTime = _json['updatedRefTime'];
-            } else {
-                this.updatedRefTime = new Date(_json['updatedRefTime']);
-            }
-        }
-        if (_json['infectiousStatus'] != null) {
-            if (isNaN(Number(_json['infectiousStatus']))) {
-                this.infectiousStatus = Number(INFECTIOUS_STATUS_TYPE[_json['infectiousStatus']]);
-            } else {
-                this.infectiousStatus = Number(_json['infectiousStatus']);
-            }
-        }
-        if (_json['analysisRequestStatus'] != null) {
-            if (isNaN(Number(_json['analysisRequestStatus']))) {
-                this.analysisRequestStatus = Number(ANALYSIS_REQUEST_STATUS_TYPE[_json['analysisRequestStatus']]);
-            } else {
-                this.analysisRequestStatus = Number(_json['analysisRequestStatus']);
-            }
-        }
         this.isConfirmed = _json['isConfirmed'];
         if (_json['refTime'] != null) {
             if (_json['refTime'] instanceof Date) {
@@ -64,6 +43,29 @@ export class InfectiousStatus {
                 this.infectiousAgent = Number(INFECTIOUS_AGENT_CATEGORY[_json['infectiousAgent']]);
             } else {
                 this.infectiousAgent = Number(_json['infectiousAgent']);
+            }
+        }
+        if (_json['analysisRequestStatus'] != null) {
+            if (isNaN(Number(_json['analysisRequestStatus']))) {
+                this.analysisRequestStatus = Number(ANALYSIS_REQUEST_STATUS_TYPE[_json['analysisRequestStatus']]);
+            } else {
+                this.analysisRequestStatus = Number(_json['analysisRequestStatus']);
+            }
+        }
+        if (_json['updatedRefTime'] != null) {
+            if (_json['updatedRefTime'] instanceof Date) {
+                this.updatedRefTime = _json['updatedRefTime'];
+            } else {
+                this.updatedRefTime = new Date(_json['updatedRefTime']);
+            }
+        }
+        this.isCancelled = _json['isCancelled'];
+        this.isCurrent = _json['isCurrent'];
+        if (_json['infectiousStatus'] != null) {
+            if (isNaN(Number(_json['infectiousStatus']))) {
+                this.infectiousStatus = Number(INFECTIOUS_STATUS_TYPE[_json['infectiousStatus']]);
+            } else {
+                this.infectiousStatus = Number(_json['infectiousStatus']);
             }
         }
         if (_json['outbreakInfectiousStatusAssoes'] != null) {
