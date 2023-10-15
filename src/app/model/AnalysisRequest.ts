@@ -1,8 +1,8 @@
 import { Appuser } from "src/app/module/appuser/model/Appuser";
 import { Patient } from "./Patient";
 import { Unit } from "./Unit";
-import { ANALYSIS_REQUEST_TYPE } from "../enum/ANALYSIS_REQUEST_TYPE";
 import { ANALYSIS_REQUEST_STATUS_TYPE } from "../enum/ANALYSIS_REQUEST_STATUS_TYPE";
+import { ANALYSIS_REQUEST_TYPE } from "../enum/ANALYSIS_REQUEST_TYPE";
 
 export class AnalysisRequest {
 
@@ -12,10 +12,10 @@ export class AnalysisRequest {
     unit:Unit;
     id:string;
     unitExpectedCollectionTime:Date;
+    status:ANALYSIS_REQUEST_STATUS_TYPE;
     requestType:ANALYSIS_REQUEST_TYPE;
     creationTime:Date;
     lastUpdateTime:Date;
-    statusType:ANALYSIS_REQUEST_STATUS_TYPE;
 
     constructor(_json:Object) {
         if (_json['creator'] != null) {
@@ -38,6 +38,13 @@ export class AnalysisRequest {
                 this.unitExpectedCollectionTime = new Date(_json['unitExpectedCollectionTime']);
             }
         }
+        if (_json['status'] != null) {
+            if (isNaN(Number(_json['status']))) {
+                this.status = Number(ANALYSIS_REQUEST_STATUS_TYPE[_json['status']]);
+            } else {
+                this.status = Number(_json['status']);
+            }
+        }
         if (_json['requestType'] != null) {
             if (isNaN(Number(_json['requestType']))) {
                 this.requestType = Number(ANALYSIS_REQUEST_TYPE[_json['requestType']]);
@@ -57,13 +64,6 @@ export class AnalysisRequest {
                 this.lastUpdateTime = _json['lastUpdateTime'];
             } else {
                 this.lastUpdateTime = new Date(_json['lastUpdateTime']);
-            }
-        }
-        if (_json['statusType'] != null) {
-            if (isNaN(Number(_json['statusType']))) {
-                this.statusType = Number(ANALYSIS_REQUEST_STATUS_TYPE[_json['statusType']]);
-            } else {
-                this.statusType = Number(_json['statusType']);
             }
         }
     }
