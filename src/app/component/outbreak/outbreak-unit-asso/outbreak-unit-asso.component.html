@@ -74,7 +74,9 @@
                 [disabled]="saving"></button>
         </div>
 
-        <h3 class="col-12">Séjours des porteurs dans l'UF ({{carriersStaysForListing.length}} séjours)</h3>
+        <h3 class="col-12">
+            Séjours des porteurs dans l'UF ({{carriersStaysForListing.length}} séjours)
+        </h3>
         <p-table
             [loading]="loadingCarriers"
             class="col-12"
@@ -106,7 +108,7 @@
                     <td>
                         {{s.lastname}}
                         <button  pButton pRipple type="button"
-                            (click)="showInfectiousStatusExplanation(s.patient_id)"
+                            (click)="showInfectiousStatusExplanation(s)"
                             icon="fas fa-info"
                             class="p-button-rounded p-button-text p-button-sm">
                         </button>
@@ -122,7 +124,9 @@
             </ng-template>
         </p-table>
 
-        <h3 class="col-12">Séjours des patients contacts dans l'UF ({{contactsStaysForListing.length}} séjours)</h3>
+        <h3 class="col-12">
+            Séjours des patients contacts dans l'UF ({{contactsStaysForListing.length}} séjours)
+        </h3>
         <p-table [loading]="loadingContacts"
             class="col-12"
             [value]="contactsStaysForListing"
@@ -158,7 +162,7 @@
                     <td>
                         {{s.lastname}}
                         <button  pButton pRipple type="button"
-                            (click)="showInfectiousStatusExplanation(s.patient_id)"
+                            (click)="showInfectiousStatusExplanation(s)"
                             icon="fas fa-info"
                             class="p-button-rounded p-button-text p-button-sm">
                         </button>
