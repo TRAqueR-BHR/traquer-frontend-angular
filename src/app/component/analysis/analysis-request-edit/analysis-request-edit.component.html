@@ -56,17 +56,17 @@
                 </div>
 
                 <div class="custom-form-field col-12 md:col-6">
-                    <label for="creationTime"
+                    <label for="requestTime"
                         class="custom-label"
                         i18n="@@analysis_request_time">
                         Date de la demande d'analyse</label>
-                    <p-calendar id="creationTime"
-                        name="creationTime"
+                    <p-calendar id="requestTime"
+                        name="requestTime"
                         [showTime]="true"
                         appendTo="body"
                         [showIcon]="true"
                         dateFormat="dd/mm/yy"
-                        [(ngModel)]="analysisRequest.creationTime"
+                        [(ngModel)]="analysisRequest.requestTime"
                         required
                     ></p-calendar>
                 </div>

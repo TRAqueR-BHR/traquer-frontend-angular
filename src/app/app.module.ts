@@ -90,6 +90,9 @@ import { ExecutePendingTasksComponent } from './component/misc/execute-pending-t
 import { AccordionModule } from 'primeng/accordion';
 import { UsersPageComponent } from './page/users-page/users-page.component';
 import { AnalysisRequestEditComponent } from './component/analysis/analysis-request-edit/analysis-request-edit.component';
+import { ExposedFunctionComponent } from './component/misc/exposed-function/exposed-function/exposed-function.component';
+import { ExposedFunctionArgumentComponent } from './component/misc/exposed-function/exposed-function-argument/exposed-function-argument.component';
+import { ExposedFunctionPageComponent } from './page/exposed-function-page/exposed-function-page.component';
 
 // References: - https://devblog.dymel.pl/2017/10/17/angular-preload/
 //             - https://www.tektutorialshub.com/angular/angular-how-to-use-app-initializer/
@@ -142,7 +145,10 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     BlockUiComponent,
     WebSocketComponent,
     ExecutePendingTasksComponent,
-    AnalysisRequestEditComponent
+    AnalysisRequestEditComponent,
+    ExposedFunctionComponent,
+    ExposedFunctionArgumentComponent,
+    ExposedFunctionPageComponent
   ],
   imports: [
     BrowserModule,
