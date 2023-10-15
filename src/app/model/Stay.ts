@@ -9,9 +9,9 @@ export class Stay {
     id:string;
     inDate:Date;
     isolationTime:Date;
+    hospitalizationOutComment:string;
     outTime:Date;
     sysCreationTime:Date;
-    transferDestination:string;
     patientDiedDuringStay:boolean;
     hospitalizationOutTime:Date;
     inTime:Date;
@@ -42,6 +42,7 @@ export class Stay {
                 this.isolationTime = new Date(_json['isolationTime']);
             }
         }
+        this.hospitalizationOutComment = _json['hospitalizationOutComment'];
         if (_json['outTime'] != null) {
             if (_json['outTime'] instanceof Date) {
                 this.outTime = _json['outTime'];
@@ -56,7 +57,6 @@ export class Stay {
                 this.sysCreationTime = new Date(_json['sysCreationTime']);
             }
         }
-        this.transferDestination = _json['transferDestination'];
         this.patientDiedDuringStay = _json['patientDiedDuringStay'];
         if (_json['hospitalizationOutTime'] != null) {
             if (_json['hospitalizationOutTime'] instanceof Date) {
