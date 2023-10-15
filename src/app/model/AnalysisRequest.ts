@@ -12,10 +12,9 @@ export class AnalysisRequest {
     unit:Unit;
     id:string;
     unitExpectedCollectionTime:Date;
+    requestTime:Date;
     status:ANALYSIS_REQUEST_STATUS_TYPE;
     requestType:ANALYSIS_REQUEST_TYPE;
-    creationTime:Date;
-    lastUpdateTime:Date;
 
     constructor(_json:Object) {
         if (_json['creator'] != null) {
@@ -38,6 +37,13 @@ export class AnalysisRequest {
                 this.unitExpectedCollectionTime = new Date(_json['unitExpectedCollectionTime']);
             }
         }
+        if (_json['requestTime'] != null) {
+            if (_json['requestTime'] instanceof Date) {
+                this.requestTime = _json['requestTime'];
+            } else {
+                this.requestTime = new Date(_json['requestTime']);
+            }
+        }
         if (_json['status'] != null) {
             if (isNaN(Number(_json['status']))) {
                 this.status = Number(ANALYSIS_REQUEST_STATUS_TYPE[_json['status']]);
@@ -50,20 +56,6 @@ export class AnalysisRequest {
                 this.requestType = Number(ANALYSIS_REQUEST_TYPE[_json['requestType']]);
             } else {
                 this.requestType = Number(_json['requestType']);
-            }
-        }
-        if (_json['creationTime'] != null) {
-            if (_json['creationTime'] instanceof Date) {
-                this.creationTime = _json['creationTime'];
-            } else {
-                this.creationTime = new Date(_json['creationTime']);
-            }
-        }
-        if (_json['lastUpdateTime'] != null) {
-            if (_json['lastUpdateTime'] instanceof Date) {
-                this.lastUpdateTime = _json['lastUpdateTime'];
-            } else {
-                this.lastUpdateTime = new Date(_json['lastUpdateTime']);
             }
         }
     }
