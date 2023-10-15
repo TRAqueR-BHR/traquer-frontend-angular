@@ -11,6 +11,7 @@ export class Stay {
     isolationTime:Date;
     outTime:Date;
     sysCreationTime:Date;
+    transferDestination:string;
     patientDiedDuringStay:boolean;
     hospitalizationOutTime:Date;
     inTime:Date;
@@ -55,6 +56,7 @@ export class Stay {
                 this.sysCreationTime = new Date(_json['sysCreationTime']);
             }
         }
+        this.transferDestination = _json['transferDestination'];
         this.patientDiedDuringStay = _json['patientDiedDuringStay'];
         if (_json['hospitalizationOutTime'] != null) {
             if (_json['hospitalizationOutTime'] instanceof Date) {
