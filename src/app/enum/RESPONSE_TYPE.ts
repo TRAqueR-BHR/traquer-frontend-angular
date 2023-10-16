@@ -8,5 +8,6 @@ export enum RESPONSE_TYPE {
     declare_outbreak = 6, 
     isolation_in_same_unit = 7, 
     isolation_in_special_unit = 8, 
+    delete_infectious_status = 9, 
 
 }
