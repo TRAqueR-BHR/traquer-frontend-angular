@@ -17,6 +17,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { OutbreakUnitAssoService } from 'src/app/service/outbreak-unit-asso.service';
 import { Subscription } from 'rxjs';
 import { ResponsesToEventCompIntService } from 'src/app/service/components-interaction/responses-to-event-comp-int.service';
+import { Utils } from 'src/app/util/utils';
 
 @Component({
   selector: 'app-outbreak-unit-asso,[app-outbreak-unit-asso]',
@@ -163,20 +164,25 @@ export class OutbreakUnitAssoComponent implements OnInit {
   }
 
 
-  showInfectiousStatusExplanation(patientId:string) {
+  showInfectiousStatusExplanation(rowData:any) {
 
-    // let formatedDate = formatDate(rowData.birthdate,environment.date_format,this.locale)
-
-    // let dialogHeader = `
-    //   ${this.translationService.getTranslation("history")}
-    //   ${rowData.firstname} ${rowData.lastname} ${formatedDate}
-    // `;
-
-    let dialogHeader = ``;
+    let dialogHeader = Utils.buildDialogHeaderForCallingComponent(
+      rowData.firstname,
+      rowData.lastname,
+      new Date(rowData.birthdate),
+      {
+        history:this.translationService.getTranslation("history"),
+        hospitalization_in_progress:
+          this.translationService.getTranslation("hospitalization_in_progress")
+      },
+      this.locale,
+      // rowData.current_unit_name,
+      // rowData.patient_is_hospitalized,
+    )
 
     const ref = this.dialogService.open(InfectiousStatusExplanationComponent, {
         data: {
-          "patient": new Patient({id:patientId})
+          "patient": new Patient({id:rowData.patient_id})
         },
         header: dialogHeader,
         width: '85%'

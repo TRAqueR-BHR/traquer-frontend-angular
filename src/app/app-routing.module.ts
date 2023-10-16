@@ -24,14 +24,23 @@ import { UserDetailsPageComponent } from './page/user-details-page/user-details-
 import { UsersPageComponent } from './page/users-page/users-page.component';
 import { AnalysisRequestEditComponent } from './component/analysis/analysis-request-edit/analysis-request-edit.component';
 import { ExposedFunctionPageComponent } from './page/exposed-function-page/exposed-function-page.component';
+import { ValidCryptPwdGuard } from './guard/valid-crypt-pwd.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'user/:id', component: UserDetailsPageComponent, canActivate: [AuthGuardService] },
   { path: 'users', component: UsersPageComponent, canActivate: [AuthGuardService] },
   { path: 'patient/:id', component: PatientPageComponent, canActivate: [AuthGuardService] },
-  { path: 'stays', component: StaysPageComponent, canActivate: [AuthGuardService] },
-  { path: 'analyses', component: AnalysesPageComponent, canActivate: [AuthGuardService] },
+  {
+    path: 'stays',
+    component: StaysPageComponent,
+    canActivate: [AuthGuardService, ValidCryptPwdGuard]
+  },
+  {
+    path: 'analyses',
+    component: AnalysesPageComponent,
+    canActivate: [AuthGuardService, ValidCryptPwdGuard]
+  },
   { path: 'calendar', component: CalendarPageComponent, canActivate: [AuthGuardService] },
   { path: 'exposed-function', component: ExposedFunctionPageComponent, canActivate: [AuthGuardService] },
 
@@ -110,7 +119,7 @@ const routes: Routes = [
   {
     path: '',
     component: HomePageComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthGuardService, ValidCryptPwdGuard]
   },
   // otherwise redirect to home
   { path: '**', redirectTo: '' }
