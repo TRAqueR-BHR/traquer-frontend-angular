@@ -5,6 +5,7 @@ import { PatientBirthdateCrypt } from "./PatientBirthdateCrypt";
 import { GENDER } from "../enum/GENDER";
 import { AnalysisResult } from "./AnalysisResult";
 import { InfectiousStatus } from "./InfectiousStatus";
+import { DeletedInfectiousStatus } from "./DeletedInfectiousStatus";
 import { Stay } from "./Stay";
 import { ContactExposure } from "./ContactExposure";
 import { AnalysisRequest } from "./AnalysisRequest";
@@ -21,6 +22,7 @@ export class Patient {
     gender:GENDER;
     analysisResults:AnalysisResult[];
     infectiousStatuses:InfectiousStatus[];
+    deletedInfectiousStatuses:DeletedInfectiousStatus[];
     staies:Stay[];
     contactContactExposures:ContactExposure[];
     carrierContactExposures:ContactExposure[];
@@ -59,6 +61,12 @@ export class Patient {
             this.infectiousStatuses = [];
             for (let e of _json['infectiousStatuses']) {
                 this.infectiousStatuses.push(new InfectiousStatus(e));
+            }
+        }
+        if (_json['deletedInfectiousStatuses'] != null) {
+            this.deletedInfectiousStatuses = [];
+            for (let e of _json['deletedInfectiousStatuses']) {
+                this.deletedInfectiousStatuses.push(new DeletedInfectiousStatus(e));
             }
         }
         if (_json['staies'] != null) {
