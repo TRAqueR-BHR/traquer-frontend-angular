@@ -39,6 +39,9 @@
 <ng-container i18n="@@event_type">Type d'événement</ng-container>
 <ng-container i18n="@@is_current_status?">Statut actuel ?</ng-container>
 <ng-container i18n="@@outbreak">Épisode</ng-container>
+<ng-container i18n="@@are_you_sure_you_want_to_delete_this_infectious_status">
+    Êtes vous sûr de vouloir supprimer ce statut infectieux ?
+</ng-container>
 <ng-container i18n="@@action">Action</ng-container>
 <ng-container i18n="@@user_response_to_event">Réponse à l'événement</ng-container>
 <ng-container i18n="@@contact_cases_generated">Cas contacts générés</ng-container>
@@ -47,6 +50,7 @@
 <ng-container i18n="@@warn">Attention</ng-container>
 <ng-container i18n="@@error">Erreur</ng-container>
 <ng-container i18n="@@infectious_status_updated">Statut infectieux mis à jour</ng-container>
+<ng-container i18n="@@infectious_status_deleted">Statut infectieux supprimé</ng-container>
 <ng-container i18n="@@exposure">Exposition à un porteur</ng-container>
 <ng-container i18n="@@patient_history">Historique du patient</ng-container>
 <ng-container i18n="@@history">Historique</ng-container>
@@ -83,6 +87,7 @@
 <ng-container i18n="@@processing">Traitement en cours</ng-container>
 <ng-container i18n="@@appuser_saved">Utilisateur enregistré</ng-container>
 <ng-container i18n="@@reactivated">Réactivé</ng-container>
+<ng-container i18n="@@death">Décès</ng-container>
 
 <ng-container i18n='@@healthcare_professional'>Personnel de santé</ng-container>
 
@@ -117,7 +122,7 @@
 
 <!-- Enum RESPONSE_TYPE -->
 <ng-container i18n="@@RESPONSE_TYPE_acknowledge">Vu (ne rien faire)</ng-container>
-<ng-container i18n="@@RESPONSE_TYPE_confirm">Confirmer statut</ng-container>
+<ng-container i18n="@@RESPONSE_TYPE_confirm">Confirmer le statut</ng-container>
 <ng-container i18n="@@RESPONSE_TYPE_request_analysis">Demander une analyse</ng-container>
 <ng-container i18n="@@RESPONSE_TYPE_confirm_and_request_analysis">Confirmer le statut et demander une analyse</ng-container>
 <ng-container i18n="@@RESPONSE_TYPE_send_a_reminder">Envoyer une relance</ng-container>
@@ -125,6 +130,7 @@
 <ng-container i18n="@@RESPONSE_TYPE_isolation_in_special_unit">Transférer le patient à l'UF d'isolement</ng-container>
 <ng-container i18n="@@RESPONSE_TYPE_declare_outbreak">Déclarer un nouvel épisode</ng-container>
 <ng-container i18n="@@RESPONSE_TYPE_associate_to_existing_outbreak">Associer à un épisode existant</ng-container>
+<ng-container i18n="@@RESPONSE_TYPE_delete_infectious_status">Supprimer le statut</ng-container>
 
 <!-- Enum ANALYSIS_REQUEST_TYPE -->
 <ng-container i18n="@@molecular_analysis_carbapenemase_producing_enterobacteriaceae">Analyse moléculaire EPC</ng-container>
@@ -135,6 +141,8 @@
 <!-- Enum ANALYSIS_RESULT_VALUE_TYPE -->
 <ng-container i18n="@@ANALYSIS_RESULT_VALUE_TYPE_positive">Positif</ng-container>
 <ng-container i18n="@@ANALYSIS_RESULT_VALUE_TYPE_negative">Négatif</ng-container>
+<ng-container i18n="@@ANALYSIS_RESULT_VALUE_TYPE_cancelled">Annulé</ng-container>
+<ng-container i18n="@@ANALYSIS_RESULT_VALUE_TYPE_suspicion">Suspiscion</ng-container>
 
 <!-- Enum SAMPLE_MATERIAL_TYPE -->
 <ng-container i18n="@@SAMPLE_MATERIAL_TYPE_purulent_collection">Collection purulente</ng-container>
@@ -220,6 +228,8 @@
 <ng-container i18n="@@not_at_risk">Pas à risque🍏</ng-container>
 <ng-container i18n="@@carrier">Porteur🍎</ng-container>
 <ng-container i18n="@@contact">Contact🍋</ng-container>
+<ng-container i18n="@@suspicion">Suspiscion🥜</ng-container>
 <ng-container i18n="@@INFECTIOUS_STATUS_TYPE_not_at_risk">Pas à risque🍏</ng-container>
 <ng-container i18n="@@INFECTIOUS_STATUS_TYPE_carrier">Porteur🍎</ng-container>
 <ng-container i18n="@@INFECTIOUS_STATUS_TYPE_contact">Contact🍋</ng-container>
+<ng-container i18n="@@INFECTIOUS_STATUS_TYPE_suspicion">Suspiscion🥜</ng-container>

@@ -134,7 +134,11 @@
                         <div  *ngSwitchCase="'infectious_status'"
                             class="flex align-content-center">
                             <span class="flex align-items-center justify-content-center">
-                                {{rowData[col.nameInSelect] | getTranslation}}
+                                {{
+                                    rowData[col.nameInSelect] |
+                                    concatBefore:'INFECTIOUS_STATUS_TYPE_' |
+                                    getTranslation
+                                }}
                             </span>
                             <button  pButton pRipple type="button"
                                 (click)="showInfectiousStatusExplanation(rowData)"

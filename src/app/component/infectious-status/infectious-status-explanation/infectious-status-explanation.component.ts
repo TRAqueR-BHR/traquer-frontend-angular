@@ -196,7 +196,6 @@ export class InfectiousStatusExplanationComponent implements OnInit {
     this.analysisService.getAnalysesFromPatient(this.patient).subscribe(res => {
       if (res != null){
         this.analysesResults = res;
-
         // Update the resources loaded checker
         this.resourcesLoadedChecker.resourcesLoaded.analysesResults = true;
         this.updateResourcesLoaded();
@@ -257,6 +256,9 @@ export class InfectiousStatusExplanationComponent implements OnInit {
     let eltsFromStaysIn = this.stayInArr2TimelineEltArr(this.stays);
     let eltsFromStaysIsolationTime = this.stayIsolationTimeArr2TimelineEltArr(this.stays);
     let eltsFromStaysOut = this.stayOutArr2TimelineEltArr(this.stays);
+    let eltsFromDeath = this.deathArr2TimelineEltArr(this.stays);
+
+    console.log(eltsFromAnalysis);
 
     let allElts:{title: string, date: Date, type: string, details:string, link:string}[] = [];
     allElts.push(...eltsFromStaysIn);
@@ -266,6 +268,7 @@ export class InfectiousStatusExplanationComponent implements OnInit {
     allElts.push(...eltsFromExposures);
     allElts.push(...eltsFromAnalysis);
     allElts.push(...eltsFromInfectiousStatusRefTime);
+    allElts.push(...eltsFromDeath);
 
     this.timeline = []; // Needed to mage angular detect that the array has changed
 
@@ -483,6 +486,36 @@ export class InfectiousStatusExplanationComponent implements OnInit {
         title:title,
         date:new Date(x.outTime),
         type:"stay",
+        details:details,
+        link:null,
+      };
+
+      return node;
+    })
+    return result;
+  }
+
+  deathArr2TimelineEltArr(array:Array<Stay>):
+  {title: string, date: Date, type: string, details:string, link:string}[]
+  {
+
+    // Only keep the stays where the patient died
+    array = array.filter(x => x.patientDiedDuringStay === true);
+
+    let result = array.map(x => {
+
+      let title = `
+        ${this.translationService.getTranslation("death")}
+      `;
+
+      let time = x.outTime != null? x.outTime : x.inTime;
+
+      let details = "TODO details of analysis";
+
+      let node = {
+        title:title,
+        date:new Date(time),
+        type:"death",
         details:details,
         link:null,
       };

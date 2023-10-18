@@ -171,7 +171,11 @@ export class TranslationService {
       monthNames: [ "Janvier","Février","Mars","Avril","Mai","Jun","Juillet","Aout","Septembre","Octobre","Novembre","Décembre" ],
       monthNamesShort: [ "Jan", "Fev", "Mar", "Avr", "Mai", "Jun","Jui", "Aou", "Sept", "Oct", "Nov", "Dec" ],
       today: "Aujourd'hui",
-      clear: 'Nul'
+      clear: 'Nul',
+      yes: "Oui",
+      no: "Non",
+      accept: 'Confimer',
+      reject: 'Annuler',
     };
     // We also define the English version because like this we don't need bother to hide the '[locale]' attribute when the language is English
     this.translationsForPrimengCalendar["en"] = {

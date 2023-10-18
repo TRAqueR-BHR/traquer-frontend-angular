@@ -209,7 +209,8 @@ export class ListingInfectiousStatusComponent implements OnInit {
             this.selectItemService.createSelectItemsForEnums(
               res,
               INFECTIOUS_STATUS_TYPE,
-              true // null options
+              true, // null options
+              "INFECTIOUS_STATUS_TYPE_"
               );
       }
     );

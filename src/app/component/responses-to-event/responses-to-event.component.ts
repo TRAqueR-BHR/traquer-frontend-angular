@@ -1,6 +1,6 @@
 import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SelectItem } from 'primeng/api';
+import { ConfirmationService, SelectItem } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { INFECTIOUS_AGENT_CATEGORY } from 'src/app/enum/INFECTIOUS_AGENT_CATEGORY';
@@ -87,6 +87,7 @@ export class ResponsesToEventComponent implements OnInit {
     private responsesToEventCompIntService:ResponsesToEventCompIntService,
     private authenticationService:AuthenticationService,
     private dialogService:DialogService,
+    private confirmationService: ConfirmationService,
     private stayService:StayService,
     private patientService:PatientService,
     private blockUiService:BlockUiService,
@@ -267,6 +268,26 @@ export class ResponsesToEventComponent implements OnInit {
     });
   }
 
+  deleteInfectiousStatus() {
+
+    this.blockUiService.blockUI("deleteInfectiousStatus()");
+
+    this.infectiousStatusService.delete(this.infectiousStatus).subscribe(res => {
+      this.blockUiService.unblockUI("deleteInfectiousStatus()");
+      if (res != null){
+        this.infectiousStatus = res;
+        this.notificationService.notifySuccess(
+          this.translationService.getTranslation("infectious_status_deleted"));
+
+        // Close the current dialog (in case this component is displayed in a dialog),
+        // because the infectious status has been deleted and this dialog is therefore
+        // deprecated
+        this.dialogRef.close();
+        this.disableOptions();
+      }
+    });
+  }
+
   handleResponsesTypesChange(evt,val){
 
     // ################################################# //
@@ -314,6 +335,29 @@ export class ResponsesToEventComponent implements OnInit {
     if (changes.elementsAdded.includes(RESPONSE_TYPE.confirm)) {
       this.infectiousStatus.isConfirmed = true;
       this.updateInfectiousStatus();
+    }
+
+    // ############## //
+    // Delete status //
+    // ############## //
+    if (changes.elementsAdded.includes(RESPONSE_TYPE.delete_infectious_status)) {
+      this.confirmationService.confirm({
+          target: event.target,
+          message: this.translationService.getTranslation(
+            "are_you_sure_you_want_to_delete_this_infectious_status"
+          ),
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.deleteInfectiousStatus();
+          },
+          reject: () => {
+            this.eventRequiringAttention.responsesTypes =
+              this.eventRequiringAttention.responsesTypes.filter(
+                x => x != RESPONSE_TYPE.delete_infectious_status
+              )
+          }
+      });
+
     }
 
     // ################################################################## //

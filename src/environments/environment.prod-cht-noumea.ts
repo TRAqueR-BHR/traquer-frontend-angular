@@ -13,7 +13,7 @@ export const environment = {
   numberOfSecondsBetweenChecksOfVersion: 120,
   numberOfSecondsBetweenCheckIfAnyPendingTask: 30,
   numberOfSecondsBetweenExecutionOfPendingTasks: 30,
-  frontEndVersion:"2023-10-16.01",
+  frontEndVersion:"2023-10-18.01",
   jwt_name: "traquer_jwt",
   cryptPwdHttpHeaderKey: "crypt_pwd",
   cryptPwdLocalStorageKey: "traquer_crypt_pwd",

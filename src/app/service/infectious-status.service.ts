@@ -99,6 +99,33 @@ export class InfectiousStatusService {
 
   }
 
+  delete(infectiousStatus:InfectiousStatus) {
+
+    const url = this.apiURL + "/delete";
+
+    // Force the dates without time to UTC
+    // var colJourneeExploitation = args.cols.filter(x => x.field == "journee_exploitation")[0] ;
+    // colJourneeExploitation.filterValue = Utils.forceDateToUTC(colJourneeExploitation.filterValue);
+    // args.dateDebut = Utils.forceDateToUTC(args.dateDebut);
+    // args.dateFin = Utils.forceDateToUTC(args.dateFin);
+
+    return this.http.post<any>(
+      url,
+      infectiousStatus
+    )
+    .pipe(map(res => {
+      if (res != null) {
+        return new InfectiousStatus(res);
+      } else {
+        return null;
+      }
+    }))
+    .pipe(
+    catchError(this.errorHandlerService.handleError(`InfectiousStatusService.delete()`, null))
+    );
+
+  }
+
   updateVectorPropertyOutbreakInfectiousStatusAssoes(infectiousStatus:InfectiousStatus) {
 
     const url = this.apiURL + "/update-vector-property-outbreak-infectious-status-assoes";
