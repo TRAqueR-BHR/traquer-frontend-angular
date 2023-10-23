@@ -25,6 +25,7 @@ import { UsersPageComponent } from './page/users-page/users-page.component';
 import { AnalysisRequestEditComponent } from './component/analysis/analysis-request-edit/analysis-request-edit.component';
 import { ExposedFunctionPageComponent } from './page/exposed-function-page/exposed-function-page.component';
 import { ValidCryptPwdGuard } from './guard/valid-crypt-pwd.guard';
+import { AnalysesRequestsPageComponent } from './page/analyses-requests-page/analyses-requests-page.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -34,6 +35,11 @@ const routes: Routes = [
   {
     path: 'stays',
     component: StaysPageComponent,
+    canActivate: [AuthGuardService, ValidCryptPwdGuard]
+  },
+  {
+    path: 'analyses-requests',
+    component: AnalysesRequestsPageComponent,
     canActivate: [AuthGuardService, ValidCryptPwdGuard]
   },
   {

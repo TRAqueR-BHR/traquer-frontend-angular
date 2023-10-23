@@ -11,7 +11,7 @@ import { ErrorHandlerService } from './error-handler.service';
 })
 export class ExposedFunctionService {
 
-  private apiURL = environment.apiURL + 'exposed-function';  // URL to web api
+  private apiURL = environment.apiURL + '/exposed-function';  // URL to web api
 
   constructor(private http: HttpClient,
               private errorHandlerService: ErrorHandlerService) { }

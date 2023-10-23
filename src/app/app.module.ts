@@ -93,6 +93,9 @@ import { AnalysisRequestEditComponent } from './component/analysis/analysis-requ
 import { ExposedFunctionComponent } from './component/misc/exposed-function/exposed-function/exposed-function.component';
 import { ExposedFunctionArgumentComponent } from './component/misc/exposed-function/exposed-function-argument/exposed-function-argument.component';
 import { ExposedFunctionPageComponent } from './page/exposed-function-page/exposed-function-page.component';
+import { SliderModule } from 'primeng/slider';
+import { AnalysesRequestsComponent } from './component/analysis/analyses-requests/analyses-requests.component';
+import { AnalysesRequestsPageComponent } from './page/analyses-requests-page/analyses-requests-page.component';
 
 // References: - https://devblog.dymel.pl/2017/10/17/angular-preload/
 //             - https://www.tektutorialshub.com/angular/angular-how-to-use-app-initializer/
@@ -148,7 +151,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AnalysisRequestEditComponent,
     ExposedFunctionComponent,
     ExposedFunctionArgumentComponent,
-    ExposedFunctionPageComponent
+    ExposedFunctionPageComponent,
+    AnalysesRequestsComponent,
+    AnalysesRequestsPageComponent
   ],
   imports: [
     BrowserModule,
@@ -187,6 +192,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ConfirmPopupModule,
     AutoCompleteModule,
     BlockUIModule,
+    SliderModule,
 
     // Spe3dlab modules (needed for pipes)
     Spe3dlabUtilsModule,

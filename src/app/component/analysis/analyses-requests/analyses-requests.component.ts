@@ -21,17 +21,20 @@ import { ANALYSIS_REQUEST_TYPE } from 'src/app/enum/ANALYSIS_REQUEST_TYPE';
 import { ANALYSIS_RESULT_VALUE_TYPE } from 'src/app/enum/ANALYSIS_RESULT_VALUE_TYPE';
 import { SAMPLE_MATERIAL_TYPE } from 'src/app/enum/SAMPLE_MATERIAL_TYPE';
 import { AnalysisService } from 'src/app/service/analysis.service';
-import { StayService } from 'src/app/service/stay.service';
 import { UnitService } from 'src/app/service/unit.service';
 import { InfectiousStatusExplanationComponent } from '../../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
+import { AnalysisRequestService } from 'src/app/service/analysis-request.service';
+import { ANALYSIS_REQUEST_STATUS_TYPE } from 'src/app/enum/ANALYSIS_REQUEST_STATUS_TYPE';
+
 
 @Component({
-  selector: 'app-stays',
-  templateUrl: './stays.component.html',
-  styleUrls: ['./stays.component.scss'],
+  selector: 'app-analyses-requests',
+  templateUrl: './analyses-requests.component.html',
+  styleUrls: ['./analyses-requests.component.scss'],
   providers: [DialogService]
 })
-export class StaysComponent implements OnInit {
+export class AnalysesRequestsComponent implements OnInit {
+
 
   data: any[] = [];
 
@@ -50,17 +53,17 @@ export class StaysComponent implements OnInit {
 
   trueFalseSelectItems:SelectItem[] = [];
   optionsANALYSIS_REQUEST_TYPE:SelectItem[] = [];
+  optionsANALYSIS_REQUEST_STATUS_TYPE:SelectItem[] = [];
   optionsANALYSIS_RESULT_VALUE_TYPE:SelectItem[] = [];
   optionsSAMPLE_MATERIAL_TYPE:SelectItem[] = [];
-  optionsUnits:SelectItem[] = [];
 
   timerOnRefreshDataAfterChangesOnFilter:any;
+
+  isDebugMode:boolean = false;
 
   splitButtonDefPerEventType:any = {};
 
   actionMenuItemsFor:any = {}; // a Map of (EVENT_REQUIRING_ATTENTION_TYPE => MenuItem[])
-
-  isDebugMode:boolean = false;
 
   // This is used to check if the queryParams have changed since the last time we refreshed
   // the data. It is needed because the table widget may detect some changes when actually
@@ -68,14 +71,13 @@ export class StaysComponent implements OnInit {
   lastQueryParamsAsString:string = null;
 
   constructor(
-    private stayService:StayService,
+    private analysisRequestService:AnalysisRequestService,
     private translationService:TranslationService,
     private enumService:EnumService,
     private selectItemService:SelectItemService,
     private eventRequiringAttentionService:EventRequiringAttentionService,
+    public dialogService: DialogService,
     private authenticationService:AuthenticationService,
-    private unitService:UnitService,
-    private dialogService: DialogService,
     @Inject(LOCALE_ID) private locale: string
   ) { }
 
@@ -84,8 +86,12 @@ export class StaysComponent implements OnInit {
     this.isDebugMode = this.authenticationService.isDebugMode();
 
     this.prepareOptionsTrueFalse();
-    this.prepareOptionsUnits();
+    this.prepareOptionsANALYSIS_REQUEST_TYPE();
+    this.prepareOptionsANALYSIS_REQUEST_STATUS_TYPE();
+    this.prepareOptionsANALYSIS_RESULT_VALUE_TYPE();
+    this.prepareOptionsSAMPLE_MATERIAL_TYPE();
     this.intializeTablesPreferences();
+
   }
 
   acknowledgeEvent(rowData:any) {
@@ -113,18 +119,60 @@ export class StaysComponent implements OnInit {
     );
   }
 
-  prepareOptionsUnits(){
-    this.unitService.getAllUnits(false).subscribe(res =>{
-
-      if (res != null){
-        this.optionsUnits = this.selectItemService.createSelectItemsForEntities(
-          res,
-          "name", // no value property, use the entity itself
-          "name"
-        );
+  prepareOptionsANALYSIS_REQUEST_TYPE() {
+    this.enumService.listAllPossibleValues(ANALYSIS_REQUEST_TYPE).subscribe(
+      res => {
+          this.optionsANALYSIS_REQUEST_TYPE =
+            this.selectItemService.createSelectItemsForEnums(
+              res,
+              ANALYSIS_REQUEST_TYPE,
+              false // null options
+              );
       }
+    );
+  }
 
-    });
+  prepareOptionsANALYSIS_REQUEST_STATUS_TYPE() {
+    this.enumService.listAllPossibleValues(ANALYSIS_REQUEST_STATUS_TYPE).subscribe(
+      res => {
+          this.optionsANALYSIS_REQUEST_STATUS_TYPE =
+            this.selectItemService.createSelectItemsForEnums(
+              res,
+              ANALYSIS_REQUEST_STATUS_TYPE,
+              false, // null options
+              "ANALYSIS_REQUEST_STATUS_TYPE_"
+              );
+      }
+    );
+  }
+
+  prepareOptionsANALYSIS_RESULT_VALUE_TYPE() {
+    this.enumService.listAllPossibleValues(ANALYSIS_RESULT_VALUE_TYPE).subscribe(
+      res => {
+          this.optionsANALYSIS_RESULT_VALUE_TYPE =
+            this.selectItemService.createSelectItemsForEnums(
+              res,
+              ANALYSIS_RESULT_VALUE_TYPE,
+              true, // null options
+              "ANALYSIS_RESULT_VALUE_TYPE_",
+              null
+              );
+      }
+    );
+  }
+
+  prepareOptionsSAMPLE_MATERIAL_TYPE() {
+    this.enumService.listAllPossibleValues(SAMPLE_MATERIAL_TYPE).subscribe(
+      res => {
+          this.optionsSAMPLE_MATERIAL_TYPE =
+            this.selectItemService.createSelectItemsForEnums(
+              res,
+              SAMPLE_MATERIAL_TYPE,
+              false, // null options
+              "SAMPLE_MATERIAL_TYPE_"
+              );
+      }
+    );
   }
 
   intializeTablesPreferences() {
@@ -137,13 +185,13 @@ export class StaysComponent implements OnInit {
         ]
     };
 
-    // ############ //
-    // Stay columns //
-    // ############ //
+    // ###################### //
+    // AnalysisRequest columns //
+    // ###################### //
     const idColDef = {
       field:"id",
       nameInSelect:"id",
-      nameInWhereClause:"s.id",
+      nameInWhereClause:"a.id",
       header: this.translationService.getTranslation("id"),
       attributeType:"string",
       sortable: true,
@@ -157,11 +205,11 @@ export class StaysComponent implements OnInit {
       width:"4em"
     };
 
-    const inTimeColDef = {
-      field:"in_time",
-      nameInSelect:"in_time",
-      nameInWhereClause:"s.in_time",
-      header: this.translationService.getTranslation("in_time"),
+    const requestTimeColDef = {
+      field:"request_time",
+      nameInSelect:"request_time",
+      nameInWhereClause:"a.request_time",
+      header: this.translationService.getTranslation("request_time"),
       attributeType:"date",
       sortable: true,
       filterable: false,
@@ -174,122 +222,15 @@ export class StaysComponent implements OnInit {
       width:"4em"
     };
 
-    const isolationTimeColDef = {
-      field:"isolation_time",
-      nameInSelect:"isolation_time",
-      nameInWhereClause:"s.isolation_time",
-      header: this.translationService.getTranslation("isolation_time"),
-      attributeType:"date",
-      sortable: true,
-      filterable: false,
-      columnIsDisplayed:true,
-      filterIsActive:false,
-      minimumCharactersNeeded:3,
-      filterValue:null,
-      sorting:null, // null, 1, -1
-      sortingRank:null,
-      width:"4em"
-    };
-
-    const outTimeColDef = {
-      field:"out_time",
-      nameInSelect:"out_time",
-      nameInWhereClause:"s.out_time",
-      header: this.translationService.getTranslation("out_time"),
-      attributeType:"date",
-      sortable: true,
-      filterable: false,
-      columnIsDisplayed:true,
-      filterIsActive:false,
-      minimumCharactersNeeded:3,
-      filterValue:null,
-      sorting:null, // null, 1, -1
-      sortingRank:null,
-      width:"4em"
-    };
-
-    const hospitalizationInTimeColDef = {
-      field:"hospitalization_in_time",
-      nameInSelect:"hospitalization_in_time",
-      nameInWhereClause:"s.hospitalization_in_time",
-      header: this.translationService.getTranslation("hospitalization_in_time"),
-      attributeType:"date",
-      sortable: true,
-      filterable: false,
-      columnIsDisplayed:true,
-      filterIsActive:false,
-      minimumCharactersNeeded:3,
-      filterValue:null,
-      sorting:null, // null, 1, -1
-      sortingRank:null,
-      width:"4em"
-    };
-
-    const hospitalizationOutTimeColDef = {
-      field:"hospitalization_out_time",
-      nameInSelect:"hospitalization_out_time",
-      nameInWhereClause:"s.hospitalization_out_time",
-      header: this.translationService.getTranslation("hospitalization_out_time"),
-      attributeType:"date",
-      sortable: true,
-      filterable: false,
-      columnIsDisplayed:true,
-      filterIsActive:false,
-      minimumCharactersNeeded:3,
-      filterValue:null,
-      sorting:null, // null, 1, -1
-      sortingRank:null,
-      width:"4em"
-    };
-
-    const roomColDef = {
-      field:"room",
-      nameInSelect:"room",
-      nameInWhereClause:"s.room",
-      header: this.translationService.getTranslation("room"),
-      attributeType:"string",
-      attributeTest:"like",
-      sortable: false,
-      filterable: true,
-      columnIsDisplayed:true,
-      filterIsActive:false,
-      minimumCharactersNeeded:3,
-      filterValue:null,
-      sorting:null, // null, 1, -1
-      sortingRank:null,
-      width:"4em"
-    };
-
-    const sectorColDef = {
-      field:"sector",
-      nameInSelect:"sector",
-      nameInWhereClause:"s.sector",
-      header: this.translationService.getTranslation("sector"),
-      attributeType:"string",
-      attributeTest:"like",
-      sortable: false,
-      filterable: true,
-      columnIsDisplayed:true,
-      filterIsActive:false,
-      minimumCharactersNeeded:3,
-      filterValue:null,
-      sorting:null, // null, 1, -1
-      sortingRank:null,
-      width:"4em"
-    };
-
-
-    // ############ //
-    // Unit columns //
-    // ############ //
-    const unitNameColDef = {
-      field:"unit_name",
-      nameInSelect:"unit_name",
-      nameInWhereClause:"u.name",
-      header: this.translationService.getTranslation("unit"),
-      attributeType:"string",
+    const requestTypeColDef = {
+      field:"request_type",
+      nameInSelect:"request_type",
+      nameInWhereClause:"a.request_type",
+      header: this.translationService.getTranslation("request_type"),
+      attributeType:"enum",
+      enumType: Utils.getEnumName(ANALYSIS_REQUEST_TYPE),
       attributeTest:"IN",
-      sortable: false,
+      sortable: true,
       filterable: true,
       columnIsDisplayed:true,
       filterIsActive:false,
@@ -297,8 +238,28 @@ export class StaysComponent implements OnInit {
       filterValue:null,
       sorting:null, // null, 1, -1
       sortingRank:null,
-      width:"4em"
+      width:"2em"
     };
+
+    const requestStatusTypeColDef = {
+      field:"request_status",
+      nameInSelect:"status",
+      nameInWhereClause:"a.status",
+      header: this.translationService.getTranslation("request_status"),
+      attributeType:"enum",
+      enumType: Utils.getEnumName(ANALYSIS_REQUEST_STATUS_TYPE),
+      attributeTest:"IN",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"2em"
+    };
+
 
     // ############### //
     // Patient columns //
@@ -388,6 +349,25 @@ export class StaysComponent implements OnInit {
       width:"4em"
     };
 
+    // ############ //
+    // Unit columns //
+    // ############ //
+    const unitNameColDef = {
+      field:"unit_name",
+      nameInSelect:"unit_name",
+      nameInWhereClause:"u.name",
+      header: this.translationService.getTranslation("unit"),
+      attributeType:"string",
+      sortable: true,
+      filterable: true,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
 
     // ############### //
     // Add the columns //
@@ -404,14 +384,10 @@ export class StaysComponent implements OnInit {
       this.queryParams.cols.push(patientRefColDef);
     }
 
-    this.queryParams.cols.push(hospitalizationInTimeColDef);
-    this.queryParams.cols.push(inTimeColDef);
-    this.queryParams.cols.push(isolationTimeColDef);
-    this.queryParams.cols.push(outTimeColDef);
-    this.queryParams.cols.push(hospitalizationOutTimeColDef);
+    this.queryParams.cols.push(requestTypeColDef);
+    this.queryParams.cols.push(requestTimeColDef);
     this.queryParams.cols.push(unitNameColDef);
-    this.queryParams.cols.push(roomColDef);
-    this.queryParams.cols.push(sectorColDef);
+    this.queryParams.cols.push(requestStatusTypeColDef);
 
     // this.queryParams.cols.push( {
     //   field: 'view_details',
@@ -442,10 +418,10 @@ export class StaysComponent implements OnInit {
   //   to the function doesnt contain the filters that are not null but not modified
   updateFiltering(andRefrehData:boolean = true) {
 
-    // Reset to first page
-    this.queryParams.pageNum = 0;
-
     for (let attrName in this.filterValues) {
+
+      // Reset to first page
+      this.queryParams.pageNum = 0;
 
       // Get the corresponding column in queryParams
       var col = this.queryParams.cols.filter(x => x.field == attrName)[0] ;
@@ -497,9 +473,8 @@ export class StaysComponent implements OnInit {
     // Update the queryParamsString representation
     this.lastQueryParamsAsString = JSON.stringify(this.queryParams);
 
-    // Copy the values originating from the parent component to the query params
     this.loading = true;
-    this.stayService.getStaysForListing(this.queryParams).subscribe(res => {
+    this.analysisRequestService.getAnalysesRequestsForListing(this.queryParams).subscribe(res => {
       if (res!= null) {
         console.log(res.rows);
         this.data = res.rows;

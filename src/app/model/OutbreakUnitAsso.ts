@@ -11,6 +11,7 @@ export class OutbreakUnitAsso {
     startTime:Date;
     endTime:Date;
     sameRoomOnly:boolean;
+    sameSectorOnly:boolean;
     isDefault:boolean;
     comment:string;
 
@@ -40,8 +41,9 @@ export class OutbreakUnitAsso {
             }
         }
         this.sameRoomOnly = _json['sameRoomOnly'];
+        this.sameSectorOnly = _json['sameSectorOnly'];
         this.isDefault = _json['isDefault'];
         this.comment = _json['comment'];
     }
 
-} 
+}

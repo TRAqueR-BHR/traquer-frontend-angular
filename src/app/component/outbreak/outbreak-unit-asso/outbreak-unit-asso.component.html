@@ -57,13 +57,18 @@
         <div class="custom-form-field col-12 md:col-6">
             <label for="sameRoomOnly"
                 class="custom-label"
-                i18n="@@start_date">
-                Restreindre les cas contacts aux patients ayant partagé la même chambre</label>
-            <p-selectButton id="sameRoomOnly"
-                name="sameRoomOnly"
-                [options]="optionsYesNo"
-                [(ngModel)]="outbreakUnitAsso.sameRoomOnly"
-                (ngModelChange)="simulateContactExposures()"></p-selectButton>
+                i18n="@@permissiveness_of_the_contact_filter">
+                Permissivité du filtre des contacts (vous pouvez utiliser les flèches du clavier)
+            </label> : <b>{{contactFilterPermissivenessAsString}}</b>
+            <p-slider
+                name="contactFilterPermissiveness"
+                [(ngModel)]="contactFilterPermissiveness"
+                [min]="0"
+                [max]="2"
+                [step]="1"
+                (ngModelChange)="onChangeContactFilterPermissiveness()"
+            ></p-slider>
+
         </div>
 
         <div class="col-12">
@@ -93,6 +98,7 @@
                     <th i18n="lastname">Nom</th>
                     <th i18n="birthdate">Date de naissance</th>
                     <th i18n="room">Chambre</th>
+                    <th i18n="room">Sector</th>
                     <th i18n="hospitalization_in_time">Date d'entrée à l'hopital</th>
                     <th i18n="in_time">Date d'entrée à l'UF</th>
                     <th i18n="isolation_time">Date d'isolement</th>
@@ -115,6 +121,7 @@
                     </td>
                     <td>{{s.birthdate | date:'dd/MM/yyyy'}}</td>
                     <td>{{s.room}}</td>
+                    <td>{{s.sector}}</td>
                     <td>{{s.hospitalization_in_time | date:"dd/MM/yyyy H:mm"}}</td>
                     <td>{{s.in_time | date:"dd/MM/yyyy H:mm"}}</td>
                     <td>{{s.isolation_time | date:"dd/MM/yyyy H:mm"}}</td>

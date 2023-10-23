@@ -13,6 +13,7 @@
 
     <ng-template pTemplate="header">
         <tr>
+            <th *ngIf="debugMode">id</th>
             <th i18n="@@request_type">Type d'analyse</th>
             <th i18n="@@request_time">Date dde</th>
             <th i18n="@@result_time">Date résultat</th>
@@ -23,6 +24,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-a>
         <tr>
+            <td *ngIf="debugMode">{{a.id}}</td>
             <td>{{a.requestType | enumCode2EnumName:'ANALYSIS_REQUEST_TYPE' | getTranslation}}</td>
             <td>{{a.requestTime | date:"dd/MM/yyyy H:mm"}}</td>
             <td>{{a.resultTime | date:"dd/MM/yyyy H:mm"}}</td>

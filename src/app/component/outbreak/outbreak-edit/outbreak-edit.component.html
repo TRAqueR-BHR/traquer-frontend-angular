@@ -81,8 +81,14 @@
     </div>
     <div class="grid" *ngIf="outbreak != null && outbreak.id != null">
 
-        <p-accordion >
+        <div class="col-12">
+            <p-message severity="warn" *ngIf="noAssociationWasFound === true"
+                text="Aucune association entre l'épisode et des UF n'a été trouvée"
+                i18n-text="@@no_association_was_found">
+            </p-message>
+        </div>
 
+        <p-accordion >
             <ng-container *ngFor="let unitAsso of outbreakUnitAssos">
                 <p-accordionTab [header]="unitAsso.unit.name">
                     <div app-outbreak-unit-asso

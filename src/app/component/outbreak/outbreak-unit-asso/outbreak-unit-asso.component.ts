@@ -29,6 +29,10 @@ export class OutbreakUnitAssoComponent implements OnInit {
   @Input()
   outbreakUnitAsso:OutbreakUnitAsso;
 
+  contactFilterPermissiveness:number = 0;
+  contactFilterPermissivenessPrevValue:number = 0;
+  contactFilterPermissivenessAsString:string;
+
   @ViewChild('simulateExposuresLoader')
   simulateExposuresLoader: ProcessingAnimComponent;
 
@@ -45,6 +49,8 @@ export class OutbreakUnitAssoComponent implements OnInit {
   processingExposuresSimulation:boolean = false;
   loadingCarriers:boolean = false;
   loadingContacts:boolean = false;
+
+
 
   // Observable subscriptions
   subscriptions: Subscription[] = [];
@@ -67,12 +73,23 @@ export class OutbreakUnitAssoComponent implements OnInit {
     this.getOptionsYesNo();
     this.getCarriersStaysFromOutbreakUnitAsso();
     this.getContactsStaysFromOutbreakUnitAsso();
-    this.simulateContactExposures();
+    this.initializePermissivnessFilter();
     this.isDebugMode = this.authenticationService.isDebugMode();
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
+  initializePermissivnessFilter() {
+    if(this.outbreakUnitAsso.sameSectorOnly) {
+      this.contactFilterPermissiveness = 1;
+    } else if (this.outbreakUnitAsso.sameRoomOnly) {
+      this.contactFilterPermissiveness = 0;
+    } else {
+      this.contactFilterPermissiveness = 2;
+    }
+    this.simulateContactExposures();
   }
 
   createSubscriptions() {
@@ -187,6 +204,34 @@ export class OutbreakUnitAssoComponent implements OnInit {
         header: dialogHeader,
         width: '85%'
     });
+  }
+
+  onSliderChange(event){
+    console.log(event);
+  }
+
+  onChangeContactFilterPermissiveness(){
+
+    if (this.contactFilterPermissiveness != this.contactFilterPermissivenessPrevValue){
+
+      console.log(this.contactFilterPermissiveness);
+      if (this.contactFilterPermissiveness == 0){
+        this.contactFilterPermissivenessAsString = this.translationService.getTranslation("same_room");
+        this.outbreakUnitAsso.sameRoomOnly = true;
+        this.outbreakUnitAsso.sameSectorOnly = false;
+      } else if (this.contactFilterPermissiveness == 1){
+        this.contactFilterPermissivenessAsString = this.translationService.getTranslation("same_sector");
+        this.outbreakUnitAsso.sameRoomOnly = false;
+        this.outbreakUnitAsso.sameSectorOnly = true;
+      } else if (this.contactFilterPermissiveness == 2){
+        this.contactFilterPermissivenessAsString = this.translationService.getTranslation("same_unit");
+        this.outbreakUnitAsso.sameRoomOnly = false;
+        this.outbreakUnitAsso.sameSectorOnly = false;
+      }
+      this.contactFilterPermissivenessPrevValue = this.contactFilterPermissiveness;
+      this.simulateContactExposures();
+    }
+
   }
 
 }

@@ -34,7 +34,8 @@ export class OutbreakEditComponent implements OnInit {
   canDisplayInitializeOutbreakButton:boolean = false;
   canDisplaySaveOutbreakButton:boolean = false;
   initializeOutbreakBtnIsDisabled:boolean = false;
-  saveOutbreakBtnIsDisabled:boolean = false;s
+  saveOutbreakBtnIsDisabled:boolean = false;
+  noAssociationWasFound:boolean;
   debug:boolean = false;
 
   // Resources loaded checker
@@ -58,19 +59,28 @@ export class OutbreakEditComponent implements OnInit {
     this.getOptionsYesNo();
     this.prepareOptionsOUTBREAK_CRITICITY();
     this.setDebuggingComponentFlag();
-    this.getOutbreak();
   }
 
   ngOnChanges() {
-    this.updateDisplayBooleans();
+    this.getOutbreak();
   }
 
   getOutbreak(){
 
-    console.log(this.outbreak);
+    // Reset resourcesLoadedChecker
+    this.resourcesLoadedChecker.resourcesLoaded.outbreakUnitAssos = false;
+    this.resourcesLoadedChecker.resourcesAreLoaded = false;
 
     if (this.outbreak != null) {
-      this.getOutbreakUnitAssosFromOutbreak();
+      if (this.outbreak.id != null) {
+        this.getOutbreakUnitAssosFromOutbreak();
+      }
+      // If the outbreak has no id it is bevause it has just been instantiated, we can force
+      // the resources loaded checker
+      else {
+        this.resourcesLoadedChecker.resourcesLoaded.outbreakUnitAssos = true;
+        this.updateResourcesLoaded();
+      }
     }
     else if (this.debug === true){
       const id = this.route.snapshot.paramMap.get('outbreakId');
@@ -136,6 +146,11 @@ export class OutbreakEditComponent implements OnInit {
     } else {
       this.canDisplayInitializeOutbreakButton = false;
       this.canDisplaySaveButton = true;
+      if (this.outbreakUnitAssos.length == 0) {
+        this.noAssociationWasFound = true;
+      } else {
+        this.noAssociationWasFound = false;
+      }
     }
   }
 
@@ -162,7 +177,9 @@ export class OutbreakEditComponent implements OnInit {
       this.saveOutbreakBtnIsDisabled = false;
       if (res != null){
         this.outbreak = res;
-        this.notificationService.notifySuccess("outbreak_saved");
+        this.notificationService.notifySuccess(
+          this.translationService.getTranslation("outbreak_saved")
+        );
         this.getOutbreakUnitAssosFromOutbreak();
         this.updateDisplayBooleans();
       }

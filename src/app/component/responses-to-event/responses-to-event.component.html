@@ -5,8 +5,12 @@
 <div class="grid">
 
     <div class="col-12" *ngIf="isDebugMode">
-        eventRequiringAttention.id: {{eventRequiringAttention.id}}
+        <ul>
+            <li>eventRequiringAttention.id: {{eventRequiringAttention.id}}</li>
+            <li *ngIf="outbreak">outbreak.id: {{outbreak.id}}</li>
+        </ul>
     </div>
+
 
     <!-- Choice of responses -->
     <div class="col-12">

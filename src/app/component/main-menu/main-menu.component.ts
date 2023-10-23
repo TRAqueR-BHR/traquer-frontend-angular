@@ -42,6 +42,11 @@ export class MainMenuComponent implements OnInit {
             routerLink: ['/analyses'],
           },
           {
+            label: this.translationService.getTranslation('analyses_requests'),
+            icon: 'fa fa-solid fa-flask',
+            routerLink: ['/analyses-requests'],
+          },
+          {
             label: this.translationService.getTranslation('stays'),
             icon: 'fa fa-solid fa-bed',
             routerLink: ['/stays'],

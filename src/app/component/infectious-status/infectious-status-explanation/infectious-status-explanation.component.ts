@@ -225,10 +225,15 @@ export class InfectiousStatusExplanationComponent implements OnInit {
 
   }
 
-  getRoomDescription(stay:Stay):string {
+  getRoomAndSectorDescription(stay:Stay):string {
+
     let roomStr = stay.room != null ?
-      this.translationService.getTranslation("room") + " " + stay.room : "";
-    return roomStr;
+      ", " + this.translationService.getTranslation("room") + " " + stay.room : "";
+
+    let sectorStr = stay.sector != null ?
+    ", " + this.translationService.getTranslation("sector") + " " + stay.sector : "";
+
+    return roomStr + sectorStr;
   }
 
   getHospitalizationDescription(stay:Stay):string {
@@ -437,12 +442,10 @@ export class InfectiousStatusExplanationComponent implements OnInit {
 
     let result = array.map(x => {
 
-      let roomStr = x.room != null ? this.translationService.getTranslation("room") + " " + x.room : "";
-
       let title = `
         ${this.translationService.getTranslation("stay_begin")}
         ${x.unit.name}
-        ${this.getRoomDescription(x)}
+        ${this.getRoomAndSectorDescription(x)}
         (${this.getHospitalizationDescription(x)})
       `;
       let details = "TODO details of analysis";
@@ -475,7 +478,7 @@ export class InfectiousStatusExplanationComponent implements OnInit {
       let title = `
         ${this.translationService.getTranslation("stay_end")}
         ${x.unit.name}
-        ${this.getRoomDescription(x)}
+        ${this.getRoomAndSectorDescription(x)}
         (${this.getHospitalizationDescription(x)})
       `;
 

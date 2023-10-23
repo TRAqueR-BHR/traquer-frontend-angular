@@ -238,9 +238,8 @@ export class AnalysisRequestEditComponent implements OnInit {
       if (res != null){
         this.analysisRequest = res;
         this.notificationService.notifySuccess(
-          this.translationService.getTranslation("analsys_request_saved"));
+          this.translationService.getTranslation("analysis_request_saved"));
         }
-        this.dialogRef.close();
     });
   }
 
