@@ -313,7 +313,7 @@ export class AnalysisRequestEditComponent implements OnInit {
           null, // value property
           "name", // labelProperty: string,
           false, // translate: boolean = false,
-          false, // includeNullOption:boolean = false
+          true, // includeNullOption:boolean = false
         );
       }
 
