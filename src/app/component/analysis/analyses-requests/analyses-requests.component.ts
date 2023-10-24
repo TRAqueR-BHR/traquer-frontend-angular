@@ -27,6 +27,7 @@ import { AnalysisRequestService } from 'src/app/service/analysis-request.service
 import { ANALYSIS_REQUEST_STATUS_TYPE } from 'src/app/enum/ANALYSIS_REQUEST_STATUS_TYPE';
 import * as FileSaver from 'file-saver';
 import { ProcessingService } from 'src/app/service/processing.service';
+import { BlockUiService } from 'src/app/service/block-ui.service';
 
 @Component({
   selector: 'app-analyses-requests',
@@ -79,7 +80,7 @@ export class AnalysesRequestsComponent implements OnInit {
     private eventRequiringAttentionService:EventRequiringAttentionService,
     public dialogService: DialogService,
     private authenticationService:AuthenticationService,
-    private processingService:ProcessingService,
+    private blockUiService:BlockUiService,
     @Inject(LOCALE_ID) private locale: string
   ) { }
 
@@ -559,12 +560,11 @@ export class AnalysesRequestsComponent implements OnInit {
 
   downloadAsXLSX(){
     console.log("downloadAsXLSX");
-    this.processingService.blockUI("AnalysesRequestsComponent.downloadAsXLSX()");
+    this.blockUiService.blockUI("AnalysesRequestsComponent.downloadAsXLSX()");
       this.analysisRequestService.getAnalysesRequestsForListingAsXLSX(this.queryParams)
       .subscribe(result => {
 
-        // console.log(result);
-        this.processingService.unblockUI("AnalysesRequestsComponent.downloadAsXLSX()");
+        this.blockUiService.unblockUI("AnalysesRequestsComponent.downloadAsXLSX()");
         FileSaver.saveAs(
           result,
           this.translationService.getTranslation("analyses-requests")  +  ".xlsx"
