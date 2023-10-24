@@ -45,9 +45,10 @@ export class ResponsesToEventComponent implements OnInit {
   patientDecrypt:PatientDecrypt;
   patient:Patient; // For conveinience, we can very well just use infectiousStatus.patient
 
-  optionsRESPONSE_TYPE:SelectItem[] = [];
-
   isolationTime:Date;
+
+  // Options
+  optionsRESPONSE_TYPE:SelectItem[] = [];
 
   // Display booleans
   canDisplayOutbreak = false;
@@ -167,8 +168,6 @@ export class ResponsesToEventComponent implements OnInit {
   }
 
   getOutbreak() {
-
-    console.log("DEBUG getOutbreak");
 
     if (this.infectiousStatus == null) {
       return;
@@ -324,6 +323,8 @@ export class ResponsesToEventComponent implements OnInit {
       this.updateDisplayBooleans();
 
     } else if(changes.elementsRemoved.includes(RESPONSE_TYPE.declare_outbreak)){
+      // Make sure that the outbreak is null if the user unchecks the box, we dont want to
+      // hide the outbreak with wich the infectious status has alreaby been associated
       if (this.outbreak != null && this.outbreak.id == null) {
         this.outbreak = null;
       }
@@ -366,7 +367,7 @@ export class ResponsesToEventComponent implements OnInit {
     if (changes.elementsAdded.includes(RESPONSE_TYPE.associate_to_existing_outbreak))
     {
       this.canDisplayAssociateInfectiousStatusToOutbreaksComponent = true;
-    } else {
+    } else if(changes.elementsRemoved.includes(RESPONSE_TYPE.associate_to_existing_outbreak)){
       this.canDisplayAssociateInfectiousStatusToOutbreaksComponent = false;
     }
 
@@ -378,7 +379,10 @@ export class ResponsesToEventComponent implements OnInit {
       || changes.elementsAdded.includes(RESPONSE_TYPE.isolation_in_special_unit)
     ){
       this.canDisplayIsolationTime = true;
-    } else {
+    } else if(
+      changes.elementsRemoved.includes(RESPONSE_TYPE.isolation_in_same_unit)
+      || changes.elementsRemoved.includes(RESPONSE_TYPE.isolation_in_special_unit)
+    ){
       this.canDisplayIsolationTime = false;
     }
 
@@ -388,7 +392,7 @@ export class ResponsesToEventComponent implements OnInit {
     if (changes.elementsAdded.includes(RESPONSE_TYPE.request_analysis))
     {
       this.canDisplayRequestAnalysisComponent = true;
-    }else {
+    } else if(changes.elementsRemoved.includes(RESPONSE_TYPE.request_analysis)){
       this.canDisplayRequestAnalysisComponent = false;
     }
 
