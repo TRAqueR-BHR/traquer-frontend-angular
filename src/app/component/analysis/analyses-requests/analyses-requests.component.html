@@ -8,7 +8,7 @@
     <!-- Columns selection and download -->
     <ng-template pTemplate="caption">
 
-        <div class="flex">
+        <div class="flex align-items-center justify-content-between">
 
             <p-multiSelect [options]="selectableColumns"
                 [(ngModel)]="selectedColumns"
@@ -17,6 +17,13 @@
                 defaultLabel="Choisir les colonnes à afficher"
                 (ngModelChange)="updateColumnsSelection($event)">
             </p-multiSelect>
+
+            <p-button icon="fas fa-download"
+                 (onClick)="downloadAsXLSX()"
+                 i18n-pTooltip="@@download_as_xlsx"
+                 pTooltip="Télécharger au format XLSX">
+            </p-button>
+
         </div>
 
     </ng-template>

@@ -25,7 +25,8 @@ import { UnitService } from 'src/app/service/unit.service';
 import { InfectiousStatusExplanationComponent } from '../../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
 import { AnalysisRequestService } from 'src/app/service/analysis-request.service';
 import { ANALYSIS_REQUEST_STATUS_TYPE } from 'src/app/enum/ANALYSIS_REQUEST_STATUS_TYPE';
-
+import * as FileSaver from 'file-saver';
+import { ProcessingService } from 'src/app/service/processing.service';
 
 @Component({
   selector: 'app-analyses-requests',
@@ -78,6 +79,7 @@ export class AnalysesRequestsComponent implements OnInit {
     private eventRequiringAttentionService:EventRequiringAttentionService,
     public dialogService: DialogService,
     private authenticationService:AuthenticationService,
+    private processingService:ProcessingService,
     @Inject(LOCALE_ID) private locale: string
   ) { }
 
@@ -553,6 +555,21 @@ export class AnalysesRequestsComponent implements OnInit {
         header: dialogHeader,
         width: '85%'
     });
+  }
+
+  downloadAsXLSX(){
+    console.log("downloadAsXLSX");
+    this.processingService.blockUI("AnalysesRequestsComponent.downloadAsXLSX()");
+      this.analysisRequestService.getAnalysesRequestsForListingAsXLSX(this.queryParams)
+      .subscribe(result => {
+
+        // console.log(result);
+        this.processingService.unblockUI("AnalysesRequestsComponent.downloadAsXLSX()");
+        FileSaver.saveAs(
+          result,
+          this.translationService.getTranslation("analyses-requests")  +  ".xlsx"
+        );
+      });
   }
 
 }

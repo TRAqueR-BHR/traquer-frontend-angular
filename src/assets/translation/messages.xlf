@@ -2,6 +2,13 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="fr" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="download_as_xlsx" datatype="html">
+        <source>Télécharger au format XLSX</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/analysis/analyses-requests/analyses-requests.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="unit_where_to_collect_sample" datatype="html">
         <source> UF où faire le prélevement </source>
         <context-group purpose="location">

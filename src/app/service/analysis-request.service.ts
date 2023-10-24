@@ -69,4 +69,23 @@ export class AnalysisRequestService {
     );
   }
 
+  getAnalysesRequestsForListingAsXLSX(queryParams:any): Observable<Blob> {
+    const url = this.apiURL + "/listing-as-xlsx";
+
+    var args = deepCopy(queryParams);
+
+    // Force the dates without time to UTC
+    var colBirthDate = args.cols.filter(x => x.field == "birthdate")[0] ;
+    colBirthDate.filterValue = Utils.forceDateToUTC(colBirthDate.filterValue);
+
+    return this.http.post<ResultOfQueryWithParams>(
+      url,
+      JSON.stringify(args),
+      {responseType: 'blob' as 'json'}
+    )
+    .pipe(
+    catchError(this.errorHandlerService.handleError(`getAnalysesRequestsForListing()`, null))
+    );
+  }
+
 }
