@@ -10,6 +10,7 @@ export class EventRequiringAttention {
     id:string;
     responseTime:Date;
     responseComment:string;
+    creationTime:Date;
     isPending:boolean;
     eventType:EVENT_REQUIRING_ATTENTION_TYPE;
     refTime:Date;
@@ -31,6 +32,13 @@ export class EventRequiringAttention {
             }
         }
         this.responseComment = _json['responseComment'];
+        if (_json['creationTime'] != null) {
+            if (_json['creationTime'] instanceof Date) {
+                this.creationTime = _json['creationTime'];
+            } else {
+                this.creationTime = new Date(_json['creationTime']);
+            }
+        }
         this.isPending = _json['isPending'];
         if (_json['eventType'] != null) {
             if (isNaN(Number(_json['eventType']))) {
