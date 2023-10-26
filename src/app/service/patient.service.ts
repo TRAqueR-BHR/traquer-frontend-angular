@@ -34,6 +34,10 @@ export class PatientService {
     var args = deepCopy(queryParams);
 
     // Force the dates without time to UTC
+    var colBirthDate = args.cols.filter(x => x.field == "birthdate")[0] ;
+    colBirthDate.filterValue = Utils.forceDateToUTC(colBirthDate.filterValue);
+
+    // Force the dates without time to UTC
     // var colJourneeExploitation = args.cols.filter(x => x.field == "journee_exploitation")[0] ;
     // colJourneeExploitation.filterValue = Utils.forceDateToUTC(colJourneeExploitation.filterValue);
     //  args.dateDebut = Utils.forceDateToUTC(args.dateDebut);
