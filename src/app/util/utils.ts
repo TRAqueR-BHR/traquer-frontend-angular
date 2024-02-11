@@ -14,6 +14,7 @@ import { EVENT_REQUIRING_ATTENTION_TYPE } from '../enum/EVENT_REQUIRING_ATTENTIO
 import { SAMPLE_MATERIAL_TYPE } from '../enum/SAMPLE_MATERIAL_TYPE';
 import { RESPONSE_TYPE } from '../enum/RESPONSE_TYPE';
 import { formatDate } from '@angular/common';
+import * as Hash from 'hash.js';
 
 export class Utils {
 
@@ -175,6 +176,34 @@ export class Utils {
         }
       }
       return result;
+    }
+
+
+    static hashToBase64(input) {
+      // Hash the input using SHA-256
+      const hashBytes = Hash.sha256().update(input).digest();
+
+      // Convert the hash (as a byte array) to a base64 string
+      const hashArray = Array.from(hashBytes); // Convert Uint8Array to normal array
+      const stringChars = hashArray.map(byte => String.fromCharCode(byte)).join('');
+
+      // Convert the character string to Base64
+      const base64String = btoa(stringChars);
+
+      return base64String;
+    }
+
+    static scrambleString(input) {
+
+      // Convert input to a Base64 hash
+      const base64Hash = Utils.hashToBase64(input);
+
+      // Take the first six characters of the Base64 hash result
+      let firstSixChars = base64Hash.substring(0, 6);
+
+      // Additional scrambling logic can be applied here if needed
+
+      return firstSixChars;
     }
 
     static getRandomString(length) {

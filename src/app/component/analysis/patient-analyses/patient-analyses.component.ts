@@ -9,6 +9,7 @@ import { AuthenticationService } from 'src/app/module/appuser/service/authentica
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { AnalysisService } from 'src/app/service/analysis.service';
 import { OutbreakService } from 'src/app/service/outbreak.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-patient-analyses',

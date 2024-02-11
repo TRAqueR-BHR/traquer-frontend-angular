@@ -16,6 +16,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { EventRequiringAttention } from 'src/app/model/EventRequiringAttention';
 import { EventRequiringAttentionService } from 'src/app/service/event-requiring-attention.service';
 import { Patient } from 'src/app/model/Patient';
+import { Stay } from 'src/app/model/Stay';
 import { formatDate } from '@angular/common';
 import { ANALYSIS_REQUEST_TYPE } from 'src/app/enum/ANALYSIS_REQUEST_TYPE';
 import { ANALYSIS_RESULT_VALUE_TYPE } from 'src/app/enum/ANALYSIS_RESULT_VALUE_TYPE';
@@ -24,6 +25,7 @@ import { AnalysisService } from 'src/app/service/analysis.service';
 import { StayService } from 'src/app/service/stay.service';
 import { UnitService } from 'src/app/service/unit.service';
 import { InfectiousStatusExplanationComponent } from '../../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
+import { UINotificationService } from 'src/app/service/uinotification.service';
 
 @Component({
   selector: 'app-stays',
@@ -62,6 +64,10 @@ export class StaysComponent implements OnInit {
 
   isDebugMode:boolean = false;
 
+  selectedStay:Stay;
+
+  splitButtonOptions: MenuItem[];
+
   // This is used to check if the queryParams have changed since the last time we refreshed
   // the data. It is needed because the table widget may detect some changes when actually
   // there is not
@@ -70,6 +76,7 @@ export class StaysComponent implements OnInit {
   constructor(
     private stayService:StayService,
     private translationService:TranslationService,
+    public notificationService:UINotificationService,
     private enumService:EnumService,
     private selectItemService:SelectItemService,
     private eventRequiringAttentionService:EventRequiringAttentionService,
@@ -85,12 +92,49 @@ export class StaysComponent implements OnInit {
 
     this.prepareOptionsTrueFalse();
     this.prepareOptionsUnits();
+    this.prepareOptionsForSplitButton();
     this.intializeTablesPreferences();
   }
 
   acknowledgeEvent(rowData:any) {
     console.log(rowData);
   }
+
+  prepareOptionsForSplitButton(){
+
+    this.splitButtonOptions = [
+      {
+        label: this.translationService.getTranslation("delete_isolation_time"),
+        icon: 'pi pi-times',
+        command: (event) => {
+          console.log(event);
+          this.deleteIsolationTime();
+        }
+      }
+    ];
+  }
+
+  handleClickOnDefaultAction(rowData){
+    console.log(rowData);
+    this.selectedStay = new Stay({id:rowData.id});
+    this.deleteIsolationTime();
+  }
+
+  handleClickOnSplitButtonDropdown(rowData){
+    console.log(rowData);
+    this.selectedStay = new Stay({id:rowData.id});
+  }
+
+  deleteIsolationTime(){
+    if (this.selectedStay != null){
+      this.stayService.deleteIsolationTime(this.selectedStay).subscribe(res => {
+        if (res!=null){
+          this.notificationService.notifySuccess(this.translationService.getTranslation("saved"));
+        }
+      })
+    }
+  }
+
 
   prepareOptionsTrueFalse(){
     this.trueFalseSelectItems.push(
@@ -388,6 +432,26 @@ export class StaysComponent implements OnInit {
       width:"4em"
     };
 
+    // ############# //
+    // Action column //
+    // ############# //
+    const actionColDef = {
+      field:"action",
+      nameInSelect:null,
+      nameInWhereClause:null,
+      header: this.translationService.getTranslation("action"),
+      attributeType:null,
+      sortable: false,
+      filterable: false,
+      columnIsDisplayed:true,
+      filterIsActive:false,
+      minimumCharactersNeeded:3,
+      filterValue:null,
+      sorting:null, // null, 1, -1
+      sortingRank:null,
+      width:"4em"
+    };
+
 
     // ############### //
     // Add the columns //
@@ -412,6 +476,7 @@ export class StaysComponent implements OnInit {
     this.queryParams.cols.push(unitNameColDef);
     this.queryParams.cols.push(roomColDef);
     this.queryParams.cols.push(sectorColDef);
+    this.queryParams.cols.push(actionColDef);
 
     // this.queryParams.cols.push( {
     //   field: 'view_details',

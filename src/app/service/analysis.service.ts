@@ -10,6 +10,7 @@ import { Utils, deepCopy } from '../util/utils';
 import { AnalysisResult } from '../model/AnalysisResult';
 import { InfectiousStatus } from '../model/InfectiousStatus';
 import { Patient } from '../model/Patient';
+import { AuthenticationService } from '../module/appuser/service/authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,11 @@ export class AnalysisService {
 
   private apiURL = environment.apiURL + '/analysis';  // URL to web api
 
-  constructor(private http: HttpClient,
-    private errorHandlerService: ErrorHandlerService) { }
+  constructor(
+    private http: HttpClient,
+    private errorHandlerService: ErrorHandlerService,
+    private authenticationService:AuthenticationService
+  ) { }
 
   getAnalysesFromPatient(
     patient:Patient
@@ -84,7 +88,19 @@ export class AnalysisService {
     return this.http.post<ResultOfQueryWithParams>(url,
                                                    JSON.stringify(args))
     .pipe(map(res => {
-      return new ResultOfQueryWithParams(res);
+
+      let resultOfQuery = new ResultOfQueryWithParams(res);
+
+      // Scramble patient name if needed
+      if (this.authenticationService.isScrambleMode()) {
+        resultOfQuery.rows = resultOfQuery.rows.map( x => {
+          x["firstname"] = Utils.scrambleString(x["firstname"]);
+          x["lastname"] = Utils.scrambleString(x["lastname"]);
+          return x;
+        });
+      }
+
+      return resultOfQuery;
     }))
     .pipe(
     catchError(this.errorHandlerService.handleError(`getAnalysesResultsForListing()`, null))

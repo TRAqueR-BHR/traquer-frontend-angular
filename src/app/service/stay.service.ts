@@ -12,6 +12,7 @@ import { INFECTIOUS_STATUS_TYPE } from '../enum/INFECTIOUS_STATUS_TYPE';
 import { Patient } from '../model/Patient';
 import { ResultOfQueryWithParams } from '../model-protected/ResultOfQueryWithParams';
 import { EventRequiringAttention } from '../model/EventRequiringAttention';
+import { AuthenticationService } from '../module/appuser/service/authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,11 @@ export class StayService {
 
   private apiURL = environment.apiURL + '/stay';  // URL to web api
 
-  constructor(private http: HttpClient,
-    private errorHandlerService: ErrorHandlerService) { }
+  constructor(
+    private http: HttpClient,
+    private errorHandlerService: ErrorHandlerService,
+    private authenticationService:AuthenticationService
+  ) { }
 
   getCarriersOrContactsStaysForListingFromOutbreakUnitAsso(
     outbreakUnitAsso:OutbreakUnitAsso,
@@ -38,7 +42,18 @@ export class StayService {
       }
     )
     .pipe(map(res => {
-      return Utils.convertPlainDataframe(res);
+      let rows = Utils.convertPlainDataframe(res);
+
+      // Scramble name if needed
+      if (this.authenticationService.isScrambleMode()){
+        rows = rows.map(x => {
+          x["firstname"] = Utils.scrambleString(x["firstname"]);
+          x["lastname"] = Utils.scrambleString(x["lastname"]);
+          return x;
+        })
+      }
+
+      return rows;
     }))
     .pipe(
       catchError(this.errorHandlerService.handleError(`getCarriersStaysFromOutbreakUnitAsso()`, null))
@@ -131,7 +146,18 @@ export class StayService {
     return this.http.post<ResultOfQueryWithParams>(url,
                                                    JSON.stringify(args))
     .pipe(map(res => {
-      return new ResultOfQueryWithParams(res);
+      let resultOfQuery = new ResultOfQueryWithParams(res);
+
+      // Scramble patient name if needed
+      if (this.authenticationService.isScrambleMode()) {
+        resultOfQuery.rows = resultOfQuery.rows.map( x => {
+          x["firstname"] = Utils.scrambleString(x["firstname"]);
+          x["lastname"] = Utils.scrambleString(x["lastname"]);
+          return x;
+        });
+      }
+
+      return resultOfQuery;
     }))
     .pipe(
     catchError(this.errorHandlerService.handleError(`getStaysForListing()`, null))
@@ -158,7 +184,28 @@ export class StayService {
       }
     }))
     .pipe(
-      catchError(this.errorHandlerService.handleError(`StayService.upsert()`, null))
+      catchError(this.errorHandlerService.handleError(`StayService.savePatientIsolationDateFromEventRequiringAttention()`, null))
+    );
+
+  }
+
+  deleteIsolationTime(
+    stay:Stay
+  ): Observable<Stay>{
+    const url = `${this.apiURL}/delete-isolation-time`;
+    return this.http.post<any>(
+      url,
+      stay
+    )
+    .pipe(map(res => {
+      if (res != null) {
+        return new Stay(res);
+      } else {
+        return null;
+      }
+    }))
+    .pipe(
+      catchError(this.errorHandlerService.handleError(`StayService.deleteIsolationTime()`, null))
     );
 
   }

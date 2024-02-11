@@ -12,6 +12,7 @@ import { InfectiousStatus } from '../model/InfectiousStatus';
 import { Patient } from '../model/Patient';
 import { OutbreakUnitAsso } from '../model/OutbreakUnitAsso';
 import { ContactExposure } from '../model/ContactExposure';
+import { AuthenticationService } from '../module/appuser/service/authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,9 @@ export class ContactExposureService {
   private apiURL = environment.apiURL + '/contact-exposure';  // URL to web api
 
   constructor(private http: HttpClient,
-    private errorHandlerService: ErrorHandlerService) { }
+    private errorHandlerService: ErrorHandlerService,
+    private authenticationService:AuthenticationService
+  ) { }
 
   simulateContactExposures(
     asso:OutbreakUnitAsso
@@ -49,7 +52,18 @@ export class ContactExposureService {
 
     return this.http.post<ResultOfQueryWithParams>(url, patient)
     .pipe(map(res => {
-      return Utils.convertPlainDataframe(res);
+      let rows = Utils.convertPlainDataframe(res);
+
+      // Scramble carrier name if needed
+      if (this.authenticationService.isScrambleMode()){
+        rows = rows.map( x => {
+          x["carrier_firstname"] = Utils.scrambleString(x["carrier_firstname"]);
+          x["carrier_lastname"] = Utils.scrambleString(x["carrier_lastname"]);
+          return x;
+        });
+      }
+
+      return rows;
     }))
     .pipe(
     catchError(this.errorHandlerService.handleError(`getPatientExposuresForListing()`, null))

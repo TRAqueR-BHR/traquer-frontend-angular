@@ -352,17 +352,20 @@ export class InfectiousStatusExplanationComponent implements OnInit {
 
     let result = array.map(x => {
 
-      let resultTimeStr = ""
+      let resultTimeStr = "";
       if (x.resultTime != null) {
         resultTimeStr = ", " + this.translationService.getTranslation("result_time") + " : "
           + formatDate(new Date(x.resultTime),environment.datetime_format,this.locale)
       }
+      let resultStr = (x.result == null) ?
+        this.translationService.getTranslation("no_result_yet")
+        : this.translationService.getTranslation(
+          `ANALYSIS_RESULT_VALUE_TYPE_${ANALYSIS_RESULT_VALUE_TYPE[x.result]}`
+        );
 
       let title = (
         this.translationService.getTranslation(ANALYSIS_REQUEST_TYPE[x.requestType]) + " : "
-        + this.translationService.getTranslation(
-          `ANALYSIS_RESULT_VALUE_TYPE_${ANALYSIS_RESULT_VALUE_TYPE[x.result]}`
-        )
+        + resultStr
         + resultTimeStr
       );
       let details = "TODO details of analysis";

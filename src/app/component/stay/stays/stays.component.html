@@ -139,6 +139,15 @@
                             }}
                         </span>
 
+                        <p-splitButton *ngSwitchCase="'action'"
+                            i18n-label="delete_isolation_time"
+                            label="Supprimer l'heure d'isolement"
+                            icon="pi pi-times"
+                            [model]="splitButtonOptions"
+                            (onClick)="handleClickOnDefaultAction(rowData)"
+                            (onDropdownClick)="handleClickOnSplitButtonDropdown(rowData)">
+                        </p-splitButton>
+
 
                     </td>
                 </ng-container>

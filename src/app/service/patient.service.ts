@@ -15,6 +15,7 @@ import { EventRequiringAttention } from '../model/EventRequiringAttention';
 import { OutbreakInfectiousStatusAsso } from '../model/OutbreakInfectiousStatusAsso';
 import { Patient } from '../model/Patient';
 import { PatientDecrypt } from '../model-protected/PatientDecrypt';
+import { AuthenticationService } from '../module/appuser/service/authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,8 @@ export class PatientService {
 
   constructor(
     private http: HttpClient,
-    private errorHandlerService: ErrorHandlerService
+    private errorHandlerService: ErrorHandlerService,
+    private authenticationService:AuthenticationService
   ) { }
 
   getPatientsForListing(queryParams:any): Observable<ResultOfQueryWithParams|null> {
@@ -46,7 +48,18 @@ export class PatientService {
     return this.http.post<ResultOfQueryWithParams>(url,
                                                    JSON.stringify(args))
     .pipe(map(res => {
-      return new ResultOfQueryWithParams(res);
+      let resultOfQuery = new ResultOfQueryWithParams(res);
+
+      // Scramble name if needed
+      if (this.authenticationService.isScrambleMode()) {
+        resultOfQuery.rows = resultOfQuery.rows.map( x => {
+          x["firstname"] = Utils.scrambleString(x["firstname"]);
+          x["lastname"] = Utils.scrambleString(x["lastname"]);
+          return x;
+        });
+      }
+
+      return resultOfQuery;
     }))
     .pipe(
       catchError(this.errorHandlerService.handleError(`getPatientsForListing()`, null))
@@ -60,6 +73,13 @@ export class PatientService {
       url,
       patient
     ).pipe(map(res => {
+
+      // Scramble name if needed
+      if (this.authenticationService.isScrambleMode()){
+        res["firstname"] = Utils.scrambleString(res["firstname"]);
+        res["lastname"] = Utils.scrambleString(res["lastname"]);
+      }
+
       return new PatientDecrypt(res);
     })).pipe(
       catchError(this.errorHandlerService.handleError(`getPatientDecrypt()`, null))

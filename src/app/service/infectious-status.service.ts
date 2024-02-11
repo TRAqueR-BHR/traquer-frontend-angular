@@ -8,6 +8,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ResultOfQueryWithParams } from 'src/app/model-protected/ResultOfQueryWithParams';
 import { Utils, deepCopy } from '../util/utils';
 import { InfectiousStatus } from '../model/InfectiousStatus';
+import { AuthenticationService } from '../module/appuser/service/authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,16 @@ export class InfectiousStatusService {
 
   private apiURL = environment.apiURL + '/infectious-status';  // URL to web api
 
-  constructor(private http: HttpClient,
-    private errorHandlerService: ErrorHandlerService) { }
+  constructor(
+    private http: HttpClient,
+    private errorHandlerService: ErrorHandlerService,
+    private authenticationService:AuthenticationService
+  ) { }
 
   getInfectiousStatusForListing(queryParams:any): Observable<ResultOfQueryWithParams|null> {
+
+    console.log(this.authenticationService.isScrambleMode());
+
     const url = this.apiURL + "/listing";
 
     var args = deepCopy(queryParams);
@@ -37,7 +44,18 @@ export class InfectiousStatusService {
     return this.http.post<ResultOfQueryWithParams>(url,
                                                    JSON.stringify(args))
     .pipe(map(res => {
-      return new ResultOfQueryWithParams(res);
+      let resultOfQuery = new ResultOfQueryWithParams(res);
+
+      // Scramble name if needed
+      if (this.authenticationService.isScrambleMode()) {
+        resultOfQuery.rows = resultOfQuery.rows.map( x => {
+          x["firstname"] = Utils.scrambleString(x["firstname"]);
+          x["lastname"] = Utils.scrambleString(x["lastname"]);
+          return x;
+        });
+      }
+
+      return resultOfQuery;
     }))
     .pipe(
     catchError(this.errorHandlerService.handleError(`getInfectiousStatusForListing()`, null))

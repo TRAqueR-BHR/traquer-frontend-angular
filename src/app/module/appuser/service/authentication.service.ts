@@ -110,7 +110,11 @@ export class AuthenticationService {
   }
 
   isDebugMode():boolean {
-    return localStorage.getItem("debug_mode") == "true";
+    return localStorage.getItem("debug_mode") === "true";
+  }
+
+  isScrambleMode():boolean {
+    return localStorage.getItem("scramble_mode") === "true";
   }
 
   setJWT(jwt:string) {
