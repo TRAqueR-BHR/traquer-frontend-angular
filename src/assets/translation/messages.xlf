@@ -1742,7 +1742,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="suspicion" datatype="html">
-        <source>Suspiscion🥜</source>
+        <source>Suspicion🥜</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
           <context context-type="linenumber">248</context>
@@ -1770,7 +1770,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="INFECTIOUS_STATUS_TYPE_suspicion" datatype="html">
-        <source>Suspiscion🥜</source>
+        <source>Suspicion🥜</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/other-translations/other-translations.component.html</context>
           <context context-type="linenumber">252</context>
