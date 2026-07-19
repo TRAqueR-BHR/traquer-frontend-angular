@@ -7,7 +7,7 @@ export const environment = {
   prefillLoginForm: true,
   displayProcessesInfo: true,
   debugBlockUnblockUI:true,
-  apiURL: "http://traquer-noumea-appli1:7980/api",
+  apiURL: "http://localhost:60002/api",
   apiURLForFiles: "http://traquer-noumea-appli1:7980/api",
   numberOfSecondsBetweenRefreshOfMessages: 120,
   numberOfSecondsBetweenChecksOfVersion: 120,
