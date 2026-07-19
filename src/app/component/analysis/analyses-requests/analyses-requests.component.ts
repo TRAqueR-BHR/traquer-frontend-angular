@@ -28,6 +28,7 @@ import { ANALYSIS_REQUEST_STATUS_TYPE } from 'src/app/enum/ANALYSIS_REQUEST_STAT
 import * as FileSaver from 'file-saver';
 import { ProcessingService } from 'src/app/service/processing.service';
 import { BlockUiService } from 'src/app/service/block-ui.service';
+import { MasterKeyService } from 'src/app/service/master-key.service';
 
 @Component({
   selector: 'app-analyses-requests',
@@ -81,6 +82,7 @@ export class AnalysesRequestsComponent implements OnInit {
     public dialogService: DialogService,
     private authenticationService:AuthenticationService,
     private blockUiService:BlockUiService,
+    private masterKeyService:MasterKeyService,
     @Inject(LOCALE_ID) private locale: string
   ) { }
 
@@ -94,6 +96,12 @@ export class AnalysesRequestsComponent implements OnInit {
     this.prepareOptionsANALYSIS_RESULT_VALUE_TYPE();
     this.prepareOptionsSAMPLE_MATERIAL_TYPE();
     this.intializeTablesPreferences();
+
+    // Rebuild the column list whenever the master key state changes
+    //   (e.g. after the user enters their dataset password in this session).
+    this.masterKeyService.isMasterKeySetResolved$.subscribe(() => {
+      this.intializeTablesPreferences();
+    });
 
   }
 
@@ -380,7 +388,7 @@ export class AnalysesRequestsComponent implements OnInit {
       this.queryParams.cols.push(patientIdColDef);
     }
 
-    if (this.authenticationService.getCryptPwd() != null) {
+    if (this.masterKeyService.getIsMasterKeySet() === true) {
       this.queryParams.cols.push(firstnameColDef);
       this.queryParams.cols.push(lastnameColDef);
       this.queryParams.cols.push(birthdateColDef);

@@ -14,6 +14,7 @@ import { AuthenticationService } from 'src/app/module/appuser/service/authentica
 import { environment } from 'src/environments/environment';
 import { InfectiousStatusEditCompIntService } from 'src/app/service/components-interaction/infectious-status-edit-comp-int.service';
 import { PatientDecrypt } from 'src/app/model-protected/PatientDecrypt';
+import { MasterKeyService } from 'src/app/service/master-key.service';
 
 @Component({
   selector: 'app-patient-search',
@@ -55,10 +56,17 @@ export class PatientSearchComponent implements OnInit {
     public patientService: PatientService,
     private authenticationService: AuthenticationService,
     public dialogService: DialogService,
-    private infectiousStatusEditCompIntService:InfectiousStatusEditCompIntService) { }
+    private infectiousStatusEditCompIntService:InfectiousStatusEditCompIntService,
+    private masterKeyService: MasterKeyService) { }
 
   ngOnInit(): void {
     this.intializeTablesPreferences();
+
+    // Rebuild the column list whenever the master key state changes
+    //   (e.g. after the user enters their dataset password in this session).
+    this.masterKeyService.isMasterKeySetResolved$.subscribe(() => {
+      this.intializeTablesPreferences();
+    });
   }
 
   intializeTablesPreferences() {
@@ -223,7 +231,7 @@ export class PatientSearchComponent implements OnInit {
     if (this.authenticationService.isDebugMode()){
       this.queryParams.cols.push(patientIdColDef);
     }
-    if (this.authenticationService.getCryptPwd() != null) {
+    if (this.masterKeyService.getIsMasterKeySet() === true) {
       this.queryParams.cols.push(firstnameColDef);
       this.queryParams.cols.push(lastnameColDef);
       this.queryParams.cols.push(birthdateColDef);

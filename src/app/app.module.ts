@@ -42,6 +42,7 @@ import { TranslationModule } from './module/translation/translation.module';
 import { TranslationService } from './module/translation/service/translation.service';
 import { AppuserModule } from './module/appuser/appuser.module';
 import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
+import { MasterKeyService } from './service/master-key.service';
 import { Spe3dlabUtilsModule } from './module/spe3dlab-utils/spe3dlab-utils.module';
 import { FrontendVersionModule } from './module/frontend-version/frontend-version.module';
 
@@ -107,6 +108,12 @@ export function translationServiceFactory(translationService: TranslationService
 // If the jwt has been invalidated or deleted the user will be kicked out, no risk.
 export function initializeRolesFactory(authenticationService: AuthenticationService) {
   return () => authenticationService.initializeRoles();
+}
+
+// Resolve whether the master key is currently set on the server so that
+//   components can react synchronously to the value.
+export function initializeMasterKeyFactory(masterKeyService: MasterKeyService) {
+  return () => masterKeyService.fetchIsMasterKeySet().toPromise();
 }
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -216,7 +223,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
               DynamicDialogRef, DynamicDialogConfig,
               { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
               { provide: APP_INITIALIZER, useFactory: translationServiceFactory, deps: [TranslationService], multi: true },
-              { provide: APP_INITIALIZER, useFactory: initializeRolesFactory, deps: [AuthenticationService], multi: true }
+              { provide: APP_INITIALIZER, useFactory: initializeRolesFactory, deps: [AuthenticationService], multi: true },
+              { provide: APP_INITIALIZER, useFactory: initializeMasterKeyFactory, deps: [MasterKeyService], multi: true }
     // { provide: LocationStrategy, useClass: HashLocationStrategy },
   ],
   bootstrap: [AppComponent]
