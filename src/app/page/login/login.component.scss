@@ -1,0 +1,28 @@
+.custom-form-grid {
+    height: 100vh; // Full viewport height
+    display: flex;
+    justify-content: center; // Center horizontally
+    align-items: center; // Center vertically
+    background-color: #f8f9fa; // Light gray background
+
+    .form-wrapper {
+      width: 100%;
+      max-width: 800px; // Set a max width for the form
+      padding: 2rem;
+      background-color: #fff;
+      border-radius: 8px; // Rounded corners
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Subtle shadow
+    }
+
+    .center-text-elem {
+      text-align: center; // Center text
+      margin-bottom: 1.5rem; // Add spacing
+      font-size: 1rem; // Améliorer la lisibilité
+      color: #666;     // Ajouter un contraste subtil
+    }
+
+    // Optional: Form field margin
+    .custom-form-field {
+      margin-bottom: 2rem;
+    }
+  }

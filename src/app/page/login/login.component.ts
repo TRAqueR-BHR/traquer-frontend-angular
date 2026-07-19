@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (environment.prefillLoginForm) {
-      this.model = {username: "psaliou", password: "test5678"}
+      this.model = {username: "psaliou", password: "test_5678"}
     }
     this.authenticationService.logout();
   }
