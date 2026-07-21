@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
 import { MasterKeyService } from 'src/app/service/master-key.service';
@@ -8,7 +8,7 @@ import { MasterKeyService } from 'src/app/service/master-key.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ValidCryptPwdGuard implements CanActivate {
+export class ValidCryptPwdGuard  {
 
   constructor(
     private router: Router,
