@@ -23,6 +23,7 @@ import { InfectiousStatusEditComponent } from '../infectious-status/infectious-s
 import { PatientEditorComponent } from '../patient/patient-editor/patient-editor.component';
 import { StayEditComponent } from '../stay/stay-edit/stay-edit.component';
 import { AnalysisResultEditComponent } from '../analysis/analysis-result-edit/analysis-result-edit.component';
+import { MasterKeyService } from 'src/app/service/master-key.service';
 
 @Component({
   selector: 'app-listing-infectious-status',
@@ -76,6 +77,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
     private eventRequiringAttentionService:EventRequiringAttentionService,
     private authenticationService:AuthenticationService,
     public dialogService: DialogService,
+    private masterKeyService:MasterKeyService,
     @Inject(LOCALE_ID) private locale: string
   ) { }
 
@@ -85,6 +87,12 @@ export class ListingInfectiousStatusComponent implements OnInit {
     this.prepareOptionsINFECTIOUS_AGENT_CATEGORY();
     this.prepareOptionsEVENT_REQUIRING_ATTENTION_TYPE();
     this.intializeTablesPreferences();
+
+    // Rebuild the column list whenever the master key state changes
+    //   (e.g. after the user enters their dataset password in this session).
+    this.masterKeyService.isMasterKeySetResolved$.subscribe(() => {
+      this.intializeTablesPreferences();
+    });
   }
 
   acknowledgeEvent(rowData:any) {
@@ -665,7 +673,7 @@ export class ListingInfectiousStatusComponent implements OnInit {
       this.queryParams.cols.push(patientIdColDef);
     }
 
-    if (this.authenticationService.getCryptPwd() != null) {
+    if (this.masterKeyService.getIsMasterKeySet() === true) {
       this.queryParams.cols.push(firstnameColDef);
       this.queryParams.cols.push(lastnameColDef);
       this.queryParams.cols.push(birthdateColDef);

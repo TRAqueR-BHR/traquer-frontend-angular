@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { Appuser } from '../model/Appuser';
 import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ErrorHandlerService } from 'src/app/service/error-handler.service';
 import { of, Observable } from 'rxjs';
 import { catchError, map, tap, filter } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Utils } from 'src/app/util/utils';
 import { ROLE_CODE_NAME } from 'src/app/enum/ROLE_CODE_NAME';
 
 
@@ -31,10 +30,6 @@ export class AuthenticationService {
                                                                 //   TODO: Try (again) to add ErrorHandlerService at startup
               ) {
     console.log("### AuthenticationService.constructor ###");
-  }
-
-  getNameOfDatasetPasswordHeaderForHttpRequest() {
-
   }
 
   parseJwt(token):Object {
@@ -76,10 +71,6 @@ export class AuthenticationService {
         return false;
       }
     }
-  }
-
-  getCryptPwd():string|null {
-    return localStorage.getItem(Utils.getCryptPwdLocalStorageKey());
   }
 
   initializeRoles() {

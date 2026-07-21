@@ -22,6 +22,7 @@ import { ANALYSIS_RESULT_VALUE_TYPE } from 'src/app/enum/ANALYSIS_RESULT_VALUE_T
 import { SAMPLE_MATERIAL_TYPE } from 'src/app/enum/SAMPLE_MATERIAL_TYPE';
 import { AnalysisService } from 'src/app/service/analysis.service';
 import { UnitService } from 'src/app/service/unit.service';
+import { MasterKeyService } from 'src/app/service/master-key.service';
 import { InfectiousStatusExplanationComponent } from '../../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
 
 @Component({
@@ -73,6 +74,7 @@ export class AnalysesResultsComponent implements OnInit {
     private eventRequiringAttentionService:EventRequiringAttentionService,
     public dialogService: DialogService,
     private authenticationService:AuthenticationService,
+    private masterKeyService:MasterKeyService,
     @Inject(LOCALE_ID) private locale: string
   ) { }
 
@@ -85,6 +87,12 @@ export class AnalysesResultsComponent implements OnInit {
     this.prepareOptionsANALYSIS_RESULT_VALUE_TYPE();
     this.prepareOptionsSAMPLE_MATERIAL_TYPE();
     this.intializeTablesPreferences();
+
+    // Rebuild the column list whenever the master key state changes
+    //   (e.g. after the user enters their dataset password in this session).
+    this.masterKeyService.isMasterKeySetResolved$.subscribe(() => {
+      this.intializeTablesPreferences();
+    });
 
   }
 
@@ -390,7 +398,7 @@ export class AnalysesResultsComponent implements OnInit {
       this.queryParams.cols.push(patientIdColDef);
     }
 
-    if (this.authenticationService.getCryptPwd() != null) {
+    if (this.masterKeyService.getIsMasterKeySet() === true) {
       this.queryParams.cols.push(firstnameColDef);
       this.queryParams.cols.push(lastnameColDef);
       this.queryParams.cols.push(birthdateColDef);
@@ -398,7 +406,7 @@ export class AnalysesResultsComponent implements OnInit {
     }
 
     this.queryParams.cols.push(requestTypeColDef);
-    if (this.authenticationService.getCryptPwd() != null) {
+    if (this.masterKeyService.getIsMasterKeySet() === true) {
       this.queryParams.cols.push(analysisRefColDef);
     }
     this.queryParams.cols.push(requestTimeColDef);

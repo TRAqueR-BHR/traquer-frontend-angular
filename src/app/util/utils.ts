@@ -66,14 +66,6 @@ export class Utils {
       return(res);
     }
 
-    static getCryptPwdLocalStorageKey() {
-      return environment.cryptPwdLocalStorageKey;
-    }
-
-    static getCryptPwdHttpHeaderKey() {
-      return environment.cryptPwdHttpHeaderKey;
-    }
-
     static camelCaseToUnderscore(str:string):string {
       return(str.replace(/\.?([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/, ""));
     }

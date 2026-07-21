@@ -15,8 +15,6 @@ export const environment = {
   numberOfSecondsBetweenExecutionOfPendingTasks: 90,
   frontEndVersion:"2023-11-15.01",
   jwt_name: "traquer_jwt",
-  cryptPwdHttpHeaderKey: "crypt_pwd",
-  cryptPwdLocalStorageKey: "traquer_crypt_pwd",
   datetime_format:"dd/MM/yyyy HH:mm",
   date_format:"dd/MM/yyyy",
   defaultNumberOfResults:50,
