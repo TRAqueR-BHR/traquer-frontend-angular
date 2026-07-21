@@ -27,9 +27,10 @@ import { Unit } from 'src/app/model/Unit';
 import { ANALYSIS_REQUEST_STATUS_TYPE } from 'src/app/enum/ANALYSIS_REQUEST_STATUS_TYPE';
 
 @Component({
-  selector: 'app-analysis-request-edit',
-  templateUrl: './analysis-request-edit.component.html',
-  styleUrls: ['./analysis-request-edit.component.scss']
+    selector: 'app-analysis-request-edit',
+    templateUrl: './analysis-request-edit.component.html',
+    styleUrls: ['./analysis-request-edit.component.scss'],
+    standalone: false
 })
 export class AnalysisRequestEditComponent implements OnInit {
 

@@ -20,9 +20,10 @@ import { ResponsesToEventCompIntService } from 'src/app/service/components-inter
 import { Utils } from 'src/app/util/utils';
 
 @Component({
-  selector: 'app-outbreak-unit-asso,[app-outbreak-unit-asso]',
-  templateUrl: './outbreak-unit-asso.component.html',
-  styleUrls: ['./outbreak-unit-asso.component.scss']
+    selector: 'app-outbreak-unit-asso,[app-outbreak-unit-asso]',
+    templateUrl: './outbreak-unit-asso.component.html',
+    styleUrls: ['./outbreak-unit-asso.component.scss'],
+    standalone: false
 })
 export class OutbreakUnitAssoComponent implements OnInit {
 

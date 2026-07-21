@@ -8,9 +8,10 @@ import { Utils } from 'src/app/util/utils';
 import { APPUSER_TYPE } from 'src/app/enum/APPUSER_TYPE';
 
 @Component({
-  selector: 'app-roles',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss']
+    selector: 'app-roles',
+    templateUrl: './roles.component.html',
+    styleUrls: ['./roles.component.scss'],
+    standalone: false
 })
 export class RolesComponent implements OnInit {
 

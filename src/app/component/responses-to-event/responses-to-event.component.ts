@@ -30,10 +30,11 @@ import { PatientDecrypt } from 'src/app/model-protected/PatientDecrypt';
 import { BlockUiService } from 'src/app/service/block-ui.service';
 
 @Component({
-  selector: 'app-responses-to-event',
-  templateUrl: './responses-to-event.component.html',
-  styleUrls: ['./responses-to-event.component.scss'],
-  providers: [ResponsesToEventCompIntService,DialogService]
+    selector: 'app-responses-to-event',
+    templateUrl: './responses-to-event.component.html',
+    styleUrls: ['./responses-to-event.component.scss'],
+    providers: [ResponsesToEventCompIntService, DialogService],
+    standalone: false
 })
 export class ResponsesToEventComponent implements OnInit {
 

@@ -11,9 +11,10 @@ import { environment } from 'src/environments/environment';
 // We get the following error:
 // WebSocketSubject.js:90 WebSocket connection to 'ws://traquer-noumea-appli1:7980/api/websocket'
 @Component({
-  selector: 'app-web-socket',
-  templateUrl: './web-socket.component.html',
-  styleUrls: ['./web-socket.component.scss']
+    selector: 'app-web-socket',
+    templateUrl: './web-socket.component.html',
+    styleUrls: ['./web-socket.component.scss'],
+    standalone: false
 })
 export class WebSocketComponent implements OnInit {
 

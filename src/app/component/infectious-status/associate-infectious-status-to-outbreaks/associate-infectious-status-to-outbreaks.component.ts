@@ -12,9 +12,10 @@ import { OutbreakService } from 'src/app/service/outbreak.service';
 import { SelectItemService } from 'src/app/service/select-item.service';
 
 @Component({
-  selector: 'app-associate-infectious-status-to-outbreaks',
-  templateUrl: './associate-infectious-status-to-outbreaks.component.html',
-  styleUrls: ['./associate-infectious-status-to-outbreaks.component.scss'],
+    selector: 'app-associate-infectious-status-to-outbreaks',
+    templateUrl: './associate-infectious-status-to-outbreaks.component.html',
+    styleUrls: ['./associate-infectious-status-to-outbreaks.component.scss'],
+    standalone: false
 })
 export class AssociateInfectiousStatusToOutbreaksComponent implements OnInit {
 

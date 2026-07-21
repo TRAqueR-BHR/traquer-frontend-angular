@@ -17,10 +17,11 @@ import { PatientDecrypt } from 'src/app/model-protected/PatientDecrypt';
 import { MasterKeyService } from 'src/app/service/master-key.service';
 
 @Component({
-  selector: 'app-patient-search',
-  templateUrl: './patient-search.component.html',
-  styleUrls: ['./patient-search.component.scss'],
-  providers: [DialogService]
+    selector: 'app-patient-search',
+    templateUrl: './patient-search.component.html',
+    styleUrls: ['./patient-search.component.scss'],
+    providers: [DialogService],
+    standalone: false
 })
 export class PatientSearchComponent implements OnInit {
 

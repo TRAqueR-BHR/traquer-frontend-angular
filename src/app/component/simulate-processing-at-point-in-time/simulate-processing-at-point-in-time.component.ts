@@ -6,9 +6,10 @@ import { UINotificationService } from 'src/app/service/uinotification.service';
 
 
 @Component({
-  selector: 'app-simulate-processing-at-point-in-time',
-  templateUrl: './simulate-processing-at-point-in-time.component.html',
-  styleUrls: ['./simulate-processing-at-point-in-time.component.scss']
+    selector: 'app-simulate-processing-at-point-in-time',
+    templateUrl: './simulate-processing-at-point-in-time.component.html',
+    styleUrls: ['./simulate-processing-at-point-in-time.component.scss'],
+    standalone: false
 })
 export class SimulateProcessingAtPointInTimeComponent implements OnInit {
 

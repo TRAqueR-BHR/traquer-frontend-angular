@@ -4,14 +4,15 @@ import { ExposedFunctionArgument } from 'src/app/model-protected/ExposedFunction
 import { Utils } from 'src/app/util/utils';
 
 @Component({
-  selector: '[app-exposed-function-argument],app-exposed-function-argument',
-  templateUrl: './exposed-function-argument.component.html',
-  styleUrls: ['./exposed-function-argument.component.scss'],
-  viewProviders: [
-    { provide: ControlContainer,
-      useExisting: NgForm // This makes the form in the parent component reat as expected
-    }
-  ]
+    selector: '[app-exposed-function-argument],app-exposed-function-argument',
+    templateUrl: './exposed-function-argument.component.html',
+    styleUrls: ['./exposed-function-argument.component.scss'],
+    viewProviders: [
+        { provide: ControlContainer,
+            useExisting: NgForm // This makes the form in the parent component reat as expected
+        }
+    ],
+    standalone: false
 })
 export class ExposedFunctionArgumentComponent implements OnInit {
 

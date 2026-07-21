@@ -7,10 +7,11 @@ import { SimulateProcessingAtPointInTimeComponent } from '../simulate-processing
 import { ROLE_CODE_NAME } from 'src/app/enum/ROLE_CODE_NAME';
 
 @Component({
-  selector: 'app-main-menu',
-  templateUrl: './main-menu.component.html',
-  styleUrls: ['./main-menu.component.scss'],
-  providers: [DialogService]
+    selector: 'app-main-menu',
+    templateUrl: './main-menu.component.html',
+    styleUrls: ['./main-menu.component.scss'],
+    providers: [DialogService],
+    standalone: false
 })
 export class MainMenuComponent implements OnInit {
 

@@ -11,9 +11,10 @@ import { SelectItemService } from 'src/app/service/select-item.service';
 import { UINotificationService } from 'src/app/service/uinotification.service';
 
 @Component({
-  selector: 'app-exposed-function',
-  templateUrl: './exposed-function.component.html',
-  styleUrls: ['./exposed-function.component.scss']
+    selector: 'app-exposed-function',
+    templateUrl: './exposed-function.component.html',
+    styleUrls: ['./exposed-function.component.scss'],
+    standalone: false
 })
 export class ExposedFunctionComponent implements OnInit {
 

@@ -7,9 +7,10 @@ import { TaskWaitingForUserExecutionService } from 'src/app/service/task-waiting
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-execute-pending-tasks',
-  templateUrl: './execute-pending-tasks.component.html',
-  styleUrls: ['./execute-pending-tasks.component.scss']
+    selector: 'app-execute-pending-tasks',
+    templateUrl: './execute-pending-tasks.component.html',
+    styleUrls: ['./execute-pending-tasks.component.scss'],
+    standalone: false
 })
 export class ExecutePendingTasksComponent implements OnInit {
 

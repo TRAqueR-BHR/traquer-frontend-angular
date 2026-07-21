@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 
 @Component({
-  selector: 'app-processing-anim',
-  templateUrl: './processing-anim.component.html',
-  styleUrls: ['./processing-anim.component.scss']
+    selector: 'app-processing-anim',
+    templateUrl: './processing-anim.component.html',
+    styleUrls: ['./processing-anim.component.scss'],
+    standalone: false
 })
 export class ProcessingAnimComponent implements OnInit {
 

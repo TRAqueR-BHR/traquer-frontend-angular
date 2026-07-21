@@ -25,9 +25,10 @@ import { environment } from 'src/environments/environment';
 import { formatDate } from '@angular/common';
 
 @Component({
-  selector: 'app-infectious-status-explanation',
-  templateUrl: './infectious-status-explanation.component.html',
-  styleUrls: ['./infectious-status-explanation.component.scss']
+    selector: 'app-infectious-status-explanation',
+    templateUrl: './infectious-status-explanation.component.html',
+    styleUrls: ['./infectious-status-explanation.component.scss'],
+    standalone: false
 })
 export class InfectiousStatusExplanationComponent implements OnInit {
 

@@ -12,9 +12,10 @@ import { OutbreakService } from 'src/app/service/outbreak.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-patient-analyses',
-  templateUrl: './patient-analyses.component.html',
-  styleUrls: ['./patient-analyses.component.scss']
+    selector: 'app-patient-analyses',
+    templateUrl: './patient-analyses.component.html',
+    styleUrls: ['./patient-analyses.component.scss'],
+    standalone: false
 })
 export class PatientAnalysesComponent implements OnInit {
 

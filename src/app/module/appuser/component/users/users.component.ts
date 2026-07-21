@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
 import { APPUSER_TYPE } from 'src/app/enum/APPUSER_TYPE';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.scss'],
+    standalone: false
 })
 export class UsersComponent implements OnInit {
 

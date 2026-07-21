@@ -16,9 +16,10 @@ import { APPUSER_TYPE } from 'src/app/enum/APPUSER_TYPE';
 import { ROLE_CODE_NAME } from 'src/app/enum/ROLE_CODE_NAME';
 
 @Component({
-  selector: 'app-user-edit',
-  templateUrl: './user-edit.component.html',
-  styleUrls: ['./user-edit.component.scss']
+    selector: 'app-user-edit',
+    templateUrl: './user-edit.component.html',
+    styleUrls: ['./user-edit.component.scss'],
+    standalone: false
 })
 export class UserEditComponent implements OnInit {
 

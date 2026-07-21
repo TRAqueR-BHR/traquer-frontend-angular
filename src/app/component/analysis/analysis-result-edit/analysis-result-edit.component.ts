@@ -24,10 +24,11 @@ import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-analysis-result-edit',
-  templateUrl: './analysis-result-edit.component.html',
-  styleUrls: ['./analysis-result-edit.component.scss'],
-  providers: [InfectiousStatusEditCompIntService]
+    selector: 'app-analysis-result-edit',
+    templateUrl: './analysis-result-edit.component.html',
+    styleUrls: ['./analysis-result-edit.component.scss'],
+    providers: [InfectiousStatusEditCompIntService],
+    standalone: false
 })
 export class AnalysisResultEditComponent implements OnInit {
 

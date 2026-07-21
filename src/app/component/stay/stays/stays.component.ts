@@ -29,10 +29,11 @@ import { UINotificationService } from 'src/app/service/uinotification.service';
 import { MasterKeyService } from 'src/app/service/master-key.service';
 
 @Component({
-  selector: 'app-stays',
-  templateUrl: './stays.component.html',
-  styleUrls: ['./stays.component.scss'],
-  providers: [DialogService]
+    selector: 'app-stays',
+    templateUrl: './stays.component.html',
+    styleUrls: ['./stays.component.scss'],
+    providers: [DialogService],
+    standalone: false
 })
 export class StaysComponent implements OnInit {
 

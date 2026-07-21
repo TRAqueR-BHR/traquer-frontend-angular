@@ -7,9 +7,10 @@ import { MasterKeyService } from 'src/app/service/master-key.service';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 
 @Component({
-  selector: 'app-dataset-password',
-  templateUrl: './dataset-password.component.html',
-  styleUrls: ['./dataset-password.component.scss']
+    selector: 'app-dataset-password',
+    templateUrl: './dataset-password.component.html',
+    styleUrls: ['./dataset-password.component.scss'],
+    standalone: false
 })
 export class DatasetPasswordComponent implements OnInit {
 

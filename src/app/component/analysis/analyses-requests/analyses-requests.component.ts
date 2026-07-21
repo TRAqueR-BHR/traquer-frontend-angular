@@ -31,10 +31,11 @@ import { BlockUiService } from 'src/app/service/block-ui.service';
 import { MasterKeyService } from 'src/app/service/master-key.service';
 
 @Component({
-  selector: 'app-analyses-requests',
-  templateUrl: './analyses-requests.component.html',
-  styleUrls: ['./analyses-requests.component.scss'],
-  providers: [DialogService]
+    selector: 'app-analyses-requests',
+    templateUrl: './analyses-requests.component.html',
+    styleUrls: ['./analyses-requests.component.scss'],
+    providers: [DialogService],
+    standalone: false
 })
 export class AnalysesRequestsComponent implements OnInit {
 

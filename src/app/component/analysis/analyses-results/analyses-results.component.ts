@@ -26,10 +26,11 @@ import { MasterKeyService } from 'src/app/service/master-key.service';
 import { InfectiousStatusExplanationComponent } from '../../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
 
 @Component({
-  selector: 'app-analyses-results',
-  templateUrl: './analyses-results.component.html',
-  styleUrls: ['./analyses-results.component.scss'],
-  providers: [DialogService]
+    selector: 'app-analyses-results',
+    templateUrl: './analyses-results.component.html',
+    styleUrls: ['./analyses-results.component.scss'],
+    providers: [DialogService],
+    standalone: false
 })
 export class AnalysesResultsComponent implements OnInit {
 

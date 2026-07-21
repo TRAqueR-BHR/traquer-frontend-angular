@@ -26,10 +26,11 @@ import { AnalysisResultEditComponent } from '../analysis/analysis-result-edit/an
 import { MasterKeyService } from 'src/app/service/master-key.service';
 
 @Component({
-  selector: 'app-listing-infectious-status',
-  templateUrl: './listing-infectious-status.component.html',
-  styleUrls: ['./listing-infectious-status.component.scss'],
-  providers: [DialogService]
+    selector: 'app-listing-infectious-status',
+    templateUrl: './listing-infectious-status.component.html',
+    styleUrls: ['./listing-infectious-status.component.scss'],
+    providers: [DialogService],
+    standalone: false
 })
 export class ListingInfectiousStatusComponent implements OnInit {
 

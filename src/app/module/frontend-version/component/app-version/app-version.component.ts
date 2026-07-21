@@ -5,9 +5,10 @@ import { FrontendVersionService } from '../../service/frontend-version.service';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 
 @Component({
-  selector: 'app-app-version',
-  templateUrl: './app-version.component.html',
-  styleUrls: ['./app-version.component.scss']
+    selector: 'app-app-version',
+    templateUrl: './app-version.component.html',
+    styleUrls: ['./app-version.component.scss'],
+    standalone: false
 })
 export class AppVersionComponent implements OnInit {
 

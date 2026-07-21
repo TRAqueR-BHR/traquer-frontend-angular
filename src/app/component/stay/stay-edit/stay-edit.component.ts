@@ -20,9 +20,10 @@ import { formatDate } from '@angular/common';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-stay-edit',
-  templateUrl: './stay-edit.component.html',
-  styleUrls: ['./stay-edit.component.scss']
+    selector: 'app-stay-edit',
+    templateUrl: './stay-edit.component.html',
+    styleUrls: ['./stay-edit.component.scss'],
+    standalone: false
 })
 export class StayEditComponent implements OnInit {
 

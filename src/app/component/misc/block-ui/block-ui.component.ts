@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { BlockUiService } from 'src/app/service/block-ui.service';
 
 @Component({
-  selector: 'app-block-ui',
-  templateUrl: './block-ui.component.html',
-  styleUrls: ['./block-ui.component.scss']
+    selector: 'app-block-ui',
+    templateUrl: './block-ui.component.html',
+    styleUrls: ['./block-ui.component.scss'],
+    standalone: false
 })
 export class BlockUiComponent implements OnInit {
 

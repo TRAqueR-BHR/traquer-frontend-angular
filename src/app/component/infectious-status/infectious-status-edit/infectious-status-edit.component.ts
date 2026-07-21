@@ -19,10 +19,11 @@ import { SelectItemService } from 'src/app/service/select-item.service';
 import { UINotificationService } from 'src/app/service/uinotification.service';
 
 @Component({
-  selector: 'app-infectious-status-edit',
-  templateUrl: './infectious-status-edit.component.html',
-  styleUrls: ['./infectious-status-edit.component.scss'],
-  providers: [InfectiousStatusEditCompIntService]
+    selector: 'app-infectious-status-edit',
+    templateUrl: './infectious-status-edit.component.html',
+    styleUrls: ['./infectious-status-edit.component.scss'],
+    providers: [InfectiousStatusEditCompIntService],
+    standalone: false
 })
 export class InfectiousStatusEditComponent implements OnInit {
 
