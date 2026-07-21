@@ -1,2 +1,4 @@
 <div  class="loader"></div>
-<span *ngIf="withText" style="margin-left: .25em;">{{text}}</span>
+@if (withText) {
+  <span style="margin-left: .25em;">{{text}}</span>
+}
