@@ -6,7 +6,7 @@ describe('EnumService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: EnumService = TestBed.get(EnumService);
+    const service: EnumService = TestBed.inject(EnumService);
     expect(service).toBeTruthy();
   });
 });
