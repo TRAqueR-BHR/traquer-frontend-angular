@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { RoleService } from 'src/app/service/role.service';
+import { RoleService } from 'src/app/module/appuser/service/role.service';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { ProcessingService } from 'src/app/service/processing.service';
 import { environment } from 'src/environments/environment';
