@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { OUTBREAK_CRITICITY } from 'src/app/enum/OUTBREAK_CRITICITY';
@@ -15,6 +15,7 @@ import { UINotificationService } from 'src/app/service/uinotification.service';
     selector: 'app-outbreak-edit',
     templateUrl: './outbreak-edit.component.html',
     styleUrls: ['./outbreak-edit.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class OutbreakEditComponent implements OnInit {

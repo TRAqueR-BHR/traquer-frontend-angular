@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppuserService } from '../../service/app-user.service';
 import { Appuser } from 'src/app/module/appuser/model/Appuser';
@@ -10,6 +10,7 @@ import { ROLE_CODE_NAME } from 'src/app/enum/ROLE_CODE_NAME';
     selector: 'app-user-details',
     templateUrl: './user-details.component.html',
     styleUrls: ['./user-details.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UserDetailsComponent implements OnInit {

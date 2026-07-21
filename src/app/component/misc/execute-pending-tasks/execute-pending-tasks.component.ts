@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
     selector: 'app-execute-pending-tasks',
     templateUrl: './execute-pending-tasks.component.html',
     styleUrls: ['./execute-pending-tasks.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ExecutePendingTasksComponent implements OnInit {

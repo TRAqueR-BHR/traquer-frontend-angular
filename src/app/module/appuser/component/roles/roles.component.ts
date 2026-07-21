@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RoleService } from 'src/app/service/role.service';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { ProcessingService } from 'src/app/service/processing.service';
@@ -11,6 +11,7 @@ import { APPUSER_TYPE } from 'src/app/enum/APPUSER_TYPE';
     selector: 'app-roles',
     templateUrl: './roles.component.html',
     styleUrls: ['./roles.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RolesComponent implements OnInit {

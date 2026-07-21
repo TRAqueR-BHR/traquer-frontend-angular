@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
@@ -11,6 +11,7 @@ import { ROLE_CODE_NAME } from 'src/app/enum/ROLE_CODE_NAME';
     templateUrl: './main-menu.component.html',
     styleUrls: ['./main-menu.component.scss'],
     providers: [DialogService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MainMenuComponent implements OnInit {

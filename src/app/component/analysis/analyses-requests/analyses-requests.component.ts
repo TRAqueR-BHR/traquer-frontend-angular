@@ -1,4 +1,4 @@
-import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { LazyLoadEvent, MenuItem, SelectItem } from 'primeng/api';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { InfectiousStatusService } from 'src/app/service/infectious-status.service';
@@ -35,6 +35,7 @@ import { MasterKeyService } from 'src/app/service/master-key.service';
     templateUrl: './analyses-requests.component.html',
     styleUrls: ['./analyses-requests.component.scss'],
     providers: [DialogService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AnalysesRequestsComponent implements OnInit {

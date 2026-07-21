@@ -1,4 +1,4 @@
-import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { LazyLoadEvent, MenuItem, SelectItem } from 'primeng/api';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { InfectiousStatusService } from 'src/app/service/infectious-status.service';
@@ -30,6 +30,7 @@ import { InfectiousStatusExplanationComponent } from '../../infectious-status/in
     templateUrl: './analyses-results.component.html',
     styleUrls: ['./analyses-results.component.scss'],
     providers: [DialogService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AnalysesResultsComponent implements OnInit {

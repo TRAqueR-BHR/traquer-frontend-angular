@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { AnalysisResult } from 'src/app/model/AnalysisResult';
@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
     selector: 'app-patient-analyses',
     templateUrl: './patient-analyses.component.html',
     styleUrls: ['./patient-analyses.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PatientAnalysesComponent implements OnInit {

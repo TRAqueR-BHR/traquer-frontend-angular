@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/angular';
 // import { Observable, observable, of , lastValueFrom, map} from 'rxjs';
 import frLocale from '@fullcalendar/core/locales/fr'; // a plugin!
@@ -8,6 +8,7 @@ import { lastValueFrom, of } from 'rxjs';
     selector: 'app-calendar',
     templateUrl: './calendar.component.html',
     styleUrls: ['./calendar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CalendarComponent implements OnInit {

@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { SelectItem } from 'primeng/api/selectitem';
 import { INFECTIOUS_STATUS_TYPE } from 'src/app/enum/INFECTIOUS_STATUS_TYPE';
 import { OutbreakUnitAsso } from 'src/app/model/OutbreakUnitAsso';
@@ -23,6 +23,7 @@ import { Utils } from 'src/app/util/utils';
     selector: 'app-outbreak-unit-asso,[app-outbreak-unit-asso]',
     templateUrl: './outbreak-unit-asso.component.html',
     styleUrls: ['./outbreak-unit-asso.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class OutbreakUnitAssoComponent implements OnInit {

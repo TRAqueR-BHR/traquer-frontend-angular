@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi }    from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr }    from '@angular/common/http';
 
 import {FullCalendarModule} from '@fullcalendar/angular'; // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
@@ -215,5 +215,5 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         { provide: APP_INITIALIZER, useFactory: initializeRolesFactory, deps: [AuthenticationService], multi: true },
         { provide: APP_INITIALIZER, useFactory: initializeMasterKeyFactory, deps: [MasterKeyService], multi: true }
         // { provide: LocationStrategy, useClass: HashLocationStrategy },
-        , provideHttpClient(withInterceptorsFromDi())] })
+        , provideHttpClient(withXhr(), withInterceptorsFromDi())] })
 export class AppModule { }

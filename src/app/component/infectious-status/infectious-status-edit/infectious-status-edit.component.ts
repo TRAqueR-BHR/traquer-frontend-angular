@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -23,6 +23,7 @@ import { UINotificationService } from 'src/app/service/uinotification.service';
     templateUrl: './infectious-status-edit.component.html',
     styleUrls: ['./infectious-status-edit.component.scss'],
     providers: [InfectiousStatusEditCompIntService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class InfectiousStatusEditComponent implements OnInit {

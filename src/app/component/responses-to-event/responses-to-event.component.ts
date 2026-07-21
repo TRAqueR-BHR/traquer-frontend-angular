@@ -1,4 +1,4 @@
-import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -34,6 +34,7 @@ import { BlockUiService } from 'src/app/service/block-ui.service';
     templateUrl: './responses-to-event.component.html',
     styleUrls: ['./responses-to-event.component.scss'],
     providers: [ResponsesToEventCompIntService, DialogService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ResponsesToEventComponent implements OnInit {
