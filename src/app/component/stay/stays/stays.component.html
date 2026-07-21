@@ -10,13 +10,13 @@
 
     <div class="flex">
 
-      <p-multiSelect [options]="selectableColumns"
+      <p-multiselect [options]="selectableColumns"
         [(ngModel)]="selectedColumns"
         selectedItemsLabel="{0} colonnes sélectionnées"
         [style]="{minWidth: '200px'}"
         defaultLabel="Choisir les colonnes à afficher"
         (ngModelChange)="updateColumnsSelection($event)">
-      </p-multiSelect>
+      </p-multiselect>
     </div>
 
   </ng-template>
@@ -72,7 +72,7 @@
                 || col.field === 'out_time'
                 || col.field === 'isolation_time'
                 ) {
-                <p-calendar
+                <p-datepicker
                   [showTime]="false"  [showButtonBar]="true"
                   dateFormat="dd/mm/yy"
                   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
@@ -80,26 +80,26 @@
                   appendTo="body" [locale]="translationForPrimengCalendar"
                   [(ngModel)]="filterValues[col.field]"
                   >
-                </p-calendar>
+                </p-datepicker>
               }
               @case (col.field === 'unit_name') {
-                <p-multiSelect
+                <p-multiselect
                   [options]="optionsUnits"
                   appendTo="body"
                   [(ngModel)]="filterValues[col.field]"
                   filterPlaceholder="qq"
                   (onChange)="updateFiltering()"
                   >
-                </p-multiSelect>
+                </p-multiselect>
               }
               @case (col.field === 'birthdate') {
-                <p-calendar type="date"
+                <p-datepicker type="date"
                   [showTime]="false" [showIcon]="true"
                   dateFormat="dd/mm/yy" appendTo="body"
                   [showButtonBar]="true"
                   [(ngModel)]="filterValues[col.field]"
                   (ngModelChange)="updateFiltering()">
-                </p-calendar>
+                </p-datepicker>
               }
             }
           </th>
@@ -180,14 +180,14 @@
             </span>
           }
           @case ('action') {
-            <p-splitButton
+            <p-splitbutton
               i18n-label="delete_isolation_time"
               label="Supprimer l'heure d'isolement"
               icon="pi pi-times"
               [model]="splitButtonOptions"
               (onClick)="handleClickOnDefaultAction(rowData)"
               (onDropdownClick)="handleClickOnSplitButtonDropdown(rowData)">
-            </p-splitButton>
+            </p-splitbutton>
           }
         }
       </td>

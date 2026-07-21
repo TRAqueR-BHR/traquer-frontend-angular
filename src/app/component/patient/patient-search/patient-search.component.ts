@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Output, EventEmitter } from '@angular/core';
 import { LazyLoadEvent, SelectItem } from 'primeng/api';
-import { OverlayPanel } from 'primeng/overlaypanel';
+import { Popover } from 'primeng/popover';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { Router } from '@angular/router';
 import {DialogService} from 'primeng/dynamicdialog';

@@ -10,13 +10,13 @@
 
     <div class="flex align-items-center justify-content-between">
 
-      <p-multiSelect [options]="selectableColumns"
+      <p-multiselect [options]="selectableColumns"
         [(ngModel)]="selectedColumns"
         selectedItemsLabel="{0} colonnes sélectionnées"
         [style]="{minWidth: '200px'}"
         defaultLabel="Choisir les colonnes à afficher"
         (ngModelChange)="updateColumnsSelection($event)">
-      </p-multiSelect>
+      </p-multiselect>
 
       <p-button icon="fas fa-download"
         (onClick)="downloadAsXLSX()"
@@ -59,56 +59,56 @@
             <th>
               @switch (true) {
                 @case (col.field === 'request_type') {
-                  <p-multiSelect
+                  <p-multiselect
                     [options]="optionsANALYSIS_REQUEST_TYPE"
                     appendTo="body"
                     [(ngModel)]="filterValues[col.field]"
                     filterPlaceholder="qq"
                     (onChange)="updateFiltering()"
-                  ></p-multiSelect>
+                  ></p-multiselect>
                 }
                 @case (col.field === 'request_status') {
-                  <p-multiSelect
+                  <p-multiselect
                     [options]="optionsANALYSIS_REQUEST_STATUS_TYPE"
                     appendTo="body"
                     [(ngModel)]="filterValues[col.field]"
                     filterPlaceholder="qq"
                     (onChange)="updateFiltering()"
-                  ></p-multiSelect>
+                  ></p-multiselect>
                 }
                 @case (col.field === 'sample_material_type') {
-                  <p-multiSelect
+                  <p-multiselect
                     [options]="optionsSAMPLE_MATERIAL_TYPE"
                     appendTo="body"
                     [(ngModel)]="filterValues[col.field]"
                     filterPlaceholder="qq"
-                  (onChange)="updateFiltering()"></p-multiSelect>
+                  (onChange)="updateFiltering()"></p-multiselect>
                 }
                 @case (col.field === 'request_time') {
-                  <p-calendar
+                  <p-datepicker
                     [showTime]="false"  [showButtonBar]="true"
                     dateFormat="dd/mm/yy"
                     [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
                     (onSelect)="updateFiltering()" (onClearClick)="updateFiltering()"
                     appendTo="body" [locale]="translationForPrimengCalendar"
                     [(ngModel)]="filterValues[col.field]"
-                  ></p-calendar>
+                  ></p-datepicker>
                 }
                 @case (col.field === 'result') {
-                  <p-dropdown
+                  <p-select
                     [options]="optionsANALYSIS_RESULT_VALUE_TYPE"
                     appendTo="body"
                     [(ngModel)]="filterValues[col.field]"
                     filterPlaceholder="qq"
-                  (onChange)="updateFiltering()"></p-dropdown>
+                  (onChange)="updateFiltering()"></p-select>
                 }
                 @case (col.field === 'birthdate') {
-                  <p-calendar type="date"
+                  <p-datepicker type="date"
                     [showTime]="false" [showIcon]="true"
                     dateFormat="dd/mm/yy" appendTo="body"
                     [showButtonBar]="true"
                     [(ngModel)]="filterValues[col.field]"
-                  (ngModelChange)="updateFiltering()"></p-calendar>
+                  (ngModelChange)="updateFiltering()"></p-datepicker>
                 }
                 @default {
                   <input pInputText type="text"

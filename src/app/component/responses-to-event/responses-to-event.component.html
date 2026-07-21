@@ -1,4 +1,4 @@
-<p-confirmPopup></p-confirmPopup>
+<p-confirmpopup></p-confirmpopup>
 
 @if (eventRequiringAttention != null) {
   <div class="grid">
@@ -92,7 +92,7 @@
                 <label for="isolationTime"
                   class="custom-label"
                 i18n="@@isolation_time">Heure d'isolement du patient</label>
-                <p-calendar id="isolationTime"
+                <p-datepicker id="isolationTime"
                   name="isolationTime"
                   [appendTo]="'body'"
                   [showTime]="true"
@@ -100,7 +100,7 @@
                   dateFormat="dd/mm/yy"
                   [(ngModel)]="isolationTime"
                   required
-                ></p-calendar>
+                ></p-datepicker>
               </div>
             </div>
             <div class="custom-form-field col-12">

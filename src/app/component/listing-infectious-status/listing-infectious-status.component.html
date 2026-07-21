@@ -10,13 +10,13 @@
 
     <div class="flex">
 
-      <p-multiSelect [options]="selectableColumns"
+      <p-multiselect [options]="selectableColumns"
         [(ngModel)]="selectedColumns"
         selectedItemsLabel="{0} colonnes sélectionnées"
         [style]="{minWidth: '200px'}"
         defaultLabel="Choisir les colonnes à afficher"
         (ngModelChange)="updateColumnsSelection($event)">
-      </p-multiSelect>
+      </p-multiselect>
       <span class="p-input-icon-left ml-auto">
         <p-button
           i18n-pTooltip="@@add_patient"
@@ -98,43 +98,43 @@
                   (keyup)="updateFiltering()">
               }
               @case (col.field === 'infectious_status') {
-                <p-dropdown
+                <p-select
                   [options]="optionsINFECTIOUS_STATUS_TYPE" appendTo="body"
                   [(ngModel)]="filterValues[col.field]" filterPlaceholder="qq"
-                (onChange)="updateFiltering()"></p-dropdown>
+                (onChange)="updateFiltering()"></p-select>
               }
               @case (col.field === 'infectious_agent') {
-                <p-dropdown
+                <p-select
                   [options]="optionsINFECTIOUS_AGENT_CATEGORY" appendTo="body"
                   [(ngModel)]="filterValues[col.field]" filterPlaceholder="qq"
-                (onChange)="updateFiltering()"></p-dropdown>
+                (onChange)="updateFiltering()"></p-select>
               }
               @case (col.field === 'event_type') {
-                <p-dropdown
+                <p-select
                   [options]="optionsEVENT_REQUIRING_ATTENTION_TYPE"
                   appendTo="body"
                   [(ngModel)]="filterValues[col.field]"
                   filterPlaceholder="qq"
-                (onChange)="updateFiltering()"></p-dropdown>
+                (onChange)="updateFiltering()"></p-select>
               }
               @case (col.field === 'birthdate') {
-                <p-calendar type="date"
+                <p-datepicker type="date"
                   [showTime]="false" [showIcon]="true"
                   [showButtonBar]="true"
                   dateFormat="dd/mm/yy" appendTo="body"
                   [(ngModel)]="filterValues[col.field]"
                   (ngModelChange)="updateFiltering()">
-                </p-calendar>
+                </p-datepicker>
               }
               @case (col.field === 'is_confirmed'
                 || col.field === 'is_current'
                 || col.field === 'event_is_pending'
                 || col.field === 'patient_is_hospitalized') {
-                <p-dropdown
+                <p-select
                   [options]="trueFalseSelectItems"
                   [(ngModel)]="filterValues[col.field]"
                   (onChange)="updateFiltering()">
-                </p-dropdown>
+                </p-select>
               }
             }
           </th>

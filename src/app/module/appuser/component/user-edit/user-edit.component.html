@@ -138,7 +138,7 @@
     <div class="field grid col-12 md:col-6">
       <label for="appuserType" i18n="@@user_type" class="col-fixed" style="width:100px">Type d'utilisateur</label>
       <div class="col">
-        <p-dropdown [options]="appuserTypesSelectItems"
+        <p-select [options]="appuserTypesSelectItems"
           [(ngModel)]="selectedAppuserType"
           #Check="ngModel"
           (ngModelChange)="handleChangeOnFieldAppuserType($event)"
@@ -157,7 +157,7 @@
             <span  [pTooltip]="item.title">{{item.label}}</span>
           </ng-template>
 
-        </p-dropdown>
+        </p-select>
         @if (Check.hasError('required')) {
           <p-message
             severity="error"
@@ -171,7 +171,7 @@
       @if (rolesSelectItems.length > 0) {
         <div class="field grid col-12 md:col-6">
           <label for="roles" i18n="@@roles" class="col-fixed" style="width:100px">Roles</label>
-          <p-multiSelect [options]="rolesSelectItems"
+          <p-multiselect [options]="rolesSelectItems"
             [(ngModel)]="selectedRolesIds"
             [panelStyle]="{minWidth:'12em'}"
             (ngModelChange)="handleChangeOnFieldRoles($event)"
@@ -180,7 +180,7 @@
             <ng-template let-item pTemplate="item">
               <span  [pTooltip]="item.title">{{item.label}}</span>
             </ng-template>
-          </p-multiSelect>
+          </p-multiselect>
           @if (rolesCheck.hasError('required')) {
             <p-message
               severity="error"

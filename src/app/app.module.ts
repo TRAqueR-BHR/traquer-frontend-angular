@@ -26,10 +26,10 @@ import {MegaMenuItem} from 'primeng/api';  //required when using MegaMenu
 import {MenubarModule} from 'primeng/menubar';
 import { TableModule } from "primeng/table";
 import {MultiSelectModule} from 'primeng/multiselect';
-import {DropdownModule} from 'primeng/dropdown';
+import {SelectModule} from 'primeng/select';
 import {SplitButtonModule} from 'primeng/splitbutton';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import {InputSwitchModule} from 'primeng/inputswitch';
+import { TextareaModule } from 'primeng/textarea';
+import {ToggleSwitchModule} from 'primeng/toggleswitch';
 import {TimelineModule} from 'primeng/timeline';
 import {PanelModule} from 'primeng/panel';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
@@ -64,7 +64,7 @@ import { ResponsesToEventComponent } from './component/responses-to-event/respon
 import { ListboxModule } from 'primeng/listbox';
 import { OutbreakEditComponent } from './component/outbreak/outbreak-edit/outbreak-edit.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { CalendarModule } from 'primeng/calendar';
+import { DatePickerModule } from 'primeng/datepicker';
 import { PatientAnalysesComponent } from './component/analysis/patient-analyses/patient-analyses.component';
 import { OutbreakUnitAssoComponent } from './component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component';
 import { InfectiousStatusEditComponent } from './component/infectious-status/infectious-status-edit/infectious-status-edit.component';
@@ -174,13 +174,13 @@ export function initializeMasterKeyFactory(masterKeyService: MasterKeyService) {
         MenubarModule,
         TableModule,
         MultiSelectModule,
-        DropdownModule,
+        SelectModule,
         SplitButtonModule,
         ListboxModule,
-        InputTextareaModule,
+        TextareaModule,
         SelectButtonModule,
-        CalendarModule,
-        InputSwitchModule,
+        DatePickerModule,
+        ToggleSwitchModule,
         TimelineModule,
         CardModule,
         PanelModule,

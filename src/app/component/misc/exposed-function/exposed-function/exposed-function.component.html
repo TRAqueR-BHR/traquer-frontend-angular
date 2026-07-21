@@ -6,7 +6,7 @@
       <label for="selectedFunction" class="custom-label"
         i18n="@@selected_function">
                 Fonction sélectionnée</label>
-      <p-dropdown [options]="optionsFunctions"
+      <p-select [options]="optionsFunctions"
         id="selectedFunction"
         name="selectedFunction"
         [(ngModel)]="selectedFunction"
@@ -16,7 +16,7 @@
         [required]="true"
         [showClear]="true"
         styleClass="w-auto">
-      </p-dropdown>
+      </p-select>
     </div>
 
     <div class="col-12"></div>

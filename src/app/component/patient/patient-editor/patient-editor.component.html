@@ -76,13 +76,13 @@
       <div class="custom-form-field col-12 md:col-6">
         <label for="birthdate" class="custom-label" i18n="@@birthdate">Date de naissance</label>
         <div class='p-inputgroup'>
-          <p-calendar  [(ngModel)]="birthdate" #birthdateCheck="ngModel"
+          <p-datepicker  [(ngModel)]="birthdate" #birthdateCheck="ngModel"
             dateFormat="dd/mm/yy" [disabled]="!birthdateWriteMode"
             appendTo="body"
             name="birthdate"
             [showIcon]="true"
             required
-          [showButtonBar]="true" [locale]="primengCalendarFrenchTranslation"></p-calendar>
+          [showButtonBar]="true" [locale]="primengCalendarFrenchTranslation"></p-datepicker>
           @if (canDisplayBirthDateEditBtn) {
             <button type="button" pButton pRipple
               icon="far fa-edit" styleClass="p-button-warn"

@@ -24,23 +24,23 @@
           class="custom-label"
           i18n="@@episode_criticity">
                     Criticité de l'épisode</label>
-        <p-dropdown [options]="optionsOUTBREAK_CRITICITY"
+        <p-select [options]="optionsOUTBREAK_CRITICITY"
           id="criticity"
           name="criticity"
           appendTo="body"
-        [(ngModel)]="outbreak.criticity"></p-dropdown>
+        [(ngModel)]="outbreak.criticity"></p-select>
       </div>
       <div class="custom-form-field col-12 md:col-6">
         <label for="refTime"
           class="custom-label"
         i18n="@@outbreak_ref_time">Heure de référence de l'épisode</label>
-        <p-calendar id="refTime"
+        <p-datepicker id="refTime"
           name="refTime"
           [showTime]="true"
           [showIcon]="true"
           dateFormat="dd/mm/yy"
           [(ngModel)]="outbreak.refTime"
-        ></p-calendar>
+        ></p-datepicker>
       </div>
       <div class="custom-form-field col-12">
         @if (canDisplayInitializeOutbreakButton) {
@@ -85,11 +85,11 @@
       </div>
       <p-accordion >
         @for (unitAsso of outbreakUnitAssos; track unitAsso) {
-          <p-accordionTab [header]="unitAsso.unit.name">
+          <p-accordion-panel [header]="unitAsso.unit.name">
             <div app-outbreak-unit-asso
               class="col-12 outbreak-unit-asso"
             [outbreakUnitAsso]="unitAsso"></div>
-          </p-accordionTab>
+          </p-accordion-panel>
         }
       </p-accordion>
     </div>

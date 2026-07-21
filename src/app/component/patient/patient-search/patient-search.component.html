@@ -10,13 +10,13 @@
 
     <div class="flex">
 
-      <p-multiSelect [options]="selectableColumns"
+      <p-multiselect [options]="selectableColumns"
         [(ngModel)]="selectedColumns"
         selectedItemsLabel="{0} colonnes sélectionnées"
         [style]="{minWidth: '200px'}"
         defaultLabel="Choisir les colonnes à afficher"
         (ngModelChange)="updateColumnsSelection($event)">
-      </p-multiSelect>
+      </p-multiselect>
 
     </div>
 
@@ -71,20 +71,20 @@
               @case (col.field === 'is_confirmed'
                 || col.field === 'is_current'
                 || col.field === 'patient_is_hospitalized') {
-                <p-dropdown
+                <p-select
                   [options]="trueFalseSelectItems"
                   [(ngModel)]="filterValues[col.field]"
                   (onChange)="updateFiltering()">
-                </p-dropdown>
+                </p-select>
               }
               @case (col.field === 'birthdate') {
-                <p-calendar type="date"
+                <p-datepicker type="date"
                   [showTime]="false" [showIcon]="true"
                   dateFormat="dd/mm/yy" appendTo="body"
                   [showButtonBar]="true"
                   [(ngModel)]="filterValues[col.field]"
                   (ngModelChange)="updateFiltering()">
-                </p-calendar>
+                </p-datepicker>
               }
             }
           </th>

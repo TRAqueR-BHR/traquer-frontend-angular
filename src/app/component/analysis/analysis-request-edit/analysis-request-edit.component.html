@@ -29,32 +29,32 @@
               <app-processing-anim [withText]="true"
               ></app-processing-anim>
             }
-            <p-dropdown [options]="optionsPatientUnits"
+            <p-select [options]="optionsPatientUnits"
               id="unit"
               name="unit"
               appendTo="body"
               [(ngModel)]="analysisRequest.unit"
               [filter]="true"
-            required></p-dropdown>
+            required></p-select>
           </div>
           <div class="custom-form-field col-12 md:col-6">
             <label for="requestType"
               class="custom-label"
               i18n="@@request_type">
                         Type d'analyse</label>
-            <p-dropdown [options]="optionsANALYSIS_REQUEST_TYPE"
+            <p-select [options]="optionsANALYSIS_REQUEST_TYPE"
               id="requestType"
               name="requestType"
               appendTo="body"
               [(ngModel)]="analysisRequest.requestType"
-            required></p-dropdown>
+            required></p-select>
           </div>
           <div class="custom-form-field col-12 md:col-6">
             <label for="requestTime"
               class="custom-label"
               i18n="@@analysis_request_time">
                         Date de la demande d'analyse</label>
-            <p-calendar id="requestTime"
+            <p-datepicker id="requestTime"
               name="requestTime"
               [showTime]="true"
               appendTo="body"
@@ -62,14 +62,14 @@
               dateFormat="dd/mm/yy"
               [(ngModel)]="analysisRequest.requestTime"
               required
-            ></p-calendar>
+            ></p-datepicker>
           </div>
           <div class="custom-form-field col-12 md:col-6">
             <label for="unitExpectedCollectionTime"
               class="custom-label"
               i18n="@@unit_expected_collection_time">
                         Date attendue de prélèvement par l'UF</label>
-            <p-calendar id="unitExpectedCollectionTime"
+            <p-datepicker id="unitExpectedCollectionTime"
               name="unitExpectedCollectionTime"
               [showTime]="true"
               appendTo="body"
@@ -77,7 +77,7 @@
               dateFormat="dd/mm/yy"
               [(ngModel)]="analysisRequest.unitExpectedCollectionTime"
               required
-            ></p-calendar>
+            ></p-datepicker>
           </div>
           <div class="custom-form-field col-12">
             <button pButton type="submit"

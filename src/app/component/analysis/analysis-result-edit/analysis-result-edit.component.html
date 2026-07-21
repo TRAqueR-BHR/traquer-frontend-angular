@@ -25,20 +25,20 @@
               i18n="@@stay_where_sample_was_taken">
                         Séjour au cours duquel a été fait le prélèvement
                     </label>
-            <p-dropdown [options]="optionsPatientStays"
+            <p-select [options]="optionsPatientStays"
               id="stay"
               name="stay"
               appendTo="body"
               [(ngModel)]="analysisResult.stay"
               [filter]="true"
-            required></p-dropdown>
+            required></p-select>
           </div>
           <div class="custom-form-field col-12 md:col-6">
             <label for="requestTime"
               class="custom-label"
               i18n="@@analysis_request_time">
                         Date de la demande d'analyse</label>
-            <p-calendar id="requestTime"
+            <p-datepicker id="requestTime"
               name="requestTime"
               [showTime]="true"
               appendTo="body"
@@ -46,7 +46,7 @@
               dateFormat="dd/mm/yy"
               [(ngModel)]="analysisResult.requestTime"
               required
-            ></p-calendar>
+            ></p-datepicker>
           </div>
           <div class="custom-form-field col-12 md:col-6">
             <label for="resultRawText"
@@ -64,43 +64,43 @@
               class="custom-label"
               i18n="@@sample_material_type">
                         Échantillon</label>
-            <p-dropdown [options]="optionsSAMPLE_MATERIAL_TYPE"
+            <p-select [options]="optionsSAMPLE_MATERIAL_TYPE"
               id="sampleMaterialType"
               name="sampleMaterialType"
               appendTo="body"
               [(ngModel)]="analysisResult.sampleMaterialType"
-            required></p-dropdown>
+            required></p-select>
           </div>
           <div class="custom-form-field col-12 md:col-6">
             <label for="requestType"
               class="custom-label"
               i18n="@@request_type">
                         Type d'analyse</label>
-            <p-dropdown [options]="optionsANALYSIS_REQUEST_TYPE"
+            <p-select [options]="optionsANALYSIS_REQUEST_TYPE"
               id="requestType"
               name="requestType"
               appendTo="body"
               [(ngModel)]="analysisResult.requestType"
-            required></p-dropdown>
+            required></p-select>
           </div>
           <div class="custom-form-field col-12 md:col-6">
             <label for="result"
               class="custom-label"
               i18n="@@result">
                         Résultat</label>
-            <p-dropdown [options]="optionsANALYSIS_RESULT_VALUE_TYPE"
+            <p-select [options]="optionsANALYSIS_RESULT_VALUE_TYPE"
               id="result"
               name="result"
               appendTo="body"
               [(ngModel)]="analysisResult.result"
-            required></p-dropdown>
+            required></p-select>
           </div>
           <div class="custom-form-field col-12 md:col-6">
             <label for="resultTime"
               class="custom-label"
               i18n="@@analysis_result_time_optional">
                         Date du résultat (champs non obligatoire)</label>
-            <p-calendar id="resultTime"
+            <p-datepicker id="resultTime"
               name="resultTime"
               [showTime]="true"
               appendTo="body"
@@ -108,7 +108,7 @@
               dateFormat="dd/mm/yy"
               [showClear]="true"
               [(ngModel)]="analysisResult.resultTime"
-            ></p-calendar>
+            ></p-datepicker>
           </div>
           <div class="custom-form-field col-12 md:col-6">
             <label for="resultRawText"

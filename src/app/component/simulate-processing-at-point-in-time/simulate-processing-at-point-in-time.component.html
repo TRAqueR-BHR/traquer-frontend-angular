@@ -1,4 +1,4 @@
-<p-confirmPopup></p-confirmPopup>
+<p-confirmpopup></p-confirmpopup>
 
 <p-panel header="Remise à zéro"
     [toggleable]="true"
@@ -31,7 +31,7 @@
                 <label for="forceProcessingTime"
                     class="custom-label"
                     i18n="@@simulated_processing_time">Date limite de traitement</label>
-                <p-calendar id="forceProcessingTime"
+                <p-datepicker id="forceProcessingTime"
                     name="forceProcessingTime"
                     [showTime]="true"
                     appendTo="body"
@@ -39,7 +39,7 @@
                     dateFormat="dd/mm/yy"
                     [(ngModel)]="forceProcessingTime"
                     required
-                ></p-calendar>
+                ></p-datepicker>
             </div>
 
             <div class="custom-form-field col-12">

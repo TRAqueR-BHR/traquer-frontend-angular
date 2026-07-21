@@ -27,7 +27,7 @@
       <label for="startTime"
         class="custom-label"
       i18n="@@start_time">Heure de début</label>
-      <p-calendar id="startTime"
+      <p-datepicker id="startTime"
         name="startTime"
         [showTime]="true"
         [disabled]="true"
@@ -35,13 +35,13 @@
         dateFormat="dd/mm/yy"
         [(ngModel)]="outbreakUnitAsso.startTime"
         (ngModelChange)="simulateContactExposures()"
-      ></p-calendar>
+      ></p-datepicker>
     </div>
     <div class="custom-form-field col-12 md:col-6">
       <label for="endTime"
         class="custom-label"
       i18n="@@end_time">Heure de fin</label>
-      <p-calendar id="endTime"
+      <p-datepicker id="endTime"
         name="endTime"
         [showTime]="true"
         [disabled]="true"
@@ -49,7 +49,7 @@
         dateFormat="dd/mm/yy"
         [(ngModel)]="outbreakUnitAsso.endTime"
         (ngModelChange)="simulateContactExposures()"
-      ></p-calendar>
+      ></p-datepicker>
     </div>
     <div class="custom-form-field col-12 md:col-6">
       <label for="sameRoomOnly"

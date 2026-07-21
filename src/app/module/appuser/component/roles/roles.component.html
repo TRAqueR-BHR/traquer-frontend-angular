@@ -1,5 +1,5 @@
 <app-main-menu></app-main-menu>
-<p-toast [hideTransitionOptions]="'5000ms'"></p-toast>
+<p-toast></p-toast>
 
 <!-- <p-panel i18n-header="@@create_role" header="Create new role" [toggleable]="true">
 <div class="text-center" >
@@ -7,6 +7,13 @@
   [routerLink]="['/role', 'new']" ></p-button>
 </div>
 </p-panel> -->
+
+<!-- note: PrimeNG 22 makes <p-button> standalone; combining [routerLink] with the
+     component selector forces every consuming component to import RouterLink.
+     The equivalent pattern uses the [pButton] directive on an <a> element so that
+     RouterLink remains a native host directive of <a>. -->
+<a pButton styleClass="big-button" i18n-label="@@create_role" label="Create new role"
+  routerLink="/role/new"></a>
 
 <p-panel i18n-header="@@existing_roles" header="Existing roles" [toggleable]="true">
   <div class="p-grid">
@@ -62,9 +69,9 @@
                 <span></span>
               }
               @case ('restricted_to_appuser_type') {
-                <p-dropdown appendTo="body" [options]="appuserTypesSelectItems"
+                <p-select appendTo="body" [options]="appuserTypesSelectItems"
                   i18n-placeholder="@@choose" placeholder="Choose" [showClear]="true"
-                [style]="{'width':'100%'}" defaultLabel="All" (onChange)="dt.filter($event.value, col.field, 'equals')" ></p-dropdown>
+                [style]="{'width':'100%'}" defaultLabel="All" (onChange)="dt.filter($event.value, col.field, 'equals')" ></p-select>
               }
               @default {
                 <input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
