@@ -1,4 +1,4 @@
-import * as Moment from 'moment-timezone';
+import Moment from 'moment-timezone';
 import { Appuser } from '../module/appuser/model/Appuser';
 
 export class EntityBase {

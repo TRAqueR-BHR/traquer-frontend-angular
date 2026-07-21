@@ -1,5 +1,4 @@
 import { DatePipe } from '@angular/common';
-import { ThrowStmt } from '@angular/compiler';
 import { Component, Inject, Input, LOCALE_ID, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PrimeIcons } from 'primeng/api';

@@ -1,7 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/angular';
+import { CalendarOptions } from '@fullcalendar/core';
+import { FullCalendarModule } from '@fullcalendar/angular';
 // import { Observable, observable, of , lastValueFrom, map} from 'rxjs';
 import frLocale from '@fullcalendar/core/locales/fr'; // a plugin!
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
 import { lastValueFrom, of } from 'rxjs';
 
 @Component({
@@ -15,6 +20,7 @@ export class CalendarComponent implements OnInit {
 
   
   calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
     initialView: 'dayGridMonth',
     eventClick: this.handleEventClick.bind(this), // bind is important!
     // eventDrop:this.handleDropEvent.bind(this),

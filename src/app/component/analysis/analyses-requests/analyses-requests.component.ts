@@ -25,7 +25,7 @@ import { UnitService } from 'src/app/service/unit.service';
 import { InfectiousStatusExplanationComponent } from '../../infectious-status/infectious-status-explanation/infectious-status-explanation.component';
 import { AnalysisRequestService } from 'src/app/service/analysis-request.service';
 import { ANALYSIS_REQUEST_STATUS_TYPE } from 'src/app/enum/ANALYSIS_REQUEST_STATUS_TYPE';
-import * as FileSaver from 'file-saver';
+import { saveAs } from 'file-saver';
 import { ProcessingService } from 'src/app/service/processing.service';
 import { BlockUiService } from 'src/app/service/block-ui.service';
 import { MasterKeyService } from 'src/app/service/master-key.service';
@@ -575,7 +575,7 @@ export class AnalysesRequestsComponent implements OnInit {
       .subscribe(result => {
 
         this.blockUiService.unblockUI("AnalysesRequestsComponent.downloadAsXLSX()");
-        FileSaver.saveAs(
+        saveAs(
           result,
           this.translationService.getTranslation("analyses-requests")  +  ".xlsx"
         );

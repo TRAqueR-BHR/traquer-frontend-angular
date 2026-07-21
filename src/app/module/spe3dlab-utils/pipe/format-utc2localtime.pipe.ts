@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import * as Moment from 'moment-timezone';
+import Moment from 'moment-timezone';
 
 @Pipe({
     name: 'formatUTC2LocalTime', pure: false,

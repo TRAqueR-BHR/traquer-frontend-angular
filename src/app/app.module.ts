@@ -7,12 +7,9 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr }    from '@angular/common/http';
 
-import {FullCalendarModule} from '@fullcalendar/angular'; // must go before plugins
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
-import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin!
-import interactionPlugin from '@fullcalendar/interaction'; // a plugin!
-import listPlugin from '@fullcalendar/list'; // a plugin!
-import frLocale from '@fullcalendar/core/locales/fr';
+import {FullCalendarModule} from '@fullcalendar/angular';
+// FullCalendar 6.x registers plugins via the `plugins` array on calendarOptions
+// (rather than via the module's `registerPlugins` static method).
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -116,12 +113,8 @@ export function initializeMasterKeyFactory(masterKeyService: MasterKeyService) {
   return () => masterKeyService.fetchIsMasterKeySet().toPromise();
 }
 
-FullCalendarModule.registerPlugins([ // register FullCalendar plugins
-  dayGridPlugin,
-  timeGridPlugin,
-  interactionPlugin,
-  listPlugin
-]);
+// FullCalendar 6: plugins are now configured in each CalendarComponent's options
+// (see `src/app/calendar/calendar.component.ts`).
 
 @NgModule({ declarations: [
         AppComponent,
