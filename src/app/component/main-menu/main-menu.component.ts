@@ -40,17 +40,17 @@ export class MainMenuComponent implements OnInit {
           },
           {
             label: this.translationService.getTranslation('analyses'),
-            icon: 'fa fa-solid fa-flask',
+            icon: 'fas fa-flask',
             routerLink: ['/analyses'],
           },
           {
             label: this.translationService.getTranslation('analyses_requests'),
-            icon: 'fa fa-solid fa-flask',
+            icon: 'fas fa-flask',
             routerLink: ['/analyses-requests'],
           },
           {
             label: this.translationService.getTranslation('stays'),
-            icon: 'fa fa-solid fa-bed',
+            icon: 'fas fa-bed',
             routerLink: ['/stays'],
           },
         ]
