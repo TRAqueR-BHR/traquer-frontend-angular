@@ -45,19 +45,19 @@
       <div class="custom-form-field col-12">
         @if (canDisplayInitializeOutbreakButton) {
           <button pButton type="button"
-            i18n-label="intialize_outbreak"
-            label="Initialiser l'épisode"
             (click)="initializeOutbreak()"
             class="w-auto"
-          [disabled]="initializeOutbreakBtnIsDisabled"></button>
+          [disabled]="initializeOutbreakBtnIsDisabled">
+            <span pButtonLabel i18n="intialize_outbreak">Initialiser l'épisode</span>
+          </button>
         }
         @if (canDisplaySaveButton) {
           <button pButton type="button"
-            i18n-label="save"
-            label="Enregistrer"
             (click)="save()"
             class="w-auto"
-          [disabled]="saveOutbreakBtnIsDisabled"></button>
+          [disabled]="saveOutbreakBtnIsDisabled">
+            <span pButtonLabel i18n="save">Enregistrer</span>
+          </button>
         }
       </div>
     </div>

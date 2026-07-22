@@ -17,8 +17,8 @@
       <h1 class="m-2" style="display: inline;">Réponses à l'événement</h1>
       <button  pButton pRipple type="button"
         (click)="showInfectiousStatusExplanation()"
-        icon="fas fa-info"
         class="p-button-rounded p-button-text p-button-sm">
+        <span class="fas fa-info" pButtonIcon></span>
       </button>
       <div class="custom-form-grid p-fluid">
         <div class="custom-form-field col-12 md:col-6">
@@ -105,11 +105,11 @@
             </div>
             <div class="custom-form-field col-12">
               <button pButton type="submit"
-                i18n-label="save_isolation_time"
-                label="Enregistrer l'heure d'isolement"
                 [disabled]="!formForIsolationTime.valid || processingSavePatientIsolationDate"
                 class="w-auto"
-              ></button>
+              >
+                <span pButtonLabel i18n="save_isolation_time">Enregistrer l'heure d'isolement</span>
+              </button>
             </div>
           </form>
         </p-panel>

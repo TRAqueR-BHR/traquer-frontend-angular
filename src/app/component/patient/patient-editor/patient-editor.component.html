@@ -13,13 +13,15 @@
             pattern="^[\D]+$"/>
           @if (canDisplayFirstnameEditBtn) {
             <button type="button" pButton pRipple
-              icon="far fa-edit" styleClass="p-button-warn"
-            (click)="handleClickOnFirstnameEditBtn($event)"></button>
+            (click)="handleClickOnFirstnameEditBtn($event)" class="p-button-warn">
+              <span class="far fa-edit" pButtonIcon></span>
+            </button>
           }
           @if (canDisplayFirstnameSaveBtn) {
             <button type="button" pButton pRipple
-              icon="far fa-save" styleClass="p-button-warn"
-            (click)="handleClickOnFirstnameSaveBtn($event)"></button>
+            (click)="handleClickOnFirstnameSaveBtn($event)" class="p-button-warn">
+              <span class="far fa-save" pButtonIcon></span>
+            </button>
           }
           @if (firstnameCheck.invalid) {
             <div >
@@ -49,13 +51,15 @@
             pattern="^[\D]+$"/>
           @if (canDisplayLastnameEditBtn) {
             <button type="button" pButton pRipple
-              icon="far fa-edit" styleClass="p-button-warn"
-            (click)="handleClickOnLastnameEditBtn($event)"></button>
+            (click)="handleClickOnLastnameEditBtn($event)" class="p-button-warn">
+              <span class="far fa-edit" pButtonIcon></span>
+            </button>
           }
           @if (canDisplayLastnameSaveBtn) {
             <button type="button" pButton pRipple
-              icon="far fa-save" styleClass="p-button-warn"
-            (click)="handleClickOnLastnameSaveBtn($event)"></button>
+            (click)="handleClickOnLastnameSaveBtn($event)" class="p-button-warn">
+              <span class="far fa-save" pButtonIcon></span>
+            </button>
           }
           @if (lastnameCheck.invalid) {
             <div >
@@ -85,13 +89,15 @@
           [showButtonBar]="true" [locale]="primengCalendarFrenchTranslation"></p-datepicker>
           @if (canDisplayBirthDateEditBtn) {
             <button type="button" pButton pRipple
-              icon="far fa-edit" styleClass="p-button-warn"
-            (click)="handleClickOnBirthDateEditBtn($event)"></button>
+            (click)="handleClickOnBirthDateEditBtn($event)" class="p-button-warn">
+              <span class="far fa-edit" pButtonIcon></span>
+            </button>
           }
           @if (canDisplayBirthDateSaveBtn) {
             <button type="button" pButton pRipple
-              icon="far fa-save" styleClass="p-button-warn"
-            (click)="handleClickOnBirthDateSaveBtn($event)"></button>
+            (click)="handleClickOnBirthDateSaveBtn($event)" class="p-button-warn">
+              <span class="far fa-save" pButtonIcon></span>
+            </button>
           }
           @if (birthdateCheck.invalid) {
             <div >
@@ -106,10 +112,11 @@
       </div>
       <div class="custom-form-field col-12">
         @if (canDisplayGeneralSaveBtn) {
-          <button pButton type="submit" label="Enregistrer"
+          <button pButton type="submit"
             (click)="save()"
             [disabled]="patientForm.invalid || savingInProgress"
             class="w-auto">
+            <span pButtonLabel>Enregistrer</span>
           </button>
         }
         @if (error) {

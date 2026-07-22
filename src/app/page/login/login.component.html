@@ -25,13 +25,12 @@
       }
 
       <button pButton pRipple
-        i18n-label="@@sign_in"
-        label="S'identifier"
-        icon="pi pi-user"
         class="w-full"
         (click)="login($event)"
         [disabled]="processing"
         >
+        <span class="pi pi-user" pButtonIcon></span>
+        <span pButtonLabel i18n="@@sign_in">S'identifier</span>
       </button>
     </div>
   </div>

@@ -31,11 +31,11 @@
 
     <div class="col-12 md:col-6">
       <button type="submit" pButton
-        icon="fas fa-play"
         [disabled]="!executeFunctionForm.form.valid"
-        i18n-label="execute_function"
-        label="Executer la fonction"
-      class="w-auto"></button>
+      class="w-auto">
+        <span class="fas fa-play" pButtonIcon></span>
+        <span pButtonLabel i18n="execute_function">Executer la fonction</span>
+      </button>
     </div>
 
   </div>

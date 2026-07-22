@@ -4,10 +4,10 @@
     <div class="flex align-items-center justify-content-between">
       <button pButton type="button"
         (click)="addAnalysis()"
-        [disabled]="isLocked"
-        icon="fa fa-plus"
-        i18n-label="@@add_analysis"
-      label="Ajouter une analyse"></button>
+        [disabled]="isLocked">
+        <span class="fa fa-plus" pButtonIcon></span>
+        <span pButtonLabel i18n="@@add_analysis">Ajouter une analyse</span>
+      </button>
     </div>
   </ng-template>
 

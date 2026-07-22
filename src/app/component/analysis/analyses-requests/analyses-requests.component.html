@@ -143,8 +143,9 @@
                   </span>
                   <button  pButton pRipple type="button"
                     (click)="showInfectiousStatusExplanation(rowData)"
-                    icon="fas fa-info"
-                  class="p-button-rounded p-button-text p-button-sm"></button>
+                  class="p-button-rounded p-button-text p-button-sm">
+                    <span class="fas fa-info" pButtonIcon></span>
+                  </button>
                 </div>
               }
               @case ('request_type') {

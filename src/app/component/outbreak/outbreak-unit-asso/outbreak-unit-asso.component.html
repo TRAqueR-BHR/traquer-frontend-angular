@@ -68,10 +68,11 @@
       </div>
       <div class="col-12">
         <button pButton pRipple
-          label="Enregistrer et mettre à jour les cas contacts de cette UF"
           class="w-auto"
           (click)="generateContactExposuresAndInfectiousStatuses()"
-        [disabled]="saving"></button>
+        [disabled]="saving">
+          <span pButtonLabel>Enregistrer et mettre à jour les cas contacts de cette UF</span>
+        </button>
       </div>
       <h3 class="col-12">
         Séjours des porteurs dans l'UF ({{carriersStaysForListing.length}} séjours)
@@ -117,8 +118,8 @@
               {{s.lastname}}
               <button  pButton pRipple type="button"
                 (click)="showInfectiousStatusExplanation(s)"
-                icon="fas fa-info"
                 class="p-button-rounded p-button-text p-button-sm">
+                <span class="fas fa-info" pButtonIcon></span>
               </button>
             </td>
             <td>{{s.birthdate | date:'dd/MM/yyyy'}}</td>
@@ -175,8 +176,8 @@
               {{s.lastname}}
               <button  pButton pRipple type="button"
                 (click)="showInfectiousStatusExplanation(s)"
-                icon="fas fa-info"
                 class="p-button-rounded p-button-text p-button-sm">
+                <span class="fas fa-info" pButtonIcon></span>
               </button>
             </td>
             <td>{{s.birthdate | date:'dd/MM/yyyy'}}</td>

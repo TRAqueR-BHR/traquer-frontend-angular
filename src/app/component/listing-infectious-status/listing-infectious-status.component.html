@@ -168,8 +168,9 @@
                 </span>
                 <button  pButton pRipple type="button"
                   (click)="showInfectiousStatusExplanation(rowData)"
-                  icon="fas fa-info"
-                class="p-button-rounded p-button-text p-button-sm"></button>
+                class="p-button-rounded p-button-text p-button-sm">
+                  <span class="fas fa-info" pButtonIcon></span>
+                </button>
               </div>
             }
             <!-- <span *ngSwitchCase="'infectious_status'">
@@ -223,10 +224,11 @@
             <button
               pButton pRipple type="button"
               (click)="displayDialogForUserResponse(rowData)"
-              icon="fas fa-hand-rock"
               class="p-button-rounded p-button-text"
               [disabled]="loadingDialogForEventResponses"
-            ></button>
+            >
+              <span class="fas fa-hand-rock" pButtonIcon></span>
+            </button>
           }
         }
       </td>
