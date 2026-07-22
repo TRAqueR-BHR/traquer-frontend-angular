@@ -193,10 +193,9 @@
     <div class="col-12 ">
       <button class="big-button"
         pButton type="button"
-        i18n-label="@@save_appuser"
-        label="Enregistrer"
         (click)="save()"
         [disabled]="userEditForm.invalid || waitingForEndOfAction">
+        <span pButtonLabel i18n="@@save_appuser">Enregistrer</span>
       </button>
 
     </div>
