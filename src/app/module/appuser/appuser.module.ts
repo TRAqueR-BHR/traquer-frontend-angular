@@ -31,7 +31,6 @@ import { SliderModule } from 'primeng/slider';
 import { EditorModule } from 'primeng/editor';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { PasswordModule } from 'primeng/password';
-import { SidebarModule } from 'primeng/sidebar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
@@ -63,7 +62,7 @@ import { DatasetPasswordComponent } from './component/dataset-password/dataset-p
     SharedModule,TabsModule,MenubarModule,SelectModule, DatePickerModule,CheckboxModule,
     SelectButtonModule,MultiSelectModule,RadioButtonModule,FieldsetModule,ToggleSwitchModule,InputMaskModule,ListboxModule,
     PopoverModule,DialogModule,ToggleButtonModule,SliderModule,EditorModule,
-    ConfirmDialogModule,PasswordModule,SidebarModule,AutoCompleteModule,
+    ConfirmDialogModule,PasswordModule,AutoCompleteModule,
     FileUploadModule,TooltipModule,ChipModule,AccordionModule,ToastModule, TableModule,
     ScrollPanelModule, BlockUIModule, DynamicDialogModule,InplaceModule,
     CardModule

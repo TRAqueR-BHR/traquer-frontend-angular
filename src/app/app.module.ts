@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr }    from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi }    from '@angular/common/http';
 
 import {FullCalendarModule} from '@fullcalendar/angular';
 // FullCalendar 6.x registers plugins via the `plugins` array on calendarOptions
@@ -208,5 +208,5 @@ export function initializeMasterKeyFactory(masterKeyService: MasterKeyService) {
         { provide: APP_INITIALIZER, useFactory: initializeRolesFactory, deps: [AuthenticationService], multi: true },
         { provide: APP_INITIALIZER, useFactory: initializeMasterKeyFactory, deps: [MasterKeyService], multi: true }
         // { provide: LocationStrategy, useClass: HashLocationStrategy },
-        , provideHttpClient(withXhr(), withInterceptorsFromDi())] })
+        , provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }
