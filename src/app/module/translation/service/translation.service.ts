@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
@@ -9,7 +9,8 @@ import xml2js from 'xml2js'; // NOTE: 'xml2js' is already a dependecy of angular
 
 import { LOCALE_ID, Inject } from '@angular/core';
 import { Utils } from '../../../util/utils';
-import { PrimeNGConfig, SelectItem } from 'primeng/api';
+import { PrimeNG } from 'primeng/config';
+import { SelectItem } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class TranslationService {
   constructor(
     private http: HttpClient,
     @Inject(LOCALE_ID) protected localeId: string,
-    private primeNGConfig: PrimeNGConfig,
+    private primeNGConfig: PrimeNG,
   ) { }
 
 

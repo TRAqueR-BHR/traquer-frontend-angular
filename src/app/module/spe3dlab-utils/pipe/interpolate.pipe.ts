@@ -3,7 +3,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { TypeUtils } from '../utils/type-utils';
 
 @Pipe({
-  name: 'interpolate'
+    name: 'interpolate',
+    standalone: false
 })
 
 // see https://github.com/nglrx/pipes/tree/master/packages/pipes/src/lib/string#interpolate

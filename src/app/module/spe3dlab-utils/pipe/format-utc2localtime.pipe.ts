@@ -1,8 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import * as Moment from 'moment-timezone';
+import Moment from 'moment-timezone';
 
-@Pipe({ name: 'formatUTC2LocalTime', pure: false })
+@Pipe({
+    name: 'formatUTC2LocalTime', pure: false,
+    standalone: false
+})
 export class FormatUTC2LocalTimePipe implements PipeTransform {
   constructor() {
   }

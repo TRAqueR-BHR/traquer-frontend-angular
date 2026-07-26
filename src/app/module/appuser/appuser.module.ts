@@ -8,39 +8,35 @@ import { SharedModule, MessageService, ConfirmationService } from 'primeng/api';
 import { PanelModule } from "primeng/panel";
 import { TableModule } from "primeng/table";
 import { ToastModule } from "primeng/toast";
-import { CalendarModule } from "primeng/calendar";
+import { DatePickerModule } from "primeng/datepicker";
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { MessagesModule } from 'primeng/messages';
+import { TextareaModule } from 'primeng/textarea';
 import { MessageModule } from 'primeng/message';
 import { ButtonModule } from 'primeng/button';
-import { TabViewModule } from 'primeng/tabview';
+import { TabsModule } from 'primeng/tabs';
 import { MenubarModule } from 'primeng/menubar';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { CheckboxModule } from 'primeng/checkbox';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
 import { FieldsetModule } from 'primeng/fieldset';
-import { InputSwitchModule } from 'primeng/inputswitch';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ListboxModule } from 'primeng/listbox';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { PopoverModule } from 'primeng/popover';
 import { DialogModule } from 'primeng/dialog';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { SliderModule } from 'primeng/slider';
 import { EditorModule } from 'primeng/editor';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { PasswordModule } from 'primeng/password';
-import { SidebarModule } from 'primeng/sidebar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
-import { ChipsModule } from 'primeng/chips';
+import { ChipModule } from 'primeng/chip';
 import { AccordionModule } from 'primeng/accordion';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { LightboxModule } from 'primeng/lightbox';
 import { BlockUIModule } from 'primeng/blockui';
 import { InplaceModule } from 'primeng/inplace';
 import { CardModule } from 'primeng/card';
@@ -62,14 +58,13 @@ import { DatasetPasswordComponent } from './component/dataset-password/dataset-p
     Spe3dlabUtilsModule,
 
     // PrimeNG
-    InputTextModule,InputTextareaModule,PanelModule,MessagesModule,MessageModule,ButtonModule,
-    SharedModule,TabViewModule,MenubarModule,DropdownModule, CalendarModule,CheckboxModule,
-    SelectButtonModule,MultiSelectModule,RadioButtonModule,TriStateCheckboxModule,
-    FieldsetModule,InputSwitchModule,InputMaskModule,ListboxModule,
-    OverlayPanelModule,DialogModule,ToggleButtonModule,SliderModule,EditorModule,
-    ConfirmDialogModule,PasswordModule,SidebarModule,AutoCompleteModule,
-    FileUploadModule,TooltipModule,ChipsModule,AccordionModule,ToastModule, TableModule,
-    ScrollPanelModule, LightboxModule,BlockUIModule, DynamicDialogModule,InplaceModule,
+    InputTextModule,TextareaModule,PanelModule,MessageModule,ButtonModule,
+    SharedModule,TabsModule,MenubarModule,SelectModule, DatePickerModule,CheckboxModule,
+    SelectButtonModule,MultiSelectModule,RadioButtonModule,FieldsetModule,ToggleSwitchModule,InputMaskModule,ListboxModule,
+    PopoverModule,DialogModule,ToggleButtonModule,SliderModule,EditorModule,
+    ConfirmDialogModule,PasswordModule,AutoCompleteModule,
+    FileUploadModule,TooltipModule,ChipModule,AccordionModule,ToastModule, TableModule,
+    ScrollPanelModule, BlockUIModule, DynamicDialogModule,InplaceModule,
     CardModule
   ],
   exports: [

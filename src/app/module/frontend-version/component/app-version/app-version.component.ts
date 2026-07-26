@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { interval } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FrontendVersionService } from '../../service/frontend-version.service';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 
 @Component({
-  selector: 'app-app-version',
-  templateUrl: './app-version.component.html',
-  styleUrls: ['./app-version.component.scss']
+    selector: 'app-app-version',
+    templateUrl: './app-version.component.html',
+    styleUrls: ['./app-version.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class AppVersionComponent implements OnInit {
 

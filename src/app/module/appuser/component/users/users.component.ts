@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AppuserService } from '../../service/app-user.service';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { ProcessingService } from 'src/app/service/processing.service';
@@ -9,9 +9,11 @@ import { Router } from '@angular/router';
 import { APPUSER_TYPE } from 'src/app/enum/APPUSER_TYPE';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class UsersComponent implements OnInit {
 

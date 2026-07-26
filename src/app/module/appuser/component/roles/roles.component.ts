@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { RoleService } from 'src/app/service/role.service';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { RoleService } from 'src/app/module/appuser/service/role.service';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { ProcessingService } from 'src/app/service/processing.service';
 import { environment } from 'src/environments/environment';
@@ -8,9 +8,11 @@ import { Utils } from 'src/app/util/utils';
 import { APPUSER_TYPE } from 'src/app/enum/APPUSER_TYPE';
 
 @Component({
-  selector: 'app-roles',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss']
+    selector: 'app-roles',
+    templateUrl: './roles.component.html',
+    styleUrls: ['./roles.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class RolesComponent implements OnInit {
 

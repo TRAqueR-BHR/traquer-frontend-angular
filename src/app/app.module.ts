@@ -5,14 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
-import { HttpClientModule, HTTP_INTERCEPTORS }    from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi }    from '@angular/common/http';
 
-import {FullCalendarModule} from '@fullcalendar/angular'; // must go before plugins
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
-import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin!
-import interactionPlugin from '@fullcalendar/interaction'; // a plugin!
-import listPlugin from '@fullcalendar/list'; // a plugin!
-import frLocale from '@fullcalendar/core/locales/fr';
+import {FullCalendarModule} from '@fullcalendar/angular';
+// FullCalendar 6.x registers plugins via the `plugins` array on calendarOptions
+// (rather than via the module's `registerPlugins` static method).
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,10 +26,10 @@ import {MegaMenuItem} from 'primeng/api';  //required when using MegaMenu
 import {MenubarModule} from 'primeng/menubar';
 import { TableModule } from "primeng/table";
 import {MultiSelectModule} from 'primeng/multiselect';
-import {DropdownModule} from 'primeng/dropdown';
+import {SelectModule} from 'primeng/select';
 import {SplitButtonModule} from 'primeng/splitbutton';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import {InputSwitchModule} from 'primeng/inputswitch';
+import { TextareaModule } from 'primeng/textarea';
+import {ToggleSwitchModule} from 'primeng/toggleswitch';
 import {TimelineModule} from 'primeng/timeline';
 import {PanelModule} from 'primeng/panel';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
@@ -67,7 +64,7 @@ import { ResponsesToEventComponent } from './component/responses-to-event/respon
 import { ListboxModule } from 'primeng/listbox';
 import { OutbreakEditComponent } from './component/outbreak/outbreak-edit/outbreak-edit.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { CalendarModule } from 'primeng/calendar';
+import { DatePickerModule } from 'primeng/datepicker';
 import { PatientAnalysesComponent } from './component/analysis/patient-analyses/patient-analyses.component';
 import { OutbreakUnitAssoComponent } from './component/outbreak/outbreak-unit-asso/outbreak-unit-asso.component';
 import { InfectiousStatusEditComponent } from './component/infectious-status/infectious-status-edit/infectious-status-edit.component';
@@ -116,117 +113,100 @@ export function initializeMasterKeyFactory(masterKeyService: MasterKeyService) {
   return () => masterKeyService.fetchIsMasterKeySet().toPromise();
 }
 
-FullCalendarModule.registerPlugins([ // register FullCalendar plugins
-  dayGridPlugin,
-  timeGridPlugin,
-  interactionPlugin,
-  listPlugin
-]);
+// FullCalendar 6: plugins are now configured in each CalendarComponent's options
+// (see `src/app/calendar/calendar.component.ts`).
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    HomePageComponent,
-    MainMenuComponent,
-    ListingInfectiousStatusComponent,
-    OtherTranslationsComponent,
-    UserDetailsPageComponent,
-    UsersPageComponent,
-    PatientPageComponent,
-    CalendarPageComponent,
-    CalendarComponent,
-    InfectiousStatusExplanationComponent,
-    ResponsesToEventComponent,
-    OutbreakEditComponent,
-    PatientAnalysesComponent,
-    OutbreakUnitAssoComponent,
-    InfectiousStatusEditComponent,
-    AssociateInfectiousStatusToOutbreaksComponent,
-    PatientSearchComponent,
-    PatientEditorComponent,
-    StayEditComponent,
-    AnalysisResultEditComponent,
-    SimulateProcessingAtPointInTimeComponent,
-    AnalysesResultsComponent,
-    StaysComponent,
-    StaysPageComponent,
-    AnalysesPageComponent,
-    BlockUiComponent,
-    WebSocketComponent,
-    ExecutePendingTasksComponent,
-    AnalysisRequestEditComponent,
-    ExposedFunctionComponent,
-    ExposedFunctionArgumentComponent,
-    ExposedFunctionPageComponent,
-    AnalysesRequestsComponent,
-    AnalysesRequestsPageComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-
-    FontAwesomeModule,
-
-    // PrimeNG
-    CheckboxModule,
-    StyleClassModule,
-    MessageModule,
-    KnobModule,
-    ButtonModule,
-    InputTextModule,
-    RippleModule,
-    AccordionModule,
-    DynamicDialogModule,
-    ToastModule,
-    MenuModule,
-    MenubarModule,
-    TableModule,
-    MultiSelectModule,
-    DropdownModule,
-    SplitButtonModule,
-    ListboxModule,
-    InputTextareaModule,
-    SelectButtonModule,
-    CalendarModule,
-    InputSwitchModule,
-    TimelineModule,
-    CardModule,
-    PanelModule,
-    ConfirmPopupModule,
-    AutoCompleteModule,
-    BlockUIModule,
-    SliderModule,
-
-    // Spe3dlab modules (needed for pipes)
-    Spe3dlabUtilsModule,
-    TranslationModule,
-    FrontendVersionModule,
-    AppuserModule,
-    ProcessingAnimationModule,
-
-    // FullCalendar
-    FullCalendarModule,
-
-
-  ],
-  providers: [ErrorHandlerService,
-              // AuthenticationService,
-              AuthGuardService,
-              // LoginService,
-              MessageService,
-              TranslationService,
-              ConfirmationService, // For PrimeNG confirmation dialog
-              DynamicDialogRef, DynamicDialogConfig,
-              { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-              { provide: APP_INITIALIZER, useFactory: translationServiceFactory, deps: [TranslationService], multi: true },
-              { provide: APP_INITIALIZER, useFactory: initializeRolesFactory, deps: [AuthenticationService], multi: true },
-              { provide: APP_INITIALIZER, useFactory: initializeMasterKeyFactory, deps: [MasterKeyService], multi: true }
-    // { provide: LocationStrategy, useClass: HashLocationStrategy },
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        LoginComponent,
+        HomePageComponent,
+        MainMenuComponent,
+        ListingInfectiousStatusComponent,
+        OtherTranslationsComponent,
+        UserDetailsPageComponent,
+        UsersPageComponent,
+        PatientPageComponent,
+        CalendarPageComponent,
+        CalendarComponent,
+        InfectiousStatusExplanationComponent,
+        ResponsesToEventComponent,
+        OutbreakEditComponent,
+        PatientAnalysesComponent,
+        OutbreakUnitAssoComponent,
+        InfectiousStatusEditComponent,
+        AssociateInfectiousStatusToOutbreaksComponent,
+        PatientSearchComponent,
+        PatientEditorComponent,
+        StayEditComponent,
+        AnalysisResultEditComponent,
+        SimulateProcessingAtPointInTimeComponent,
+        AnalysesResultsComponent,
+        StaysComponent,
+        StaysPageComponent,
+        AnalysesPageComponent,
+        BlockUiComponent,
+        WebSocketComponent,
+        ExecutePendingTasksComponent,
+        AnalysisRequestEditComponent,
+        ExposedFunctionComponent,
+        ExposedFunctionArgumentComponent,
+        ExposedFunctionPageComponent,
+        AnalysesRequestsComponent,
+        AnalysesRequestsPageComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        FormsModule,
+        FontAwesomeModule,
+        // PrimeNG
+        CheckboxModule,
+        StyleClassModule,
+        MessageModule,
+        KnobModule,
+        ButtonModule,
+        InputTextModule,
+        RippleModule,
+        AccordionModule,
+        DynamicDialogModule,
+        ToastModule,
+        MenuModule,
+        MenubarModule,
+        TableModule,
+        MultiSelectModule,
+        SelectModule,
+        SplitButtonModule,
+        ListboxModule,
+        TextareaModule,
+        SelectButtonModule,
+        DatePickerModule,
+        ToggleSwitchModule,
+        TimelineModule,
+        CardModule,
+        PanelModule,
+        ConfirmPopupModule,
+        AutoCompleteModule,
+        BlockUIModule,
+        SliderModule,
+        // Spe3dlab modules (needed for pipes)
+        Spe3dlabUtilsModule,
+        TranslationModule,
+        FrontendVersionModule,
+        AppuserModule,
+        ProcessingAnimationModule,
+        // FullCalendar
+        FullCalendarModule], providers: [ErrorHandlerService,
+        // AuthenticationService,
+        AuthGuardService,
+        // LoginService,
+        MessageService,
+        TranslationService,
+        ConfirmationService, // For PrimeNG confirmation dialog
+        DynamicDialogRef, DynamicDialogConfig,
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: APP_INITIALIZER, useFactory: translationServiceFactory, deps: [TranslationService], multi: true },
+        { provide: APP_INITIALIZER, useFactory: initializeRolesFactory, deps: [AuthenticationService], multi: true },
+        { provide: APP_INITIALIZER, useFactory: initializeMasterKeyFactory, deps: [MasterKeyService], multi: true }
+        // { provide: LocationStrategy, useClass: HashLocationStrategy },
+        , provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

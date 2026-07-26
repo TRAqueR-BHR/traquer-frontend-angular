@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Appuser } from '../model/Appuser';
-import * as moment from 'moment';
+import moment from 'moment';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlerService } from 'src/app/service/error-handler.service';

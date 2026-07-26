@@ -1,4 +1,4 @@
-import { Component, Inject, Input, LOCALE_ID, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Inject, Input, LOCALE_ID, OnInit, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -27,9 +27,11 @@ import { Unit } from 'src/app/model/Unit';
 import { ANALYSIS_REQUEST_STATUS_TYPE } from 'src/app/enum/ANALYSIS_REQUEST_STATUS_TYPE';
 
 @Component({
-  selector: 'app-analysis-request-edit',
-  templateUrl: './analysis-request-edit.component.html',
-  styleUrls: ['./analysis-request-edit.component.scss']
+    selector: 'app-analysis-request-edit',
+    templateUrl: './analysis-request-edit.component.html',
+    styleUrls: ['./analysis-request-edit.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class AnalysisRequestEditComponent implements OnInit {
 

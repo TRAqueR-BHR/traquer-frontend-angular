@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'concatBefore'
+    name: 'concatBefore',
+    standalone: false
 })
 // See https://github.com/nglrx/pipes/tree/master/packages/pipes/src/lib/string#concat
 export class ConcatBeforePipe implements PipeTransform {

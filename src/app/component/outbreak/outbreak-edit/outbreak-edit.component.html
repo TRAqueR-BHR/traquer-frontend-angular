@@ -1,103 +1,97 @@
-<ng-container *ngIf="outbreak != null">
-
-    <p-panel header="Information de l'épisode">
-
-        <div class="custom-form-grid p-fluid">
-
-            <div class="custom-form-field col-12 md:col-6">
-                <label for="name"
-                    class="custom-label"
-                    i18n="@@outbreak_mnemo">
+@if (outbreak != null) {
+  <p-panel header="Information de l'épisode">
+    <div class="custom-form-grid p-fluid">
+      <div class="custom-form-field col-12 md:col-6">
+        <label for="name"
+          class="custom-label"
+          i18n="@@outbreak_mnemo">
                     Mnemo de l'épisode</label>
-                <div class="p-inputgroup">
-                    <input type="text" pInputText
-                        id="name"
-                        name="name"
-                        [(ngModel)]="outbreak.name"
-                        required/>
-                    <span class="p-inputgroup-addon">{{
-                        outbreak.infectiousAgent|
-                        enumCode2EnumName:"INFECTIOUS_AGENT_CATEGORY"|
-                        concat:"_shortname"|
-                        getTranslation}}</span>
-                </div>
-            </div>
-
-            <div class="custom-form-field col-12 md:col-6">
-                <label for="criticity"
-                    class="custom-label"
-                    i18n="@@episode_criticity">
+        <div class="p-inputgroup">
+          <input type="text" pInputText
+            id="name"
+            name="name"
+            [(ngModel)]="outbreak.name"
+            required/>
+          <span class="p-inputgroup-addon">{{
+            outbreak.infectiousAgent|
+            enumCode2EnumName:"INFECTIOUS_AGENT_CATEGORY"|
+            concat:"_shortname"|
+          getTranslation}}</span>
+        </div>
+      </div>
+      <div class="custom-form-field col-12 md:col-6">
+        <label for="criticity"
+          class="custom-label"
+          i18n="@@episode_criticity">
                     Criticité de l'épisode</label>
-
-                <p-dropdown [options]="optionsOUTBREAK_CRITICITY"
-                    id="criticity"
-                    name="criticity"
-                    appendTo="body"
-                    [(ngModel)]="outbreak.criticity"></p-dropdown>
-            </div>
-
-            <div class="custom-form-field col-12 md:col-6">
-                <label for="refTime"
-                    class="custom-label"
-                    i18n="@@outbreak_ref_time">Heure de référence de l'épisode</label>
-                <p-calendar id="refTime"
-                    name="refTime"
-                    [showTime]="true"
-                    [showIcon]="true"
-                    dateFormat="dd/mm/yy"
-                    [(ngModel)]="outbreak.refTime"
-                ></p-calendar>
-            </div>
-
-            <div class="custom-form-field col-12">
-                <button pButton type="button"
-                    *ngIf="canDisplayInitializeOutbreakButton"
-                    i18n-label="intialize_outbreak"
-                    label="Initialiser l'épisode"
-                    (click)="initializeOutbreak()"
-                    class="w-auto"
-                    [disabled]="initializeOutbreakBtnIsDisabled"></button>
-
-                <button pButton type="button"
-                    *ngIf="canDisplaySaveButton"
-                    i18n-label="save"
-                    label="Enregistrer"
-                    (click)="save()"
-                    class="w-auto"
-                    [disabled]="saveOutbreakBtnIsDisabled"></button>
-            </div>
-
-        </div>
-
-    </p-panel>
-
-
-    <h2 class="ml-2">UFs de l'épisode</h2>
-    <div class="col-12" *ngIf="outbreak == null || outbreak.id == null">
-        <p-message severity="info" *ngIf="gender == null"
-            text="L'épisode doit être enregistré pour que les UF associées apparaissent"
-            i18n-text="@@outbreak_must_be_saved_first">
+        <p-select [options]="optionsOUTBREAK_CRITICITY"
+          id="criticity"
+          name="criticity"
+          appendTo="body"
+        [(ngModel)]="outbreak.criticity"></p-select>
+      </div>
+      <div class="custom-form-field col-12 md:col-6">
+        <label for="refTime"
+          class="custom-label"
+        i18n="@@outbreak_ref_time">Heure de référence de l'épisode</label>
+        <p-datepicker id="refTime"
+          name="refTime"
+          [showTime]="true"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+          [(ngModel)]="outbreak.refTime"
+        ></p-datepicker>
+      </div>
+      <div class="custom-form-field col-12">
+        @if (canDisplayInitializeOutbreakButton) {
+          <button pButton type="button"
+            (click)="initializeOutbreak()"
+            class="w-auto"
+          [disabled]="initializeOutbreakBtnIsDisabled">
+            <span pButtonLabel i18n="intialize_outbreak">Initialiser l'épisode</span>
+          </button>
+        }
+        @if (canDisplaySaveButton) {
+          <button pButton type="button"
+            (click)="save()"
+            class="w-auto"
+          [disabled]="saveOutbreakBtnIsDisabled">
+            <span pButtonLabel i18n="save">Enregistrer</span>
+          </button>
+        }
+      </div>
+    </div>
+  </p-panel>
+  <h2 class="ml-2">UFs de l'épisode</h2>
+  @if (outbreak == null || outbreak.id == null) {
+    <div class="col-12">
+      @if (gender == null) {
+        <p-message severity="info"
+          text="L'épisode doit être enregistré pour que les UF associées apparaissent"
+          i18n-text="@@outbreak_must_be_saved_first">
         </p-message>
+      }
     </div>
-    <div class="grid" *ngIf="outbreak != null && outbreak.id != null">
-
-        <div class="col-12">
-            <p-message severity="warn" *ngIf="noAssociationWasFound === true"
-                text="Aucune association entre l'épisode et des UF n'a été trouvée"
-                i18n-text="@@no_association_was_found">
-            </p-message>
-        </div>
-
-        <p-accordion >
-            <ng-container *ngFor="let unitAsso of outbreakUnitAssos">
-                <p-accordionTab [header]="unitAsso.unit.name">
-                    <div app-outbreak-unit-asso
-                        class="col-12 outbreak-unit-asso"
-                        [outbreakUnitAsso]="unitAsso"></div>
-                </p-accordionTab>
-            </ng-container>
-
-        </p-accordion>
+  }
+  @if (outbreak != null && outbreak.id != null) {
+    <div class="grid">
+      <div class="col-12">
+        @if (noAssociationWasFound === true) {
+          <p-message severity="warn"
+            text="Aucune association entre l'épisode et des UF n'a été trouvée"
+            i18n-text="@@no_association_was_found">
+          </p-message>
+        }
+      </div>
+      <p-accordion >
+        @for (unitAsso of outbreakUnitAssos; track unitAsso) {
+          <p-accordion-panel [header]="unitAsso.unit.name">
+            <div app-outbreak-unit-asso
+              class="col-12 outbreak-unit-asso"
+            [outbreakUnitAsso]="unitAsso"></div>
+          </p-accordion-panel>
+        }
+      </p-accordion>
     </div>
-
-</ng-container>
+  }
+}

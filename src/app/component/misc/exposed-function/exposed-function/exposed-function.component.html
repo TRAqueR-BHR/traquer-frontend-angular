@@ -1,43 +1,43 @@
 <form (ngSubmit)="executeFunction()" #executeFunctionForm="ngForm">
 
-<div class="custom-form-grid p-fluid">
+  <div class="custom-form-grid p-fluid">
 
     <div class="custom-form-field col-12 md:col-6">
-        <label for="selectedFunction" class="custom-label"
-                i18n="@@selected_function">
+      <label for="selectedFunction" class="custom-label"
+        i18n="@@selected_function">
                 Fonction sélectionnée</label>
-            <p-dropdown [options]="optionsFunctions"
-                id="selectedFunction"
-                name="selectedFunction"
-                [(ngModel)]="selectedFunction"
-                #selectedFunctionCheck="ngModel"
-                (ngModelChange)="onSelectedFunctionChange($event)"
-                placeholder="Sélectionner"
-                [required]="true" 
-                [showClear]="true" 
-                styleClass="w-auto">
-            </p-dropdown>
+      <p-select [options]="optionsFunctions"
+        id="selectedFunction"
+        name="selectedFunction"
+        [(ngModel)]="selectedFunction"
+        #selectedFunctionCheck="ngModel"
+        (ngModelChange)="onSelectedFunctionChange($event)"
+        placeholder="Sélectionner"
+        [required]="true"
+        [showClear]="true"
+        styleClass="w-auto">
+      </p-select>
     </div>
 
     <div class="col-12"></div>
 
-    <ng-container *ngFor="let item of arguments" >
-        <div class="custom-form-field col-12 md:col-6" app-exposed-function-argument
-            [argument]="item">
-        </div>
-    </ng-container>
+    @for (item of arguments; track item) {
+      <div class="custom-form-field col-12 md:col-6" app-exposed-function-argument
+        [argument]="item">
+      </div>
+    }
 
     <div class="col-12"></div>
 
     <div class="col-12 md:col-6">
-        <button type="submit" pButton 
-            icon="fas fa-play"      
-            [disabled]="!executeFunctionForm.form.valid"
-            i18n-label="execute_function" 
-            label="Executer la fonction" 
-            class="w-auto"></button>
-    </div>    
+      <button type="submit" pButton
+        [disabled]="!executeFunctionForm.form.valid"
+      class="w-auto">
+        <span class="fas fa-play" pButtonIcon></span>
+        <span pButtonLabel i18n="execute_function">Executer la fonction</span>
+      </button>
+    </div>
 
-</div>
+  </div>
 
 </form>

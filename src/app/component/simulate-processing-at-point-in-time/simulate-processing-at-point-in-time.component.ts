@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {ConfirmationService} from 'primeng/api';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { SimulateProcessingAtPointInTimeService } from 'src/app/service/simulate-processing-at-point-in-time.service';
@@ -6,9 +6,11 @@ import { UINotificationService } from 'src/app/service/uinotification.service';
 
 
 @Component({
-  selector: 'app-simulate-processing-at-point-in-time',
-  templateUrl: './simulate-processing-at-point-in-time.component.html',
-  styleUrls: ['./simulate-processing-at-point-in-time.component.scss']
+    selector: 'app-simulate-processing-at-point-in-time',
+    templateUrl: './simulate-processing-at-point-in-time.component.html',
+    styleUrls: ['./simulate-processing-at-point-in-time.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class SimulateProcessingAtPointInTimeComponent implements OnInit {
 

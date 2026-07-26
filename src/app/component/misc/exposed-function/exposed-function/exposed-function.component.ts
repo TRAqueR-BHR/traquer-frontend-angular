@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { ROLE_CODE_NAME } from 'src/app/enum/ROLE_CODE_NAME';
 import { ExposedFunctionArgument } from 'src/app/model-protected/ExposedFunctionArgument';
@@ -11,9 +11,11 @@ import { SelectItemService } from 'src/app/service/select-item.service';
 import { UINotificationService } from 'src/app/service/uinotification.service';
 
 @Component({
-  selector: 'app-exposed-function',
-  templateUrl: './exposed-function.component.html',
-  styleUrls: ['./exposed-function.component.scss']
+    selector: 'app-exposed-function',
+    templateUrl: './exposed-function.component.html',
+    styleUrls: ['./exposed-function.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class ExposedFunctionComponent implements OnInit {
 

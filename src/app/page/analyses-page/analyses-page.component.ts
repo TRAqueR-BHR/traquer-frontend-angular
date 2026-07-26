@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'app-analyses-page',
-  templateUrl: './analyses-page.component.html',
-  styleUrls: ['./analyses-page.component.scss']
+    selector: 'app-analyses-page',
+    templateUrl: './analyses-page.component.html',
+    styleUrls: ['./analyses-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class AnalysesPageComponent implements OnInit {
 

@@ -2,7 +2,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Utils } from 'src/app/util/utils';
 
                
-@Pipe({ name: 'enumCode2EnumName', pure: false })
+@Pipe({
+    name: 'enumCode2EnumName', pure: false,
+    standalone: false
+})
 export class EnumCode2EnumNamePipe implements PipeTransform {
   constructor() {
   }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { InfectiousStatus } from 'src/app/model/InfectiousStatus';
@@ -12,9 +12,11 @@ import { OutbreakService } from 'src/app/service/outbreak.service';
 import { SelectItemService } from 'src/app/service/select-item.service';
 
 @Component({
-  selector: 'app-associate-infectious-status-to-outbreaks',
-  templateUrl: './associate-infectious-status-to-outbreaks.component.html',
-  styleUrls: ['./associate-infectious-status-to-outbreaks.component.scss'],
+    selector: 'app-associate-infectious-status-to-outbreaks',
+    templateUrl: './associate-infectious-status-to-outbreaks.component.html',
+    styleUrls: ['./associate-infectious-status-to-outbreaks.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class AssociateInfectiousStatusToOutbreaksComponent implements OnInit {
 

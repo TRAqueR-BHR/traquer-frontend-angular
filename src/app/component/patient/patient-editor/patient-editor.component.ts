@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input, Pipe, PipeTransform, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, Pipe, PipeTransform, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import {Patient} from 'src/app/model/Patient';
 import {PatientService} from 'src/app/service/patient.service';
 import {GENDER} from 'src/app/enum/GENDER';
@@ -12,9 +12,11 @@ import { TranslationService } from 'src/app/module/translation/service/translati
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
-  selector: 'app-patient-editor',
-  templateUrl: './patient-editor.component.html',
-  styleUrls: ['./patient-editor.component.scss']
+    selector: 'app-patient-editor',
+    templateUrl: './patient-editor.component.html',
+    styleUrls: ['./patient-editor.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class PatientEditorComponent implements OnInit {
 

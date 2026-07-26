@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
@@ -7,10 +7,12 @@ import { SimulateProcessingAtPointInTimeComponent } from '../simulate-processing
 import { ROLE_CODE_NAME } from 'src/app/enum/ROLE_CODE_NAME';
 
 @Component({
-  selector: 'app-main-menu',
-  templateUrl: './main-menu.component.html',
-  styleUrls: ['./main-menu.component.scss'],
-  providers: [DialogService]
+    selector: 'app-main-menu',
+    templateUrl: './main-menu.component.html',
+    styleUrls: ['./main-menu.component.scss'],
+    providers: [DialogService],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class MainMenuComponent implements OnInit {
 
@@ -38,17 +40,17 @@ export class MainMenuComponent implements OnInit {
           },
           {
             label: this.translationService.getTranslation('analyses'),
-            icon: 'fa fa-solid fa-flask',
+            icon: 'fas fa-flask',
             routerLink: ['/analyses'],
           },
           {
             label: this.translationService.getTranslation('analyses_requests'),
-            icon: 'fa fa-solid fa-flask',
+            icon: 'fas fa-flask',
             routerLink: ['/analyses-requests'],
           },
           {
             label: this.translationService.getTranslation('stays'),
-            icon: 'fa fa-solid fa-bed',
+            icon: 'fas fa-bed',
             routerLink: ['/stays'],
           },
         ]

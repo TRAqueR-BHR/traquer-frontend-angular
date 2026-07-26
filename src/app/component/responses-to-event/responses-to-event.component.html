@@ -1,144 +1,143 @@
-<p-confirmPopup></p-confirmPopup>
+<p-confirmpopup></p-confirmpopup>
 
-<ng-container *ngIf="eventRequiringAttention != null">
-
-<div class="grid">
-
-    <div class="col-12" *ngIf="isDebugMode">
+@if (eventRequiringAttention != null) {
+  <div class="grid">
+    @if (isDebugMode) {
+      <div class="col-12">
         <ul>
-            <li>eventRequiringAttention.id: {{eventRequiringAttention.id}}</li>
-            <li *ngIf="outbreak">outbreak.id: {{outbreak.id}}</li>
+          <li>eventRequiringAttention.id: {{eventRequiringAttention.id}}</li>
+          @if (outbreak) {
+            <li>outbreak.id: {{outbreak.id}}</li>
+          }
         </ul>
-    </div>
-
-
+      </div>
+    }
     <!-- Choice of responses -->
     <div class="col-12">
-
-        <h1 class="m-2" style="display: inline;">Réponses à l'événement</h1>
-        <button  pButton pRipple type="button"
-            (click)="showInfectiousStatusExplanation()"
-            icon="fas fa-info"
-            class="p-button-rounded p-button-text p-button-sm">
-        </button>
-
-        <div class="custom-form-grid p-fluid">
-            <div class="custom-form-field col-12 md:col-6">
-                <label for="responsesTypes"
-                    class="custom-label"
-                    i18n="@@select_the_responses_to_the_event">
+      <h1 class="m-2" style="display: inline;">Réponses à l'événement</h1>
+      <button  pButton pRipple type="button"
+        (click)="showInfectiousStatusExplanation()"
+        class="p-button-rounded p-button-text p-button-sm">
+        <span class="fas fa-info" pButtonIcon></span>
+      </button>
+      <div class="custom-form-grid p-fluid">
+        <div class="custom-form-field col-12 md:col-6">
+          <label for="responsesTypes"
+            class="custom-label"
+            i18n="@@select_the_responses_to_the_event">
                     Choisir les réponses à l'événement
                 </label>
-                <p-listbox [options]="optionsRESPONSE_TYPE"
-                    id="responsesTypes"
-                    name="responsesTypes"
-                    (ngModelChange)="handleResponsesTypesChange($event)"
-                    [(ngModel)]="eventRequiringAttention.responsesTypes"
-                    #responsesTypesCheck="ngModel"
-                    [filter]="false"
-                    [multiple]="true"
-                    [checkbox]="true"
-                    [required]="true"
-                >
-                </p-listbox>
-            </div>
-            <div class="custom-form-field col-12 md:col-6">
-                <label for="responseComment"
-                    class="custom-label"
-                    i18n="@@user_comment">Commentaire de l'utilisateur</label>
-                <textarea pInputTextarea
-                    [disabled]="isLocked"
-                    [(ngModel)]="eventRequiringAttention.responseComment"
-                    autoResize="autoResize"
-                    (focusout)="save()"></textarea>
-            </div>
+          <p-listbox [options]="optionsRESPONSE_TYPE"
+            id="responsesTypes"
+            name="responsesTypes"
+            (ngModelChange)="handleResponsesTypesChange($event)"
+            [(ngModel)]="eventRequiringAttention.responsesTypes"
+            #responsesTypesCheck="ngModel"
+            [filter]="false"
+            [multiple]="true"
+            [checkbox]="true"
+            [required]="true"
+            >
+          </p-listbox>
         </div>
-
+        <div class="custom-form-field col-12 md:col-6">
+          <label for="responseComment"
+            class="custom-label"
+          i18n="@@user_comment">Commentaire de l'utilisateur</label>
+          <textarea pInputTextarea
+            [disabled]="isLocked"
+            [(ngModel)]="eventRequiringAttention.responseComment"
+            autoResize="autoResize"
+          (focusout)="save()"></textarea>
+        </div>
+      </div>
     </div>
-
     <!-- Associate infectious status to existing outbreak -->
-    <div class="col-12"
-        *ngIf="canDisplayAssociateInfectiousStatusToOutbreaksComponent">
+    @if (canDisplayAssociateInfectiousStatusToOutbreaksComponent) {
+      <div class="col-12"
+        >
         <h1 class="m-2">Associer le statut infectieux à un épisode existant</h1>
         <app-associate-infectious-status-to-outbreaks
-            [infectiousStatus]="infectiousStatus">
+          [infectiousStatus]="infectiousStatus">
         </app-associate-infectious-status-to-outbreaks>
-    </div>
-
+      </div>
+    }
     <!-- Request a new analysis -->
-    <div class="col-12"
-        *ngIf="canDisplayRequestAnalysisComponent">
+    @if (canDisplayRequestAnalysisComponent) {
+      <div class="col-12"
+        >
         <h1 class="m-2">Demander une analyse</h1>
-        <app-analysis-request-edit
-            *ngIf="
-                this.infectiousStatus
-                && this.patient
-                && this.patientDecrypt
-                "
+        @if (
+          this.infectiousStatus
+          && this.patient
+          && this.patientDecrypt
+          ) {
+          <app-analysis-request-edit
             [patient]="patient"
             [patientDecrypt]="patientDecrypt"
-        >
-        </app-analysis-request-edit>
-    </div>
-
+            >
+          </app-analysis-request-edit>
+        }
+      </div>
+    }
     <!-- Declare isolation -->
-    <div class="col-12" *ngIf="canDisplayIsolationTime">
+    @if (canDisplayIsolationTime) {
+      <div class="col-12">
         <h1 class="m-2">Isolement du patient</h1>
         <p-panel header="Détails de la demande d'isolement">
-
-            <form #formForIsolationTime="ngForm"
-                (ngSubmit)="savePatientIsolationDate()">
-                <div class="custom-form-grid p-fluid">
-                    <div class="custom-form-field col-12 md:col-6">
-                        <label for="isolationTime"
-                            class="custom-label"
-                            i18n="@@isolation_time">Heure d'isolement du patient</label>
-                        <p-calendar id="isolationTime"
-                            name="isolationTime"
-                            [appendTo]="'body'"
-                            [showTime]="true"
-                            [showIcon]="true"
-                            dateFormat="dd/mm/yy"
-                            [(ngModel)]="isolationTime"
-                            required
-                        ></p-calendar>
-                    </div>
-                </div>
-                <div class="custom-form-field col-12">
-                    <button pButton type="submit"
-                        i18n-label="save_isolation_time"
-                        label="Enregistrer l'heure d'isolement"
-                        [disabled]="!formForIsolationTime.valid || processingSavePatientIsolationDate"
-                        class="w-auto"
-                    ></button>
-                </div>
-            </form>
+          <form #formForIsolationTime="ngForm"
+            (ngSubmit)="savePatientIsolationDate()">
+            <div class="custom-form-grid p-fluid">
+              <div class="custom-form-field col-12 md:col-6">
+                <label for="isolationTime"
+                  class="custom-label"
+                i18n="@@isolation_time">Heure d'isolement du patient</label>
+                <p-datepicker id="isolationTime"
+                  name="isolationTime"
+                  [appendTo]="'body'"
+                  [showTime]="true"
+                  [showIcon]="true"
+                  dateFormat="dd/mm/yy"
+                  [(ngModel)]="isolationTime"
+                  required
+                ></p-datepicker>
+              </div>
+            </div>
+            <div class="custom-form-field col-12">
+              <button pButton type="submit"
+                [disabled]="!formForIsolationTime.valid || processingSavePatientIsolationDate"
+                class="w-auto"
+              >
+                <span pButtonLabel i18n="save_isolation_time">Enregistrer l'heure d'isolement</span>
+              </button>
+            </div>
+          </form>
         </p-panel>
-    </div>
-
+      </div>
+    }
     <!-- Outbreak edition -->
     <div class="col-12">
-        <h1 class="m-2">Épisode lié à l'événement</h1>
-        <span class="m-2" *ngIf="!canDisplayOutbreak"
-            i18n="@@this_event_has_not_been_associated_to_an_event" >
+      <h1 class="m-2">Épisode lié à l'événement</h1>
+      @if (!canDisplayOutbreak) {
+        <span class="m-2"
+          i18n="@@this_event_has_not_been_associated_to_an_event" >
             Cet événement n'est pas rattaché à un épisode
         </span>
-        <app-outbreak-edit *ngIf="canDisplayOutbreak"
-            [outbreak]="outbreak"
-            [infectiousStatus]="infectiousStatus"
+      }
+      @if (canDisplayOutbreak) {
+        <app-outbreak-edit
+          [outbreak]="outbreak"
+          [infectiousStatus]="infectiousStatus"
         ></app-outbreak-edit>
+      }
     </div>
-
     <!-- Analyses results -->
     <div class="col-12">
-        <h1 class="m-2" i18n="@@patient_analyses">Analyses du patient</h1>
-        <app-patient-analyses *ngIf="infectiousStatus"
-            [patient]="infectiousStatus.patient"></app-patient-analyses>
+      <h1 class="m-2" i18n="@@patient_analyses">Analyses du patient</h1>
+      @if (infectiousStatus) {
+        <app-patient-analyses
+        [patient]="infectiousStatus.patient"></app-patient-analyses>
+      }
     </div>
-
-
-</div>
-
-
-
-</ng-container>
+  </div>
+}

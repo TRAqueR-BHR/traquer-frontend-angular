@@ -1,4 +1,4 @@
-import * as Moment from 'moment-timezone';
+import Moment from 'moment-timezone';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { APPUSER_TYPE } from '../enum/APPUSER_TYPE';
@@ -14,7 +14,7 @@ import { EVENT_REQUIRING_ATTENTION_TYPE } from '../enum/EVENT_REQUIRING_ATTENTIO
 import { SAMPLE_MATERIAL_TYPE } from '../enum/SAMPLE_MATERIAL_TYPE';
 import { RESPONSE_TYPE } from '../enum/RESPONSE_TYPE';
 import { formatDate } from '@angular/common';
-import * as Hash from 'hash.js';
+import Hash from 'hash.js';
 
 export class Utils {
 
@@ -381,7 +381,7 @@ export const deepCopy = <T>(target: T): T => {
     (target as any[]).forEach((v) => { cp.push(v); });
     return cp.map((n: any) => deepCopy<any>(n)) as any;
   }
-  if (typeof target === 'object' && target !== {}) {
+  if (typeof target === 'object' && Object.keys(target as object).length > 0) {
     const cp = { ...(target as { [key: string]: any }) } as { [key: string]: any };
     Object.keys(cp).forEach(k => {
       cp[k] = deepCopy<any>(cp[k]);

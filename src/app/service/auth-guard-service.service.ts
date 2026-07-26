@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from 'src/app/module/appuser/service/authentication.service';
 
@@ -7,7 +7,7 @@ import { AuthenticationService } from 'src/app/module/appuser/service/authentica
  * http://jasonwatmore.com/post/2016/08/16/angular-2-jwt-authentication-example-tutorial
  */
 @Injectable()
-export class AuthGuardService implements CanActivate {
+export class AuthGuardService  {
 
     constructor(
         private router: Router,

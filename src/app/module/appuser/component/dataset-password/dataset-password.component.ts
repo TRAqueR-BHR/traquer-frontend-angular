@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Utils } from 'src/app/util/utils';
@@ -7,9 +7,11 @@ import { MasterKeyService } from 'src/app/service/master-key.service';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 
 @Component({
-  selector: 'app-dataset-password',
-  templateUrl: './dataset-password.component.html',
-  styleUrls: ['./dataset-password.component.scss']
+    selector: 'app-dataset-password',
+    templateUrl: './dataset-password.component.html',
+    styleUrls: ['./dataset-password.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class DatasetPasswordComponent implements OnInit {
 

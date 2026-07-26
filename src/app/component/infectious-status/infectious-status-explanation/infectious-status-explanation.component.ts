@@ -1,6 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { ThrowStmt } from '@angular/compiler';
-import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, Inject, Input, LOCALE_ID, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PrimeIcons } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -25,9 +24,11 @@ import { environment } from 'src/environments/environment';
 import { formatDate } from '@angular/common';
 
 @Component({
-  selector: 'app-infectious-status-explanation',
-  templateUrl: './infectious-status-explanation.component.html',
-  styleUrls: ['./infectious-status-explanation.component.scss']
+    selector: 'app-infectious-status-explanation',
+    templateUrl: './infectious-status-explanation.component.html',
+    styleUrls: ['./infectious-status-explanation.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class InfectiousStatusExplanationComponent implements OnInit {
 

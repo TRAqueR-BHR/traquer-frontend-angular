@@ -1,17 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 import { ExposedFunctionArgument } from 'src/app/model-protected/ExposedFunctionArgument';
 import { Utils } from 'src/app/util/utils';
 
 @Component({
-  selector: '[app-exposed-function-argument],app-exposed-function-argument',
-  templateUrl: './exposed-function-argument.component.html',
-  styleUrls: ['./exposed-function-argument.component.scss'],
-  viewProviders: [
-    { provide: ControlContainer,
-      useExisting: NgForm // This makes the form in the parent component reat as expected
-    }
-  ]
+    selector: '[app-exposed-function-argument],app-exposed-function-argument',
+    templateUrl: './exposed-function-argument.component.html',
+    styleUrls: ['./exposed-function-argument.component.scss'],
+    viewProviders: [
+        { provide: ControlContainer,
+            useExisting: NgForm // This makes the form in the parent component reat as expected
+        }
+    ],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class ExposedFunctionArgumentComponent implements OnInit {
 

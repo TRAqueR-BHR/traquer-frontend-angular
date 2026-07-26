@@ -1,4 +1,4 @@
-<p-confirmPopup></p-confirmPopup>
+<p-confirmpopup></p-confirmpopup>
 
 <p-panel header="Remise à zéro"
     [toggleable]="true"
@@ -8,10 +8,11 @@
 
         <div class="custom-form-field col-12">
             <button (click)="confirmReset($event)" pButton
-                icon="pi pi-check"
-                label="Réinitialiser les données"
                 class="w-auto"
-                [disabled]="resetInProgress"></button>
+                [disabled]="resetInProgress">
+              <span class="pi pi-check" pButtonIcon></span>
+              <span pButtonLabel>Réinitialiser les données</span>
+            </button>
         </div>
 
     </div>
@@ -31,7 +32,7 @@
                 <label for="forceProcessingTime"
                     class="custom-label"
                     i18n="@@simulated_processing_time">Date limite de traitement</label>
-                <p-calendar id="forceProcessingTime"
+                <p-datepicker id="forceProcessingTime"
                     name="forceProcessingTime"
                     [showTime]="true"
                     appendTo="body"
@@ -39,16 +40,17 @@
                     dateFormat="dd/mm/yy"
                     [(ngModel)]="forceProcessingTime"
                     required
-                ></p-calendar>
+                ></p-datepicker>
             </div>
 
             <div class="custom-form-field col-12">
                 <button pButton
-                    icon="pi pi-check"
-                    label="Lancer le traitement"
                     class="w-auto"
                     type="submit"
-                    [disabled]="simulateForm.invalid || processingInProgress"></button>
+                    [disabled]="simulateForm.invalid || processingInProgress">
+                  <span class="pi pi-check" pButtonIcon></span>
+                  <span pButtonLabel>Lancer le traitement</span>
+                </button>
             </div>
 
         </div>

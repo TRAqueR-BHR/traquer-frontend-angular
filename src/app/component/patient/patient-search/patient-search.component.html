@@ -1,107 +1,133 @@
 <p-table [columns]="queryParams.cols" [value]="data"
-    [lazy]="true" [lazyLoadOnInit]="false" (onLazyLoad)="updateSorting($event)"
-    [paginator]="true" paginatorPosition="both"
-    sortMode="multiple"  [scrollable]="true" scrollHeight="75vh"
-    [rows]="queryParams.pageSize" [totalRecords]="totalRecords" [loading]="loading"
-    styleClass="table_with_centered_content with-infinite-paginator">
+  [lazy]="true" [lazyLoadOnInit]="false" (onLazyLoad)="updateSorting($event)"
+  [paginator]="true" paginatorPosition="both"
+  sortMode="multiple"  [scrollable]="true" scrollHeight="75vh"
+  [rows]="queryParams.pageSize" [totalRecords]="totalRecords" [loading]="loading"
+  styleClass="table_with_centered_content with-infinite-paginator">
 
-    <!-- Columns selection and download -->
-    <ng-template pTemplate="caption">
+  <!-- Columns selection and download -->
+  <ng-template pTemplate="caption">
 
-        <div class="flex">
+    <div class="flex">
 
-            <p-multiSelect [options]="selectableColumns"
-                [(ngModel)]="selectedColumns"
-                selectedItemsLabel="{0} colonnes sélectionnées"
-                [style]="{minWidth: '200px'}"
-                defaultLabel="Choisir les colonnes à afficher"
-                (ngModelChange)="updateColumnsSelection($event)">
-            </p-multiSelect>
+      <p-multiselect [options]="selectableColumns"
+        [(ngModel)]="selectedColumns"
+        selectedItemsLabel="{0} colonnes sélectionnées"
+        [style]="{minWidth: '200px'}"
+        defaultLabel="Choisir les colonnes à afficher"
+        (ngModelChange)="updateColumnsSelection($event)">
+      </p-multiselect>
 
-        </div>
+    </div>
 
-    </ng-template>
+  </ng-template>
 
-    <!-- Columns sizes -->
-    <!-- <ng-template pTemplate="colgroup" let-columns>
-        <colgroup>
-            <ng-container *ngFor="let col of columns" >
-                <ng-container *ngIf="col.columnIsDisplayed" [ngSwitch]="col.field">
-                    <col *ngSwitchDefault [ngStyle]="{'width': col.width}"/>
-                </ng-container>
-            </ng-container>
-        </colgroup>
-    </ng-template> -->
+  <!-- Columns sizes -->
+  <!-- <ng-template pTemplate="colgroup" let-columns>
+  <colgroup>
+  <ng-container *ngFor="let col of columns" >
+    <ng-container *ngIf="col.columnIsDisplayed" [ngSwitch]="col.field">
+      <col *ngSwitchDefault [ngStyle]="{'width': col.width}"/>
+    </ng-container>
+  </ng-container>
+</colgroup>
+</ng-template> -->
 
-    <ng-template pTemplate="header" let-columns>
+<ng-template pTemplate="header" let-columns>
 
-        <!-- Names and sorting -->
-        <tr>
-            <ng-container *ngFor="let col of columns" >
-                <ng-container *ngIf="col.columnIsDisplayed" >
-                    <th *ngIf="col.sortable" [pSortableColumn]="col.field">
-                        {{col.header}}
-                        <p-sortIcon *ngIf="col.sortable" [field]="col.field"></p-sortIcon>
-                    </th>
-                    <th *ngIf="!col.sortable">
-                        {{col.header}}
-                    </th>
-                </ng-container>
-            </ng-container>
-        </tr>
+  <!-- Names and sorting -->
+  <tr>
+    @for (col of columns; track col) {
+      @if (col.columnIsDisplayed) {
+        @if (col.sortable) {
+          <th [pSortableColumn]="col.field">
+            {{col.header}}
+            @if (col.sortable) {
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            }
+          </th>
+        }
+        @if (!col.sortable) {
+          <th>
+            {{col.header}}
+          </th>
+        }
+      }
+    }
+  </tr>
 
-        <!-- Filters -->
-        <tr>
-            <ng-container *ngFor="let col of columns" >
-                <ng-container *ngIf="col.columnIsDisplayed" >
-                    <th *ngIf="col.filterable" [ngSwitch]="true">
-                        <input *ngSwitchDefault pInputText type="text"
-                            [(ngModel)]="filterValues[col.field]"
-                            (keyup)="updateFiltering()">
-                        <p-dropdown
-                            *ngSwitchCase="col.field === 'is_confirmed'
-                                        || col.field === 'is_current'
-                                        || col.field === 'patient_is_hospitalized'"
-                            [options]="trueFalseSelectItems"
-                            [(ngModel)]="filterValues[col.field]"
-                            (onChange)="updateFiltering()">
-                        </p-dropdown>
-                        <p-calendar *ngSwitchCase="col.field === 'birthdate'" type="date"
-                            [showTime]="false" [showIcon]="true"
-                            dateFormat="dd/mm/yy" appendTo="body"
-                            [showButtonBar]="true"
-                            [(ngModel)]="filterValues[col.field]"
-                            (ngModelChange)="updateFiltering()">
-                        </p-calendar>
-
-                    </th>
-                    <th *ngIf="!col.filterable" ></th>
-                </ng-container>
-            </ng-container>
-        </tr>
-    </ng-template>
-    <!-- Values -->
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr [pSelectableRow]="rowData">
-            <ng-container  *ngFor="let col of columns" >
-                <ng-container *ngIf="col.columnIsDisplayed" >
-                    <td [ngSwitch]="col.field">
-                        <span *ngSwitchDefault>{{rowData[col.nameInSelect]}}</span>
-
-                        <span *ngSwitchCase="'ref_time'">{{rowData[col.nameInSelect] | date:'dd/MM/yyyy HH:mm'}}</span>
-                        <span *ngSwitchCase="'birthdate'">{{rowData[col.nameInSelect] | date:'dd/MM/yyyy'}}</span>
-                        <span *ngSwitchCase="'patient_is_hospitalized'">{{rowData[col.nameInSelect] | getTranslation}}</span>
-                        <button  *ngSwitchCase="'action'"
-                            pButton pRipple type="button"
-                            (click)="announcePatientSelected(rowData)"
-                            icon="fas fa-hand-rock"
-                            class="p-button-rounded p-button-text"></button>
-
-
-                    </td>
-                </ng-container>
-            </ng-container>
-        </tr>
-    </ng-template>
+  <!-- Filters -->
+  <tr>
+    @for (col of columns; track col) {
+      @if (col.columnIsDisplayed) {
+        @if (col.filterable) {
+          <th>
+            @switch (true) {
+              @default {
+                <input pInputText type="text"
+                  [(ngModel)]="filterValues[col.field]"
+                  (keyup)="updateFiltering()">
+              }
+              @case (col.field === 'is_confirmed'
+                || col.field === 'is_current'
+                || col.field === 'patient_is_hospitalized') {
+                <p-select
+                  [options]="trueFalseSelectItems"
+                  [(ngModel)]="filterValues[col.field]"
+                  (onChange)="updateFiltering()">
+                </p-select>
+              }
+              @case (col.field === 'birthdate') {
+                <p-datepicker type="date"
+                  [showTime]="false" [showIcon]="true"
+                  dateFormat="dd/mm/yy" appendTo="body"
+                  [showButtonBar]="true"
+                  [(ngModel)]="filterValues[col.field]"
+                  (ngModelChange)="updateFiltering()">
+                </p-datepicker>
+              }
+            }
+          </th>
+        }
+        @if (!col.filterable) {
+          <th ></th>
+        }
+      }
+    }
+  </tr>
+</ng-template>
+<!-- Values -->
+<ng-template pTemplate="body" let-rowData let-columns="columns">
+  <tr [pSelectableRow]="rowData">
+    @for (col of columns; track col) {
+      @if (col.columnIsDisplayed) {
+        <td>
+          @switch (col.field) {
+            @default {
+              <span>{{rowData[col.nameInSelect]}}</span>
+            }
+            @case ('ref_time') {
+              <span>{{rowData[col.nameInSelect] | date:'dd/MM/yyyy HH:mm'}}</span>
+            }
+            @case ('birthdate') {
+              <span>{{rowData[col.nameInSelect] | date:'dd/MM/yyyy'}}</span>
+            }
+            @case ('patient_is_hospitalized') {
+              <span>{{rowData[col.nameInSelect] | getTranslation}}</span>
+            }
+            @case ('action') {
+              <button
+                pButton pRipple type="button"
+                (click)="announcePatientSelected(rowData)"
+              class="p-button-rounded p-button-text">
+                <span class="fas fa-hand-rock" pButtonIcon></span>
+              </button>
+            }
+          }
+        </td>
+      }
+    }
+  </tr>
+</ng-template>
 
 </p-table>

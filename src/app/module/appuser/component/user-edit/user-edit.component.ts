@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Appuser } from 'src/app/module/appuser/model/Appuser';
 import { SelectItem } from 'primeng/api';
 import { RoleService } from '../../service/role.service';
@@ -16,9 +16,11 @@ import { APPUSER_TYPE } from 'src/app/enum/APPUSER_TYPE';
 import { ROLE_CODE_NAME } from 'src/app/enum/ROLE_CODE_NAME';
 
 @Component({
-  selector: 'app-user-edit',
-  templateUrl: './user-edit.component.html',
-  styleUrls: ['./user-edit.component.scss']
+    selector: 'app-user-edit',
+    templateUrl: './user-edit.component.html',
+    styleUrls: ['./user-edit.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class UserEditComponent implements OnInit {
 

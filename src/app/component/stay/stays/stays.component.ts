@@ -1,4 +1,4 @@
-import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { LazyLoadEvent, MenuItem, SelectItem } from 'primeng/api';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
 import { InfectiousStatusService } from 'src/app/service/infectious-status.service';
@@ -29,10 +29,12 @@ import { UINotificationService } from 'src/app/service/uinotification.service';
 import { MasterKeyService } from 'src/app/service/master-key.service';
 
 @Component({
-  selector: 'app-stays',
-  templateUrl: './stays.component.html',
-  styleUrls: ['./stays.component.scss'],
-  providers: [DialogService]
+    selector: 'app-stays',
+    templateUrl: './stays.component.html',
+    styleUrls: ['./stays.component.scss'],
+    providers: [DialogService],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class StaysComponent implements OnInit {
 
