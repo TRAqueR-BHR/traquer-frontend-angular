@@ -5,6 +5,7 @@ import { Utils } from 'src/app/util/utils';
 import { DatasetPasswordService } from 'src/app/service/dataset-password.service';
 import { MasterKeyService } from 'src/app/service/master-key.service';
 import { TranslationService } from 'src/app/module/translation/service/translation.service';
+import { UINotificationService } from 'src/app/service/uinotification.service';
 
 @Component({
     selector: 'app-dataset-password',
@@ -17,6 +18,7 @@ export class DatasetPasswordComponent implements OnInit {
 
 
   canSavePassword:boolean = false;
+  waitingForEndOfAction:boolean = false;
 
   minNbOfWordsRequired:number = 5;
 
@@ -32,6 +34,7 @@ export class DatasetPasswordComponent implements OnInit {
               public dynamicDialogRef: DynamicDialogRef,
               public config: DynamicDialogConfig,
               private translationService:TranslationService,
+              private uiNotificationService:UINotificationService,
               ) {
 
   }
@@ -68,10 +71,35 @@ export class DatasetPasswordComponent implements OnInit {
   }
 
   sendMasterKeyToServer() {
-    this.masterKeyService.setMasterKey(this.selectedWords).subscribe(success => {
-      if (success) {
-        this.dynamicDialogRef.close();
+    if (!this.canSavePassword || this.waitingForEndOfAction) {
+      return;
+    }
+
+    this.waitingForEndOfAction = true;
+
+    this.masterKeyService.checkMasterKeyIsValid(this.selectedWords).subscribe(isValid => {
+      if (!isValid) {
+        this.waitingForEndOfAction = false;
+        this.uiNotificationService.notifyWarn(
+          "La combinaison de mots sélectionnée est invalide."
+        );
+        return;
       }
+
+      this.masterKeyService.setMasterKey(this.selectedWords).subscribe(success => {
+        this.waitingForEndOfAction = false;
+
+        if (success) {
+          this.uiNotificationService.notifySuccess(
+            "Le mot de passe du jeu de données a été enregistré."
+          );
+          this.dynamicDialogRef.close();
+        } else {
+          this.uiNotificationService.notifyWarn(
+            "Le mot de passe du jeu de données n'a pas pu être enregistré."
+          );
+        }
+      });
     });
   }
 
