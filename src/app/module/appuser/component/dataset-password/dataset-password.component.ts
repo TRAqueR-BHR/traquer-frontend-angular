@@ -19,6 +19,7 @@ export class DatasetPasswordComponent implements OnInit {
 
   canSavePassword:boolean = false;
   waitingForEndOfAction:boolean = false;
+  isMasterKeySet:boolean = false;
 
   minNbOfWordsRequired:number = 5;
 
@@ -40,7 +41,28 @@ export class DatasetPasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getDatasetUnstructuredConf();
+    // The app initializer usually resolves this value before the component is created,
+    // so we first try to reuse the cached synchronous state.
+    const isMasterKeySet = this.masterKeyService.getIsMasterKeySet();
+
+    // If the value is still unknown, fetch it from the backend.
+    // We only load the selectable words when the master key is not yet set.
+    if (isMasterKeySet === null) {
+      this.masterKeyService.fetchIsMasterKeySet().subscribe(value => {
+        this.isMasterKeySet = value;
+        if (!value) {
+          this.getDatasetUnstructuredConf();
+        }
+      });
+      return;
+    }
+
+    // If the master key is already set, the template displays an info message
+    // instead of the selector. Otherwise we load the word list.
+    this.isMasterKeySet = isMasterKeySet;
+    if (!this.isMasterKeySet) {
+      this.getDatasetUnstructuredConf();
+    }
   }
 
   getDatasetUnstructuredConf() {
