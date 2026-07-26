@@ -564,7 +564,9 @@ export class AnalysesRequestsComponent implements OnInit {
           "patient": new Patient({id:rowData["patient_id"]})
         },
         header: dialogHeader,
-        width: '85%'
+        width: '85%',
+        closable: true,
+        closeOnEscape: true
     });
   }
 

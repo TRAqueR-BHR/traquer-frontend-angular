@@ -274,7 +274,9 @@ export class PatientSearchComponent implements OnInit {
           asDialog: true
         },
         header: this.translationService.getTranslation("new_patient"),
-        width: '70%'
+        width: '70%',
+        closable: true,
+        closeOnEscape: true
     });
 
     ref.onClose.subscribe((_newPatient:Patient) => {

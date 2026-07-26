@@ -480,7 +480,9 @@ export class ResponsesToEventComponent implements OnInit {
           "patient": new Patient({id:patientId})
         },
         header: dialogHeader,
-        width: '85%'
+        width: '85%',
+        closable: true,
+        closeOnEscape: true
     });
 
   }

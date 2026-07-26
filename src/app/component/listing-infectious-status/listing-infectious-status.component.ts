@@ -875,7 +875,9 @@ export class ListingInfectiousStatusComponent implements OnInit {
           rowData.current_unit_name,
           rowData.patient_is_hospitalized,
         ),
-        width: '85%'
+        width: '85%',
+        closable: true,
+        closeOnEscape: true
     });
   }
 
@@ -885,7 +887,9 @@ export class ListingInfectiousStatusComponent implements OnInit {
         asDialog: true
       },
       header: this.translationService.getTranslation("new_patient"),
-      width: '85%'
+      width: '85%',
+      closable: true,
+      closeOnEscape: true
     });
 
     ref.onClose.subscribe((_newPatient:Patient) => {
@@ -904,7 +908,9 @@ export class ListingInfectiousStatusComponent implements OnInit {
         "new": true
       },
       header: this.translationService.getTranslation("add_infectious_status"),
-      width: '85%'
+      width: '85%',
+      closable: true,
+      closeOnEscape: true
     });
 
     ref.onClose.subscribe(res=> {
@@ -918,7 +924,9 @@ export class ListingInfectiousStatusComponent implements OnInit {
         "new": true
       },
       header: this.translationService.getTranslation("add_stay"),
-      width: '85%'
+      width: '85%',
+      closable: true,
+      closeOnEscape: true
     });
 
     ref.onClose.subscribe(res=> {
@@ -932,7 +940,9 @@ export class ListingInfectiousStatusComponent implements OnInit {
         "new": true
       },
       header: this.translationService.getTranslation("add_analysis"),
-      width: '85%'
+      width: '85%',
+      closable: true,
+      closeOnEscape: true
     });
 
     ref.onClose.subscribe(res=> {
@@ -984,7 +994,9 @@ export class ListingInfectiousStatusComponent implements OnInit {
               "eventRequiringAttention": eventRequiringAttention
             },
             header: header,
-            width: '85%'
+            width: '85%',
+            closable: true,
+            closeOnEscape: true
           });
 
           ref.onClose.subscribe(res=> {

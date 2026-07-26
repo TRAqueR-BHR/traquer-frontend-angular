@@ -116,7 +116,9 @@ export class MainMenuComponent implements OnInit {
         "new": true
       },
       header: this.translationService.getTranslation("simulate_processing_at_given_date"),
-      width: '85%'
+      width: '85%',
+      closable: true,
+      closeOnEscape: true
     });
 
     ref.onClose.subscribe(res=> {
